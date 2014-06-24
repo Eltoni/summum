@@ -38,3 +38,6 @@ class FormFieldsMain(ModelForm):
             'desconto': NumberInput(attrs={'class': 'input-small', 'placeholder': '0,00'}),
             'observacao': AutosizedTextarea(attrs={'rows': 5, 'class': 'input-xxlarge', 'placeholder': '...'}),
         }
+
+
+

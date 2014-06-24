@@ -44,6 +44,14 @@ class Compra(models.Model):
     def __unicode__(self):
         return u'%s' % (self.id)
 
+    # Sobrepoe o método save para gravar em outras tabelas
+    def save(self, *args, **kwargs):
+        # Chama a função save original para o save atual do modelo
+        super(Compra, self).save(*args, **kwargs)
+
+        # Agora que esse modelo está salvo, pode-se criar um Pagamento na tabela devida
+        Pagamento(data=self.data, valor=self.total).save()
+
 
 
 class ItensCompra(models.Model):

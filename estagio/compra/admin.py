@@ -45,4 +45,10 @@ class CompraAdmin(admin.ModelAdmin):
     )
 
 
+class PagamentoAdmin(admin.ModelAdmin):
+    model = Pagamento
+    list_display = ('id', 'data', 'valor')
+
+
+admin.site.register(Pagamento, PagamentoAdmin)
 admin.site.register(Compra, CompraAdmin)

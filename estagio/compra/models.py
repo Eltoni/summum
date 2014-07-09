@@ -75,4 +75,7 @@ class ItensCompra(models.Model):
         verbose_name = u'Item de Compra'
         verbose_name_plural = "Itens de Compra"
 
-
+    def __init__(self, *args, **kwargs):
+        super(ItensCompra, self).__init__(*args, **kwargs)
+        if self.id:
+            self.valor_unitario = self.produto.get_fee() 

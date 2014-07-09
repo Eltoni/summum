@@ -1,6 +1,7 @@
 #-*- coding: UTF-8 -*-
 from django.forms import ModelForm, TextInput
 from suit.widgets import LinkedSelect, NumberInput, AutosizedTextarea
+from django.forms import forms
 
 
 class FormFields(ModelForm):
@@ -34,7 +35,7 @@ class FormFieldsMain(ModelForm):
 
     class Meta:
         widgets = {
-            'total': NumberInput(attrs={'class': 'input-small uneditable-input', 'placeholder': '0,00'}),
+            'total': forms.TextInput(attrs={'readonly':'readonly', 'class': 'input-small'}),
             'desconto': NumberInput(attrs={'class': 'input-small', 'placeholder': '0,00'}),
             'observacao': AutosizedTextarea(attrs={'rows': 5, 'class': 'input-xxlarge', 'placeholder': '...'}),
         }

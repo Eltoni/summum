@@ -1,0 +1,15 @@
+[
+  {
+    "model": "parametros_financeiros.FormaPagamento",
+    "pk": 1,
+    "fields": {
+      "nome": "À vista",
+      "descricao": "Pagamento efetuado à vista.",
+      "quant_parcelas": 1,
+      "prazo_entre_parcelas": 0,
+      "tipo_prazo": "M",
+      "carencia": 0,
+      "tipo_carencia": "M"
+    }
+  }
+]

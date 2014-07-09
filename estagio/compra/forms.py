@@ -35,7 +35,7 @@ class FormFieldsMain(ModelForm):
 
     class Meta:
         widgets = {
-            'total': forms.TextInput(attrs={'readonly':'readonly', 'class': 'input-small'}),
+            'total': forms.TextInput(attrs={'readonly':'readonly', 'class': 'input-small', 'placeholder': '0,00'}),
             'desconto': NumberInput(attrs={'class': 'input-small', 'placeholder': '0,00'}),
             'observacao': AutosizedTextarea(attrs={'rows': 5, 'class': 'input-xxlarge', 'placeholder': '...'}),
         }

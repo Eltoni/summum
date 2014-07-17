@@ -16,7 +16,7 @@ class BaseCadastroPessoa(models.Model):
 
     nome = models.CharField(max_length=255)
     data_nasc = models.DateField(blank=True, null=True, verbose_name=u'Data de nascimento')
-    ativo = models.BooleanField()
+    ativo = models.BooleanField(default=True)
     endereco = models.CharField(max_length=50)
     numero = models.CharField(max_length=15) 
     bairro = models.CharField(max_length=50)

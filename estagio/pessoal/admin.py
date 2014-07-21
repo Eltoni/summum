@@ -104,7 +104,7 @@ class FuncionarioAdmin(ExportMixin, BaseCadastroPessoaAdmin):
         }),
         (None, {
             'classes': ('suit-tab suit-tab-geral',),
-            'fields': ('nome', 'telefone', 'celular', 'email', 'ativo', 'observacao')
+            'fields': ('nome', 'telefone', 'celular', 'email', 'ativo')
         }),
         (None, {
             'classes': ('suit-tab suit-tab-geral',),
@@ -116,7 +116,7 @@ class FuncionarioAdmin(ExportMixin, BaseCadastroPessoaAdmin):
         }),
         (None, {
             'classes': ('suit-tab suit-tab-identidade',),
-            'fields': ('cpf', 'rg', 'data_nasc')
+            'fields': ('cpf', 'rg', 'data_nasc', 'observacao')
         }),
     )
 

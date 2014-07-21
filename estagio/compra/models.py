@@ -77,5 +77,11 @@ class ItensCompra(models.Model):
 
     def __init__(self, *args, **kwargs):
         super(ItensCompra, self).__init__(*args, **kwargs)
+        self.valor_unitario = ItensCompra.produto.get_valor_unitario() 
+        
         if self.id:
-            self.valor_unitario = self.produto.get_fee() 
+            pass
+            # self.valor_unitario = self.produto.get_valor_unitario() 
+            # self.valor_unitario = ItensCompra.produto.id
+            # self.valor_unitario = Produtos.objects.get(id=1)
+            

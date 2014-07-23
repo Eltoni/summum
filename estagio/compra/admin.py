@@ -46,6 +46,7 @@ class CompraAdmin(admin.ModelAdmin):
 
 
 class PagamentoAdmin(admin.ModelAdmin):
+    form = FormPagamento
     model = Pagamento
     list_display = ('id', 'data', 'valor')
 

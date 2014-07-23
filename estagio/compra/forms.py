@@ -17,9 +17,9 @@ class FormFields(ModelForm):
         widgets = {
             'quantidade': TextInput(attrs={'class': 'input-mini', 'placeholder': '0'}),
             'produto': LinkedSelect(attrs={'class': 'input-large'}),
-            'valor_unitario': NumberInput(attrs={'class': 'input-small'}),
-            'desconto': NumberInput(attrs={'class': 'input-small', 'placeholder': '0,00'}),
-            'valor_total': NumberInput(attrs={'class': 'input-small', 'placeholder': '0,00'}),
+            'valor_unitario': NumberInput(attrs={'class': 'input-small text-right'}),
+            'desconto': NumberInput(attrs={'class': 'input-small text-right', 'placeholder': '0,00'}),
+            'valor_total': NumberInput(attrs={'class': 'input-small text-right', 'placeholder': '0,00'}),
         }
 
 
@@ -35,10 +35,25 @@ class FormFieldsMain(ModelForm):
 
     class Meta:
         widgets = {
-            'total': forms.TextInput(attrs={'readonly':'readonly', 'class': 'input-small', 'placeholder': '0,00'}),
-            'desconto': NumberInput(attrs={'class': 'input-small', 'placeholder': '0,00'}),
+            'total': NumberInput(attrs={'readonly':'readonly', 'class': 'input-small text-right', 'placeholder': '0,00'}),
+            'desconto': NumberInput(attrs={'class': 'input-small text-right', 'placeholder': '0,00'}),
             'observacao': AutosizedTextarea(attrs={'rows': 5, 'class': 'input-xxlarge', 'placeholder': '...'}),
         }
 
 
 
+class FormPagamento(ModelForm):
+    u""" 
+    Classe FormPagamento. 
+    Criada para customizar as propriedades dos campos da model Pagamento
+    
+    Criada em 23/07/2014. 
+    Última alteração em --.
+    """
+
+    class Meta:
+        widgets = {
+            'valor': NumberInput(attrs={'class': 'input-small text-right', 'placeholder': '0,00'}),
+            'juros': NumberInput(attrs={'class': 'input-small text-right', 'placeholder': '0,00'}),
+            'desconto': NumberInput(attrs={'class': 'input-small text-right', 'placeholder': '0,00'}),
+        }

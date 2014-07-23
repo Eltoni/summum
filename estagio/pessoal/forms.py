@@ -12,6 +12,7 @@ class BaseCadastroPessoaForm(forms.ModelForm):
         model = BaseCadastroPessoa
         widgets = {
             'numero': TextInput(attrs={'class': 'input-mini'}),
+            'nome': TextInput(attrs={'autocomplete':'off'}),     # 'autocomplete':'off' > Desabilita o Auto-complete do campo pelo navegador
         }
 
     def __init__(self, *args, **kwargs):

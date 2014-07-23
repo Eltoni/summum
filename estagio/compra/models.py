@@ -22,6 +22,9 @@ class Pagamento(models.Model):
     # estornada = models.BooleanField(verbose_name=u'Estornada?')
     # data_estorno = models.DateField(auto_now_add=True, verbose_name=u'Data do estorno')
     # parcelas_contas_pagar = models.ForeignKey(ParcelasContasPagar)
+    
+    def __unicode__(self):
+        return u'%s' % (self.id)
 
 
 
@@ -33,7 +36,7 @@ class Compra(models.Model):
     Criada em 15/06/2014. 
     """
 
-    total = models.DecimalField(max_digits=20, decimal_places=2, help_text=u'Valor total da compra.')
+    total = models.DecimalField(max_digits=20, decimal_places=2, help_text=u'Valor total da compra.', default=1)    # momentaneamente, seta o valor 1 no campo, já que o mesmo é obrigatório
     data = models.DateTimeField(auto_now_add=True, verbose_name=u'Data da compra')
     desconto = models.DecimalField(max_digits=20, decimal_places=2, blank=True, null=True, help_text=u'Desconto sob o valor total da compra.')
     status = models.BooleanField(verbose_name=u'Cancelada?', help_text=u'Marcando o Checkbox, a compra será cancelada e os itens financeiros estornados.')
@@ -77,10 +80,11 @@ class ItensCompra(models.Model):
 
     def __init__(self, *args, **kwargs):
         super(ItensCompra, self).__init__(*args, **kwargs)
-        self.valor_unitario = ItensCompra.produto.get_valor_unitario() 
+        apoio = Produtos.objects.get(pk=1)
+        self.valor_unitario = apoio.get_valor_unitario() 
         
-        if self.id:
-            pass
+        # if not self.id:
+        #     pass
             # self.valor_unitario = self.produto.get_valor_unitario() 
             # self.valor_unitario = ItensCompra.produto.id
             # self.valor_unitario = Produtos.objects.get(id=1)

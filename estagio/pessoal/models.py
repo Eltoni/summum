@@ -3,7 +3,8 @@ from django.db import models
 from localidade.models import Cidade
 from django.contrib.auth.models import User
 from smart_selects.db_fields import ChainedForeignKey 
-
+from django.core.exceptions import ValidationError
+import datetime
 
 class BaseCadastroPessoa(models.Model):
     u""" 
@@ -14,8 +15,13 @@ class BaseCadastroPessoa(models.Model):
     Última alteração em 16/06/2014.
     """
 
+    # faz a validação da data de nascimento para que o usuário fique impedido de informar data maior ou igual a hoje
+    def valida_data_nascimento(value):
+        if value >= datetime.date.today():
+            raise ValidationError(u'Data de nascimento deve ser menor que hoje!')
+
     nome = models.CharField(max_length=255)
-    data_nasc = models.DateField(blank=True, null=True, verbose_name=u'Data de nascimento')
+    data_nasc = models.DateField(validators=[valida_data_nascimento], blank=True, null=True, verbose_name=u'Data de nascimento')
     ativo = models.BooleanField(default=True)
     endereco = models.CharField(max_length=50)
     numero = models.CharField(max_length=15) 
@@ -32,6 +38,7 @@ class BaseCadastroPessoa(models.Model):
 
     class Meta:
         abstract = True
+
 
 
 

@@ -5,6 +5,7 @@ from django.contrib.auth.models import User
 from smart_selects.db_fields import ChainedForeignKey 
 from django.core.exceptions import ValidationError
 import datetime
+from datetime import date
 
 class BaseCadastroPessoa(models.Model):
     u""" 
@@ -15,10 +16,20 @@ class BaseCadastroPessoa(models.Model):
     Última alteração em 16/06/2014.
     """
 
-    # faz a validação da data de nascimento para que o usuário fique impedido de informar data maior ou igual a hoje
+    # faz a validação da data de nascimento para que o usuário fique impedido de informar data maior ou igual a hoje, e seja maior de 18 anos
     def valida_data_nascimento(value):
+        # verifica se data é menor que hoje
         if value >= datetime.date.today():
             raise ValidationError(u'Data de nascimento deve ser menor que hoje!')
+        # verifica se pessoa é maior de 18 anos
+        dias_no_ano = 365.2425    
+        if int((date.today() - value).days / dias_no_ano) < 18:
+            raise ValidationError(u'Cliente deve ser maior de 18 anos')
+
+        # verifica se pessoa é maior de 18 anos
+        # if date.today().year - value.year < 18:                                          
+        #     raise ValidationError(u'Cliente deve ser maior de 18 anos')
+
 
     nome = models.CharField(max_length=255)
     data_nasc = models.DateField(validators=[valida_data_nascimento], blank=True, null=True, verbose_name=u'Data de nascimento')

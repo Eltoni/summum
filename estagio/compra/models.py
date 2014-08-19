@@ -80,8 +80,8 @@ class ItensCompra(models.Model):
 
     def __init__(self, *args, **kwargs):
         super(ItensCompra, self).__init__(*args, **kwargs)
-        apoio = Produtos.objects.get(pk=1)
-        self.valor_unitario = apoio.get_valor_unitario() 
+        #apoio = Produtos.objects.get(pk=1)
+        #self.valor_unitario = apoio.get_valor_unitario() 
         
         # if not self.id:
         #     pass

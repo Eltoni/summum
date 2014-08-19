@@ -26,13 +26,10 @@ class BaseCadastroPessoa(models.Model):
         if int((date.today() - value).days / dias_no_ano) < 18:
             raise ValidationError(u'Cliente deve ser maior de 18 anos')
 
-        # verifica se pessoa é maior de 18 anos
-        # if date.today().year - value.year < 18:                                          
-        #     raise ValidationError(u'Cliente deve ser maior de 18 anos')
-
 
     nome = models.CharField(max_length=255)
     data_nasc = models.DateField(validators=[valida_data_nascimento], blank=True, null=True, verbose_name=u'Data de nascimento')
+    cpf = models.CharField(max_length=11, unique=True, verbose_name=u'CPF')
     ativo = models.BooleanField(default=True)
     endereco = models.CharField(max_length=50)
     numero = models.CharField(max_length=15) 
@@ -55,7 +52,7 @@ class BaseCadastroPessoa(models.Model):
 
 class Cliente(BaseCadastroPessoa):
     rg = models.CharField(max_length=20, blank=True, verbose_name=u'RG')
-    cpf = models.CharField(max_length=11, unique=True, verbose_name=u'CPF')
+    
 
     def __unicode__(self):
         return u'%s' % (self.nome)
@@ -73,7 +70,6 @@ class Fornecedor(BaseCadastroPessoa):
         ('PJ', 'Pessoa Jurídica'),
     )
     tipo_pessoa = models.CharField(choices=TIPO_PESSOA_CHOICES, max_length=2, blank=False, null=False, default='PF')
-    cpf = models.CharField(max_length=11, unique=True, verbose_name=u'CPF')
     cnpj = models.CharField(max_length=14) 
     razao_social = models.CharField(max_length=255, blank=True) 
 
@@ -101,7 +97,6 @@ class Cargo(models.Model):
 
 class Funcionario(BaseCadastroPessoa):
     rg = models.CharField(max_length=20, blank=True, verbose_name=u'RG')
-    cpf = models.CharField(max_length=11, unique=True, verbose_name=u'CPF')
     salario = models.DecimalField(max_digits=20, decimal_places=2, blank=True, null=True) 
     cargo = models.ForeignKey(Cargo)
     usuario = models.ForeignKey(User, null=True, blank=True, unique=True)

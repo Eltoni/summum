@@ -115,6 +115,11 @@ SITE_ID = 1
 
 STATIC_URL = '/static/'
 
+
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
+
 TEMPLATE_DIRS = (
     os.path.join(BASE_DIR, 'templates')
     # "C:/Users/Gustavo/Desktop/django/1.6.5/Projetos/estagio/templates",

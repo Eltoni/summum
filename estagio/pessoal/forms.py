@@ -46,6 +46,11 @@ class HorizontalRadioRenderer(forms.RadioSelect.renderer):
 
 class FornecedorForm(forms.ModelForm):
 
+    class Media:
+        js = (
+            '/static/js/controle_campos_pf_pj.js',
+        )
+
     class Meta:
         model = Fornecedor
 

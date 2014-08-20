@@ -113,16 +113,18 @@ SITE_ID = 1
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.6/howto/static-files/
 
+
 STATIC_URL = '/static/'
-
-
-MEDIA_URL = '/media/'
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 
 TEMPLATE_DIRS = (
     os.path.join(BASE_DIR, 'templates')
-    # "C:/Users/Gustavo/Desktop/django/1.6.5/Projetos/estagio/templates",
+)
+
+
+# É possível informar vários diretórios para fornecer os arquivos estáticos do projeto
+STATICFILES_DIRS = (
+    os.path.join(BASE_DIR, "static"),
 )
 
 

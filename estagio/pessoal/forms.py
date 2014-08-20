@@ -5,15 +5,6 @@ from suit.widgets import LinkedSelect, NumberInput, AutosizedTextarea
 from localflavor.br.forms import BRStateChoiceField, BRPhoneNumberField, BRCPFField, BRZipCodeField, BRCNPJField
 from django.forms import ModelForm, TextInput
 from django.utils.safestring import mark_safe
-# from django.forms.widgets import HiddenInput
-from input_mask.contrib.localflavor.br.widgets import BRPhoneNumberInput, BRZipCodeInput, BRCPFInput
-
-
-class BRPhoneNumberInput(BRPhoneNumberInput):
-    mask = {
-        'mask': '(99) 9999-99999',
-    }
-
 
 
 class BaseCadastroPessoaForm(forms.ModelForm):
@@ -23,19 +14,20 @@ class BaseCadastroPessoaForm(forms.ModelForm):
         widgets = {
             'observacao': AutosizedTextarea(attrs={'rows': 5, 'class': 'input-xxlarge', 'placeholder': '...'}),
             'numero': TextInput(attrs={'class': 'input-mini'}),
-            'nome': TextInput(attrs={'autocomplete':'off'}),     # 'autocomplete':'off' > Desabilita o Auto-complete do campo pelo navegador
-            'telefone': BRPhoneNumberInput,
-            'celular': BRPhoneNumberInput,
-            'cep': BRZipCodeInput,
+            # 'nome': TextInput(attrs={'autocomplete':'off'}),     # 'autocomplete':'off' > Desabilita o Auto-complete do campo pelo navegador
         }
 
     def __init__(self, *args, **kwargs):
         super(BaseCadastroPessoaForm, self).__init__(*args, **kwargs)
         self.fields['estado'] = BRStateChoiceField(initial="PR")
         self.fields['cpf'] = BRCPFField(required=False, label="CPF")
-        #self.fields['cep'] = BRZipCodeField(required=False)
-        #self.fields['telefone'] = BRPhoneNumberField(required=False)
-        #self.fields['celular'] = BRPhoneNumberField(required=False)
+        self.fields['cep'] = BRZipCodeField(required=False)
+        self.fields['telefone'] = BRPhoneNumberField(required=False)
+        self.fields['celular'] = BRPhoneNumberField(required=False)
+
+    # Método que permite salvar valores nulos para o campo CPF, já que o mesmo está setado como Unique=True mas não é de preenchimento obrigatório 
+    def clean_cpf(self):
+        return self.cleaned_data['cpf'] or None
         
 
 
@@ -74,3 +66,11 @@ class FornecedorForm(forms.ModelForm):
         self.fields['cpf'] = BRCPFField(required=False, label="CPF")
         self.fields['cnpj'] = BRCNPJField(required=False, label="CNPJ")
         self.fields['razao_social'] = BRCNPJField(required=False, label="Razão Social")
+
+    # Método que permite salvar valores nulos para o campo CPF, já que o mesmo está setado como Unique=True mas não é de preenchimento obrigatório 
+    def clean_cpf(self):
+        return self.cleaned_data['cpf'] or None
+
+    # Método que permite salvar valores nulos para o campo CNPJ, já que o mesmo está setado como Unique=True mas não é de preenchimento obrigatório
+    def clean_cnpj(self):
+        return self.cleaned_data['cnpj'] or None

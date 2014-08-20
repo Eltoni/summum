@@ -7,6 +7,7 @@ from django.core.exceptions import ValidationError
 import datetime
 from datetime import date
 
+
 class BaseCadastroPessoa(models.Model):
     u""" 
     Classe BaseCadastroPessoa. 
@@ -29,7 +30,7 @@ class BaseCadastroPessoa(models.Model):
 
     nome = models.CharField(max_length=255)
     data_nasc = models.DateField(validators=[valida_data_nascimento], blank=True, null=True, verbose_name=u'Data de nascimento')
-    cpf = models.CharField(max_length=11, unique=True, verbose_name=u'CPF')
+    cpf = models.CharField(max_length=11, null=True, unique=True)
     ativo = models.BooleanField(default=True)
     endereco = models.CharField(max_length=50)
     numero = models.CharField(max_length=15) 
@@ -70,7 +71,7 @@ class Fornecedor(BaseCadastroPessoa):
         ('PJ', 'Pessoa Jurídica'),
     )
     tipo_pessoa = models.CharField(choices=TIPO_PESSOA_CHOICES, max_length=2, blank=False, null=False, default='PF')
-    cnpj = models.CharField(max_length=14) 
+    cnpj = models.CharField(max_length=14, null=True, unique=True) 
     razao_social = models.CharField(max_length=255, blank=True) 
 
     class Meta:

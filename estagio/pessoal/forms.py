@@ -8,6 +8,14 @@ from django.utils.safestring import mark_safe
 
 
 class BaseCadastroPessoaForm(forms.ModelForm):
+    u""" 
+    Classe BaseCadastroPessoaForm. 
+    Criada para aplicar as customizações dos formulários da página administrativa do sistema.
+    Serve de base para todas as outras classes da aplicação Pessoal.
+    
+    Criada em 15/06/2014. 
+    Última alteração em 20/08/2014.
+    """
 
     class Meta:
         model = BaseCadastroPessoa
@@ -38,7 +46,15 @@ class HorizontalRadioRenderer(forms.RadioSelect.renderer):
 
 
 
-class FornecedorForm(forms.ModelForm):
+class FornecedorForm(BaseCadastroPessoaForm):
+    u""" 
+    Classe FornecedorForm. 
+    Subclasse de BaseCadastroPessoaForm
+    Criada para aplicar as customizações do formulário do cadastro de fornecedor.
+    
+    Criada em 15/06/2014. 
+    Última alteração em 20/08/2014.
+    """
 
     class Media:
         # java script personalizado
@@ -55,21 +71,13 @@ class FornecedorForm(forms.ModelForm):
         model = Fornecedor
 
         widgets = {
-            'observacao': AutosizedTextarea(attrs={'rows': 5, 'class': 'input-xxlarge', 'placeholder': '...'}),
-            'numero': TextInput(attrs={'class': 'input-mini'}),
             'tipo_pessoa': forms.RadioSelect(renderer=HorizontalRadioRenderer),
         }
 
     def __init__(self, *args, **kwargs):
         super (FornecedorForm, self).__init__(*args,**kwargs)
-        self.fields['estado'] = BRStateChoiceField(initial="PR")
-        self.fields['cpf'] = BRCPFField(required=False, label="CPF")
         self.fields['cnpj'] = BRCNPJField(required=False, label="CNPJ")
         self.fields['razao_social'] = BRCNPJField(required=False, label="Razão Social")
-
-    # Método que permite salvar valores nulos para o campo CPF, já que o mesmo está setado como Unique=True mas não é de preenchimento obrigatório 
-    def clean_cpf(self):
-        return self.cleaned_data['cpf'] or None
 
     # Método que permite salvar valores nulos para o campo CNPJ, já que o mesmo está setado como Unique=True mas não é de preenchimento obrigatório
     def clean_cnpj(self):

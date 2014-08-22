@@ -17,6 +17,12 @@ class BaseCadastroPessoaForm(forms.ModelForm):
     Última alteração em 20/08/2014.
     """
 
+    class Media:
+        # java script personalizado
+        js = (
+            '/static/js/mascaras_campos.js',
+        )
+        
     class Meta:
         model = BaseCadastroPessoa
         widgets = {

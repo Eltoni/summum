@@ -14,7 +14,10 @@
 
 {# Additional JS files in footer, right before </body> #}
 {% block extrajs %}
+    {# Script personalizado para todo o site #}
     <script type="text/javascript" src="{% static 'js/base.js' %}"></script>
+    {# jQuery Mask - Script para criar as mascaras dos campos #}
+    <script type="text/javascript" src="{% static 'js/jquery.mask.min.js' %}"></script>
 {% endblock %}
 
 

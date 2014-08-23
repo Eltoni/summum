@@ -8,9 +8,10 @@ $(document).ready(function(){
     //$('.phone').mask('0000-0000');
     $('#id_telefone').mask('(00) 00009-0000');
     $('#id_celular').mask('(00) 00009-0000');
+    $('#id_cnpj').mask('00.000.000/0000-00');
+    $('#id_cpf').mask('000.000.000-00');
     //$('.mixed').mask('AAA 000-S0S');
-    //$('#id_cpf').mask('000.000.000-00', {reverse: true});
-    //$('.money').mask('000.000.000.000.000,00', {reverse: true});
+    //$('#id_salario').mask('000.000.000.000.000,00', {reverse: true});
 
 
 /*  
@@ -27,7 +28,7 @@ $(document).ready(function(){
     });
 
 */
-/*
+
     // Outro código para criar a máscara do telefone 
     var masks = ['(00) 00000-0000', '(00) 0000-00009'];
     $('#id_telefone').mask(masks[1], {onKeyPress: 
@@ -36,5 +37,5 @@ $(document).ready(function(){
        }
     });
 
-*/
+
 });

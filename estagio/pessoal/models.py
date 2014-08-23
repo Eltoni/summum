@@ -72,7 +72,7 @@ class Fornecedor(BaseCadastroPessoa):
     )
     tipo_pessoa = models.CharField(choices=TIPO_PESSOA_CHOICES, max_length=2, blank=False, null=False, default='PF')
     cnpj = models.CharField(max_length=14, null=True, unique=True) 
-    razao_social = models.CharField(max_length=255, blank=True) 
+    razao_social = models.CharField(max_length=255, blank=True, null=True) 
 
     class Meta:
         verbose_name = u'Fornecedor'

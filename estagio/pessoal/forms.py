@@ -40,8 +40,12 @@ class BaseCadastroPessoaForm(forms.ModelForm):
         self.fields['celular'] = BRPhoneNumberField(required=False)
 
     # Método que permite salvar valores nulos para o campo CPF, já que o mesmo está setado como Unique=True mas não é de preenchimento obrigatório 
+    # Também trata o valor para que seja salvo no banco
     def clean_cpf(self):
-        return self.cleaned_data['cpf'] or None
+        cpf = self.cleaned_data['cpf']
+        cpf = cpf.replace('.', '')
+        cpf = cpf.replace('-', '')
+        return cpf or None
         
 
 
@@ -86,5 +90,26 @@ class FornecedorForm(BaseCadastroPessoaForm):
         self.fields['razao_social'] = BRCNPJField(required=False, label="Razão Social")
 
     # Método que permite salvar valores nulos para o campo CNPJ, já que o mesmo está setado como Unique=True mas não é de preenchimento obrigatório
+    # Também trata o valor para que seja salvo no banco
     def clean_cnpj(self):
-        return self.cleaned_data['cnpj'] or None
+        cnpj = self.cleaned_data['cnpj']
+        cnpj = cnpj.replace('.', '')
+        cnpj = cnpj.replace('-', '')
+        cnpj = cnpj.replace('/', '')
+        return cnpj or None
+
+
+
+class FuncionarioForm(BaseCadastroPessoaForm):
+    u""" 
+    Classe FuncionarioForm. 
+    Subclasse de BaseCadastroPessoaForm
+    Criada para aplicar as customizações do formulário do cadastro de funcionarios.
+    
+    Criada em 22/08/2014. 
+    """
+
+    class Meta:
+        widgets = {
+            #'salario': TextInput(attrs={'class': 'input-small text-right', 'placeholder': '0,00'}),
+        }

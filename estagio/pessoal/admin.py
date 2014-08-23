@@ -78,6 +78,16 @@ class FornecedorAdmin(ExportMixin, BaseCadastroPessoaAdmin):
         }),
     )
 
+    def save_model(self, request, obj, form, change):
+        # Trata o save no banco de dados para que o registro que seja de pessoa física não seja salvo com dados de pessoa jurídica e vice-versa
+        if obj.tipo_pessoa == 'PJ':
+            obj.cpf = None
+        else:
+            obj.cnpj = None
+            obj.razao_social = None
+
+        obj.save()
+
 
 
 class CargoAdmin(ExportMixin, admin.ModelAdmin):
@@ -96,6 +106,7 @@ class FuncionarioAdmin(ExportMixin, BaseCadastroPessoaAdmin):
     export_template_name = 'export.html'
 
     model = Funcionario
+    form = FuncionarioForm
 
     fieldsets = (
         (None, {

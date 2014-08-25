@@ -15,6 +15,3 @@ class Produtos(models.Model):
 
     def __unicode__(self):
         return u'%s' % (self.nome)
-
-    def get_fee(self):
-        return self.preco_venda

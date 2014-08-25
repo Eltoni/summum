@@ -77,15 +77,3 @@ class ItensCompra(models.Model):
     class Meta:
         verbose_name = u'Item de Compra'
         verbose_name_plural = "Itens de Compra"
-
-    def __init__(self, *args, **kwargs):
-        super(ItensCompra, self).__init__(*args, **kwargs)
-        #apoio = Produtos.objects.get(pk=1)
-        #self.valor_unitario = apoio.get_valor_unitario() 
-        
-        # if not self.id:
-        #     pass
-            # self.valor_unitario = self.produto.get_valor_unitario() 
-            # self.valor_unitario = ItensCompra.produto.id
-            # self.valor_unitario = Produtos.objects.get(id=1)
-            

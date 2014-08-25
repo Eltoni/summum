@@ -9,4 +9,5 @@ urlpatterns = patterns('',
     url(r'', include(admin.site.urls)),
 
     url(r'^chaining/', include('smart_selects.urls')),      # url necessária para o funcionamento da biblioteca django-smart-selects
+    (r'^get_valor_unitario/(?P<id>\d+)/$', 'compra.views.get_valor_unitario'),
 )

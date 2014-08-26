@@ -18,7 +18,6 @@ class BaseCadastroPessoaForm(forms.ModelForm):
     """
 
     class Media:
-        # java script personalizado
         js = (
             '/static/js/mascaras_campos.js',
         )

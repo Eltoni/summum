@@ -17,9 +17,9 @@ class FormFields(ModelForm):
         widgets = {
             'quantidade': TextInput(attrs={'class': 'input-mini', 'placeholder': '0'}),
             'produto': LinkedSelect(attrs={'class': 'input-large'}),
-            'valor_unitario': NumberInput(attrs={'class': 'input-small text-right'}),
-            'desconto': NumberInput(attrs={'class': 'input-small text-right', 'placeholder': '0,00'}),
-            'valor_total': NumberInput(attrs={'class': 'input-small text-right', 'placeholder': '0,00'}),
+            'valor_unitario': NumberInput(attrs={'readonly':'readonly', 'class': 'input-small text-right', 'step': '0.01'}),
+            'desconto': NumberInput(attrs={'class': 'input-small text-right', 'placeholder': '0%', 'min': '0', 'max': '100'}),
+            'valor_total': NumberInput(attrs={'readonly':'readonly', 'class': 'input-small text-right', 'placeholder': '0,00', 'step': '0.01'}),
         }
 
 
@@ -33,10 +33,16 @@ class FormFieldsMain(ModelForm):
     Última alteração em 16/06/2014.
     """
 
+    # class Media:
+    #     # java script personalizado
+    #     js = (
+    #         '/static/js/formata_campos.js',
+    #     )
+
     class Meta:
         widgets = {
             'total': NumberInput(attrs={'readonly':'readonly', 'class': 'input-small text-right', 'placeholder': '0,00'}),
-            'desconto': NumberInput(attrs={'class': 'input-small text-right', 'placeholder': '0,00'}),
+            'desconto': NumberInput(attrs={'class': 'input-small text-right', 'placeholder': '0%', 'min': '0', 'max': '100'}),
             'observacao': AutosizedTextarea(attrs={'rows': 5, 'class': 'input-xxlarge', 'placeholder': '...'}),
         }
 

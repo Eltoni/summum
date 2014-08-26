@@ -24,7 +24,6 @@ class CompraAdmin(admin.ModelAdmin):
     list_filter = ('data', 'status', 'forma_pagamento')
     readonly_fields = ('data',)
 
-
     fieldsets = (
         (None, {
             'classes': ('suit-tab suit-tab-geral',),
@@ -44,6 +43,7 @@ class CompraAdmin(admin.ModelAdmin):
         ('geral', 'Geral'),
         ('info_adicionais', 'Informações adicionais')
     )
+    
 
 
 class PagamentoAdmin(admin.ModelAdmin):

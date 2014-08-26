@@ -36,9 +36,9 @@ class Compra(models.Model):
     Criada em 15/06/2014. 
     """
 
-    total = models.DecimalField(max_digits=20, decimal_places=2, help_text=u'Valor total da compra.', default=1)    # momentaneamente, seta o valor 1 no campo, já que o mesmo é obrigatório
+    total = models.DecimalField(max_digits=20, decimal_places=2, help_text=u'Valor total da compra.')
     data = models.DateTimeField(auto_now_add=True, verbose_name=u'Data da compra')
-    desconto = models.DecimalField(max_digits=20, decimal_places=2, blank=True, null=True, help_text=u'Desconto sob o valor total da compra.')
+    desconto = models.DecimalField(max_digits=20, decimal_places=0, blank=True, null=True, verbose_name=u'Desconto (%)', help_text=u'Desconto sob o valor total da compra.')
     status = models.BooleanField(verbose_name=u'Cancelada?', help_text=u'Marcando o Checkbox, a compra será cancelada e os itens financeiros estornados.')
     fornecedor = models.ForeignKey(Fornecedor)
     forma_pagamento = models.ForeignKey(FormaPagamento)
@@ -69,7 +69,7 @@ class ItensCompra(models.Model):
     quantidade = models.IntegerField()
     valor_unitario = models.DecimalField(max_digits=20, decimal_places=2, verbose_name=u'Valor unitário')
     valor_total = models.DecimalField(max_digits=20, decimal_places=2, verbose_name=u'Total')
-    desconto = models.DecimalField(max_digits=20, decimal_places=2, blank=True, null=True)
+    desconto = models.DecimalField(max_digits=20, decimal_places=0, blank=True, null=True, verbose_name=u'Desconto (%)')
     #status = models.BooleanField(verbose_name=u'Confirma?')
     produto = models.ForeignKey(Produtos)
     compras = models.ForeignKey(Compra)

@@ -5,7 +5,7 @@ $(document).ready(function(){
     --------------------------------------------------------------------------------------------------------------------------------*/
     $(".quantidade-ic").numeric({ decimal: false, negative: false }, function() { alert("Somente inteiros positivos"); this.value = ""; this.focus(); });
     $(".desconto").numeric();
-    $(".valor-total-ic").numeric({ negative: false }, function() { alert("Somente inteiros positivos"); this.value = ""; this.focus(); });
+    $(".valor-total-ic").numeric({ negative: false }, function() { alert("Valores decimais"); this.value = ""; this.focus(); });
 
 
 });

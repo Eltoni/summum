@@ -37,19 +37,9 @@
               //});
 
               $(document).ready(function(){
-
-                  /*---------------------------------------------------------------------------------------------------------------------------------------------------------------
-                  Validações dos campos.
-                  Criar arquivo .js próprio para isso.
-                  ---------------------------------------------------------------------------------------------------------------------------------------------------------------*/
-                  $("#id_itenscompra_set-{{ forloop.counter0 }}-quantidade").numeric({ decimal: false, negative: false }, function() { alert("Somente inteiros positivos"); this.value = ""; this.focus(); });
-                  $("#id_itenscompra_set-{{ forloop.counter0 }}-desconto").numeric();
-                  $("#id_itenscompra_set-{{ forloop.counter0 }}-valor_total").numeric({ negative: false }, function() { alert("Somente inteiros positivos"); this.value = ""; this.focus(); });
-
-
-                  /*---------------------------------------------------------------------------------------------------------------------------------------------------------------
+                  /*-------------------------------------------------------------------------------------------------------------------------------
                   Busca o valor unitário do produto informado
-                  ---------------------------------------------------------------------------------------------------------------------------------------------------------------*/
+                  -------------------------------------------------------------------------------------------------------------------------------*/
                   var valorUnitario;
                   var id;
 
@@ -57,54 +47,46 @@
                   $("#id_itenscompra_set-{{ forloop.counter0 }}-produto").change(function(){
                       // armazena na variável id o produto selecionado na select
                       id = $("#id_itenscompra_set-{{ forloop.counter0 }}-produto").val();
-                      $.ajax({       
-                          type: "GET",                                                            // Determina o método http: GET, POST…
-                          url: "/get_valor_unitario/"+id,                                         // url declarada no urls.py
-                          dataType: "json",                                                       // tipo de dados que a url vai retornar
-                          success: function(retorno){                                             // Caso tenhamos sucesso a função segue em frente
-                              $.each(retorno, function(i, produtos){                              // Faz um laço e pega todos os itens do objeto “retorno”
-                                  var valorUnitario = produtos.fields['preco_venda'];             // Armazena na variável o valor de venda do produto
-                                  $('input[name="itenscompra_set-{{ forloop.counter0 }}-valor_unitario"]').val(valorUnitario); // seta o valor obtido no campo valor unitário
-                                  //alert( "Handler for .change() called." );
-                              });
-                          }
-                      });                     
+                      if (id) {
+                          $.ajax({       
+                              type: "GET",                                                            // Determina o método http: GET, POST…
+                              url: "/get_valor_unitario/"+id,                                         // url declarada no urls.py
+                              dataType: "json",                                                       // Tipo de dados que a url vai retornar
+                              success: function(retorno){                                             // Caso tenhamos sucesso a função segue em frente
+                                  $.each(retorno, function(i, produtos){                              // Faz um laço e pega todos os itens do objeto “retorno”
+                                      var valorUnitario = produtos.fields['preco_venda'];             // Armazena na variável o valor de venda do produto
+                                      $('input[name="itenscompra_set-{{ forloop.counter0 }}-valor_unitario"]').val(valorUnitario); // seta o valor obtido no campo valor unitário
+                                      //alert( "Handler for .change() called." );
+                                  });
+                              }
+                          }); 
+                      } else {
+                            // Se usuário desmarcar um item de compra, todos os campos do registro são zerados
+                            $("input[name=itenscompra_set-{{ forloop.counter0 }}-quantidade], input[name=itenscompra_set-{{ forloop.counter0 }}-valor_unitario], input[name=itenscompra_set-{{ forloop.counter0 }}-desconto], input[name=itenscompra_set-{{ forloop.counter0 }}-valor_total]").val("");
+                      };                    
                   });
                   
                   
-                  /*---------------------------------------------------------------------------------------------------------------------------------------------------------------
+                  /*-------------------------------------------------------------------------------------------------------------------------------
                   Faz o cálculo do valor do item da venda, multiplicando o valor unitário do produto pela quantidade informada
-                  ---------------------------------------------------------------------------------------------------------------------------------------------------------------*/
-                  $('input[name=itenscompra_set-{{ forloop.counter0 }}-quantidade]').keyup(function () {
-                      var quantidade = $('input[name="itenscompra_set-{{ forloop.counter0 }}-quantidade"]').val();
-                      var valorUnitario = $('input[name="itenscompra_set-{{ forloop.counter0 }}-valor_unitario"]').val();
-                      var valorItemCompra = valorUnitario * quantidade;
-                      //valorItemCompra.toFixed(2)
+                  e fazendo a subtração da porcentagem de desconto (caso exista algum desconto).
+                  -------------------------------------------------------------------------------------------------------------------------------*/
+                  $("input[name=itenscompra_set-{{ forloop.counter0 }}-quantidade], input[name=itenscompra_set-{{ forloop.counter0 }}-desconto]").keyup(function () {
+                      var quantidade = $('input[name="itenscompra_set-{{ forloop.counter0 }}-quantidade"]').val();            // Armazena a quantidade de produtos informada
+                      var valorUnitario = $('input[name="itenscompra_set-{{ forloop.counter0 }}-valor_unitario"]').val();     // Obtém o valor unitário do produto
+                      var valorItemCompra = valorUnitario * quantidade;                                                       // Obtém o valor inicial do item de compra
+                      var desconto = $('input[name=itenscompra_set-{{ forloop.counter0 }}-desconto]').val();                  // Armazena o desconto inserido pelo usuário
+                      var valorPercentualDesconto = (valorItemCompra * desconto) / 100.00;                                    // Cálcula o desconto equivalente a porcentagem informada
+                      valorItemCompra = valorItemCompra - valorPercentualDesconto;                                            // Cálculo do valor final do item de compra
 
                       // seta o valor total do item de compra no campo correspondente
-                      $('input[name="itenscompra_set-{{ forloop.counter0 }}-valor_total"]').val(valorItemCompra.toFixed(2)); 
+                      $('input[name="itenscompra_set-{{ forloop.counter0 }}-valor_total"]').val(valorItemCompra.toFixed(2));  // Com duas casas decimais
                   }).keyup();
 
 
-                  /*---------------------------------------------------------------------------------------------------------------------------------------------------------------
-                  Faz o cálculo do valor do desconto do item da venda
-                  ---------------------------------------------------------------------------------------------------------------------------------------------------------------*/
-                  $('input[name=itenscompra_set-{{ forloop.counter0 }}-desconto]').keyup(function () {
-                      var quantidade = $('input[name="itenscompra_set-{{ forloop.counter0 }}-quantidade"]').val();
-                      var valorUnitario = $('input[name="itenscompra_set-{{ forloop.counter0 }}-valor_unitario"]').val();
-                      var valorItemCompra = valorUnitario * quantidade;
-                      var desconto = $('input[name=itenscompra_set-{{ forloop.counter0 }}-desconto]').val();
-                      var valorPercentualDesconto = (valorItemCompra * desconto) / 100.00;
-                      valorItemCompra = valorItemCompra - valorPercentualDesconto;
-
-                      // seta o valor total do item de compra no campo correspondente
-                      $('input[name="itenscompra_set-{{ forloop.counter0 }}-valor_total"]').val(valorItemCompra.toFixed(2)); 
-                  }).keyup();
-
-
-                  /*---------------------------------------------------------------------------------------------------------------------------------------------------------------
+                  /*-------------------------------------------------------------------------------------------------------------------------------
                   Faz o cálculo do valor total da compra
-                  ---------------------------------------------------------------------------------------------------------------------------------------------------------------*/
+                  -------------------------------------------------------------------------------------------------------------------------------*/
                   $('input[name="total"]').val(25);
                   $('input[name=itenscompra_set-{{ forloop.counter0 }}-valor_total]').keyup(function () {
                       var valorTotalCompra = $('input[name="itenscompra_set-{{ forloop.counter0 }}-valor_total"]').val();;

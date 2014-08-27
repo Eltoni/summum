@@ -5,7 +5,7 @@ from forms import *
 
 
 class ItensCompraInline(admin.TabularInline):
-    form = FormFields
+    form = ItensCompraForm
     model = ItensCompra
     extra = 3
     fields = ('produto', 'quantidade', 'valor_unitario', 'desconto', 'valor_total')
@@ -17,7 +17,7 @@ class CompraAdmin(admin.ModelAdmin):
     inlines = [ 
         ItensCompraInline,
     ]
-    form = FormFieldsMain
+    form = CompraForm
     model = Compra
 
     search_fields = ['id', 'fornecedor']

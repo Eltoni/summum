@@ -72,7 +72,8 @@
                       } else {
                           // Se usuário desmarcar um item de compra, todos os campos do registro são zerados
                           LimpaCamposInline();
-                      };                    
+                      }; 
+                      calculateSum();                   
                   });
                   
                   
@@ -98,11 +99,38 @@
                   /*-------------------------------------------------------------------------------------------------------------------------------
                   Faz o cálculo do valor total da compra
                   -------------------------------------------------------------------------------------------------------------------------------*/
-                  //$('input[name="total"]').val(25);
-                  $("input[name=itenscompra_set-{{ forloop.counter0 }}-quantidade], input[name=itenscompra_set-{{ forloop.counter0 }}-desconto]").keyup(function () {
-                      var valorTotalCompra = $('input[name="itenscompra_set-{{ forloop.counter0 }}-valor_total"]').val();;
-                      $('input[name="total"]').val(valorTotalCompra);
-                  }).keyup();
+
+                  // iteração através de cada campo e adiciona keyup
+                  // manipulador para desencadear evento soma
+                  $(".quantidade-ic, #id_desconto, .desconto").each(function() {
+           
+                      $(this).keyup(function(){
+                          calculateSum();
+                      });
+                  });
+
+                  function calculateSum() {
+               
+                      var sum = 0;
+                      // iteração através de cada campo e adiciona o valor
+                      $(".valor-total-ic").each(function() {
+               
+                          // adiciona somente se o valor é número
+                          if(!isNaN(this.value) && this.value.length!=0) {
+                              sum += parseFloat(this.value);
+                          }
+               
+                      });
+                      // .toFixed() método de arredondamento da soma final para 2 casas decimais
+
+                      var descontoTotal = $('#id_desconto').val();
+                      var percentualDescontoTotal = (sum * descontoTotal) / 100.00;
+                      sum = sum - percentualDescontoTotal;
+
+                      $('#id_total').val(sum.toFixed(2));
+                  }
+
+
               });
           </script>
           <!--      

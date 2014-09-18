@@ -53,7 +53,8 @@ class Compra(models.Model):
         super(Compra, self).save(*args, **kwargs)
 
         # Agora que esse modelo está salvo, pode-se criar um Pagamento na tabela devida
-        Pagamento(data=self.data, valor=self.total).save()
+        if not self.pk:
+            Pagamento(data=self.data, valor=self.total).save()
 
 
 

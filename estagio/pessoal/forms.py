@@ -24,6 +24,8 @@ class BaseCadastroPessoaForm(forms.ModelForm):
         
     class Meta:
         model = BaseCadastroPessoa
+        exclude = []
+        
         widgets = {
             'observacao': AutosizedTextarea(attrs={'rows': 5, 'class': 'input-xxlarge', 'placeholder': '...'}),
             'numero': TextInput(attrs={'class': 'input-mini'}),
@@ -78,6 +80,7 @@ class FornecedorForm(BaseCadastroPessoaForm):
 
     class Meta:
         model = Fornecedor
+        exclude = []
 
         widgets = {
             'tipo_pessoa': forms.RadioSelect(renderer=HorizontalRadioRenderer),

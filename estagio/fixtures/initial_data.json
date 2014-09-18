@@ -11,5 +11,380 @@
       "carencia": 0,
       "tipo_carencia": "M"
     }
+  },
+  {
+    "model": "parametros_financeiros.FormaPagamento",
+    "pk": 2,
+    "fields": {
+      "nome": "À prazo (3x)",
+      "descricao": "Pagamento parcelado em 3 vezes.",
+      "quant_parcelas": 3,
+      "prazo_entre_parcelas": 30,
+      "tipo_prazo": "M",
+      "carencia": 0,
+      "tipo_carencia": "M"
+    }
+  },
+
+
+  {
+    "model": "localidade.Cidade",
+    "pk": 1,
+    "fields": {
+      "nome": "Umuarama",
+      "estado": "PR",
+      "ultima_alteracao": "2014-09-18 13:40:34"
+    }
+  },
+  {
+    "model": "localidade.Cidade",
+    "pk": 2,
+    "fields": {
+      "nome": "Cianorte",
+      "estado": "PR",
+      "ultima_alteracao": "2014-09-18 13:40:34"
+    }
+  },
+  {
+    "model": "localidade.Cidade",
+    "pk": 3,
+    "fields": {
+      "nome": "Cáscavel",
+      "estado": "PR",
+      "ultima_alteracao": "2014-09-18 13:40:34"
+    }
+  },
+  {
+    "model": "localidade.Cidade",
+    "pk": 4,
+    "fields": {
+      "nome": "Francisco Beltrão",
+      "estado": "PR",
+      "ultima_alteracao": "2014-09-18 13:40:34"
+    }
+  },
+  {
+    "model": "localidade.Cidade",
+    "pk": 5,
+    "fields": {
+      "nome": "Toledo",
+      "estado": "PR",
+      "ultima_alteracao": "2014-09-18 13:40:34"
+    }
+  },
+  {
+    "model": "localidade.Cidade",
+    "pk": 6,
+    "fields": {
+      "nome": "Curitiba",
+      "estado": "PR",
+      "ultima_alteracao": "2014-09-18 13:40:34"
+    }
+  },
+  {
+    "model": "localidade.Cidade",
+    "pk": 7,
+    "fields": {
+      "nome": "São Paulo",
+      "estado": "SP",
+      "ultima_alteracao": "2014-09-18 13:40:34"
+    }
+  },
+  {
+    "model": "localidade.Cidade",
+    "pk": 8,
+    "fields": {
+      "nome": "Rio de Janeiro",
+      "estado": "RJ",
+      "ultima_alteracao": "2014-09-18 00:00:00"
+    }
+  },
+
+
+  {
+    "model": "pessoal.Cargo",
+    "pk": 1,
+    "fields": {
+      "nome": "Secretário atendente",
+      "descricao": "Secretário atendente"
+    }
+  },
+  {
+    "model": "pessoal.Cargo",
+    "pk": 2,
+    "fields": {
+      "nome": "Assistente de vendas",
+      "descricao": "Assistente de vendas"
+    }
+  },
+  {
+    "model": "pessoal.Cargo",
+    "pk": 3,
+    "fields": {
+      "nome": "Vendedor",
+      "descricao": "Vendedor"
+    }
+  },
+  {
+    "model": "pessoal.Cargo",
+    "pk": 4,
+    "fields": {
+      "nome": "Gerente",
+      "descricao": "Gerente"
+    }
+  },
+
+
+  {
+    "model": "movimento.Produtos",
+    "pk": 1,
+    "fields": {
+      "nome": "Martelo",
+      "preco": 5.00,
+      "preco_venda": 10.00,
+      "quantidade": 50,
+      "descricao": ""
+    }
+  },
+  {
+    "model": "movimento.Produtos",
+    "pk": 2,
+    "fields": {
+      "nome": "Faca",
+      "preco": 5.50,
+      "preco_venda": 10.50,
+      "quantidade": 25,
+      "descricao": ""
+    }
+  },
+  {
+    "model": "movimento.Produtos",
+    "pk": 3,
+    "fields": {
+      "nome": "Serrote",
+      "preco": 5.55,
+      "preco_venda": 10.55,
+      "quantidade": 25,
+      "descricao": ""
+    }
+  },
+  
+
+  {
+    "model": "pessoal.Cliente",
+    "pk": 1,
+    "fields": {
+      "nome": "Gustavo Santana de Oliveira",
+      "data_nasc": "1993-11-06",
+      "cpf": "41095475800",
+      "ativo": 1,
+      "endereco": "Marialva",
+      "numero": "5398",
+      "bairro": "Zona III",
+      "complemento": "Próximo a Unipar",
+      "estado": "PR",
+      "cidade": 1,
+      "cep": "87502-100",
+      "telefone": "44-8443-5026",
+      "celular": "11-25416-4899",
+      "email": "gustavo.sdo@gmail.com",
+      "data": "2014-09-18 17:05:36",
+      "observacao": "Cliente Especial.",
+      "rg": "426277685"
+    }
+  },
+  {
+    "model": "pessoal.Cliente",
+    "pk": 2,
+    "fields": {
+      "nome": "Stephanie Possato de Oliveira",
+      "data_nasc": "1991-09-13",
+      "cpf": "56271627676",
+      "ativo": 1,
+      "endereco": "Fortaleza",
+      "numero": "5652,",
+      "bairro": "Jardim America",
+      "complemento": "",
+      "estado": "PR",
+      "cidade": 1,
+      "cep": "87502-300",
+      "telefone": "44-30303-8750",
+      "celular": "",
+      "email": "spossato@unipar.br",
+      "data": "2014-09-18 00:05:36",
+      "observacao": "*-*",
+      "rg": "403289440"
+    }
+  },
+
+
+  {
+    "model": "pessoal.Fornecedor",
+    "pk": 1,
+    "fields": {
+      "nome": "Gustavo Santana de Oliveira",
+      "data_nasc": "1993-11-06",
+      "cpf": "41095475800",
+      "ativo": 1,
+      "endereco": "Marialva",
+      "numero": "5398",
+      "bairro": "Zona III",
+      "complemento": "Próximo a Unipar",
+      "estado": "PR",
+      "cidade": 1,
+      "cep": "87502-100",
+      "telefone": "44-8443-5026",
+      "celular": "11-25416-4899",
+      "email": "gustavo.sdo@gmail.com",
+      "data": "2014-09-18 17:05:36",
+      "observacao": "Cliente Especial.",
+      "tipo_pessoa": "PF",
+      "cnpj": "",
+      "razao_social": ""
+    }
+  },
+  {
+    "model": "pessoal.Fornecedor",
+    "pk": 2,
+    "fields": {
+      "nome": "Stephanie Possato de Oliveira",
+      "data_nasc": "1991-09-13",
+      "cpf": "",
+      "ativo": 1,
+      "endereco": "Fortaleza",
+      "numero": "5652,",
+      "bairro": "Jardim America",
+      "complemento": "",
+      "estado": "PR",
+      "cidade": 1,
+      "cep": "87502-300",
+      "telefone": "44-30303-8750",
+      "celular": "",
+      "email": "spossato@unipar.br",
+      "data": "2014-09-18 00:05:36",
+      "observacao": "*-*",
+      "tipo_pessoa": "PJ",
+      "cnpj": "75517151000110",
+      "razao_social": ""
+    }
+  },
+
+
+  {
+    "model": "pessoal.Funcionario",
+    "pk": 1,
+    "fields": {
+      "nome": "Gustavo Santana de Oliveira",
+      "data_nasc": "1993-11-06",
+      "cpf": "41095475800",
+      "ativo": 1,
+      "endereco": "Marialva",
+      "numero": "5398",
+      "bairro": "Zona III",
+      "complemento": "Próximo a Unipar",
+      "estado": "PR",
+      "cidade": 1,
+      "cep": "87502-100",
+      "telefone": "44-8443-5026",
+      "celular": "11-25416-4899",
+      "email": "gustavo.sdo@gmail.com",
+      "data": "2014-09-18 17:05:36",
+      "observacao": "Cliente Especial.",
+      "rg": "426277685",
+      "salario": 5048.50,
+      "cargo": 1,
+      "usuario": 1
+    }
+  },
+  {
+    "model": "pessoal.Funcionario",
+    "pk": 2,
+    "fields": {
+      "nome": "Stephanie Possato de Oliveira",
+      "data_nasc": "1991-09-13",
+      "cpf": "",
+      "ativo": 1,
+      "endereco": "Fortaleza",
+      "numero": "5652,",
+      "bairro": "Jardim America",
+      "complemento": "",
+      "estado": "PR",
+      "cidade": 1,
+      "cep": "87502-300",
+      "telefone": "44-30303-8750",
+      "celular": "",
+      "email": "spossato@unipar.br",
+      "data": "2014-09-18 00:05:36",
+      "observacao": "*-*",
+      "rg": "403289440",
+      "salario": 3501.50,
+      "cargo": 2,
+      "usuario": null
+    }
+  },
+
+
+  {
+    "model": "compra.Compra",
+    "pk": 1,
+    "fields": {
+      "total": 16.05,
+      "data": "2014-09-18 17:53:37",
+      "desconto": null,
+      "status": 0,
+      "fornecedor": 1,
+      "forma_pagamento": 1,
+      "observacao": ""
+    }
+  },
+
+
+  {
+    "model": "compra.ItensCompra",
+    "pk": 1,
+    "fields": {
+      "quantidade": 1,
+      "valor_unitario": 5.00,
+      "valor_total": 5.00,
+      "desconto": null,
+      "produto": 1,
+      "compras": 1
+    }
+  },
+  {
+    "model": "compra.ItensCompra",
+    "pk": 2,
+    "fields": {
+      "quantidade": 1,
+      "valor_unitario": 5.50,
+      "valor_total": 5.50,
+      "desconto": null,
+      "produto": 2,
+      "compras": 1
+    }
+  },
+  {
+    "model": "compra.ItensCompra",
+    "pk": 3,
+    "fields": {
+      "quantidade": 1,
+      "valor_unitario": 5.55,
+      "valor_total": 5.55,
+      "desconto": null,
+      "produto": 3,
+      "compras": 1
+    }
+  },
+
+
+  {
+    "model": "compra.Pagamento",
+    "pk": 1,
+    "fields": {
+      "data": "2014-09-18 17:53:37",
+      "valor": 16.05,
+      "juros": null,
+      "desconto": null
+    }
   }
 ]

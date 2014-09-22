@@ -34,6 +34,7 @@ class ItensCompraForm(ModelForm):
     class Media:
         js = (
             '/static/js/formata_campos.js',
+            '/static/js/controle_campos_compra.js',
         )
 
     class Meta:

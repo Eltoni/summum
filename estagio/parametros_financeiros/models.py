@@ -10,6 +10,7 @@ class FormaPagamento(models.Model):
     tipo_prazo = models.CharField(max_length=1, blank=True) 
     carencia = models.IntegerField(verbose_name=u'Carência')
     tipo_carencia = models.CharField(max_length=1, blank=True, verbose_name=u'Tipo de carência')
+    observacao = models.TextField(blank=True, verbose_name=u'observações', help_text="Descreva na área as observações relevantes sobre a parametrização desta forma de pagamento.")
 
     class Meta:
         verbose_name = u'Forma de Pagamento'

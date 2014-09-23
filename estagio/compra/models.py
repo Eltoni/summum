@@ -3,7 +3,8 @@ from django.db import models
 from pessoal.models import Fornecedor
 from parametros_financeiros.models import FormaPagamento
 from movimento.models import Produtos
-import time
+from utilitarios.add_one_month import add_one_month
+import datetime
 
 
 class Compra(models.Model):
@@ -22,13 +23,16 @@ class Compra(models.Model):
     forma_pagamento = models.ForeignKey(FormaPagamento)
     observacao = models.TextField(blank=True, verbose_name=u'observações', help_text="Descreva na área as informações relavantes da compra.")
 
+
     def __unicode__(self):
         return u'%s' % (self.id)
 
-    # Sobrepoe o método save para gravar em outras tabelas
+
     def save(self, *args, **kwargs):
         formaPagamentoCompra = FormaPagamento.objects.get(pk=self.forma_pagamento.pk)
-
+        data = datetime.date.today()
+        quantidadeParcelada = formaPagamentoCompra.quant_parcelas
+        
         if self.pk is None:
 
             # Pagamento efetuado à vista. Grava com status fechado em ContasPagar
@@ -41,7 +45,7 @@ class Compra(models.Model):
             super(Compra, self).save(*args, **kwargs)
             
             # Insere o contas à pagar
-            conta = ContasPagar(data=time.strftime('%Y-%m-%d'), 
+            conta = ContasPagar(data=data, 
                                 valor_total=self.total, 
                                 compras=self, 
                                 fornecedores=self.fornecedor, 
@@ -50,12 +54,11 @@ class Compra(models.Model):
                                 )
             conta.save()
 
-            quantidadeParcelada = formaPagamentoCompra.quant_parcelas
-
             # Insere as parcelas do contas à pagar   
             for i in range(quantidadeParcelada):
                 b = ParcelasContasPagar()
-                b.vencimento = time.strftime('%Y-%m-%d')
+                b.vencimento = data
+                data = add_one_month(data)
                 b.valor = self.total / quantidadeParcelada
                 b.status = False
                 b.num_parcelas = i + 1
@@ -63,6 +66,7 @@ class Compra(models.Model):
                 b.save()
         
         else:
+
             # tratar cancelamento de compra efetuada
             super(Compra, self).save(*args, **kwargs)
 

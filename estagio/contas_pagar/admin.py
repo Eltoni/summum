@@ -13,13 +13,13 @@ class PagamentoAdmin(admin.ModelAdmin):
 
 class ContasPagarAdmin(admin.ModelAdmin):
     model = ContasPagar
-    list_display = ('id', 'data', 'descricao', 'status')
+    list_display = ('id', 'compras', 'data', 'descricao', 'status')
 
 
 
 class ParcelasContasPagarAdmin(admin.ModelAdmin):
     model = ParcelasContasPagar
-    list_display = ('id', 'vencimento', 'valor', 'num_parcelas')
+    list_display = ('id', 'contas_pagar', 'vencimento', 'valor', 'num_parcelas')
 
 
 

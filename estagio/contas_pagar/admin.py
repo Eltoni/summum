@@ -17,5 +17,12 @@ class ContasPagarAdmin(admin.ModelAdmin):
 
 
 
+class ParcelasContasPagarAdmin(admin.ModelAdmin):
+    model = ParcelasContasPagar
+    list_display = ('id', 'vencimento', 'valor', 'num_parcelas')
+
+
+
 admin.site.register(ContasPagar, ContasPagarAdmin)
+admin.site.register(ParcelasContasPagar, ParcelasContasPagarAdmin)
 admin.site.register(Pagamento, PagamentoAdmin)

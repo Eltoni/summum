@@ -24,6 +24,9 @@ class ContasPagar(models.Model):
         verbose_name = u'Conta à Pagar'
         verbose_name_plural = "Contas à Pagar"
 
+    def __unicode__(self):
+        return u'%s' % (self.id)
+
 
 
 class ParcelasContasPagar(models.Model):
@@ -35,9 +38,16 @@ class ParcelasContasPagar(models.Model):
 
     vencimento = models.DateField()
     valor = models.DecimalField(max_digits=20, decimal_places=2) 
-    status = models.CharField(max_length=1)
+    status = models.BooleanField(default=False)
     num_parcelas = models.IntegerField()
     contas_pagar = models.ForeignKey(ContasPagar)
+
+    class Meta:
+        verbose_name = u'Parcela de Conta à Pagar'
+        verbose_name_plural = "Parcelas de Contas à Pagar"
+
+    def __unicode__(self):
+        return u'%s' % (self.id)
 
 
 

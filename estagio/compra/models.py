@@ -27,7 +27,7 @@ class Compra(models.Model):
 
     # Sobrepoe o método save para gravar em outras tabelas
     def save(self, *args, **kwargs):
-        formaPagamentoCompra = FormaPagamento.objects.get(pk=1)
+        formaPagamentoCompra = FormaPagamento.objects.get(pk=self.forma_pagamento.pk)
 
         if self.pk is None:
 
@@ -38,14 +38,29 @@ class Compra(models.Model):
                 statusContasPagar = False
 
             # Chama a função save original para o save atual do modelo
-            super(Compra, self).save(*args, **kwargs)   
-            ContasPagar(data=time.strftime('%Y-%m-%d'), 
-                        valor_total=self.total, 
-                        compras=self, 
-                        fornecedores=self.fornecedor, 
-                        forma_pagamento=self.forma_pagamento, 
-                        status=statusContasPagar
-                        ).save()
+            super(Compra, self).save(*args, **kwargs)
+            
+            # Insere o contas à pagar
+            conta = ContasPagar(data=time.strftime('%Y-%m-%d'), 
+                                valor_total=self.total, 
+                                compras=self, 
+                                fornecedores=self.fornecedor, 
+                                forma_pagamento=self.forma_pagamento, 
+                                status=statusContasPagar
+                                )
+            conta.save()
+
+            quantidadeParcelada = formaPagamentoCompra.quant_parcelas
+
+            # Insere as parcelas do contas à pagar   
+            for i in range(quantidadeParcelada):
+                b = ParcelasContasPagar()
+                b.vencimento = time.strftime('%Y-%m-%d')
+                b.valor = self.total / quantidadeParcelada
+                b.status = False
+                b.num_parcelas = i + 1
+                b.contas_pagar = conta
+                b.save()
         
         else:
             # tratar cancelamento de compra efetuada
@@ -76,4 +91,4 @@ class ItensCompra(models.Model):
 
 
 # Importado no final do arquivo para não ocorrer problemas com dependencia circular 
-from contas_pagar.models import ContasPagar, Pagamento
+from contas_pagar.models import ContasPagar, ParcelasContasPagar, Pagamento

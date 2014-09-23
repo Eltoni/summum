@@ -49,6 +49,7 @@ INSTALLED_APPS = (
     'parametros_financeiros',
     'movimento',
     'compra',
+    'contas_pagar',
     # Bibliotecas em uso pelo projeto
     'import_export',
     'smart_selects',
@@ -158,6 +159,7 @@ SUIT_CONFIG = {
         {'label': u'Movimentos', 'app':'movimento'},
         {'label': u'Parâmetros', 'app':'parametros_financeiros'},
         'compra',
+        {'label': u'Contas à pagar', 'app':'contas_pagar'},
         # Separator
         '-',
     )

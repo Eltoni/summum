@@ -331,7 +331,7 @@
     "fields": {
       "total": 16.05,
       "data": "2014-09-18 17:53:37",
-      "desconto": null,
+      "desconto": 0,
       "status": 0,
       "fornecedor": 1,
       "forma_pagamento": 1,
@@ -347,7 +347,7 @@
       "quantidade": 1,
       "valor_unitario": 5.00,
       "valor_total": 5.00,
-      "desconto": null,
+      "desconto": 0,
       "produto": 1,
       "compras": 1
     }
@@ -359,7 +359,7 @@
       "quantidade": 1,
       "valor_unitario": 5.50,
       "valor_total": 5.50,
-      "desconto": null,
+      "desconto": 0,
       "produto": 2,
       "compras": 1
     }
@@ -371,7 +371,7 @@
       "quantidade": 1,
       "valor_unitario": 5.55,
       "valor_total": 5.55,
-      "desconto": null,
+      "desconto": 0,
       "produto": 3,
       "compras": 1
     }
@@ -379,7 +379,7 @@
 
 
   {
-    "model": "compra.Pagamento",
+    "model": "contas_pagar.Pagamento",
     "pk": 1,
     "fields": {
       "data": "2014-09-18 17:53:37",

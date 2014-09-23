@@ -100,12 +100,4 @@ class CompraAdmin(admin.ModelAdmin):
         formset.save_m2m()
 
 
-
-class PagamentoAdmin(admin.ModelAdmin):
-    form = FormPagamento
-    model = Pagamento
-    list_display = ('id', 'data', 'valor')
-
-
-admin.site.register(Pagamento, PagamentoAdmin)
 admin.site.register(Compra, CompraAdmin)

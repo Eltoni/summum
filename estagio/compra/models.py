@@ -3,29 +3,7 @@ from django.db import models
 from pessoal.models import Fornecedor
 from parametros_financeiros.models import FormaPagamento
 from movimento.models import Produtos
-
-
-class Pagamento(models.Model):
-    u""" 
-    Classe Pagamento. 
-    Criada para registrar todas as saídas financeiras do estabelecimento.
-    Os registros de pagamentos entrarão automaticamente na tabela. 
-    Contudo, também será possível cadastrar pagamentos manualmente, pensando em casos em que valores são pagos, eventualmente, sem a compra ter sido cadastrada.
-
-    Criada em 16/06/2014. 
-    """
-    
-    data = models.DateTimeField(auto_now_add=True)
-    valor = models.DecimalField(max_digits=20, decimal_places=2)
-    juros = models.DecimalField(max_digits=20, decimal_places=2, blank=True, null=True)
-    desconto = models.DecimalField(max_digits=20, decimal_places=2, blank=True, null=True)
-    # estornada = models.BooleanField(verbose_name=u'Estornada?')
-    # data_estorno = models.DateField(auto_now_add=True, verbose_name=u'Data do estorno')
-    # parcelas_contas_pagar = models.ForeignKey(ParcelasContasPagar)
-    
-    def __unicode__(self):
-        return u'%s' % (self.id)
-
+import time
 
 
 class Compra(models.Model):
@@ -49,12 +27,29 @@ class Compra(models.Model):
 
     # Sobrepoe o método save para gravar em outras tabelas
     def save(self, *args, **kwargs):
-        # Chama a função save original para o save atual do modelo
-        super(Compra, self).save(*args, **kwargs)
+        formaPagamentoCompra = FormaPagamento.objects.get(pk=1)
 
-        # Agora que esse modelo está salvo, pode-se criar um Pagamento na tabela devida
-        if not self.pk:
-            Pagamento(data=self.data, valor=self.total).save()
+        if self.pk is None:
+
+            # Pagamento efetuado à vista. Grava com status fechado em ContasPagar
+            if formaPagamentoCompra.quant_parcelas == 1 and formaPagamentoCompra.carencia == 0:
+                statusContasPagar = True
+            else:
+                statusContasPagar = False
+
+            # Chama a função save original para o save atual do modelo
+            super(Compra, self).save(*args, **kwargs)   
+            ContasPagar(data=time.strftime('%Y-%m-%d'), 
+                        valor_total=self.total, 
+                        compras=self, 
+                        fornecedores=self.fornecedor, 
+                        forma_pagamento=self.forma_pagamento, 
+                        status=statusContasPagar
+                        ).save()
+        
+        else:
+            # tratar cancelamento de compra efetuada
+            super(Compra, self).save(*args, **kwargs)
 
 
 
@@ -78,3 +73,7 @@ class ItensCompra(models.Model):
     class Meta:
         verbose_name = u'Item de Compra'
         verbose_name_plural = "Itens de Compra"
+
+
+# Importado no final do arquivo para não ocorrer problemas com dependencia circular 
+from contas_pagar.models import ContasPagar, Pagamento

@@ -23,7 +23,21 @@
       "tipo_prazo": "M",
       "carencia": 0,
       "tipo_carencia": "M",
-      "observacao": "Carência zero: Entrada feita no registro da compra, independente de o pagamento ser a vista ou a prazo, o financeiro sempre deve gerar uma conta a pagar, as parcelas, e o pagamento(caso a carência seja '0') ALTER TABLE parametros_financeiros_formapagamento ADD observacao longtext;"
+      "observacao": "Carência zero: Entrada feita no registro da compra, independente de o pagamento ser a vista ou a prazo, o financeiro sempre deve gerar uma conta a pagar, as parcelas, e o pagamento(caso a carência seja '0')"
+    }
+  },
+  {
+    "model": "parametros_financeiros.FormaPagamento",
+    "pk": 3,
+    "fields": {
+      "nome": "À prazo (3x)",
+      "descricao": "Pagamento parcelado em 3 vezes.",
+      "quant_parcelas": 3,
+      "prazo_entre_parcelas": 30,
+      "tipo_prazo": "M",
+      "carencia": 30,
+      "tipo_carencia": "M",
+      "observacao": ""
     }
   },
 

@@ -60,7 +60,11 @@ class Compra(models.Model):
                 b.vencimento = data
                 data = add_one_month(data)
                 b.valor = self.total / quantidadeParcelada
-                b.status = False
+                if formaPagamentoCompra.carencia == 0 and i == 0:
+                    b.status = True
+                else:
+                    b.status = False
+
                 b.num_parcelas = i + 1
                 b.contas_pagar = conta
                 b.save()

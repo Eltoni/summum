@@ -16,7 +16,7 @@ class ContasPagar(models.Model):
     valor_total = models.DecimalField(max_digits=20, decimal_places=2) 
     status = models.BooleanField(default=False, help_text=u'Se desmarcado, indica que há parcelas em aberto, caso contrário, a conta foi fechada.')
     descricao = models.TextField(blank=True) 
-    compras = models.ForeignKey(Compra) 
+    compras = models.ForeignKey(Compra, verbose_name=u'Compra') 
     fornecedores = models.ForeignKey(Fornecedor)
     forma_pagamento = models.ForeignKey(FormaPagamento) 
 

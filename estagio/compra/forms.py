@@ -4,6 +4,16 @@ from suit.widgets import LinkedSelect, NumberInput, AutosizedTextarea
 from django.forms import forms
 
 
+class Select(LinkedSelect):
+    u"""
+    Sobrescrita classe LinkedSelect do django suit
+    """
+
+    def __init__(self, attrs=None, choices=()):
+        super(LinkedSelect, self).__init__(attrs, choices)
+
+
+
 class CompraForm(ModelForm):
     u""" 
     Classe FormFieldsMain. 
@@ -18,6 +28,8 @@ class CompraForm(ModelForm):
             'total': NumberInput(attrs={'readonly':'readonly', 'class': 'input-small text-right', 'placeholder': '0,00'}),
             'desconto': NumberInput(attrs={'class': 'input-small text-right desconto', 'placeholder': '0%', 'min': '0', 'max': '100'}),
             'observacao': AutosizedTextarea(attrs={'rows': 5, 'class': 'input-xxlarge', 'placeholder': '...'}),
+            'fornecedor': Select(attrs={'required': 'required'}),
+            'forma_pagamento': Select(attrs={'required': 'required'}),
         }
 
 
@@ -40,7 +52,7 @@ class ItensCompraForm(ModelForm):
     class Meta:
         widgets = {
             'quantidade': TextInput(attrs={'class': 'input-mini quantidade-ic', 'placeholder': '0'}),
-            'produto': LinkedSelect(attrs={'class': 'input-large'}),
+            'produto': Select(attrs={'class': 'input-large'}),
             'valor_unitario': NumberInput(attrs={'readonly':'readonly', 'class': 'input-small text-right', 'step': '0.01'}),
             'desconto': NumberInput(attrs={'class': 'input-small text-right desconto', 'placeholder': '0%', 'min': '0', 'max': '100'}),
             'valor_total': NumberInput(attrs={'readonly':'readonly', 'class': 'input-small text-right valor-total-ic', 'placeholder': '0,00', 'step': '0.01'}),

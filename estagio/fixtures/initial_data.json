@@ -389,17 +389,5 @@
       "produto": 3,
       "compras": 1
     }
-  },
-
-
-  {
-    "model": "contas_pagar.Pagamento",
-    "pk": 1,
-    "fields": {
-      "data": "2014-09-18 17:53:37",
-      "valor": 16.05,
-      "juros": null,
-      "desconto": null
-    }
   }
 ]

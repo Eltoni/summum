@@ -67,7 +67,7 @@ class Pagamento(models.Model):
     desconto = models.DecimalField(max_digits=20, decimal_places=2, blank=True, null=True)
     # estornada = models.BooleanField(verbose_name=u'Estornada?')
     # data_estorno = models.DateField(auto_now_add=True, verbose_name=u'Data do estorno')
-    #parcelas_contas_pagar = models.ForeignKey(ParcelasContasPagar)
+    parcelas_contas_pagar = models.ForeignKey(ParcelasContasPagar)
     
     def __unicode__(self):
         return u'%s' % (self.id)

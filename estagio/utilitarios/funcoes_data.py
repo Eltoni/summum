@@ -1,3 +1,4 @@
+#-*- coding: UTF-8 -*-
 import datetime
 
 def add_one_month(t):
@@ -30,6 +31,26 @@ def add_one_month(t):
             one_month_later -= one_day
             break
     return one_month_later
+
+
+def date_add_week(t, p):
+    """
+    Retorna a data somada a quantidade de semanas desejadas.
+
+    Parâmetros passados (data, quantidade_de_semanas)
+    
+    >>> date_add_week(datetime.date(2010, 1, 1), 2)
+    datetime.date(2010, 1, 15)
+    >>> date_add_week(datetime.date(2014, 1, 10), 2)
+    datetime.date(2014, 1, 24)
+    """
+    data = str(t)
+    aDate = datetime.datetime.strptime(data, "%Y-%m-%d")
+    threeWeeks = datetime.timedelta(weeks=p)
+    data = aDate + threeWeeks
+    data = data.date()
+    return data
+
 
 if __name__ == '__main__':
     import doctest

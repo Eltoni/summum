@@ -16,7 +16,7 @@
     "model": "parametros_financeiros.FormaPagamento",
     "pk": 2,
     "fields": {
-      "nome": "À prazo (Entrada + 2x)",
+      "nome": "À prazo (Mensal, Entrada + 2x)",
       "descricao": "Pagamento parcelado em 3 vezes, com acerto da primeira parcela no ato da compra.",
       "quant_parcelas": 3,
       "prazo_entre_parcelas": 30,
@@ -30,13 +30,27 @@
     "model": "parametros_financeiros.FormaPagamento",
     "pk": 3,
     "fields": {
-      "nome": "À prazo (3x)",
+      "nome": "À prazo (Mensal, em 3x)",
       "descricao": "Pagamento parcelado em 3 vezes.",
       "quant_parcelas": 3,
       "prazo_entre_parcelas": 30,
       "tipo_prazo": "M",
       "carencia": 30,
       "tipo_carencia": "M",
+      "observacao": ""
+    }
+  },
+  {
+    "model": "parametros_financeiros.FormaPagamento",
+    "pk": 4,
+    "fields": {
+      "nome": "À prazo (Semanal, em 3x) ",
+      "descricao": "Pagamento parcelado em 3 vezes. Tipo de prazo: Semanal.",
+      "quant_parcelas": 3,
+      "prazo_entre_parcelas": 2,
+      "tipo_prazo": "S",
+      "carencia": 0,
+      "tipo_carencia": "S",
       "observacao": ""
     }
   },

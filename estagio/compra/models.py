@@ -3,7 +3,7 @@ from django.db import models
 from pessoal.models import Fornecedor
 from parametros_financeiros.models import FormaPagamento
 from movimento.models import Produtos
-from utilitarios.add_one_month import add_one_month
+from utilitarios.funcoes_data import add_one_month, date_add_week
 import datetime
 
 
@@ -26,6 +26,23 @@ class Compra(models.Model):
 
     def __unicode__(self):
         return u'%s' % (self.id)
+
+
+    def prazoEntreParcelas(self, data):
+        """
+        Método que define o prazo entre data baseado na parametrização da forma de pagamento.
+        Permite trabalhar com data com prazos semanais e mensais
+        """
+        self.formaPagamentoCompra = FormaPagamento.objects.get(pk=self.forma_pagamento.pk)
+
+        if self.formaPagamentoCompra.tipo_prazo == 'M':
+            data = add_one_month(data)
+            return data
+
+        if self.formaPagamentoCompra.tipo_prazo == 'S':
+            prazo = self.formaPagamentoCompra.prazo_entre_parcelas
+            data = date_add_week(data, prazo)
+            return data
 
 
     def save(self, *args, **kwargs):
@@ -58,7 +75,7 @@ class Compra(models.Model):
             for i in range(quantidadeParcelada):
                 b = ParcelasContasPagar()
                 b.vencimento = data
-                data = add_one_month(data)
+                data = self.prazoEntreParcelas(data)
                 b.valor = self.total / quantidadeParcelada
                 if formaPagamentoCompra.carencia == 0 and i == 0:
                     b.status = True

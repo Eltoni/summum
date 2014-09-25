@@ -14,7 +14,6 @@ class Compra(models.Model):
 
     Criada em 15/06/2014. 
     """
-
     total = models.DecimalField(max_digits=20, decimal_places=2, verbose_name=u'Total (R$)', help_text=u'Valor total da compra.')
     data = models.DateTimeField(auto_now_add=True, verbose_name=u'Data da compra')
     desconto = models.DecimalField(max_digits=20, decimal_places=0, blank=True, null=True, verbose_name=u'Desconto (%)', help_text=u'Desconto sob o valor total da compra.')
@@ -28,7 +27,33 @@ class Compra(models.Model):
         return u'%s' % (self.id)
 
 
-    def prazoEntreParcelas(self, data):
+    def prazo_primeira_parcela(self, data, num_parcela):
+        """
+        Método que define a data de vencimento da primeira parcela baseado na parametrização da forma de pagamento. 
+        """
+        self.formaPagamentoCompra = FormaPagamento.objects.get(pk=self.forma_pagamento.pk)
+        prazo_primeira_parcela = self.formaPagamentoCompra.carencia
+         
+        if self.formaPagamentoCompra.tipo_carencia == 'S' and num_parcela == 0:
+            data = date_add_week(data, prazo_primeira_parcela)
+            return data
+        else:
+            return data
+
+
+    def pagamento_primeira_parcela_compra(self, num_parcela):
+        """
+        Método que define como pago a primeira parcela de uma compra à prazo, caso a carência parametrizada na forma de pagamento seja 0(zero).
+        """
+        self.formaPagamentoCompra = FormaPagamento.objects.get(pk=self.forma_pagamento.pk)
+
+        if self.formaPagamentoCompra.carencia == 0 and num_parcela == 0:
+            return True
+        else:
+            return False
+
+
+    def prazo_entre_parcelas(self, data):
         """
         Método que define o prazo entre data baseado na parametrização da forma de pagamento.
         Permite trabalhar com data com prazos semanais e mensais
@@ -46,6 +71,9 @@ class Compra(models.Model):
 
 
     def save(self, *args, **kwargs):
+        """
+        Método que trata a geração e cálculo da parte financeira de uma compra.
+        """
         formaPagamentoCompra = FormaPagamento.objects.get(pk=self.forma_pagamento.pk)
         data = datetime.date.today()
         quantidadeParcelada = formaPagamentoCompra.quant_parcelas
@@ -74,14 +102,11 @@ class Compra(models.Model):
             # Insere as parcelas do contas à pagar   
             for i in range(quantidadeParcelada):
                 b = ParcelasContasPagar()
+                data = self.prazo_primeira_parcela(data, i)
                 b.vencimento = data
-                data = self.prazoEntreParcelas(data)
+                data = self.prazo_entre_parcelas(data)
                 b.valor = self.total / quantidadeParcelada
-                if formaPagamentoCompra.carencia == 0 and i == 0:
-                    b.status = True
-                else:
-                    b.status = False
-
+                b.status = self.pagamento_primeira_parcela_compra(i)
                 b.num_parcelas = i + 1
                 b.contas_pagar = conta
                 b.save()

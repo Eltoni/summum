@@ -35,8 +35,8 @@
       "quant_parcelas": 3,
       "prazo_entre_parcelas": 30,
       "tipo_prazo": "M",
-      "carencia": 30,
-      "tipo_carencia": "M",
+      "carencia": 2,
+      "tipo_carencia": "S",
       "observacao": ""
     }
   },

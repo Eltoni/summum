@@ -11,7 +11,20 @@ class ProdutosAdmin(ExportMixin, admin.ModelAdmin):
     export_template_name = 'export.html'
 
     model = Produtos
-    list_display = ('nome', 'quantidade', 'preco_venda')
+    list_display = ('nome', 'quantidade', 'descricao', 'status')
+    readonly_fields = ('quantidade',)
 
+    fieldsets = (
+        (None, {
+            'classes': ('suit-tab suit-tab-geral',),
+            'fields': ('nome', 'preco', 'preco_venda', 'quantidade', 'descricao', 'status')
+        }),
+    )
+
+    suit_form_tabs = (
+        ('geral', 'Geral'),
+    )
+
+    
 
 admin.site.register(Produtos, ProdutosAdmin)

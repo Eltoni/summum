@@ -8,6 +8,7 @@ class Produtos(models.Model):
     preco_venda = models.DecimalField(max_digits=20, decimal_places=2, verbose_name=u'Preço de venda')
     quantidade = models.IntegerField()
     descricao = models.TextField(blank=True) 
+    status = models.BooleanField(default=True, help_text=u'Indica se o produto está ativo para atividades de compra e venda.')
 
     class Meta:
         verbose_name = u'Produto'

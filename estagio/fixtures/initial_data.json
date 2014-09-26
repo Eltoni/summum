@@ -9,7 +9,9 @@
       "prazo_entre_parcelas": 0,
       "tipo_prazo": "M",
       "carencia": 0,
-      "tipo_carencia": "M"
+      "tipo_carencia": "M",
+      "status": 1,
+      "observacao": ""
     }
   },
   {
@@ -23,6 +25,7 @@
       "tipo_prazo": "M",
       "carencia": 0,
       "tipo_carencia": "M",
+      "status": 1,
       "observacao": "Carência zero: Entrada feita no registro da compra, independente de o pagamento ser a vista ou a prazo, o financeiro sempre deve gerar uma conta a pagar, as parcelas, e o pagamento(caso a carência seja '0')"
     }
   },
@@ -37,6 +40,7 @@
       "tipo_prazo": "M",
       "carencia": 2,
       "tipo_carencia": "S",
+      "status": 1,
       "observacao": ""
     }
   },
@@ -51,6 +55,7 @@
       "tipo_prazo": "S",
       "carencia": 0,
       "tipo_carencia": "S",
+      "status": 1,
       "observacao": ""
     }
   },
@@ -172,7 +177,8 @@
       "preco": 5.00,
       "preco_venda": 10.00,
       "quantidade": 50,
-      "descricao": ""
+      "descricao": "",
+      "status": 1
     }
   },
   {
@@ -183,7 +189,8 @@
       "preco": 5.50,
       "preco_venda": 10.50,
       "quantidade": 25,
-      "descricao": ""
+      "descricao": "",
+      "status": 1
     }
   },
   {
@@ -194,7 +201,20 @@
       "preco": 5.55,
       "preco_venda": 10.55,
       "quantidade": 25,
-      "descricao": ""
+      "descricao": "",
+      "status": 1
+    }
+  },
+  {
+    "model": "movimento.Produtos",
+    "pk": 4,
+    "fields": {
+      "nome": "Parafusadeira",
+      "preco": 5.77,
+      "preco_venda": 10.77,
+      "quantidade": 25,
+      "descricao": "",
+      "status": 0
     }
   },
   
@@ -350,58 +370,6 @@
       "cargo": 2,
       "usuario": null
     }
-  },
-
-
-  {
-    "model": "compra.Compra",
-    "pk": 1,
-    "fields": {
-      "total": 16.05,
-      "data": "2014-09-18 17:53:37",
-      "desconto": 0,
-      "status": 0,
-      "fornecedor": 1,
-      "forma_pagamento": 1,
-      "observacao": ""
-    }
-  },
-
-
-  {
-    "model": "compra.ItensCompra",
-    "pk": 1,
-    "fields": {
-      "quantidade": 1,
-      "valor_unitario": 5.00,
-      "valor_total": 5.00,
-      "desconto": 0,
-      "produto": 1,
-      "compras": 1
-    }
-  },
-  {
-    "model": "compra.ItensCompra",
-    "pk": 2,
-    "fields": {
-      "quantidade": 1,
-      "valor_unitario": 5.50,
-      "valor_total": 5.50,
-      "desconto": 0,
-      "produto": 2,
-      "compras": 1
-    }
-  },
-  {
-    "model": "compra.ItensCompra",
-    "pk": 3,
-    "fields": {
-      "quantidade": 1,
-      "valor_unitario": 5.55,
-      "valor_total": 5.55,
-      "desconto": 0,
-      "produto": 3,
-      "compras": 1
-    }
   }
+  
 ]

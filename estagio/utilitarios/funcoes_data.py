@@ -52,6 +52,22 @@ def date_add_week(t, p):
     return data
 
 
+def date_add_days(t, p):
+    """
+    Retorna a data somada a quantidade de dias desejadas.
+
+    Parâmetros passados (data, quantidade_de_dias)
+    
+    >>> date_add_days(datetime.date(2010, 1, 1), 2)
+    datetime.date(2010, 1, 15)
+    >>> date_add_days(datetime.date(2014, 1, 10), 2)
+    datetime.date(2014, 1, 24)
+    """
+    data = t
+    data = data + datetime.timedelta(days=p)
+    return data
+
+
 if __name__ == '__main__':
     import doctest
     doctest.testmod()

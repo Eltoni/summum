@@ -2,6 +2,7 @@
 from django.forms import ModelForm, TextInput
 from suit.widgets import LinkedSelect, NumberInput, AutosizedTextarea
 from django.forms import forms
+from models import *
 
 
 class Select(LinkedSelect):
@@ -33,6 +34,12 @@ class CompraForm(ModelForm):
         }
 
 
+    def __init__(self, *args, **kwargs):
+        super(CompraForm, self).__init__(*args, **kwargs)
+        #self.fields['fornecedor'].queryset = Fornecedor.objects.exclude(ativo=0) 
+        #self.fields['forma_pagamento'].queryset = FormaPagamento.objects.exclude(status=0) 
+
+
 
 class ItensCompraForm(ModelForm):
     u""" 
@@ -57,3 +64,8 @@ class ItensCompraForm(ModelForm):
             'desconto': NumberInput(attrs={'class': 'input-small text-right desconto', 'placeholder': '0%', 'min': '0', 'max': '100'}),
             'valor_total': NumberInput(attrs={'readonly':'readonly', 'class': 'input-small text-right valor-total-ic', 'placeholder': '0,00', 'step': '0.01'}),
         }
+
+
+    def __init__(self, *args, **kwargs):
+        super(ItensCompraForm, self).__init__(*args, **kwargs)
+        #self.fields['produto'].queryset = Produtos.objects.exclude(status=0) 

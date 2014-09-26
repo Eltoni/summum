@@ -49,6 +49,7 @@ class CompraAdmin(admin.ModelAdmin):
     ]
     form = CompraForm
     model = Compra
+    actions = None
 
     search_fields = ['id', 'fornecedor']
     list_filter = ('data', 'status', 'forma_pagamento')
@@ -73,6 +74,11 @@ class CompraAdmin(admin.ModelAdmin):
         ('geral', 'Geral'),
         ('info_adicionais', 'Informações adicionais')
     )
+
+
+    def has_delete_permission(self, request, obj=None):
+        return False
+
     
     def get_readonly_fields(self, request, obj=None):
         """ Define todos os campos da compra como somente leitura caso o registro seja salvo no BD """

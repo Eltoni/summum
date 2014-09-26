@@ -3,7 +3,7 @@ from django.db import models
 from pessoal.models import Fornecedor
 from parametros_financeiros.models import FormaPagamento
 from movimento.models import Produtos
-from utilitarios.funcoes_data import add_one_month, date_add_week
+from utilitarios.funcoes_data import add_one_month, date_add_week, date_add_days
 import datetime
 
 
@@ -29,7 +29,9 @@ class Compra(models.Model):
 
     def prazo_primeira_parcela(self, data, num_parcela):
         """
-        Método que define a data de vencimento da primeira parcela baseado na parametrização da forma de pagamento. 
+        Método que define a data de vencimento da primeira parcela baseado na parametrização da forma de pagamento.
+
+        Parâmetros passados (data_da_compra, número_da_parcela) 
         """
         self.formaPagamentoCompra = FormaPagamento.objects.get(pk=self.forma_pagamento.pk)
         prazo_primeira_parcela = self.formaPagamentoCompra.carencia
@@ -37,13 +39,62 @@ class Compra(models.Model):
         if self.formaPagamentoCompra.tipo_carencia == 'S' and num_parcela == 0:
             data = date_add_week(data, prazo_primeira_parcela)
             return data
+
+        if self.formaPagamentoCompra.tipo_carencia == 'D' and num_parcela == 0:
+            data = date_add_days(data, prazo_primeira_parcela)
+            return data
+
         else:
             return data
+
+
+    def prazo_entre_parcelas(self, data):
+        """
+        Método que define o prazo entre data baseado na parametrização da forma de pagamento.
+        Permite trabalhar com data com prazos semanais e mensais.
+
+        Parâmetros passados (data_da_compra) 
+        """
+        self.formaPagamentoCompra = FormaPagamento.objects.get(pk=self.forma_pagamento.pk)
+        prazo = self.formaPagamentoCompra.prazo_entre_parcelas
+
+        if self.formaPagamentoCompra.tipo_prazo == 'M':
+            data = add_one_month(data)
+            return data
+
+        if self.formaPagamentoCompra.tipo_prazo == 'S':
+            data = date_add_week(data, prazo)
+            return data
+
+        if self.formaPagamentoCompra.tipo_prazo == 'D':
+            data = date_add_days(data, prazo)
+            return data
+
+
+    def valor_parcela(self, num_parcela, total):
+        """
+        Método que calcula os valores das mensalidades para que na divisão das parcelas, não fique restando valores decimais nos centavos gerados.
+        Caso ocorra, a última parcela da compra recebe o valor restante.
+
+        Parâmetros passados (número_da_parcela, valor_total_da_compra)
+        """
+        self.formaPagamentoCompra = FormaPagamento.objects.get(pk=self.forma_pagamento.pk)
+        quant_parc = self.formaPagamentoCompra.quant_parcelas
+        valor_parcela = round(total / quant_parc, 2)
+
+        if (num_parcela + 1) == quant_parc:
+            soma_parcelas = valor_parcela * num_parcela
+            valor_parcela = float(total) - soma_parcelas
+            return valor_parcela
+        else:
+            return valor_parcela
 
 
     def pagamento_primeira_parcela_compra(self, num_parcela):
         """
         Método que define como pago a primeira parcela de uma compra à prazo, caso a carência parametrizada na forma de pagamento seja 0(zero).
+
+        Parâmetros passados (número_da_parcela)
         """
         self.formaPagamentoCompra = FormaPagamento.objects.get(pk=self.forma_pagamento.pk)
 
@@ -51,23 +102,6 @@ class Compra(models.Model):
             return True
         else:
             return False
-
-
-    def prazo_entre_parcelas(self, data):
-        """
-        Método que define o prazo entre data baseado na parametrização da forma de pagamento.
-        Permite trabalhar com data com prazos semanais e mensais
-        """
-        self.formaPagamentoCompra = FormaPagamento.objects.get(pk=self.forma_pagamento.pk)
-
-        if self.formaPagamentoCompra.tipo_prazo == 'M':
-            data = add_one_month(data)
-            return data
-
-        if self.formaPagamentoCompra.tipo_prazo == 'S':
-            prazo = self.formaPagamentoCompra.prazo_entre_parcelas
-            data = date_add_week(data, prazo)
-            return data
 
 
     def save(self, *args, **kwargs):
@@ -99,13 +133,13 @@ class Compra(models.Model):
                                 )
             conta.save()
 
-            # Insere as parcelas do contas à pagar   
-            for i in range(quantidadeParcelada):
+            # Insere as parcelas do contas à pagar
+            for i in range(quantidadeParcelada):                
                 b = ParcelasContasPagar()
                 data = self.prazo_primeira_parcela(data, i)
                 b.vencimento = data
                 data = self.prazo_entre_parcelas(data)
-                b.valor = self.total / quantidadeParcelada
+                b.valor = self.valor_parcela(i, self.total)
                 b.status = self.pagamento_primeira_parcela_compra(i)
                 b.num_parcelas = i + 1
                 b.contas_pagar = conta

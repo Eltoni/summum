@@ -11,6 +11,7 @@ class FormaPagamento(models.Model):
         max_length=1, 
         blank=True,
         choices=(
+            (u'D', 'Diário'),
             (u'S', 'Semanal'),
             (u'M', 'Mensal'),
         )
@@ -21,10 +22,12 @@ class FormaPagamento(models.Model):
         blank=True, 
         verbose_name=u'Tipo de carência',
         choices=(
+            (u'D', 'Diário'),
             (u'S', 'Semanal'),
             (u'M', 'Mensal'),
         )
     )
+    status = models.BooleanField(default=True, help_text="Indica se a forma de pagamento está ativa para uso.")
     observacao = models.TextField(blank=True, verbose_name=u'observações', help_text="Descreva na área as observações relevantes sobre a parametrização desta forma de pagamento.")
 
     class Meta:

@@ -1,5 +1,6 @@
 #-*- coding: UTF-8 -*-
 from django.db import models
+from django.core.exceptions import ValidationError
 
 
 class FormaPagamento(models.Model):
@@ -36,4 +37,12 @@ class FormaPagamento(models.Model):
 
     def __unicode__(self):
         return u'%s' % (self.nome)
+
+
+    def clean(self):
+        """ Não permite que seja registrado uma forma de pagamento que tenha a quantidade de parcelas maior que 1, 
+            e que o prazo entre as parcelas seja de zero. 
+        """
+        if self.quant_parcelas > 1 and self.prazo_entre_parcelas == 0:
+            raise ValidationError('Prazo entre parcelas não pode ser 0(zero), quando a quantidade de parcelas é maior que 1(uma).')
         

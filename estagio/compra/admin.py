@@ -75,9 +75,13 @@ class CompraAdmin(admin.ModelAdmin):
         ('info_adicionais', 'Informações adicionais')
     )
 
-
     def has_delete_permission(self, request, obj=None):
-        return False
+        """ Somente o usuário admin pode deletar uma compra. """
+        if request.user.is_superuser:
+            return True
+
+        else:
+            return False
 
     
     def get_readonly_fields(self, request, obj=None):

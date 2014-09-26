@@ -3,7 +3,7 @@ from django.db import models
 from pessoal.models import Fornecedor
 from parametros_financeiros.models import FormaPagamento
 from movimento.models import Produtos
-from utilitarios.funcoes_data import add_one_month, date_add_week, date_add_days
+from utilitarios.funcoes_data import date_add_months, date_add_week, date_add_days
 import datetime
 
 
@@ -35,6 +35,10 @@ class Compra(models.Model):
         """
         self.formaPagamentoCompra = FormaPagamento.objects.get(pk=self.forma_pagamento.pk)
         prazo_primeira_parcela = self.formaPagamentoCompra.carencia
+
+        if self.formaPagamentoCompra.tipo_carencia == 'M' and num_parcela == 0:
+            data = date_add_months(data, prazo_primeira_parcela)
+            return data
          
         if self.formaPagamentoCompra.tipo_carencia == 'S' and num_parcela == 0:
             data = date_add_week(data, prazo_primeira_parcela)
@@ -59,7 +63,7 @@ class Compra(models.Model):
         prazo = self.formaPagamentoCompra.prazo_entre_parcelas
 
         if self.formaPagamentoCompra.tipo_prazo == 'M':
-            data = add_one_month(data)
+            data = date_add_months(data, prazo)
             return data
 
         if self.formaPagamentoCompra.tipo_prazo == 'S':

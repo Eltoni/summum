@@ -33,6 +33,24 @@ def add_one_month(t):
     return one_month_later
 
 
+def date_add_months(t, p):
+    """
+    Retorna a data somada a quantidade de meses desejados.
+
+    Parâmetros passados (data, quantidade_de_meses)
+    
+    >>> add_months(datetime.date(2010, 1, 1), 1)
+    datetime.date(2010, 2, 1)
+    >>> add_months(datetime.date(2010, 1, 1), 3)
+    datetime.date(2010, 4, 1)
+    """
+    month = sourcedate.month - 1 + months
+    year = sourcedate.year + month / 12
+    month = month % 12 + 1
+    day = min(sourcedate.day,calendar.monthrange(year,month)[1])
+    return datetime.date(year,month,day)
+
+
 def date_add_week(t, p):
     """
     Retorna a data somada a quantidade de semanas desejadas.

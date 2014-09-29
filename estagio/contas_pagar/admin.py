@@ -7,8 +7,15 @@ from forms import *
 class PagamentoAdmin(admin.ModelAdmin):
     form = PagamentoForm
     model = Pagamento
-    list_display = ('id', 'data', 'valor')
-    readonly_fields = ('id', 'data', 'valor',)
+    list_display = ('id', 'parcelas_contas_pagar', 'data', 'valor')
+
+    def get_readonly_fields(self, request, obj=None):
+        """ Define todos os campos da inline como somente leitura caso o registro seja salvo no BD """
+
+        if obj:
+            return ['data', 'valor', 'juros', 'desconto', 'parcelas_contas_pagar',]
+        else:
+            return []
 
 
 

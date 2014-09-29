@@ -139,15 +139,27 @@ class Compra(models.Model):
 
             # Insere as parcelas do contas à pagar
             for i in range(quantidadeParcelada):                
-                b = ParcelasContasPagar()
+                parcelas_conta = ParcelasContasPagar()
                 data = self.prazo_primeira_parcela(data, i)
-                b.vencimento = data
+                parcelas_conta.vencimento = data
                 data = self.prazo_entre_parcelas(data)
-                b.valor = self.valor_parcela(i, self.total)
-                b.status = self.pagamento_primeira_parcela_compra(i)
-                b.num_parcelas = i + 1
-                b.contas_pagar = conta
-                b.save()
+                parcelas_conta.valor = self.valor_parcela(i, self.total)
+                parcelas_conta.status = self.pagamento_primeira_parcela_compra(i)
+                parcelas_conta.num_parcelas = i + 1
+                parcelas_conta.contas_pagar = conta
+                parcelas_conta.save()
+
+            # Insere o pagamento de uma compra que tenha o prazo de carência 0(zero) na parametrização da forma de pagamento. 
+            try:
+                parcela_paga = ParcelasContasPagar.objects.get(contas_pagar=conta, status=True)
+                Pagamento(  data=data, 
+                            valor=parcela_paga.valor, 
+                            juros=0.00, 
+                            desconto=0.00, 
+                            parcelas_contas_pagar=parcela_paga
+                            ).save()
+            except ParcelasContasPagar.DoesNotExist:
+                pass
         
         else:
 
@@ -176,6 +188,25 @@ class ItensCompra(models.Model):
     class Meta:
         verbose_name = u'Item de Compra'
         verbose_name_plural = "Itens de Compra"
+
+
+    def save(self, *args, **kwargs):
+        """
+        Método que trata a adição da quantidade de produtos ao estoque.
+        """
+        if self.pk is None:
+            
+            # Soma a quantidade de produtos comprados com a que já existe no estoque
+            super(ItensCompra, self).save(*args, **kwargs)
+            produto = Produtos.objects.get(pk=self.produto.pk)
+            produto.quantidade = produto.quantidade + self.quantidade
+            produto.save()
+
+        else:
+
+            # tratar cancelamento de compra efetuada
+            super(ItensCompra, self).save(*args, **kwargs)
+
 
 
 # Importado no final do arquivo para não ocorrer problemas com dependencia circular 

@@ -36,8 +36,11 @@ class CompraForm(ModelForm):
 
     def __init__(self, *args, **kwargs):
         super(CompraForm, self).__init__(*args, **kwargs)
-        #self.fields['fornecedor'].queryset = Fornecedor.objects.exclude(ativo=0) 
-        #self.fields['forma_pagamento'].queryset = FormaPagamento.objects.exclude(status=0) 
+        try:
+            self.fields['fornecedor'].queryset = Fornecedor.objects.exclude(ativo=0) 
+            self.fields['forma_pagamento'].queryset = FormaPagamento.objects.exclude(status=0) 
+        except KeyError:
+            pass
 
 
 
@@ -68,4 +71,7 @@ class ItensCompraForm(ModelForm):
 
     def __init__(self, *args, **kwargs):
         super(ItensCompraForm, self).__init__(*args, **kwargs)
-        #self.fields['produto'].queryset = Produtos.objects.exclude(status=0) 
+        try:
+            self.fields['produto'].queryset = Produtos.objects.exclude(status=0) 
+        except KeyError:
+            pass

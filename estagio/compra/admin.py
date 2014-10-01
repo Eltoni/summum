@@ -51,8 +51,9 @@ class CompraAdmin(admin.ModelAdmin):
     model = Compra
     actions = None
 
+    list_display = ('id', 'data', 'total', 'status')
     search_fields = ['id', 'fornecedor']
-    list_filter = ('data', 'status', 'forma_pagamento')
+    list_filter = ('data', 'status', 'forma_pagamento', 'fornecedor')
     readonly_fields = ('data',)
 
     fieldsets = (

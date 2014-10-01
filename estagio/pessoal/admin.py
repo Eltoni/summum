@@ -58,6 +58,7 @@ class FornecedorAdmin(ExportMixin, BaseCadastroPessoaAdmin):
 
     model = Fornecedor
     form = FornecedorForm
+    list_display = ('nome', 'email', 'ativo')
 
     fieldsets = (
         (None, {

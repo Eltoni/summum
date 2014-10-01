@@ -3,6 +3,7 @@ from django.db import models
 from compra.models import Compra
 from pessoal.models import Fornecedor
 from parametros_financeiros.models import FormaPagamento
+from django.db.models.signals import post_save
 
 
 class ContasPagar(models.Model):
@@ -71,3 +72,27 @@ class Pagamento(models.Model):
     
     def __unicode__(self):
         return u'%s' % (self.id)
+
+
+
+from caixa.models import Caixa, MovimentosCaixa
+
+
+def update_movimento_caixa(sender, instance, **kwargs):
+    """ 
+    Método para ïnserir na tabela de movimentos_de_caixa os movimentos de saída financeira.
+    O mesmo age sobre o Movimento de Caixa e o Caixa, fazendo todo o cálculo para controle dessas entidades.
+
+    Criada em 01/10/2014. 
+    """
+
+    MovimentosCaixa(descricao='Saída de financeiro.', 
+                    valor=instance.valor,
+                    data=instance.data, 
+                    tipo_mov='Teste de signal', 
+                    caixa=Caixa.objects.get(status=1),
+                    pagamento=instance
+                    ).save()
+
+# registro da signal
+post_save.connect(update_movimento_caixa, sender=Pagamento, dispatch_uid="update_movimento_caixa")

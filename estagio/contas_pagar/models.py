@@ -86,10 +86,23 @@ def update_movimento_caixa(sender, instance, **kwargs):
     Criada em 01/10/2014. 
     """
 
-    MovimentosCaixa(descricao='Saída de financeiro.', 
+    # Busca o id da conta à pagar e da compra vinculado ao pagamento instanciado
+    conta = ParcelasContasPagar.objects.filter(pk=instance.parcelas_contas_pagar.pk).select_related('contas_pagar__contaspagar').values_list('contas_pagar__pk', 'contas_pagar__compras')[0]
+    
+    # Condição que monta a descrição que é salvo no registro do movimento
+    if conta[1]:
+        # Caso a query traga o id de uma compra, então a descrição a ser cadastrada no movimento de caixa será a pré-definida abaixo.
+        descricao = u'Pagamento: %s, proveniente da parcela: %s, da conta à pagar: %s, da compra: %s.' % (instance.pk, instance.parcelas_contas_pagar.pk, conta[0], conta[1])
+    
+    else:
+        conta_avulsa = ParcelasContasPagar.objects.filter(pk=1).select_related('contas_pagar__contaspagar').values_list('contas_pagar__descricao', flat=True)[0]
+        descricao = u'Pagamento avulso. %s' % (conta_avulsa)
+
+    # Insere os itens de saída de movimentos de caixa
+    MovimentosCaixa(descricao=descricao, 
                     valor=instance.valor,
                     data=instance.data, 
-                    tipo_mov='Teste de signal', 
+                    tipo_mov='Débito', 
                     caixa=Caixa.objects.get(status=1),
                     pagamento=instance
                     ).save()

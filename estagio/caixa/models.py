@@ -33,7 +33,7 @@ class Caixa(models.Model):
 
 
 class MovimentosCaixa(models.Model):
-    descricao = models.CharField(max_length=45)
+    descricao = models.CharField(max_length=100)
     valor = models.CharField(max_length=45)
     data = models.DateTimeField()
     tipo_mov = models.CharField(max_length=45)

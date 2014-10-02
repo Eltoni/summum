@@ -136,10 +136,14 @@ class Compra(models.Model):
 
             # Chama a função save original para o save atual do modelo
             super(Compra, self).save(*args, **kwargs)
-            
+
+            # Descrição informada no contas à pagar
+            descricao = u'Conta aberta proveniente de compra %s' % (self)
+
             # Insere o contas à pagar
             conta = ContasPagar(data=data, 
                                 valor_total=self.total, 
+                                descricao=descricao,
                                 compras=self, 
                                 fornecedores=self.fornecedor, 
                                 forma_pagamento=self.forma_pagamento, 

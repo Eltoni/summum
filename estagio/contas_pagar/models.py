@@ -156,19 +156,20 @@ class ContasPagar(models.Model):
                             ).save()
             except ParcelasContasPagar.DoesNotExist:
                 pass
-
-            # Atualiza o status da conta à pagar caso a conta seja de uma forma de pagamento à vista
-            conta_aberta = ParcelasContasPagar.objects.filter(contas_pagar=self, status=0).exists()
-            if conta_aberta:
-                self.status = False
-                self.save() # Entra no looping aqui
-            else:
-                self.status = True
-                self.save() # Entra no looping aqui
         
         else:
             # tratar cancelamento de compra efetuada
             super(ContasPagar, self).save(*args, **kwargs)
+
+
+        # Atualiza o status da conta à pagar indicando se a compra está fechada, ou tem parcelas em aberto.
+        # conta_aberta = ParcelasContasPagar.objects.filter(contas_pagar=self, status=0).exists()
+        # if conta_aberta and self.status:
+        #     self.status = False
+        #     self.save()
+        # if not conta_aberta and not self.status:
+        #     self.status = True
+        #     self.save()
 
 
 
@@ -273,6 +274,19 @@ def update_movimento_caixa(sender, instance, **kwargs):
                     caixa=Caixa.objects.get(status=1),
                     pagamento=instance
                     ).save()
+
+
+    #Atualiza o status da conta à pagar indicando se a compra está fechada, ou tem parcelas em aberto.
+    conta_aberta = ParcelasContasPagar.objects.filter(contas_pagar=conta[0], status=0).exists()
+    conta_pagar = ContasPagar.objects.get(pk=conta[0])
+
+    if conta_aberta:
+        conta_pagar.status = False
+        conta_pagar.save()
+    else:
+        conta_pagar.status = True
+        conta_pagar.save()
+
 
 # registro da signal
 post_save.connect(update_movimento_caixa, sender=Pagamento, dispatch_uid="update_movimento_caixa")

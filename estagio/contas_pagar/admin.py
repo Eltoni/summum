@@ -37,6 +37,7 @@ class ParcelasContasPagarInline(admin.TabularInline):
 
 class ContasPagarAdmin(admin.ModelAdmin):
     model = ContasPagar
+    form = ContasPagarForm
     list_display = ('id', 'compra_associada', 'data', 'descricao', 'status')
     list_filter = ('status', 'compras',)
 

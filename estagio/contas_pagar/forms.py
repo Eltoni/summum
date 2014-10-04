@@ -2,6 +2,25 @@
 from django.forms import ModelForm, CheckboxInput
 from suit.widgets import NumberInput
 from django.forms import forms
+from models import *
+
+
+class ContasPagarForm(ModelForm):
+    u""" 
+    Classe ContasPagarForm. 
+    Criada para customizar as propriedades dos campos da model ContasPagar
+    
+    Criada em 04/10/2014. 
+    """
+
+    def __init__(self, *args, **kwargs):
+        super(ContasPagarForm, self).__init__(*args, **kwargs)
+        try:
+            self.fields['fornecedores'].queryset = Fornecedor.objects.exclude(ativo=0) 
+            self.fields['forma_pagamento'].queryset = FormaPagamento.objects.exclude(status=0) 
+        except KeyError:
+            pass
+
 
 
 class PagamentoForm(ModelForm):

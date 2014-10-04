@@ -1,5 +1,5 @@
 #-*- coding: UTF-8 -*-
-from django.forms import ModelForm
+from django.forms import ModelForm, CheckboxInput
 from suit.widgets import NumberInput
 from django.forms import forms
 
@@ -18,4 +18,18 @@ class PagamentoForm(ModelForm):
             'valor': NumberInput(attrs={'class': 'input-small text-right', 'placeholder': '0,00'}),
             'juros': NumberInput(attrs={'class': 'input-small text-right', 'placeholder': '0,00'}),
             'desconto': NumberInput(attrs={'class': 'input-small text-right', 'placeholder': '0,00'}),
+        }
+
+
+
+class ParcelasContasPagarForm(ModelForm):
+
+    class Media:
+        js = (
+            '/static/js/formata_campos_contas_pagar.js',
+        )
+
+    class Meta:
+        widgets = {
+            'status': CheckboxInput(attrs={'class': 'status-parcela'}),
         }

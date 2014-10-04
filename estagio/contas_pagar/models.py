@@ -162,16 +162,6 @@ class ContasPagar(models.Model):
             super(ContasPagar, self).save(*args, **kwargs)
 
 
-        # Atualiza o status da conta à pagar indicando se a compra está fechada, ou tem parcelas em aberto.
-        # conta_aberta = ParcelasContasPagar.objects.filter(contas_pagar=self, status=0).exists()
-        # if conta_aberta and self.status:
-        #     self.status = False
-        #     self.save()
-        # if not conta_aberta and not self.status:
-        #     self.status = True
-        #     self.save()
-
-
 
 class ParcelasContasPagar(models.Model):
     u""" 
@@ -217,6 +207,9 @@ class ParcelasContasPagar(models.Model):
                             desconto=0.00, 
                             parcelas_contas_pagar=self
                             ).save()
+            else: 
+                # Faz o save no pagamento já efetuado para atualizar o status da conta
+                pagamento = Pagamento.objects.get(parcelas_contas_pagar__pk=self.pk).save()
 
 
 
@@ -257,9 +250,8 @@ def update_movimento_caixa(sender, instance, **kwargs):
     # Busca o id da conta à pagar e da compra vinculado ao pagamento instanciado
     conta = ParcelasContasPagar.objects.filter(pk=instance.parcelas_contas_pagar.pk).select_related('contas_pagar__contaspagar').values_list('contas_pagar__pk', 'contas_pagar__compras')[0]
     
-    # Condição que monta a descrição que é salvo no registro do movimento
+    # Condição que monta a descrição que é salvo no registro do movimento. Condiciona para descrições distintas caso o pagamento seja de uma conta avulsa, ou de uma conta vinculada a uma compra
     if conta[1]:
-        # Caso a query traga o id de uma compra, então a descrição a ser cadastrada no movimento de caixa será a pré-definida abaixo.
         descricao = u'Pagamento: %s, proveniente da parcela: %s, da conta à pagar: %s, da compra: %s.' % (instance.pk, instance.parcelas_contas_pagar.pk, conta[0], conta[1])
     
     else:
@@ -267,13 +259,18 @@ def update_movimento_caixa(sender, instance, **kwargs):
         descricao = u'Pagamento avulso. %s' % (conta_avulsa[:50])
 
     # Insere os itens de saída de movimentos de caixa
-    MovimentosCaixa(descricao=descricao, 
-                    valor=instance.valor,
-                    data=instance.data, 
-                    tipo_mov='Débito', 
-                    caixa=Caixa.objects.get(status=1),
-                    pagamento=instance
-                    ).save()
+    movimento_caixa = MovimentosCaixa(  descricao=descricao, 
+                                        valor=instance.valor,
+                                        data=instance.data, 
+                                        tipo_mov='Débito', 
+                                        caixa=Caixa.objects.get(status=1),
+                                        pagamento=instance
+                                        )
+    # Não insere duas vezes se o pagamento existir e se o mesmo tiver o mesmo valor
+    if MovimentosCaixa.objects.filter(pagamento__pk=instance.pk, valor=instance.valor).exists():
+        pass
+    else:
+        movimento_caixa.save()
 
 
     #Atualiza o status da conta à pagar indicando se a compra está fechada, ou tem parcelas em aberto.

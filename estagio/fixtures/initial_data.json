@@ -10,8 +10,7 @@
       "tipo_prazo": "M",
       "carencia": 0,
       "tipo_carencia": "M",
-      "status": 1,
-      "observacao": ""
+      "status": 1
     }
   },
   {
@@ -21,42 +20,53 @@
       "nome": "À prazo (Mensal, Entrada + 2x)",
       "descricao": "Pagamento parcelado em 3 vezes, com acerto da primeira parcela no ato da compra.",
       "quant_parcelas": 3,
-      "prazo_entre_parcelas": 30,
+      "prazo_entre_parcelas": 1,
       "tipo_prazo": "M",
       "carencia": 0,
       "tipo_carencia": "M",
-      "status": 1,
-      "observacao": "Carência zero: Entrada feita no registro da compra, independente de o pagamento ser a vista ou a prazo, o financeiro sempre deve gerar uma conta a pagar, as parcelas, e o pagamento(caso a carência seja '0')"
+      "status": 1
     }
   },
   {
     "model": "parametros_financeiros.FormaPagamento",
     "pk": 3,
     "fields": {
-      "nome": "À prazo (Mensal, em 3x)",
-      "descricao": "Pagamento parcelado em 3 vezes.",
-      "quant_parcelas": 3,
-      "prazo_entre_parcelas": 30,
+      "nome": "À prazo (Mensal, em 6x - Prazo: 1M - Carência: 2S)",
+      "descricao": "Pagamento parcelado em 6 vezes, com primeiro pagamento para duas semanas.",
+      "quant_parcelas": 6,
+      "prazo_entre_parcelas": 1,
       "tipo_prazo": "M",
       "carencia": 2,
       "tipo_carencia": "S",
-      "status": 1,
-      "observacao": ""
+      "status": 1
     }
   },
   {
     "model": "parametros_financeiros.FormaPagamento",
     "pk": 4,
     "fields": {
-      "nome": "À prazo (Semanal, em 3x) ",
-      "descricao": "Pagamento parcelado em 3 vezes. Tipo de prazo: Semanal.",
+      "nome": "À prazo (Semanal, em 3x - Prazo: 2S - Carência: 1D) ",
+      "descricao": "Pagamento parcelado em 3 vezes, com prazo entre parcelas de 2 semanas e carência de 1 dia.",
       "quant_parcelas": 3,
       "prazo_entre_parcelas": 2,
       "tipo_prazo": "S",
-      "carencia": 0,
-      "tipo_carencia": "S",
-      "status": 1,
-      "observacao": ""
+      "carencia": 1,
+      "tipo_carencia": "D",
+      "status": 1
+    }
+  },
+  {
+    "model": "parametros_financeiros.FormaPagamento",
+    "pk": 5,
+    "fields": {
+      "nome": "À prazo (Diário, em 5x - Prazo: 3D - Carência: 1M) ",
+      "descricao": "Pagamento parcelado em 5 vezes, com prazo entre parcelas de 3 dias e carência de 1 mês.",
+      "quant_parcelas": 5,
+      "prazo_entre_parcelas": 3,
+      "tipo_prazo": "D",
+      "carencia": 1,
+      "tipo_carencia": "M",
+      "status": 1
     }
   },
 

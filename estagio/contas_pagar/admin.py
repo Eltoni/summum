@@ -24,6 +24,7 @@ class ParcelasContasPagarInline(admin.TabularInline):
     Inline das parcelas de uma conta à pagar.
     """
     model = ParcelasContasPagar
+    form = ParcelasContasPagarForm
     fields = ('id', 'contas_pagar', 'vencimento', 'valor', 'num_parcelas', 'status')
     readonly_fields = ('id', 'contas_pagar', 'vencimento', 'valor', 'num_parcelas',)
     extra = 0

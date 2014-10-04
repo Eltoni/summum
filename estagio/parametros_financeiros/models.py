@@ -29,7 +29,6 @@ class FormaPagamento(models.Model):
         )
     )
     status = models.BooleanField(default=True, help_text="Indica se a forma de pagamento está ativa para uso.")
-    observacao = models.TextField(blank=True, verbose_name=u'observações', help_text="Descreva na área as observações relevantes sobre a parametrização desta forma de pagamento.")
 
     class Meta:
         verbose_name = u'Forma de Pagamento'

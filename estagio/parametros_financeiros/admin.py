@@ -10,7 +10,7 @@ class FormaPagamentoAdmin(admin.ModelAdmin):
     fieldsets = (
         (None, {
             'classes': ('suit-tab suit-tab-geral',),
-            'fields': ('nome', 'descricao', 'quant_parcelas', 'prazo_entre_parcelas', 'tipo_prazo', 'carencia', 'tipo_carencia', 'observacao', 'status')
+            'fields': ('nome', 'descricao', 'quant_parcelas', 'prazo_entre_parcelas', 'tipo_prazo', 'carencia', 'tipo_carencia', 'status')
         }),
     )
 

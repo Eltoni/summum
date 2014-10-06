@@ -36,7 +36,6 @@ class Compra(models.Model):
             raise ValidationError('Não há caixa aberto. Para efetivar uma compra é necessário ter o caixa aberto.')
         
 
-
     def save(self, *args, **kwargs):
         """
         Método que trata a geração e cálculo da parte financeira de uma compra.

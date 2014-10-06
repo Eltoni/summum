@@ -49,7 +49,9 @@ INSTALLED_APPS = (
     'parametros_financeiros',
     'movimento',
     'compra',
+    'venda',
     'contas_pagar',
+    'contas_receber',
     'caixa',
     # Bibliotecas em uso pelo projeto
     'import_export',
@@ -160,7 +162,9 @@ SUIT_CONFIG = {
         {'label': u'Movimentos', 'app':'movimento'},
         {'label': u'Parâmetros', 'app':'parametros_financeiros'},
         'compra',
+        'venda',
         {'label': u'Contas à pagar', 'app':'contas_pagar', 'models': ('contaspagar', 'parcelascontaspagar', 'pagamento')},
+        {'label': u'Contas à receber', 'app':'contas_receber', 'models': ('contasreceber', 'parcelascontasreceber', 'recebimento')},
         'caixa',
         # Separator
         '-',

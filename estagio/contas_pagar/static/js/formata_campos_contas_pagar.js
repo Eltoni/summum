@@ -2,8 +2,10 @@
 $(document).ready(function(){
 
     // Desabilita o campo checkbox para edição
+    var contaPagar = $('.field-status div .controls img', this).attr('alt');
     $('.status-parcela').each(function(){
-        if ( $(this).is(':checked')) {
+        // verifica se checkbox está marcado, ou se a conta está fechada
+        if ( $(this).is(':checked') || contaPagar=='True') {
     		jQuery(this).prop('disabled', true);
         }
     })

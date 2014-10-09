@@ -17,7 +17,7 @@ class Compra(models.Model):
     total = models.DecimalField(max_digits=20, decimal_places=2, verbose_name=u'Total (R$)', help_text=u'Valor total da compra.')
     data = models.DateTimeField(auto_now_add=True, verbose_name=u'Data da compra')
     desconto = models.DecimalField(max_digits=20, decimal_places=0, blank=True, null=True, verbose_name=u'Desconto (%)', help_text=u'Desconto sob o valor total da compra.')
-    status = models.BooleanField(default=False, verbose_name=u'Cancelada?', help_text=u'Marcando o Checkbox, a compra será cancelada e os itens financeiros acertados.')
+    status = models.BooleanField(default=False, verbose_name=u'Cancelada?', help_text=u'Marcando o Checkbox, a compra será cancelada e o financeiro acertado.')
     fornecedor = models.ForeignKey(Fornecedor, on_delete=models.PROTECT)
     forma_pagamento = models.ForeignKey(FormaPagamento, on_delete=models.PROTECT)
     observacao = models.TextField(blank=True, verbose_name=u'observações', help_text="Descreva na área as informações relavantes da compra.")
@@ -74,8 +74,22 @@ class Compra(models.Model):
         
         else:
 
-            # tratar cancelamento de compra efetuada
+            status_antigo = Compra.objects.get(pk=self.pk)
             super(Compra, self).save(*args, **kwargs)
+            
+            # tratar cancelamento de compra efetuada
+            if not status_antigo.status and self.status:
+                # Numa compra cancelada: acrescenta a quantidade dos produtos cancelados novamente ao estoque.
+                for i in ItensCompra.objects.filter(compras=self.pk).values_list('id', 'produto', 'quantidade'):
+                    produto = Produtos.objects.get(pk=i[1])
+                    produto.quantidade = produto.quantidade - i[2]
+                    produto.save()
+                
+                # Fecha a conta à pagar
+                conta = ContasPagar.objects.get(compras=self.pk)
+                conta.status = True
+                conta.save()
+
 
 
 
@@ -119,7 +133,6 @@ class ItensCompra(models.Model):
 
         else:
 
-            # tratar cancelamento de compra efetuada
             super(ItensCompra, self).save(*args, **kwargs)
 
 

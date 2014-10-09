@@ -1,5 +1,5 @@
 #-*- coding: UTF-8 -*-
-from django.forms import ModelForm, TextInput
+from django.forms import ModelForm, TextInput, CheckboxInput
 from suit.widgets import LinkedSelect, NumberInput, AutosizedTextarea
 from django.forms import forms
 from models import *
@@ -24,6 +24,11 @@ class CompraForm(ModelForm):
     Última alteração em 16/06/2014.
     """
 
+    class Media:
+        js = (
+            '/static/js/formata_campos_compra.js',
+        )
+
     class Meta:
         widgets = {
             'total': NumberInput(attrs={'readonly':'readonly', 'class': 'input-small text-right', 'placeholder': '0,00'}),
@@ -31,6 +36,7 @@ class CompraForm(ModelForm):
             'observacao': AutosizedTextarea(attrs={'rows': 5, 'class': 'input-xxlarge', 'placeholder': '...'}),
             'fornecedor': Select(attrs={'required': 'required'}),
             'forma_pagamento': Select(attrs={'required': 'required'}),
+            'status': CheckboxInput(attrs={'class': 'status-compra'}),
         }
 
 

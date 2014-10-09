@@ -59,7 +59,7 @@
                               dataType: "json",                                                       // Tipo de dados que a url vai retornar
                               success: function(retorno){                                             // Caso tenhamos sucesso a função segue em frente
                                   $.each(retorno, function(i, produtos){                              // Faz um laço e pega todos os itens do objeto “retorno”
-                                      var valorUnitario = produtos.fields['preco'];                   // Armazena na variável o valor de venda do produto
+                                      var valorUnitario = produtos.fields['preco_venda'];                   // Armazena na variável o valor de venda do produto
                                       $('input[name="itensvenda_set-{{ forloop.counter0 }}-valor_unitario"]').val(valorUnitario); // seta o valor obtido no campo valor unitário
                                       //alert( "Handler for .change() called." );
                                   });

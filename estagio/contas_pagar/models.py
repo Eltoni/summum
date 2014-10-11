@@ -3,7 +3,6 @@ from django.db import models
 from compra.models import Compra
 from pessoal.models import Fornecedor
 from parametros_financeiros.models import FormaPagamento
-from django.db.models.signals import post_save
 from utilitarios.funcoes_data import date_add_months, date_add_week, date_add_days
 import datetime
 
@@ -106,7 +105,7 @@ class ContasPagar(models.Model):
             return valor_parcela
 
 
-    def pagamento_primeira_parcela_compra(self, num_parcela):
+    def pagamento_primeira_parcela(self, num_parcela):
         """
         Método que define como pago a primeira parcela de uma conta, caso a carência parametrizada na forma de pagamento seja 0(zero).
 
@@ -140,7 +139,7 @@ class ContasPagar(models.Model):
                 parcelas_conta.vencimento = data
                 data = self.prazo_entre_parcelas(data)
                 parcelas_conta.valor = self.valor_parcela(i, self.valor_total)
-                parcelas_conta.status = self.pagamento_primeira_parcela_compra(i)
+                parcelas_conta.status = self.pagamento_primeira_parcela(i)
                 parcelas_conta.num_parcelas = i + 1
                 parcelas_conta.contas_pagar = self
                 parcelas_conta.save()
@@ -227,63 +226,8 @@ class Pagamento(models.Model):
     valor = models.DecimalField(max_digits=20, decimal_places=2)
     juros = models.DecimalField(max_digits=20, decimal_places=2, blank=True, null=True)
     desconto = models.DecimalField(max_digits=20, decimal_places=2, blank=True, null=True)
-    # estornada = models.BooleanField(verbose_name=u'Estornada?')
-    # data_estorno = models.DateField(auto_now_add=True, verbose_name=u'Data do estorno')
     parcelas_contas_pagar = models.ForeignKey(ParcelasContasPagar, verbose_name=u'Pagamento de parcela')
     
     def __unicode__(self):
         return u'%s' % (self.id)
 
-
-
-from caixa.models import Caixa, MovimentosCaixa
-
-
-def update_movimento_caixa(sender, instance, **kwargs):
-    """ 
-    Método para ïnserir na tabela de movimentos_de_caixa os movimentos de saída financeira.
-    O mesmo age sobre o Movimento de Caixa e o Caixa, fazendo todo o cálculo para controle dessas entidades.
-
-    Criada em 01/10/2014. 
-    """
-
-    # Busca o id da conta à pagar e da compra vinculado ao pagamento instanciado
-    conta = ParcelasContasPagar.objects.filter(pk=instance.parcelas_contas_pagar.pk).select_related('contas_pagar__contaspagar').values_list('contas_pagar__pk', 'contas_pagar__compras')[0]
-    
-    # Condição que monta a descrição que é salvo no registro do movimento. Condiciona para descrições distintas caso o pagamento seja de uma conta avulsa, ou de uma conta vinculada a uma compra
-    if conta[1]:
-        descricao = u'Pagamento: %s, proveniente da parcela: %s, da conta à pagar: %s, da compra: %s.' % (instance.pk, instance.parcelas_contas_pagar.pk, conta[0], conta[1])
-    
-    else:
-        conta_avulsa = ParcelasContasPagar.objects.filter(pk=instance.parcelas_contas_pagar.pk).select_related('contas_pagar__contaspagar').values_list('contas_pagar__descricao', flat=True)[0]
-        descricao = u'Pagamento avulso. %s' % (conta_avulsa[:50])
-
-    # Insere os itens de saída de movimentos de caixa
-    movimento_caixa = MovimentosCaixa(  descricao=descricao, 
-                                        valor=instance.valor,
-                                        data=instance.data, 
-                                        tipo_mov='Débito', 
-                                        caixa=Caixa.objects.get(status=1),
-                                        pagamento=instance
-                                        )
-    # Não insere duas vezes se o pagamento existir e se o mesmo tiver o mesmo valor
-    if MovimentosCaixa.objects.filter(pagamento__pk=instance.pk, valor=instance.valor).exists():
-        pass
-    else:
-        movimento_caixa.save()
-
-
-    #Atualiza o status da conta à pagar indicando se a compra está fechada, ou tem parcelas em aberto.
-    conta_aberta = ParcelasContasPagar.objects.filter(contas_pagar=conta[0], status=0).exists()
-    conta_pagar = ContasPagar.objects.get(pk=conta[0])
-
-    if conta_aberta:
-        conta_pagar.status = False
-        conta_pagar.save()
-    else:
-        conta_pagar.status = True
-        conta_pagar.save()
-
-
-# registro da signal
-post_save.connect(update_movimento_caixa, sender=Pagamento, dispatch_uid="update_movimento_caixa")

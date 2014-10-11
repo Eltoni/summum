@@ -31,7 +31,7 @@ class Compra(models.Model):
         """ 
         Bloqueia o registro de uma compra quando não há caixa aberto.
         """
-
+        from caixa.models import Caixa
         if not Caixa.objects.filter(status=1).exists() and not self.pk:
             raise ValidationError('Não há caixa aberto. Para efetivar uma compra é necessário ter o caixa aberto.')
 
@@ -79,7 +79,7 @@ class Compra(models.Model):
             
             # tratar cancelamento de compra efetuada
             if not status_antigo.status and self.status:
-                # Numa compra cancelada: acrescenta a quantidade dos produtos cancelados novamente ao estoque.
+                # Numa compra cancelada: decrescenta a quantidade dos produtos cancelados novamente ao estoque.
                 for i in ItensCompra.objects.filter(compras=self.pk).values_list('id', 'produto', 'quantidade'):
                     produto = Produtos.objects.get(pk=i[1])
                     produto.quantidade = produto.quantidade - i[2]
@@ -89,7 +89,6 @@ class Compra(models.Model):
                 conta = ContasPagar.objects.get(compras=self.pk)
                 conta.status = True
                 conta.save()
-
 
 
 
@@ -139,4 +138,3 @@ class ItensCompra(models.Model):
 
 # Importado no final do arquivo para não ocorrer problemas com dependencia circular 
 from contas_pagar.models import ContasPagar, ParcelasContasPagar
-from caixa.models import Caixa

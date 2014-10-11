@@ -11,7 +11,7 @@ class CaixaAdmin(admin.ModelAdmin):
 
 class MovimentosCaixaAdmin(admin.ModelAdmin):
     model = MovimentosCaixa
-    list_display = ('id', 'caixa', 'pagamento', 'tipo_mov', 'valor')
+    list_display = ('id', 'caixa', 'pagamento', 'recebimento', 'tipo_mov', 'valor')
     #readonly_fields = ('status', 'id', 'compras', 'valor_total', 'data', 'descricao', 'fornecedores', 'forma_pagamento',)
 
 

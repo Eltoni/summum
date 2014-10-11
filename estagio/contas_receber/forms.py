@@ -45,7 +45,7 @@ class ParcelasContasReceberForm(ModelForm):
 
     class Media:
         js = (
-            '/static/js/formata_campos_contas_pagar.js',
+            '/static/js/formata_campos_contas_receber.js',
         )
 
     class Meta:

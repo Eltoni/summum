@@ -17,7 +17,7 @@ class Select(LinkedSelect):
 
 class CompraForm(ModelForm):
     u""" 
-    Classe FormFieldsMain. 
+    Classe CompraForm. 
     Criada para customizar as propriedades dos campos da model Compra
     
     Criada em 15/06/2014. 

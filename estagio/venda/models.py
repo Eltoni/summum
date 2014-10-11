@@ -15,12 +15,13 @@ class Venda(models.Model):
     Criada em 05/10/2014. 
     """
     total = models.DecimalField(max_digits=20, decimal_places=2, verbose_name=u'Total (R$)', help_text=u'Valor total da venda.')
-    data = models.DateField(auto_now_add=True, verbose_name=u'Data da venda')
-    desconto = models.DecimalField(max_digits=20, decimal_places=2, blank=True, null=True, verbose_name=u'Desconto (%)', help_text=u'Desconto sob o valor total da venda.')
+    data = models.DateTimeField(auto_now_add=True, verbose_name=u'Data da venda')
+    desconto = models.DecimalField(max_digits=20, decimal_places=0, blank=True, null=True, verbose_name=u'Desconto (%)', help_text=u'Desconto sob o valor total da venda.')
     status = models.BooleanField(default=False, verbose_name=u'Cancelada?', help_text=u'Marcando o Checkbox, a venda será cancelada e os itens financeiros estornados.')
     cliente = models.ForeignKey(Cliente, on_delete=models.PROTECT)
     forma_pagamento = models.ForeignKey(FormaPagamento, on_delete=models.PROTECT)
     observacao = models.TextField(blank=True, verbose_name=u'observações', help_text="Descreva na área as informações relavantes da venda.")
+
 
     def __unicode__(self):
         return u'%s' % (self.id)
@@ -30,9 +31,20 @@ class Venda(models.Model):
         """ 
         Bloqueia o registro de uma venda quando não há caixa aberto.
         """
-
+        from caixa.models import Caixa
         if not Caixa.objects.filter(status=1).exists() and not self.pk:
             raise ValidationError('Não há caixa aberto. Para efetivar uma venda é necessário ter o caixa aberto.')
+
+
+    def clean_fields(self, *args, **kwargs):
+        """ 
+        Bloqueia o cancelamento de uma venda quando já há pagamentos no caixa.
+        """
+
+        contas_receber = ContasReceber.objects.filter(vendas__pk=self.pk)
+        venda_movimento_financeiro = ParcelasContasReceber.objects.filter(contas_receber=contas_receber, status=True).select_related('contas_receber__contasreceber').values_list('status').exists()
+        if self.status and venda_movimento_financeiro:
+            raise ValidationError({'status': ["Venda não pode ser cancelada. Já há pagamento feito para esta venda. [Conta a Receber: %s]" % (contas_receber[0]),]})   
 
 
     def save(self, *args, **kwargs):
@@ -46,10 +58,10 @@ class Venda(models.Model):
             # Chama a função save original para o save atual do modelo
             super(Venda, self).save(*args, **kwargs)
 
-            # Descrição informada no contas à pagar
+            # Descrição informada no contas à receber
             descricao = u'Conta aberta proveniente de venda %s' % (self)
 
-            # Insere o contas à pagar
+            # Insere o contas à receber
             venda = ContasReceber(data=data, 
                                 valor_total=self.total, 
                                 descricao=descricao,
@@ -62,12 +74,33 @@ class Venda(models.Model):
         
         else:
 
-            # tratar cancelamento de venda efetuada
+            status_antigo = Venda.objects.get(pk=self.pk)
             super(Venda, self).save(*args, **kwargs)
+            
+            # tratar cancelamento de venda efetuada
+            if not status_antigo.status and self.status:
+                # Numa venda cancelada: acrescenta a quantidade dos produtos cancelados novamente ao estoque.
+                for i in ItensVenda.objects.filter(vendas=self.pk).values_list('id', 'produto', 'quantidade'):
+                    produto = Produtos.objects.get(pk=i[1])
+                    produto.quantidade = produto.quantidade + i[2]
+                    produto.save()
+                
+                # Fecha a conta à receber
+                conta = ContasReceber.objects.get(vendas=self.pk)
+                conta.status = True
+                conta.save()
 
 
 
 class ItensVenda(models.Model):
+    u""" 
+    Classe ItensVenda. 
+    Inline criada para ser exibida na página de vendas.
+    Nesta, todos os itens de uma compra são registrados.
+    
+    Criada em 05/10/2014. 
+    """
+
     quantidade = models.IntegerField()
     valor_unitario = models.DecimalField(max_digits=20, decimal_places=2, verbose_name=u'Valor unitário (R$)')
     valor_total = models.DecimalField(max_digits=20, decimal_places=2, verbose_name=u'Total (R$)')
@@ -99,11 +132,9 @@ class ItensVenda(models.Model):
 
         else:
 
-            # tratar cancelamento de venda efetuada
             super(ItensVenda, self).save(*args, **kwargs)
 
 
 
 # Importado no final do arquivo para não ocorrer problemas com dependencia circular 
-from contas_receber.models import ContasReceber
-from caixa.models import Caixa
+from contas_receber.models import ContasReceber, ParcelasContasReceber

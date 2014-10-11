@@ -12,8 +12,9 @@ class ItensVendaInline(admin.TabularInline):
     fields = ('produto', 'quantidade', 'valor_unitario', 'desconto', 'valor_total')
     template = "admin/venda/edit_inline/tabular.html"  # Chama o template personalizado para realizar da inline para fazer todo o tratamento necessário para a tela de vendas
 
+
     def get_formset(self, request, obj=None, **kwargs): 
-        """ Altera a quantidade de inlines definida como padrão caso o registro seja salvo no BD """
+        u""" Altera a quantidade de inlines definida como padrão caso o registro seja salvo no BD """
 
         if obj: 
             kwargs['extra'] = 0 
@@ -65,7 +66,7 @@ class VendaAdmin(admin.ModelAdmin):
     )
 
     def has_delete_permission(self, request, obj=None):
-        """ Somente o usuário admin pode deletar uma venda. """
+        u""" Somente o usuário admin pode deletar uma venda. """
         if request.user.is_superuser:
             return True
 

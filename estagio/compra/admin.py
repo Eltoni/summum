@@ -12,20 +12,9 @@ class ItensCompraInline(admin.TabularInline):
     fields = ('produto', 'quantidade', 'valor_unitario', 'desconto', 'valor_total')
     template = "admin/compra/edit_inline/tabular.html"  # Chama o template personalizado para realizar da inline para fazer todo o tratamento necessário para a tela de compras
 
-    # def registro(obj):
-    #     if obj.pk:
-    #         return True
-    #     return False
-
-    # def has_add_permission(self, request, obj=None):
-    #     tem_registro = self.registro()
-    #     if tem_registro:
-    #         return False
-    #     else:
-    #         return True
 
     def get_formset(self, request, obj=None, **kwargs): 
-        """ Altera a quantidade de inlines definida como padrão caso o registro seja salvo no BD """
+        u""" Altera a quantidade de inlines definida como padrão caso o registro seja salvo no BD """
 
         if obj: 
             kwargs['extra'] = 0 
@@ -34,7 +23,7 @@ class ItensCompraInline(admin.TabularInline):
 
 
     def get_readonly_fields(self, request, obj=None):
-        """ Define todos os campos da inline como somente leitura caso o registro seja salvo no BD """
+        u""" Define todos os campos da inline como somente leitura caso o registro seja salvo no BD """
 
         if obj:
             return ['produto', 'quantidade', 'valor_unitario', 'desconto', 'valor_total',]
@@ -77,7 +66,7 @@ class CompraAdmin(admin.ModelAdmin):
     )
 
     def has_delete_permission(self, request, obj=None):
-        """ Somente o usuário admin pode deletar uma compra. """
+        u""" Somente o usuário admin pode deletar uma compra. """
         if request.user.is_superuser:
             return True
 
@@ -86,7 +75,7 @@ class CompraAdmin(admin.ModelAdmin):
 
     
     def get_readonly_fields(self, request, obj=None):
-        """ Define todos os campos da compra como somente leitura caso o registro seja salvo no BD """
+        u""" Define todos os campos da compra como somente leitura caso o registro seja salvo no BD """
 
         if obj:
             return ['total', 'data', 'desconto', 'fornecedor', 'forma_pagamento',]

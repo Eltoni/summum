@@ -4,6 +4,7 @@ from pessoal.models import Cliente
 from venda.models import Venda
 from parametros_financeiros.models import FormaPagamento
 from utilitarios.funcoes_data import date_add_months, date_add_week, date_add_days
+from django.core.exceptions import ValidationError
 import datetime
 
 
@@ -25,6 +26,15 @@ class ContasReceber(models.Model):
     class Meta:
         verbose_name = u'Conta à Receber'
         verbose_name_plural = "Contas à Receber"
+
+
+    def clean(self):
+        """ 
+        Bloqueia o registro de uma conta a receber quando não há caixa aberto.
+        """
+        from caixa.models import Caixa
+        if not Caixa.objects.filter(status=1).exists() and not self.pk:
+            raise ValidationError('Não há caixa aberto. Para efetivar um cadastro de uma conta a receber avulsa, é necessário ter o caixa aberto.')
 
 
     def __unicode__(self):

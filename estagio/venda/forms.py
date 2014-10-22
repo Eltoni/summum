@@ -64,10 +64,13 @@ class ItensVendaForm(ModelForm):
             '/static/js/formata_campos.js',
             '/static/js/controle_campos_compra.js',
         )
+        css = {
+            'all': ('/static/css/itens_venda.css',)
+        }
 
     class Meta:
         widgets = {
-            'quantidade': TextInput(attrs={'class': 'input-mini quantidade-ic', 'placeholder': '0'}),
+            'quantidade': NumberInput(attrs={'class': 'input-mini quantidade-ic', 'placeholder': '0', 'min': '0'}),
             'produto': Select(attrs={'class': 'input-large'}),
             'valor_unitario': NumberInput(attrs={'readonly':'readonly', 'class': 'input-small text-right', 'step': '0.01'}),
             'desconto': NumberInput(attrs={'class': 'input-small text-right desconto', 'placeholder': '0%', 'min': '0', 'max': '100'}),

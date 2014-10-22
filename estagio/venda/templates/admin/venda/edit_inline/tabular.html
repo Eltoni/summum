@@ -75,6 +75,22 @@
                       }; 
                       calculateSum();                   
                   });
+
+
+                  // valida a quantidade de itens no estoque
+                  $("#id_itensvenda_set-{{ forloop.counter0 }}-quantidade").change(function(){
+                      $.ajax({       
+                          type: "GET",                                                            // Determina o método http: GET, POST…
+                          url: "/get_valor_unitario/"+id,                                         // url declarada no urls.py
+                          dataType: "json",                                                       // Tipo de dados que a url vai retornar
+                          success: function(retorno){                                             // Caso tenhamos sucesso a função segue em frente
+                              $.each(retorno, function(i, produtos){                              // Faz um laço e pega todos os itens do objeto “retorno”
+                                  var quantidadeProdutos = produtos.fields['quantidade'];         // Armazena na variável a quantidade de itens no estoque
+                                  jQuery('#id_itensvenda_set-{{ forloop.counter0 }}-quantidade').attr({ "max": quantidadeProdutos}); // seta na validação do campo a quantidade máxima de itens
+                              });
+                          }
+                      }); 
+                  });
                   
                   
                   /*-------------------------------------------------------------------------------------------------------------------------------

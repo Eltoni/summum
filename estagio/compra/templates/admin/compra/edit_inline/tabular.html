@@ -77,6 +77,16 @@
                   });
                   
                   
+                  // tratamento para bloquear botão para finalização do cadastro enquanto há um campo sendo editado
+                  $("input").focusin(function() {
+                        $(":submit").attr("disabled", true);
+                  });
+
+                  $("input").focusout(function() {
+                        $(":submit").attr("disabled", false);
+                  });
+
+
                   /*-------------------------------------------------------------------------------------------------------------------------------
                   Faz o cálculo do valor do item da compra, multiplicando o valor unitário do produto pela quantidade informada
                   e fazendo a subtração da porcentagem de desconto (caso exista algum desconto).

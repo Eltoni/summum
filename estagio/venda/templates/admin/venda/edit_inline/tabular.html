@@ -87,12 +87,27 @@
                               $.each(retorno, function(i, produtos){                              // Faz um laço e pega todos os itens do objeto “retorno”
                                   var quantidadeProdutos = produtos.fields['quantidade'];         // Armazena na variável a quantidade de itens no estoque
                                   jQuery('#id_itensvenda_set-{{ forloop.counter0 }}-quantidade').attr({ "max": quantidadeProdutos}); // seta na validação do campo a quantidade máxima de itens
+/*                                  $(function () {                                                 // função que define a mensagem de erro
+                                      $('#id_itensvenda_set-{{ forloop.counter0 }}-quantidade').on("invalid", function () {
+                                          this.setCustomValidity("Há somente " + quantidadeProdutos + " unidades no estoque.");
+                                      });
+                                  });*/
                               });
                           }
                       }); 
                   });
                   
-                  
+
+                  // tratamento para bloquear botão para finalização do cadastro enquanto há um campo sendo editado
+                  $("input").focusin(function() {
+                        $(":submit").attr("disabled", true);
+                  });
+
+                  $("input").focusout(function() {
+                        $(":submit").attr("disabled", false);
+                  });
+
+
                   /*-------------------------------------------------------------------------------------------------------------------------------
                   Faz o cálculo do valor do item da venda, multiplicando o valor unitário do produto pela quantidade informada
                   e fazendo a subtração da porcentagem de desconto (caso exista algum desconto).

@@ -69,11 +69,20 @@
                           LimpaCamposInline();                                                          // Chama função que limpa os campos do registro 
                           $("input[name=itensvenda_set-{{ forloop.counter0 }}-quantidade]").focus();    // O campo quantidade recebe o foco
                           $(":submit").attr("disabled", true);                                          // Desabilitar a finalização do cadastro
+                                  
+                          jQuery('#id_itensvenda_set-{{ forloop.counter0 }}-quantidade').attr({"required": "required"});  // Torna o campo quantidade obrigatório
 
                       } else {
                           // Se usuário desmarcar um item de venda, todos os campos do registro são zerados
+                          var $this = $('#id_itensvenda_set-{{ forloop.counter0 }}-quantidade');
+                          $this.attr({oninvalid: "this.setCustomValidity('')"});
+                          $this.removeAttr('required');                                                 // Remove a obrigatoriedade do campo quantidade
+                          $this.removeAttr('max');
+                          $this.removeAttr('title');
+                          //$this.removeAttr('oninvalid');
+                          $this.removeAttr('oninput');
                           LimpaCamposInline();
-                      }; 
+                        }; 
                       calculateSum();                   
                   });
 

@@ -66,8 +66,9 @@
                               }
                           }); 
                           //$("input[name=itenscompra_set-{{ forloop.counter0 }}-quantidade], input[name=itenscompra_set-{{ forloop.counter0 }}-desconto]").keyup(); // Chama a função abaixo, que calcula o valor total do item de compra
-                          LimpaCamposInline();                                                         // Chama função que limpa os campos do registro 
-                          $("input[name=itenscompra_set-{{ forloop.counter0 }}-quantidade]").focus();  // O campo quantidade recebe o foco
+                          LimpaCamposInline();                                                          // Chama função que limpa os campos do registro 
+                          $("input[name=itenscompra_set-{{ forloop.counter0 }}-quantidade]").focus();   // O campo quantidade recebe o foco
+                          $(":submit").attr("disabled", true);                                          // Desabilitar a finalização do cadastro
 
                       } else {
                           // Se usuário desmarcar um item de compra, todos os campos do registro são zerados
@@ -78,11 +79,11 @@
                   
                   
                   // tratamento para bloquear botão para finalização do cadastro enquanto há um campo sendo editado
-                  $("input").focusin(function() {
+                  $("input, select").focusin(function() {
                         $(":submit").attr("disabled", true);
                   });
 
-                  $("input").focusout(function() {
+                  $("input, select").focusout(function() {
                         $(":submit").attr("disabled", false);
                   });
 

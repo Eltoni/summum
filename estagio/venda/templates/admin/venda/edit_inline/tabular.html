@@ -66,8 +66,9 @@
                               }
                           }); 
                           //$("input[name=itensvenda_set-{{ forloop.counter0 }}-quantidade], input[name=itensvenda_set-{{ forloop.counter0 }}-desconto]").keyup(); // Chama a função abaixo, que calcula o valor total do item de venda
-                          LimpaCamposInline();                                                         // Chama função que limpa os campos do registro 
-                          $("input[name=itensvenda_set-{{ forloop.counter0 }}-quantidade]").focus();  // O campo quantidade recebe o foco
+                          LimpaCamposInline();                                                          // Chama função que limpa os campos do registro 
+                          $("input[name=itensvenda_set-{{ forloop.counter0 }}-quantidade]").focus();    // O campo quantidade recebe o foco
+                          $(":submit").attr("disabled", true);                                          // Desabilitar a finalização do cadastro
 
                       } else {
                           // Se usuário desmarcar um item de venda, todos os campos do registro são zerados
@@ -78,7 +79,7 @@
 
 
                   // valida a quantidade de itens no estoque
-                  $("#id_itensvenda_set-{{ forloop.counter0 }}-quantidade").change(function(){
+                  $("#id_itensvenda_set-{{ forloop.counter0 }}-quantidade").blur(function(){
                       $.ajax({       
                           type: "GET",                                                            // Determina o método http: GET, POST…
                           url: "/get_valor_unitario/"+id,                                         // url declarada no urls.py
@@ -86,12 +87,12 @@
                           success: function(retorno){                                             // Caso tenhamos sucesso a função segue em frente
                               $.each(retorno, function(i, produtos){                              // Faz um laço e pega todos os itens do objeto “retorno”
                                   var quantidadeProdutos = produtos.fields['quantidade'];         // Armazena na variável a quantidade de itens no estoque
-                                  jQuery('#id_itensvenda_set-{{ forloop.counter0 }}-quantidade').attr({ "max": quantidadeProdutos}); // seta na validação do campo a quantidade máxima de itens
-/*                                  $(function () {                                                 // função que define a mensagem de erro
-                                      $('#id_itensvenda_set-{{ forloop.counter0 }}-quantidade').on("invalid", function () {
-                                          this.setCustomValidity("Há somente " + quantidadeProdutos + " unidades no estoque.");
-                                      });
-                                  });*/
+                                  jQuery('#id_itensvenda_set-{{ forloop.counter0 }}-quantidade').attr 
+                                      ({  "max": quantidadeProdutos,                            // seta na validação do campo a quantidade máxima de itens
+                                          "title": "Há somente " + quantidadeProdutos + " unidades no estoque.", 
+                                          oninvalid: "this.setCustomValidity('Quantidade limite ultrapassada.')", 
+                                          oninput:"this.setCustomValidity('')" 
+                                      }); 
                               });
                           }
                       }); 
@@ -99,11 +100,11 @@
                   
 
                   // tratamento para bloquear botão para finalização do cadastro enquanto há um campo sendo editado
-                  $("input").focusin(function() {
+                  $("input, select").focusin(function() {
                         $(":submit").attr("disabled", true);
                   });
 
-                  $("input").focusout(function() {
+                  $("input, select").focusout(function() {
                         $(":submit").attr("disabled", false);
                   });
 

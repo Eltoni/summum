@@ -34,8 +34,16 @@ class VendaForm(ModelForm):
             'total': NumberInput(attrs={'readonly':'readonly', 'class': 'input-small text-right', 'placeholder': '0,00'}),
             'desconto': NumberInput(attrs={'class': 'input-small text-right desconto', 'placeholder': '0%', 'min': '0', 'max': '100'}),
             'observacao': AutosizedTextarea(attrs={'rows': 5, 'class': 'input-xxlarge', 'placeholder': '...'}),
-            'cliente': Select(attrs={'required': 'required'}),
-            'forma_pagamento': Select(attrs={'required': 'required'}),
+            'cliente': Select(
+                attrs={ 'required': 'required', 
+                        'oninvalid': "this.setCustomValidity('Informe o nome do cliente.')", 
+                        'oninput': "this.setCustomValidity('')"
+                }),
+            'forma_pagamento': Select(
+                attrs={ 'required': 'required', 
+                        'oninvalid': "this.setCustomValidity('Informe a forma de pagamento.')", 
+                        'oninput': "this.setCustomValidity('')"
+                }),
             'status': CheckboxInput(attrs={'class': 'status-venda'}),
         }
 
@@ -72,9 +80,23 @@ class ItensVendaForm(ModelForm):
         widgets = {
             'quantidade': NumberInput(attrs={'class': 'input-mini quantidade-ic', 'placeholder': '0', 'min': '0'}),
             'produto': Select(attrs={'class': 'input-large'}),
-            'valor_unitario': NumberInput(attrs={'readonly':'readonly', 'class': 'input-small text-right', 'step': '0.01'}),
-            'desconto': NumberInput(attrs={'class': 'input-small text-right desconto', 'placeholder': '0%', 'min': '0', 'max': '100'}),
-            'valor_total': NumberInput(attrs={'readonly':'readonly', 'class': 'input-small text-right valor-total-ic', 'placeholder': '0,00', 'step': '0.01'}),
+            'valor_unitario': NumberInput(
+                attrs={ 'readonly':'readonly', 
+                        'class': 'input-small text-right', 
+                        'step': '0.01'
+                }),
+            'desconto': NumberInput(
+                attrs={ 'class': 'input-small text-right desconto', 
+                        'placeholder': '0%', 
+                        'min': '0', 
+                        'max': '100'
+                }),
+            'valor_total': NumberInput(
+                attrs={ 'readonly':'readonly', 
+                        'class': 'input-small text-right valor-total-ic', 
+                        'placeholder': '0,00', 
+                        'step': '0.01'
+                }),
         }
 
 

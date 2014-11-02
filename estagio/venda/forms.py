@@ -32,7 +32,15 @@ class VendaForm(ModelForm):
     class Meta:
         widgets = {
             'total': NumberInput(attrs={'readonly':'readonly', 'class': 'input-small text-right', 'placeholder': '0,00'}),
-            'desconto': NumberInput(attrs={'class': 'input-small text-right desconto', 'placeholder': '0%', 'min': '0', 'max': '100'}),
+            'desconto': NumberInput(
+                attrs={ 'class': 'input-small text-right desconto', 
+                        'placeholder': '0%', 
+                        'min': '0', 
+                        'max': '100', 
+                        'title': 'Informe porcentagem entre 0% e 100%.', 
+                        'oninvalid': "this.setCustomValidity('Desconto inválido.')", 
+                        'oninput': "this.setCustomValidity('')"
+                }),
             'observacao': AutosizedTextarea(attrs={'rows': 5, 'class': 'input-xxlarge', 'placeholder': '...'}),
             'cliente': Select(
                 attrs={ 'required': 'required', 
@@ -78,7 +86,12 @@ class ItensVendaForm(ModelForm):
 
     class Meta:
         widgets = {
-            'quantidade': NumberInput(attrs={'class': 'input-mini quantidade-ic', 'placeholder': '0', 'min': '0'}),
+            'quantidade': NumberInput(
+                attrs={ 'readonly':'readonly', 
+                        'class': 'input-mini quantidade-ic', 
+                        'placeholder': '0', 
+                        'min': '0'
+                }),
             'produto': Select(attrs={'class': 'input-large'}),
             'valor_unitario': NumberInput(
                 attrs={ 'readonly':'readonly', 
@@ -86,10 +99,14 @@ class ItensVendaForm(ModelForm):
                         'step': '0.01'
                 }),
             'desconto': NumberInput(
-                attrs={ 'class': 'input-small text-right desconto', 
+                attrs={ 'readonly':'readonly', 
+                        'class': 'input-small text-right desconto', 
                         'placeholder': '0%', 
                         'min': '0', 
-                        'max': '100'
+                        'max': '100', 
+                        'title': 'Informe porcentagem entre 0% e 100%.', 
+                        'oninvalid': "this.setCustomValidity('Desconto inválido.')", 
+                        'oninput': "this.setCustomValidity('')"
                 }),
             'valor_total': NumberInput(
                 attrs={ 'readonly':'readonly', 

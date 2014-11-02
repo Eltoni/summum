@@ -32,7 +32,15 @@ class CompraForm(ModelForm):
     class Meta:
         widgets = {
             'total': NumberInput(attrs={'readonly':'readonly', 'class': 'input-small text-right', 'placeholder': '0,00'}),
-            'desconto': NumberInput(attrs={'class': 'input-small text-right desconto', 'placeholder': '0%', 'min': '0', 'max': '100'}),
+            'desconto': NumberInput(
+                attrs={ 'class': 'input-small text-right desconto', 
+                        'placeholder': '0%', 
+                        'min': '0', 
+                        'max': '100', 
+                        'title': 'Informe porcentagem entre 0% e 100%.', 
+                        'oninvalid': "this.setCustomValidity('Desconto inválido.')", 
+                        'oninput': "this.setCustomValidity('')"
+                }),
             'observacao': AutosizedTextarea(attrs={'rows': 5, 'class': 'input-xxlarge', 'placeholder': '...'}),
             'fornecedor': Select(
                 attrs={ 'required': 'required', 
@@ -72,10 +80,17 @@ class ItensCompraForm(ModelForm):
             '/static/js/formata_campos.js',
             '/static/js/controle_campos_compra.js',
         )
+        css = {
+            'all': ('/static/css/itens_compra.css',)
+        }
 
     class Meta:
         widgets = {
-            'quantidade': TextInput(attrs={'class': 'input-mini quantidade-ic', 'placeholder': '0'}),
+            'quantidade': NumberInput(
+                attrs={ 'readonly':'readonly',
+                        'class': 'input-mini quantidade-ic', 
+                        'placeholder': '0'
+                }),
             'produto': Select(attrs={'class': 'input-large'}),
             'valor_unitario': NumberInput(
                 attrs={ 'readonly':'readonly', 
@@ -83,10 +98,14 @@ class ItensCompraForm(ModelForm):
                         'step': '0.01'
                 }),
             'desconto': NumberInput(
-                attrs={ 'class': 'input-small text-right desconto', 
+                attrs={ 'readonly':'readonly',
+                        'class': 'input-small text-right desconto', 
                         'placeholder': '0%', 
                         'min': '0', 
-                        'max': '100'
+                        'max': '100', 
+                        'title': 'Informe porcentagem entre 0% e 100%.', 
+                        'oninvalid': "this.setCustomValidity('Desconto inválido.')", 
+                        'oninput': "this.setCustomValidity('')"
                 }),
             'valor_total': NumberInput(
                 attrs={ 'readonly':'readonly', 

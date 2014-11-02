@@ -71,10 +71,14 @@
                           $(":submit").attr("disabled", true);                                          // Desabilitar a finalização do cadastro
                                   
                           jQuery('#id_itensvenda_set-{{ forloop.counter0 }}-quantidade').attr({"required": "required"});  // Torna o campo quantidade obrigatório
+                          jQuery('#id_itensvenda_set-{{ forloop.counter0 }}-quantidade').removeAttr('readonly');          // Remove o atributo readonly do campo quantidade
+                          jQuery('#id_itensvenda_set-{{ forloop.counter0 }}-desconto').removeAttr('readonly');            // Remove o atributo readonly do campo desconto
 
                       } else {
                           // Se usuário desmarcar um item de venda, todos os campos do registro são zerados
+                          jQuery('#id_itensvenda_set-{{ forloop.counter0 }}-desconto').attr({"readonly": "readonly"});    // Add o atributo readonly no campo desconto
                           var $this = $('#id_itensvenda_set-{{ forloop.counter0 }}-quantidade');
+                          $this.attr({"readonly": "readonly"});
                           $this.attr({oninvalid: "this.setCustomValidity('')"});
                           $this.removeAttr('required');                                                 // Remove a obrigatoriedade do campo quantidade
                           $this.removeAttr('max');

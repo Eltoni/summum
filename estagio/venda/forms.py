@@ -2,6 +2,7 @@
 from django.forms import ModelForm, TextInput, CheckboxInput
 from suit.widgets import LinkedSelect, NumberInput, AutosizedTextarea
 from django.forms import forms
+from django.forms.models import BaseInlineFormSet
 from models import *
 
 
@@ -123,3 +124,17 @@ class ItensVendaForm(ModelForm):
             self.fields['produto'].queryset = Produtos.objects.exclude(status=0) 
         except KeyError:
             pass
+
+
+
+class ItensVendaFormSet(BaseInlineFormSet):
+
+    def clean(self):
+        """Verifica se pelo menos um item de venda foi inserido."""
+        super(ItensVendaFormSet, self).clean()
+        if any(self.errors):
+            return
+
+        if not any(cleaned_data and not cleaned_data.get('DELETE', False)
+            for cleaned_data in self.cleaned_data):
+            raise forms.ValidationError('Pelo menos um item de venda deve ser cadastrado.')

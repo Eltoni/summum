@@ -6,6 +6,7 @@ from forms import *
 
 class ItensCompraInline(admin.TabularInline):
     form = ItensCompraForm
+    formset = ItensCompraFormSet
     model = ItensCompra
     can_delete = False
     extra = 3

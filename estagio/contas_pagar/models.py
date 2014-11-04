@@ -36,6 +36,9 @@ class ContasPagar(models.Model):
         if not Caixa.objects.filter(status=1).exists() and not self.pk:
             raise ValidationError('Não há caixa aberto. Para efetivar um cadastro de uma conta a pagar avulsa, é necessário ter o caixa aberto.')
 
+        if not Caixa.objects.filter(status=1).exists() and self.pk:
+            raise ValidationError('Não há caixa aberto. Alterações numa conta a pagar só podem ser efetivadas após a abertura do caixa.')
+
 
     def __unicode__(self):
         return u'%s' % (self.id)

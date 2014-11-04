@@ -47,6 +47,20 @@ class MovimentosCaixa(models.Model):
         return u'%s' % (self.id)
 
 
+    def pagamento_associado(self):
+        if self.pagamento:
+            return self.pagamento
+        return '-'
+    pagamento_associado.short_description = 'Pagamento'
+
+
+    def recebimento_associado(self):
+        if self.recebimento:
+            return self.recebimento
+        return '-'
+    recebimento_associado.short_description = 'Recebimento'
+
+
 
 def update_movimento_caixa_pagamento(sender, instance, **kwargs):
     """ 

@@ -79,7 +79,7 @@ class ItensVendaForm(ModelForm):
     class Media:
         js = (
             '/static/js/formata_campos.js',
-            '/static/js/controle_campos_compra.js',
+            '/static/js/controle_campos_venda.js',
         )
         css = {
             'all': ('/static/css/itens_venda.css',)

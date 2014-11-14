@@ -39,9 +39,9 @@ class MovimentosCaixa(models.Model):
     valor = models.CharField(max_length=45)
     data = models.DateTimeField()
     tipo_mov = models.CharField(max_length=45)
-    caixa = models.ForeignKey(Caixa)
-    pagamento = models.ForeignKey(Pagamento, blank=True, null=True)
-    recebimento = models.ForeignKey(Recebimento, blank=True, null=True)
+    caixa = models.ForeignKey(Caixa, on_delete=models.PROTECT)
+    pagamento = models.ForeignKey(Pagamento, on_delete=models.PROTECT, blank=True, null=True)
+    recebimento = models.ForeignKey(Recebimento, on_delete=models.PROTECT, blank=True, null=True)
 
     def __unicode__(self):
         return u'%s' % (self.id)

@@ -107,7 +107,7 @@ class ItensVenda(models.Model):
     desconto = models.DecimalField(max_digits=20, decimal_places=0, blank=True, null=True, verbose_name=u'Desconto (%)')
     #status = models.CharField(db_column='STATUS', max_length=1)
     produto = models.ForeignKey(Produtos, on_delete=models.PROTECT)
-    vendas = models.ForeignKey(Venda)
+    vendas = models.ForeignKey(Venda, on_delete=models.PROTECT)
 
     class Meta:
         verbose_name = u'Item de Venda'

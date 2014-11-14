@@ -37,7 +37,7 @@ class BaseCadastroPessoa(models.Model):
     bairro = models.CharField(max_length=50)
     complemento = models.CharField(max_length=50, blank=True)
     estado = models.CharField(max_length=2, blank=True, null=True)
-    cidade = ChainedForeignKey(Cidade, chained_field="estado", chained_model_field="estado", show_all=False, auto_choose=True)
+    cidade = ChainedForeignKey(Cidade, on_delete=models.PROTECT, chained_field="estado", chained_model_field="estado", show_all=False, auto_choose=True)
     cep = models.CharField(max_length=9)
     telefone = models.CharField(max_length=30, blank=True)
     celular = models.CharField(max_length=30, blank=True) 
@@ -99,8 +99,8 @@ class Cargo(models.Model):
 class Funcionario(BaseCadastroPessoa):
     rg = models.CharField(max_length=20, blank=True, verbose_name=u'RG')
     salario = models.DecimalField(max_digits=20, decimal_places=2, blank=True, null=True) 
-    cargo = models.ForeignKey(Cargo)
-    usuario = models.ForeignKey(User, null=True, blank=True, unique=True)
+    cargo = models.ForeignKey(Cargo, on_delete=models.PROTECT)
+    usuario = models.ForeignKey(User, on_delete=models.PROTECT, null=True, blank=True, unique=True)
 
     class Meta:
         verbose_name = u'Funcionário'

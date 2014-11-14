@@ -19,9 +19,9 @@ class ContasReceber(models.Model):
     valor_total = models.DecimalField(max_digits=20, decimal_places=2)
     status = models.BooleanField(default=False, verbose_name=u'Conta fechada', help_text=u'Se desmarcado, indica que há parcelas em aberto, caso contrário, a conta foi fechada.')
     descricao = models.TextField(blank=True, verbose_name=u'Descrição') 
-    cliente = models.ForeignKey(Cliente, null=True)
-    vendas = models.ForeignKey(Venda, null=True, verbose_name=u'Venda') 
-    forma_pagamento = models.ForeignKey(FormaPagamento)
+    cliente = models.ForeignKey(Cliente, on_delete=models.PROTECT, null=True)
+    vendas = models.ForeignKey(Venda, on_delete=models.PROTECT, null=True, verbose_name=u'Venda') 
+    forma_pagamento = models.ForeignKey(FormaPagamento, on_delete=models.PROTECT)
 
     class Meta:
         verbose_name = u'Conta à Receber'
@@ -186,7 +186,7 @@ class ParcelasContasReceber(models.Model):
     valor = models.DecimalField(max_digits=20, decimal_places=2) 
     status = models.BooleanField(default=False)
     num_parcelas = models.IntegerField(verbose_name=u'Nº Parcela')
-    contas_receber = models.ForeignKey(ContasReceber, verbose_name=u'Conta à receber')
+    contas_receber = models.ForeignKey(ContasReceber, on_delete=models.PROTECT, verbose_name=u'Conta à receber')
 
     class Meta:
         verbose_name = u'Parcela de Conta à Receber'
@@ -238,7 +238,7 @@ class Recebimento(models.Model):
     valor = models.DecimalField(max_digits=20, decimal_places=2)
     juros = models.DecimalField(max_digits=20, decimal_places=2, blank=True, null=True)
     desconto = models.DecimalField(max_digits=20, decimal_places=2, blank=True, null=True)
-    parcelas_contas_receber = models.ForeignKey(ParcelasContasReceber, verbose_name=u'Recebimento de parcela')
+    parcelas_contas_receber = models.ForeignKey(ParcelasContasReceber, on_delete=models.PROTECT, verbose_name=u'Recebimento de parcela')
 
     def __unicode__(self):
         return u'%s' % (self.id)

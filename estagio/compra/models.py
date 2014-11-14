@@ -107,7 +107,7 @@ class ItensCompra(models.Model):
     desconto = models.DecimalField(max_digits=20, decimal_places=0, blank=True, null=True, verbose_name=u'Desconto (%)')
     #status = models.BooleanField(verbose_name=u'Confirma?')
     produto = models.ForeignKey(Produtos, on_delete=models.PROTECT)
-    compras = models.ForeignKey(Compra)
+    compras = models.ForeignKey(Compra, on_delete=models.PROTECT)
 
     class Meta:
         verbose_name = u'Item de Compra'

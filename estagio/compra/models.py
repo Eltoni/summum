@@ -21,7 +21,8 @@ class Compra(models.Model):
     fornecedor = models.ForeignKey(Fornecedor, on_delete=models.PROTECT)
     forma_pagamento = models.ForeignKey(FormaPagamento, on_delete=models.PROTECT)
     observacao = models.TextField(blank=True, verbose_name=u'observações', help_text="Descreva na área as informações relavantes da compra.")
-
+    pedido = models.CharField(max_length=1, blank=True, choices=((u'S', 'Sim'), (u'N', 'Não'),), verbose_name=u'Pedido?') 
+    status_pedido = models.BooleanField(default=False, verbose_name=u'Pedido confirmado?', help_text=u'Marcando o Checkbox, os itens financeiros serão gerados e o estoque movimentado.')
 
     def __unicode__(self):
         return u'%s' % (self.id)
@@ -52,33 +53,32 @@ class Compra(models.Model):
         Método que trata a geração e cálculo da parte financeira de uma compra.
         """
         data = datetime.date.today()
-        
-        if self.pk is None:
 
-            # Chama a função save original para o save atual do modelo
-            super(Compra, self).save(*args, **kwargs)
-
-            # Descrição informada no contas à pagar
-            descricao = u'Conta aberta proveniente de compra %s' % (self)
-
-            # Insere o contas à pagar
-            conta = ContasPagar(data=data, 
-                                valor_total=self.total, 
-                                descricao=descricao,
-                                compras=self, 
-                                fornecedores=self.fornecedor, 
-                                forma_pagamento=self.forma_pagamento, 
-                                status=False
-                                )
-            conta.save()
-        
-        else:
+        if self.pk:
 
             status_antigo = Compra.objects.get(pk=self.pk)
+            conta_gerada = ContasPagar.objects.filter(compras=self.pk).exists()
             super(Compra, self).save(*args, **kwargs)
+
+            # Gera financeiro somente se compra for confirmada
+            if self.pedido == 'N' and not conta_gerada or (self.status_pedido and not conta_gerada):
+
+                # Descrição informada no contas à pagar
+                descricao = u'Conta aberta proveniente de compra %s' % (self)
+
+                # Insere o contas à pagar
+                conta = ContasPagar(data=data, 
+                                    valor_total=self.total, 
+                                    descricao=descricao,
+                                    compras=self, 
+                                    fornecedores=self.fornecedor, 
+                                    forma_pagamento=self.forma_pagamento, 
+                                    status=False
+                                    )
+                conta.save()      
             
-            # tratar cancelamento de compra efetuada
-            if not status_antigo.status and self.status:
+            # trata cancelamento de compra efetuada
+            if not status_antigo.status and self.status and (self.pedido == 'N' or (self.pedido == 'S' and self.status_pedido)):
                 # Numa compra cancelada: decrescenta a quantidade dos produtos cancelados novamente ao estoque.
                 for i in ItensCompra.objects.filter(compras=self.pk).values_list('id', 'produto', 'quantidade'):
                     produto = Produtos.objects.get(pk=i[1])
@@ -89,6 +89,11 @@ class Compra(models.Model):
                 conta = ContasPagar.objects.get(compras=self.pk)
                 conta.status = True
                 conta.save()
+
+        else:
+
+            # Chama a função save original para o save atual do modelo
+            super(Compra, self).save(*args, **kwargs)
 
 
 
@@ -105,9 +110,9 @@ class ItensCompra(models.Model):
     valor_unitario = models.DecimalField(max_digits=20, decimal_places=2, verbose_name=u'Valor unitário (R$)')
     valor_total = models.DecimalField(max_digits=20, decimal_places=2, verbose_name=u'Total (R$)')
     desconto = models.DecimalField(max_digits=20, decimal_places=0, blank=True, null=True, verbose_name=u'Desconto (%)')
-    #status = models.BooleanField(verbose_name=u'Confirma?')
     produto = models.ForeignKey(Produtos, on_delete=models.PROTECT)
     compras = models.ForeignKey(Compra, on_delete=models.PROTECT)
+    add_estoque = models.BooleanField(default=False, verbose_name=u'Adicionado ao estoque?')
 
     class Meta:
         verbose_name = u'Item de Compra'
@@ -122,13 +127,19 @@ class ItensCompra(models.Model):
         """
         Método que trata a adição da quantidade de produtos ao estoque.
         """
-        if self.pk is None:
+        if self.pk and not self.add_estoque:
             
             # Soma a quantidade de produtos comprados com a que já existe no estoque
+            compra = Compra.objects.get(pk=self.compras.pk)
             super(ItensCompra, self).save(*args, **kwargs)
-            produto = Produtos.objects.get(pk=self.produto.pk)
-            produto.quantidade = produto.quantidade + self.quantidade
-            produto.save()
+
+            if compra.pedido == 'N' or (compra.pedido == 'S' and compra.status_pedido):
+                self.add_estoque = True
+                self.save()
+
+                produto = Produtos.objects.get(pk=self.produto.pk)
+                produto.quantidade = produto.quantidade + self.quantidade
+                produto.save()
 
         else:
 

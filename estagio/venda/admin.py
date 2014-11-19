@@ -2,6 +2,7 @@
 from django.contrib import admin
 from models import *
 from forms import *
+from django.http import HttpResponseRedirect
 
 
 class ItensVendaInline(admin.TabularInline):
@@ -57,7 +58,7 @@ class VendaAdmin(admin.ModelAdmin):
         }),
         (None, {
             'classes': ('suit-tab suit-tab-info_adicionais',),
-            'fields': ('observacao',)
+            'fields': ('observacao', 'pedido', 'status_pedido',)
         }),
     )
 
@@ -79,9 +80,9 @@ class VendaAdmin(admin.ModelAdmin):
         u""" Define todos os campos da venda como somente leitura caso o registro seja salvo no BD """
 
         if obj:
-            return ['total', 'data', 'desconto', 'cliente', 'forma_pagamento',]
+            return ['total', 'data', 'desconto', 'cliente', 'forma_pagamento', 'pedido', 'status_pedido',]
         else:
-            return ['data']
+            return ['data', 'pedido', 'status_pedido']
 
 
     def save_model(self, request, obj, form, change):
@@ -99,6 +100,35 @@ class VendaAdmin(admin.ModelAdmin):
             
             instance.save()
         formset.save_m2m()
+
+
+    def response_add(self, request, obj):
+        u""" Trata a adição da venda dependendo do botão clicado ao salvá-la 
+             Criada em 18/11/2014.
+        """
+
+        if '_addpedido' in request.POST:
+            obj.pedido = 'S'
+            obj.save()
+            return HttpResponseRedirect("../%s" % (obj.pk))
+        else:
+            obj.pedido = 'N'
+            obj.save()
+            return super(VendaAdmin, self).response_add(request, obj)
+
+
+    def response_change(self, request, obj):
+        u""" Trata a alteração da venda dependendo do botão clicado ao salvá-la 
+             Criada em 18/11/2014.
+        """
+
+        if '_addconfirmapedido' in request.POST:
+            obj.status_pedido = True
+            obj.status = False
+            obj.save()
+            return HttpResponseRedirect("../%s" % (obj.pk))
+        else:
+            return super(VendaAdmin, self).response_change(request, obj)
 
 
 admin.site.register(Venda, VendaAdmin)

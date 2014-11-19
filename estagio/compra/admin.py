@@ -80,7 +80,7 @@ class CompraAdmin(admin.ModelAdmin):
         u""" Define todos os campos da compra como somente leitura caso o registro seja salvo no BD """
 
         if obj:
-            return ['total', 'data', 'desconto', 'fornecedor', 'forma_pagamento','pedido', 'status_pedido',]
+            return ['total', 'data', 'desconto', 'fornecedor', 'forma_pagamento', 'pedido', 'status_pedido',]
         else:
             return ['data', 'pedido', 'status_pedido']
 

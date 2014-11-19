@@ -21,7 +21,8 @@ class Venda(models.Model):
     cliente = models.ForeignKey(Cliente, on_delete=models.PROTECT)
     forma_pagamento = models.ForeignKey(FormaPagamento, on_delete=models.PROTECT)
     observacao = models.TextField(blank=True, verbose_name=u'observações', help_text="Descreva na área as informações relavantes da venda.")
-
+    pedido = models.CharField(max_length=1, blank=True, choices=((u'S', 'Sim'), (u'N', 'Não'),), verbose_name=u'Pedido?') 
+    status_pedido = models.BooleanField(default=False, verbose_name=u'Pedido confirmado?', help_text=u'Marcando o Checkbox, os itens financeiros serão gerados e o estoque movimentado.')
 
     def __unicode__(self):
         return u'%s' % (self.id)
@@ -53,42 +54,52 @@ class Venda(models.Model):
         """
         data = datetime.date.today()
         
-        if self.pk is None:
-
-            # Chama a função save original para o save atual do modelo
-            super(Venda, self).save(*args, **kwargs)
-
-            # Descrição informada no contas à receber
-            descricao = u'Conta aberta proveniente de venda %s' % (self)
-
-            # Insere o contas à receber
-            venda = ContasReceber(data=data, 
-                                valor_total=self.total, 
-                                descricao=descricao,
-                                vendas=self, 
-                                cliente=self.cliente, 
-                                forma_pagamento=self.forma_pagamento, 
-                                status=False
-                                )
-            venda.save()
-        
-        else:
+        if self.pk:
 
             status_antigo = Venda.objects.get(pk=self.pk)
+            conta_gerada = ContasReceber.objects.filter(vendas=self.pk).exists()
             super(Venda, self).save(*args, **kwargs)
+
+            # Gera financeiro somente se compra for confirmada
+            if self.pedido == 'N' and not conta_gerada or (self.status_pedido and not conta_gerada):
+
+                # Descrição informada no contas à receber
+                descricao = u'Conta aberta proveniente de venda %s' % (self)
+
+                # Insere o contas à receber
+                venda = ContasReceber(data=data, 
+                                    valor_total=self.total, 
+                                    descricao=descricao,
+                                    vendas=self, 
+                                    cliente=self.cliente, 
+                                    forma_pagamento=self.forma_pagamento, 
+                                    status=False
+                                    )
+                venda.save()
             
-            # tratar cancelamento de venda efetuada
+            # trata cancelamento de venda/pedido de venda efetuada
             if not status_antigo.status and self.status:
                 # Numa venda cancelada: acrescenta a quantidade dos produtos cancelados novamente ao estoque.
                 for i in ItensVenda.objects.filter(vendas=self.pk).values_list('id', 'produto', 'quantidade'):
                     produto = Produtos.objects.get(pk=i[1])
                     produto.quantidade = produto.quantidade + i[2]
                     produto.save()
+
+                    # desativa a movimentação feita dos itens de venda
+                    item_venda = ItensVenda.objects.get(pk=i[0])
+                    item_venda.remove_estoque = False
+                    item_venda.save()
                 
-                # Fecha a conta à receber
-                conta = ContasReceber.objects.get(vendas=self.pk)
-                conta.status = True
-                conta.save()
+                if conta_gerada:
+                    # Fecha a conta à receber
+                    conta = ContasReceber.objects.get(vendas=self.pk)
+                    conta.status = True
+                    conta.save()
+        
+        else:
+
+            # Chama a função save original para o save atual do modelo
+            super(Venda, self).save(*args, **kwargs)
 
 
 
@@ -105,9 +116,9 @@ class ItensVenda(models.Model):
     valor_unitario = models.DecimalField(max_digits=20, decimal_places=2, verbose_name=u'Valor unitário (R$)')
     valor_total = models.DecimalField(max_digits=20, decimal_places=2, verbose_name=u'Total (R$)')
     desconto = models.DecimalField(max_digits=20, decimal_places=0, blank=True, null=True, verbose_name=u'Desconto (%)')
-    #status = models.CharField(db_column='STATUS', max_length=1)
     produto = models.ForeignKey(Produtos, on_delete=models.PROTECT)
     vendas = models.ForeignKey(Venda, on_delete=models.PROTECT)
+    remove_estoque = models.BooleanField(default=False, verbose_name=u'Removido do estoque?')
 
     class Meta:
         verbose_name = u'Item de Venda'
@@ -126,6 +137,8 @@ class ItensVenda(models.Model):
             
             # Subtrai a quantidade de produtos vendidos com a que já existe no estoque
             super(ItensVenda, self).save(*args, **kwargs)
+            self.remove_estoque = True
+            self.save()
             produto = Produtos.objects.get(pk=self.produto.pk)
             produto.quantidade = produto.quantidade - self.quantidade
             produto.save()

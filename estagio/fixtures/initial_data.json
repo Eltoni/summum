@@ -1,5 +1,14 @@
 [
   {
+    "model": "configuracoes.Parametrizacao",
+    "pk": 1,
+    "fields": {
+      "quantidade_inlines_compra": "8",
+      "quantidade_inlines_venda": "4"
+    }
+  },
+
+  {
     "model": "parametros_financeiros.FormaPagamento",
     "pk": 1,
     "fields": {

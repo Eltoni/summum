@@ -3,6 +3,7 @@ from django.contrib import admin
 from models import *
 from forms import *
 from django.http import HttpResponseRedirect
+from configuracoes.models import Parametrizacao
 
 
 class ItensCompraInline(admin.TabularInline):
@@ -10,7 +11,6 @@ class ItensCompraInline(admin.TabularInline):
     formset = ItensCompraFormSet
     model = ItensCompra
     can_delete = False
-    extra = 3
     fields = ('produto', 'quantidade', 'valor_unitario', 'desconto', 'valor_total')
     template = "admin/compra/edit_inline/tabular.html"  # Chama o template personalizado para realizar da inline para fazer todo o tratamento necessário para a tela de compras
 
@@ -19,7 +19,17 @@ class ItensCompraInline(admin.TabularInline):
         u""" Altera a quantidade de inlines definida como padrão caso o registro seja salvo no BD """
 
         if obj: 
-            kwargs['extra'] = 0 
+            kwargs['extra'] = 0
+        else:
+            try:
+                quantidade = Parametrizacao.objects.get().quantidade_inlines_compra
+            except:
+                quantidade = 5
+
+            if quantidade:
+                kwargs['extra'] = int(quantidade)
+            else: 
+                kwargs['extra'] = 5
 
         return super(ItensCompraInline, self).get_formset(request, obj, **kwargs) 
 

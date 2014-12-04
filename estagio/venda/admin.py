@@ -3,6 +3,7 @@ from django.contrib import admin
 from models import *
 from forms import *
 from django.http import HttpResponseRedirect
+from configuracoes.models import Parametrizacao
 
 
 class ItensVendaInline(admin.TabularInline):
@@ -10,7 +11,6 @@ class ItensVendaInline(admin.TabularInline):
     formset = ItensVendaFormSet
     model = ItensVenda
     can_delete = False
-    extra = 3
     fields = ('produto', 'quantidade', 'valor_unitario', 'desconto', 'valor_total')
     template = "admin/venda/edit_inline/tabular.html"  # Chama o template personalizado para realizar da inline para fazer todo o tratamento necessário para a tela de vendas
 
@@ -19,7 +19,17 @@ class ItensVendaInline(admin.TabularInline):
         u""" Altera a quantidade de inlines definida como padrão caso o registro seja salvo no BD """
 
         if obj: 
-            kwargs['extra'] = 0 
+            kwargs['extra'] = 0
+        else:
+            try:
+                quantidade = Parametrizacao.objects.get().quantidade_inlines_venda
+            except:
+                quantidade = 5
+
+            if quantidade:
+                kwargs['extra'] = int(quantidade)
+            else: 
+                kwargs['extra'] = 5
 
         return super(ItensVendaInline, self).get_formset(request, obj, **kwargs) 
 

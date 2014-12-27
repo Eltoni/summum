@@ -172,3 +172,12 @@ SUIT_CONFIG = {
         '-',
     )
 }
+
+
+# Email configuration
+DEFAULT_FROM_EMAIL = 'gustavo.sdo@gmail.com'
+EMAIL_USE_TLS = True
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_HOST_USER = 'gustavo.sdo@gmail.com'
+EMAIL_HOST_PASSWORD = 'msfcxksqacshqhry'
+EMAIL_PORT = 587

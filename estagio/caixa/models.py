@@ -4,21 +4,70 @@ from contas_pagar.models import ContasPagar, ParcelasContasPagar, Pagamento
 from contas_receber.models import ContasReceber, ParcelasContasReceber, Recebimento
 from django.core.exceptions import ValidationError
 from django.db.models.signals import post_save
+import datetime
 
 
 class Caixa(models.Model):
-    status = models.BooleanField(default=False, help_text=u'Selecione o Checkbox para indicar se o caixa está aberto.')
-    data = models.DateField()
-    valor_entrada = models.DecimalField(max_digits=20, decimal_places=2)
-    valor_saida = models.DecimalField(max_digits=20, decimal_places=2)
-    valor_total = models.DecimalField(max_digits=20, decimal_places=2)
-    valor_inicial = models.DecimalField(max_digits=20, decimal_places=2)
-    diferenca = models.DecimalField(max_digits=20, decimal_places=2)
-    valor_fechamento = models.DecimalField(max_digits=20, decimal_places=2)
-
+    u"""
+    : status            : indica se o caixa está aberto/fechado
+    : data_abertura     : data de abertura do caixa
+    : data_fechamento   : data de fechamento do caixa
+    : valor_entrada     : somatória de todas entradas (mov do tipo crédito) com o ID desse caixa
+    : valor_saida       : somatória de todas saídas (mov do tipo débito) com o ID desse caixa
+    : valor_total       : valor_inicial + (valor_entrada - valor_saida) (valor_inicial + (valor_entrada menos o valor_saida), pois o caixa pode ser negativo)
+    : valor_inicial     : é o valor (R$) que existe no caixa quando ele for aberto
+    : valor_fechamento  : é o valor (R$) que existe no caixa quando ele for fechado
+    : diferenca         : diferença calculada automaticamente entre o valor_total e o valor_fechamento (calculado de acordo com as mov. de caixa do sistema - valor informado manualmente)
+    
+    valor_inicial e valor_fechamento são referentes ao valor monetário existente no caixa. Ambos devem ser informados.
+    diferenca> tem como objetivo principal saber se o que tem no caixa é o mesmo valor que foi calculado pelo sistema.
+    
+    """
+    status = models.BooleanField(default=True, help_text=u'Selecione o Checkbox para indicar se o caixa está aberto.')
+    data_abertura = models.DateTimeField(null=True, verbose_name=u'Data de abertura')
+    data_fechamento = models.DateTimeField(null=True, verbose_name=u'Data de fechamento')
+    valor_entrada = models.DecimalField(max_digits=20, decimal_places=2, default=0.00, verbose_name=u'Valor de entrada')
+    valor_saida = models.DecimalField(max_digits=20, decimal_places=2, default=0.00, verbose_name='Valor de saída')
+    valor_total = models.DecimalField(max_digits=20, decimal_places=2, default=0.00, verbose_name=u'Valor total')
+    valor_inicial = models.DecimalField(max_digits=20, decimal_places=2, default=0.00)
+    valor_fechamento = models.DecimalField(max_digits=20, decimal_places=2, default=0.00, verbose_name=u'Valor de fechamento')
+    diferenca = models.DecimalField(max_digits=20, decimal_places=2, default=0.00, verbose_name='Diferença')
+    
     def __unicode__(self):
         return u'%s' % (self.id)
-        
+
+    # def __init__(self, *args, **kwargs):
+    #     super(Caixa, self).__init__(*args, **kwargs)
+    #     if not self.data:
+    #         self.data = '2014-01-01'
+    #     else:
+    #         pass
+
+    def save(self, *args, **kwargs):
+        """
+        Método que trata a geração e cálculo do Caixa.
+        """
+        data = datetime.date.today()
+
+        if self.pk:
+
+            status_antigo = Caixa.objects.get(pk=self.pk)
+            super(Caixa, self).save(*args, **kwargs)
+            # print u"Teste > Antes da verficicação do status. Novo status: %s. Status antigo: %s." % (self.status, status_antigo.status)
+            if not self.status and status_antigo.status:
+                self.valor_total = self.valor_inicial + (self.valor_entrada - self.valor_saida)
+                self.diferenca = self.valor_fechamento - self.valor_total
+                self.data_fechamento = data
+                self.save()
+
+        super(Caixa, self).save(*args, **kwargs)
+
+        if self.status and self.data_abertura is None:
+            self.data_abertura = data
+            self.save() 
+
+
+
     def clean(self):
         """ 
         Não permite que seja aberto dois caixas ao mesmo tempo. Para abrir um caixa, não pode haver obrigatóriamente um outro com status ativo.
@@ -59,6 +108,24 @@ class MovimentosCaixa(models.Model):
             return self.recebimento
         return '-'
     recebimento_associado.short_description = 'Recebimento'
+
+
+    def save(self, *args, **kwargs):
+        """
+        Método que trata os movimentos do sistema de caixa
+        """
+        super(MovimentosCaixa, self).save(*args, **kwargs)
+
+        caixa_aberto = Caixa.objects.get(status=1)
+
+        if self.caixa == caixa_aberto:
+            if self.tipo_mov == 'Crédito':
+                caixa_aberto.valor_entrada = caixa_aberto.valor_entrada + self.valor
+                caixa_aberto.save()
+
+            if self.tipo_mov == 'Débito':
+                caixa_aberto.valor_saida = caixa_aberto.valor_saida + self.valor
+                caixa_aberto.save()
 
 
 

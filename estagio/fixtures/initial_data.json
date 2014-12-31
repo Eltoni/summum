@@ -389,6 +389,23 @@
       "cargo": 2,
       "usuario": null
     }
+  },
+
+  {
+    "model": "auth.User",
+    "pk": 1,
+    "fields": {
+      "password": "pbkdf2_sha256$12000$UjxpI6EkJXg2$GoYKHvFp9n+wGJV3ZiaDwBDqiMISOvHANHbAV27qVjE=",
+      "last_login": "2014-12-31 01:18:47",
+      "is_superuser": 1,
+      "username": "admin",
+      "first_name": "Gustavo",
+      "last_name": "Santana de Oliveira",
+      "email": "gustavo.sdo@gmail.com",
+      "is_staff": 1,
+      "is_active": 1,
+      "date_joined": "2014-12-31 01:18:23"
+    }
   }
   
 ]

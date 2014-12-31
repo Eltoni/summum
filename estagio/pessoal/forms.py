@@ -111,7 +111,7 @@ class FuncionarioForm(BaseCadastroPessoaForm):
     Criada em 22/08/2014. 
     """
 
-    class Meta:
-        widgets = {
-            #'salario': TextInput(attrs={'class': 'input-small text-right', 'placeholder': '0,00'}),
-        }
+    class Media:
+        js = (
+            '/static/js/get_dados_usuario.js',
+        )

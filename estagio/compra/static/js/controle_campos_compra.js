@@ -11,9 +11,26 @@ $(document).ready(function(){
         // função que adiciona o botão "Salvar Pedido" no cadastro da compra
         (function($) {
             $(document).ready(function($) {
-                $(".inner-right-column .submit-row").append(
-                    '<button type="submit" name="_addpedido" class="btn btn-high btn-warning">Salvar Pedido</button>'
-                );
+                    id = 1;
+                    $.ajax({       
+                        type: "GET",
+                        url: "/checa_pedido_compra_habilitado/"+id,
+                        context: document.body,
+                        dataType: "json",
+                        success: function(retorno){
+                            $.each(retorno, function(i, exibe_botao_pedido_compra){
+                                var pedido_compra = exibe_botao_pedido_compra.fields['habilita_pedido_compra'];
+                                if ( pedido_compra == true ) {
+                                    $(".inner-right-column .submit-row").append(
+                                        '<button type="submit" name="_addpedido" class="btn btn-high btn-warning">Salvar Pedido</button>'
+                                    );
+                                }
+                                });
+                            },
+                        error: function() {
+                            alert("Erro na requisição Ajax");
+                        }
+                    }); 
             });
         })(django.jQuery);
     }

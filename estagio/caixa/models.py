@@ -23,7 +23,7 @@ class Caixa(models.Model):
     diferenca> tem como objetivo principal saber se o que tem no caixa é o mesmo valor que foi calculado pelo sistema.
     
     """
-    status = models.BooleanField(default=True, help_text=u'Selecione o Checkbox para indicar se o caixa está aberto.')
+    status = models.BooleanField(default=True, help_text=u'Desmarque o Checkbox para indicar que o caixa está fechado.')
     data_abertura = models.DateTimeField(null=True, verbose_name=u'Data de abertura')
     data_fechamento = models.DateTimeField(null=True, verbose_name=u'Data de fechamento')
     valor_entrada = models.DecimalField(max_digits=20, decimal_places=2, default=0.00, verbose_name=u'Valor de entrada')

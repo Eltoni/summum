@@ -10,7 +10,9 @@ class ParametrizacaoAdmin(admin.ModelAdmin):
             'classes': ('suit-tab suit-tab-geral',),
             'fields': (
                 'quantidade_inlines_compra',
-                'quantidade_inlines_venda'
+                'quantidade_inlines_venda',
+                'habilita_pedido_compra',
+                'habilita_pedido_venda'
             )
         }),
     )

@@ -21,7 +21,17 @@ class Parametrizacao(models.Model):
         verbose_name=u'Qtde itens de venda',
         help_text=u'Quantidade de inlines prévios na venda'
     )
-
+    habilita_pedido_compra = models.BooleanField(
+        default=True, 
+        verbose_name=u'Habilita pedido de compra?', 
+        help_text=u'Marcando o Checkbox, o botão para adicionar um pedido de compra será exibido no cadastro da compra.'
+    )
+    habilita_pedido_venda = models.BooleanField(
+        default=True, 
+        verbose_name=u'Habilita pedido de venda?', 
+        help_text=u'Marcando o Checkbox, o botão para adicionar um pedido de venda será exibido no cadastro da venda.'
+    )
+    
     class Meta:
         verbose_name = u'Parametrização'
         verbose_name_plural = u'Parametrizações'

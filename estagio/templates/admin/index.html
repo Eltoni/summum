@@ -49,6 +49,7 @@
   </div>
 -->
   {% if produtos_esgotando %}
+    {% if request.user.is_superuser %}    {# Mostra apenas para usuários com status de superusuário #}
       <div id="content-main">
         <div class="module">
           <h4 class="italic-title">Esgotando em Estoque</h4>
@@ -75,6 +76,7 @@
           <h2><span class="description">Produtos com menos de {{ quantidade_minima }} itens em estoque</span></h2>
         </div>
       </div>
+    {% endif %}
   {% endif %}
 {% endblock %}
 

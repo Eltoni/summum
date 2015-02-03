@@ -10,7 +10,11 @@ def produtos_esgotando(request):
 	u""" Indica na página inicial do sistema os produtos que estão se esgotando no estoque. """
 	
 	quantidade_minima = Parametrizacao.objects.values_list('qtde_minima_produtos_em_estoque')[0][0]
-	produtos_esgotando = Produtos.objects.filter(status=True, quantidade__lte=quantidade_minima).values_list('id', 'nome', 'quantidade').order_by('quantidade', 'id')
+	
+	try:
+		produtos_esgotando = Produtos.objects.filter(status=True, quantidade__lte=quantidade_minima).values_list('id', 'nome', 'quantidade').order_by('quantidade', 'id')
+	except:
+		produtos_esgotando = None 
 
 	data = {
 		'produtos_esgotando': produtos_esgotando,

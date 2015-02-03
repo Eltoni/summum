@@ -55,6 +55,7 @@
           <table class="table-overview table table-striped table-bordered table-hover table-condensed">
             <thead>
               <tr>
+                <td></td>
                 <td>ID</td>
                 <td>Produto</td>
                 <td>Quantidade em estoque</td>
@@ -63,6 +64,7 @@
             <tbody>
             {% for produtos in produtos_esgotando %}
               <tr class='{{produtos.2|formata_quantidade_produtos:quantidade_minima}}'>
+                <td><span class="icon-pencil icon-alpha5"></span></td>
                 <td><a href="{% url 'admin:movimento_produtos_change' produtos.0 %}">{{ produtos.0 }}</a></td>
                 <td><a href="{% url 'admin:movimento_produtos_change' produtos.0 %}">{{ produtos.1 }}</a></td>
                 <td>{{ produtos.2 }}</td>

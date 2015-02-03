@@ -31,6 +31,12 @@ class Parametrizacao(models.Model):
         verbose_name=u'Habilita pedido de venda?', 
         help_text=u'Marcando o Checkbox, o botão para adicionar um pedido de venda será exibido no cadastro da venda.'
     )
+    qtde_minima_produtos_em_estoque = models.IntegerField(
+        blank=True, 
+        null=True,
+        verbose_name=u'Qtde mínima em estoque',
+        help_text=u'Indique a quantidade mínima de itens de produto no estoque.'
+    )
     
     class Meta:
         verbose_name = u'Parametrização'

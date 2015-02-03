@@ -12,7 +12,8 @@ class ParametrizacaoAdmin(admin.ModelAdmin):
                 'quantidade_inlines_compra',
                 'quantidade_inlines_venda',
                 'habilita_pedido_compra',
-                'habilita_pedido_venda'
+                'habilita_pedido_venda',
+                'qtde_minima_produtos_em_estoque'
             )
         }),
     )

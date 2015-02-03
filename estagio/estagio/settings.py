@@ -54,6 +54,7 @@ INSTALLED_APPS = (
     'contas_receber',
     'caixa',
     'configuracoes',
+    'utilitarios',
     # Bibliotecas em uso pelo projeto
     'import_export',
     'smart_selects',

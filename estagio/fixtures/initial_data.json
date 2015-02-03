@@ -86,7 +86,7 @@
     "fields": {
       "nome": "Umuarama",
       "estado": "PR",
-      "ultima_alteracao": "2014-09-18 13:40:34"
+      "ultima_alteracao": "2014-09-18 13:40Z"
     }
   },
   {
@@ -95,7 +95,7 @@
     "fields": {
       "nome": "Cianorte",
       "estado": "PR",
-      "ultima_alteracao": "2014-09-18 13:40:34"
+      "ultima_alteracao": "2014-09-18 13:40Z"
     }
   },
   {
@@ -104,7 +104,7 @@
     "fields": {
       "nome": "Cáscavel",
       "estado": "PR",
-      "ultima_alteracao": "2014-09-18 13:40:34"
+      "ultima_alteracao": "2014-09-18 13:40Z"
     }
   },
   {
@@ -113,7 +113,7 @@
     "fields": {
       "nome": "Francisco Beltrão",
       "estado": "PR",
-      "ultima_alteracao": "2014-09-18 13:40:34"
+      "ultima_alteracao": "2014-09-18 13:40Z"
     }
   },
   {
@@ -122,7 +122,7 @@
     "fields": {
       "nome": "Toledo",
       "estado": "PR",
-      "ultima_alteracao": "2014-09-18 13:40:34"
+      "ultima_alteracao": "2014-09-18 13:40Z"
     }
   },
   {
@@ -131,7 +131,7 @@
     "fields": {
       "nome": "Curitiba",
       "estado": "PR",
-      "ultima_alteracao": "2014-09-18 13:40:34"
+      "ultima_alteracao": "2014-09-18 13:40Z"
     }
   },
   {
@@ -140,7 +140,7 @@
     "fields": {
       "nome": "São Paulo",
       "estado": "SP",
-      "ultima_alteracao": "2014-09-18 13:40:34"
+      "ultima_alteracao": "2014-09-18 13:40Z"
     }
   },
   {
@@ -149,7 +149,7 @@
     "fields": {
       "nome": "Rio de Janeiro",
       "estado": "RJ",
-      "ultima_alteracao": "2014-09-18 00:00:00"
+      "ultima_alteracao": "2014-09-18 00:00Z"
     }
   },
 
@@ -196,7 +196,7 @@
       "preco": 5.00,
       "preco_venda": 10.00,
       "quantidade": 50,
-      "descricao": "",
+      "descricao": "http://www.nossacasanosite.com/p/lista-de-materiais-da-obra.html",
       "status": 1
     }
   },
@@ -236,7 +236,1014 @@
       "status": 0
     }
   },
-  
+  {
+    "model": "movimento.Produtos",
+    "pk": 5,
+    "fields": {
+      "nome": "Adaptador soldável curto 25mm x 3/4''",
+      "preco": 0.17,
+      "preco_venda": 0.34,
+      "quantidade": 200,
+      "descricao": "",
+      "status": 1
+    }
+  },
+  {
+    "model": "movimento.Produtos",
+    "pk": 6,
+    "fields": {
+      "nome": "Anel de vedação 100mm",
+      "preco": 9.77,
+      "preco_venda": 17.58,
+      "quantidade": 250,
+      "descricao": "",
+      "status": 1
+    }
+  },
+  {
+    "model": "movimento.Produtos",
+    "pk": 7,
+    "fields": {
+      "nome": "Argamassa AC1",
+      "preco": 7.00,
+      "preco_venda": 11.25,
+      "quantidade": 305,
+      "descricao": "",
+      "status": 1
+    }
+  },
+  {
+    "model": "movimento.Produtos",
+    "pk": 8,
+    "fields": {
+      "nome": "Armação 1 Estribo",
+      "preco": 1.00,
+      "preco_venda": 2.50,
+      "quantidade": 500,
+      "descricao": "",
+      "status": 1
+    }
+  },
+  {
+    "model": "movimento.Produtos",
+    "pk": 9,
+    "fields": {
+      "nome": "Arruela 3/4",
+      "preco": 0.35,
+      "preco_venda": 0.80,
+      "quantidade": 200,
+      "descricao": "",
+      "status": 1
+    }
+  },
+  {
+    "model": "movimento.Produtos",
+    "pk": 10,
+    "fields": {
+      "nome": "Argamassa AC1",
+      "preco": 7.00,
+      "preco_venda": 11.25,
+      "quantidade": 305,
+      "descricao": "",
+      "status": 1
+    }
+  },
+  {
+    "model": "movimento.Produtos",
+    "pk": 11,
+    "fields": {
+      "nome": "Assento simples p/ sanitário",
+      "preco": 7.50,
+      "preco_venda": 12.80,
+      "quantidade": 400,
+      "descricao": "",
+      "status": 1
+    }
+  },
+  {
+    "model": "movimento.Produtos",
+    "pk": 12,
+    "fields": {
+      "nome": "Bacia Sanitaria simples",
+      "preco": 200.00,
+      "preco_venda": 400.00,
+      "quantidade": 100,
+      "descricao": "",
+      "status": 1
+    }
+  },
+  {
+    "model": "movimento.Produtos",
+    "pk": 13,
+    "fields": {
+      "nome": "Bico p/engate rápido 1/2'",
+      "preco": 2.00,
+      "preco_venda": 3.50,
+      "quantidade": 100,
+      "descricao": "",
+      "status": 1
+    }
+  },
+  {
+    "model": "movimento.Produtos",
+    "pk": 14,
+    "fields": {
+      "nome": "Bocal E-27 c/ rabicho",
+      "preco": 3.00,
+      "preco_venda": 4.40,
+      "quantidade": 150,
+      "descricao": "",
+      "status": 1
+    }
+  },
+  {
+    "model": "movimento.Produtos",
+    "pk": 15,
+    "fields": {
+      "nome": "Brita nº3",
+      "preco": 65.00,
+      "preco_venda": 110.00,
+      "quantidade": 200,
+      "descricao": "",
+      "status": 1
+    }
+  },
+  {
+    "model": "movimento.Produtos",
+    "pk": 16,
+    "fields": {
+      "nome": "Brita nº4",
+      "preco": 35.00,
+      "preco_venda": 67.28,
+      "quantidade": 200,
+      "descricao": "",
+      "status": 1
+    }
+  },
+  {
+    "model": "movimento.Produtos",
+    "pk": 17,
+    "fields": {
+      "nome": "Broxa p/ pintura",
+      "preco": 3.00,
+      "preco_venda": 8.36,
+      "quantidade": 400,
+      "descricao": "",
+      "status": 1
+    }
+  },
+  {
+    "model": "movimento.Produtos",
+    "pk": 18,
+    "fields": {
+      "nome": "Bucha p/ tubo 3/4'",
+      "preco": 0.10,
+      "preco_venda": 0.80,
+      "quantidade": 800,
+      "descricao": "",
+      "status": 1
+    }
+  },
+  {
+    "model": "movimento.Produtos",
+    "pk": 19,
+    "fields": {
+      "nome": "Cabo Flexivel 2,5mm2",
+      "preco": 6.05,
+      "preco_venda": 12.20,
+      "quantidade": 100,
+      "descricao": "",
+      "status": 1
+    }
+  },
+  {
+    "model": "movimento.Produtos",
+    "pk": 20,
+    "fields": {
+      "nome": "Cabo Flexivel 4mm2",
+      "preco": 6.90,
+      "preco_venda": 49.50,
+      "quantidade": 10,
+      "descricao": "",
+      "status": 1
+    }
+  },
+  {
+    "model": "movimento.Produtos",
+    "pk": 21,
+    "fields": {
+      "nome": "Cabo p/ Entrada de energia",
+      "preco": 8.05,
+      "preco_venda": 16.80,
+      "quantidade": 5,
+      "descricao": "",
+      "status": 1
+    }
+  },
+  {
+    "model": "movimento.Produtos",
+    "pk": 22,
+    "fields": {
+      "nome": "Caixa de Inspeção PVC",
+      "preco": 2.05,
+      "preco_venda": 3.24,
+      "quantidade": 9,
+      "descricao": "",
+      "status": 1
+    }
+  },
+  {
+    "model": "movimento.Produtos",
+    "pk": 23,
+    "fields": {
+      "nome": "Caixa de Ligação provisória",
+      "preco": 6.50,
+      "preco_venda": 27.12,
+      "quantidade": 4,
+      "descricao": "",
+      "status": 1
+    }
+  },
+  {
+    "model": "movimento.Produtos",
+    "pk": 24,
+    "fields": {
+      "nome": "Caixa de Medição Monofásica",
+      "preco": 8.99,
+      "preco_venda": 34.13,
+      "quantidade": 2,
+      "descricao": "",
+      "status": 1
+    }
+  },
+  {
+    "model": "movimento.Produtos",
+    "pk": 25,
+    "fields": {
+      "nome": "Caixa descarga simples",
+      "preco": 4.05,
+      "preco_venda": 15.05,
+      "quantidade": 9,
+      "descricao": "",
+      "status": 1
+    }
+  },
+  {
+    "model": "movimento.Produtos",
+    "pk": 26,
+    "fields": {
+      "nome": "Carga de macadame",
+      "preco": 120.00,
+      "preco_venda": 240.00,
+      "quantidade": 8,
+      "descricao": "",
+      "status": 1
+    }
+  },
+  {
+    "model": "movimento.Produtos",
+    "pk": 27,
+    "fields": {
+      "nome": "Cinta de Aluminio",
+      "preco": 1.08,
+      "preco_venda": 5.75,
+      "quantidade": 5,
+      "descricao": "",
+      "status": 1
+    }
+  },
+  {
+    "model": "movimento.Produtos",
+    "pk": 28,
+    "fields": {
+      "nome": "Conector cunha",
+      "preco": 3.08,
+      "preco_venda": 8.00,
+      "quantidade": 5,
+      "descricao": "",
+      "status": 1
+    }
+  },
+  {
+    "model": "movimento.Produtos",
+    "pk": 29,
+    "fields": {
+      "nome": "Conector p/ Haste",
+      "preco": 1.00,
+      "preco_venda": 2.02,
+      "quantidade": 5,
+      "descricao": "",
+      "status": 1
+    }
+  },
+  {
+    "model": "movimento.Produtos",
+    "pk": 30,
+    "fields": {
+      "nome": "Conexão simples para torneira",
+      "preco": 2.98,
+      "preco_venda": 6.80,
+      "quantidade": 5,
+      "descricao": "",
+      "status": 1
+    }
+  },
+  {
+    "model": "movimento.Produtos",
+    "pk": 31,
+    "fields": {
+      "nome": "Curva esgoto 90º 100mm",
+      "preco": 9.08,
+      "preco_venda": 13.98,
+      "quantidade": 5,
+      "descricao": "",
+      "status": 1
+    }
+  },
+  {
+    "model": "movimento.Produtos",
+    "pk": 32,
+    "fields": {
+      "nome": "Disjuntor monofásico 40A",
+      "preco": 4.00,
+      "preco_venda": 8.66,
+      "quantidade": 5,
+      "descricao": "",
+      "status": 1
+    }
+  },
+  {
+    "model": "movimento.Produtos",
+    "pk": 33,
+    "fields": {
+      "nome": "Dobradiça simples",
+      "preco": 1.10,
+      "preco_venda": 3.87,
+      "quantidade": 5,
+      "descricao": "",
+      "status": 1
+    }
+  },
+  {
+    "model": "movimento.Produtos",
+    "pk": 34,
+    "fields": {
+      "nome": "Eletroduto 3/4'",
+      "preco": 1.50,
+      "preco_venda": 2.70,
+      "quantidade": 7,
+      "descricao": "",
+      "status": 1
+    }
+  },
+  {
+    "model": "movimento.Produtos",
+    "pk": 35,
+    "fields": {
+      "nome": "Engate flexivel 40 cm p/ Bacil",
+      "preco": 1.70,
+      "preco_venda": 3.20,
+      "quantidade": 3,
+      "descricao": "",
+      "status": 1
+    }
+  },
+  {
+    "model": "movimento.Produtos",
+    "pk": 36,
+    "fields": {
+      "nome": "Engate rápido 1/2'",
+      "preco": 10.12,
+      "preco_venda": 23.86,
+      "quantidade": 1,
+      "descricao": "",
+      "status": 1
+    }
+  },
+  {
+    "model": "movimento.Produtos",
+    "pk": 37,
+    "fields": {
+      "nome": "Espude para vaso",
+      "preco": 1.70,
+      "preco_venda": 3.70,
+      "quantidade": 0,
+      "descricao": "",
+      "status": 1
+    }
+  },
+  {
+    "model": "movimento.Produtos",
+    "pk": 38,
+    "fields": {
+      "nome": "Filtro de concreto p/ Esgoto",
+      "preco": 100.08,
+      "preco_venda": 240.00,
+      "quantidade": 1,
+      "descricao": "",
+      "status": 1
+    }
+  },
+  {
+    "model": "movimento.Produtos",
+    "pk": 39,
+    "fields": {
+      "nome": "Fio Rigido 10mm",
+      "preco": 2.50,
+      "preco_venda": 6.96,
+      "quantidade": 6,
+      "descricao": "",
+      "status": 1
+    }
+  },
+  {
+    "model": "movimento.Produtos",
+    "pk": 40,
+    "fields": {
+      "nome": "Fita Isolante",
+      "preco": 1.00,
+      "preco_venda": 2.90,
+      "quantidade": 9,
+      "descricao": "",
+      "status": 1
+    }
+  },
+  {
+    "model": "movimento.Produtos",
+    "pk": 41,
+    "fields": {
+      "nome": "Fita Veda Rosca",
+      "preco": 3.08,
+      "preco_venda": 5.05,
+      "quantidade": 11,
+      "descricao": "",
+      "status": 1
+    }
+  },
+  {
+    "model": "movimento.Produtos",
+    "pk": 42,
+    "fields": {
+      "nome": "Haste de Terra cobreada comum",
+      "preco": 10.08,
+      "preco_venda": 22.79,
+      "quantidade": 50,
+      "descricao": "",
+      "status": 1
+    }
+  },
+  {
+    "model": "movimento.Produtos",
+    "pk": 43,
+    "fields": {
+      "nome": "Interruptor 1TS Externo",
+      "preco": 2.08,
+      "preco_venda": 10.40,
+      "quantidade": 59,
+      "descricao": "",
+      "status": 1
+    }
+  },
+  {
+    "model": "movimento.Produtos",
+    "pk": 44,
+    "fields": {
+      "nome": "Joelho Esgoto 90º 100mm",
+      "preco": 1.50,
+      "preco_venda": 3.30,
+      "quantidade": 90,
+      "descricao": "",
+      "status": 1
+    }
+  },
+  {
+    "model": "movimento.Produtos",
+    "pk": 45,
+    "fields": {
+      "nome": "Joelho Soldavel 90º 20mm x 1/2'",
+      "preco": 1.80,
+      "preco_venda": 3.90,
+      "quantidade": 40,
+      "descricao": "",
+      "status": 1
+    }
+  },
+  {
+    "model": "movimento.Produtos",
+    "pk": 46,
+    "fields": {
+      "nome": "Joelho Soldavel c/ bucha latão 90º 25mm x 1/2'",
+      "preco": 6.99,
+      "preco_venda": 11.90,
+      "quantidade": 80,
+      "descricao": "",
+      "status": 1
+    }
+  },
+  {
+    "model": "movimento.Produtos",
+    "pk": 47,
+    "fields": {
+      "nome": "Lona plastica preta",
+      "preco": 16.99,
+      "preco_venda": 25.44,
+      "quantidade": 50,
+      "descricao": "",
+      "status": 1
+    }
+  },
+  {
+    "model": "movimento.Produtos",
+    "pk": 48,
+    "fields": {
+      "nome": "Luva esgoto 100mm",
+      "preco": 15.99,
+      "preco_venda": 26.38,
+      "quantidade": 100,
+      "descricao": "",
+      "status": 1
+    }
+  },
+  {
+    "model": "movimento.Produtos",
+    "pk": 49,
+    "fields": {
+      "nome": "Maderit 1,10 x 2,20",
+      "preco": 200.99,
+      "preco_venda": 338.00,
+      "quantidade": 20,
+      "descricao": "",
+      "status": 1
+    }
+  },
+  {
+    "model": "movimento.Produtos",
+    "pk": 50,
+    "fields": {
+      "nome": "Mangueira de Jardim",
+      "preco": 40.00,
+      "preco_venda": 70.00,
+      "quantidade": 800,
+      "descricao": "",
+      "status": 1
+    }
+  },
+  {
+    "model": "movimento.Produtos",
+    "pk": 51,
+    "fields": {
+      "nome": "Prego c/ cabeça 16x24",
+      "preco": 6.99,
+      "preco_venda": 16.89,
+      "quantidade": 800,
+      "descricao": "",
+      "status": 1
+    }
+  },
+  {
+    "model": "movimento.Produtos",
+    "pk": 52,
+    "fields": {
+      "nome": "Prego c/ cabeça 16x24",
+      "preco": 6.99,
+      "preco_venda": 16.89,
+      "quantidade": 800,
+      "descricao": "",
+      "status": 1
+    }
+  },
+  {
+    "model": "movimento.Produtos",
+    "pk": 53,
+    "fields": {
+      "nome": "Manta Asfática 3mm",
+      "preco": 4.99,
+      "preco_venda": 8.64,
+      "quantidade": 800,
+      "descricao": "",
+      "status": 1
+    }
+  },
+  {
+    "model": "movimento.Produtos",
+    "pk": 54,
+    "fields": {
+      "nome": "Manta de bidim p/ Drenagem 2,30m largura",
+      "preco": 200.50,
+      "preco_venda": 322.97,
+      "quantidade": 50,
+      "descricao": "",
+      "status": 1
+    }
+  },
+  {
+    "model": "movimento.Produtos",
+    "pk": 55,
+    "fields": {
+      "nome": "Manta de bidim p/ Drenagem mcdrain",
+      "preco": 13.99,
+      "preco_venda": 29.97,
+      "quantidade": 800,
+      "descricao": "",
+      "status": 1
+    }
+  },
+  {
+    "model": "movimento.Produtos",
+    "pk": 56,
+    "fields": {
+      "nome": "Parafuso Máquina",
+      "preco": 1.00,
+      "preco_venda": 2.56,
+      "quantidade": 110,
+      "descricao": "",
+      "status": 1
+    }
+  },
+  {
+    "model": "movimento.Produtos",
+    "pk": 57,
+    "fields": {
+      "nome": "Pino macho bipolar 10A",
+      "preco": 6.00,
+      "preco_venda": 11.00,
+      "quantidade": 500,
+      "descricao": "",
+      "status": 1
+    }
+  },
+  {
+    "model": "movimento.Produtos",
+    "pk": 58,
+    "fields": {
+      "nome": "Prego c/ cabeça 16x24",
+      "preco": 6.00,
+      "preco_venda": 16.89,
+      "quantidade": 40,
+      "descricao": "",
+      "status": 1
+    }
+  },
+  {
+    "model": "movimento.Produtos",
+    "pk": 59,
+    "fields": {
+      "nome": "Prego c/ cabeça 16x24",
+      "preco": 6.99,
+      "preco_venda": 16.89,
+      "quantidade": 800,
+      "descricao": "",
+      "status": 1
+    }
+  },
+  {
+    "model": "movimento.Produtos",
+    "pk": 60,
+    "fields": {
+      "nome": "Prego telheiro",
+      "preco": 4.50,
+      "preco_venda": 9.24,
+      "quantidade": 11,
+      "descricao": "",
+      "status": 1
+    }
+  },
+  {
+    "model": "movimento.Produtos",
+    "pk": 61,
+    "fields": {
+      "nome": "Silicone",
+      "preco": 1.50,
+      "preco_venda": 2.89,
+      "quantidade": 200,
+      "descricao": "",
+      "status": 1
+    }
+  },
+  {
+    "model": "movimento.Produtos",
+    "pk": 62,
+    "fields": {
+      "nome": "Suporte p/ Caixa de Medição",
+      "preco": 4.10,
+      "preco_venda": 7.53,
+      "quantidade": 19,
+      "descricao": "",
+      "status": 1
+    }
+  },
+  {
+    "model": "movimento.Produtos",
+    "pk": 63,
+    "fields": {
+      "nome": "TE esgoto 100mm",
+      "preco": 4.99,
+      "preco_venda": 12.60,
+      "quantidade": 80,
+      "descricao": "",
+      "status": 1
+    }
+  },
+  {
+    "model": "movimento.Produtos",
+    "pk": 64,
+    "fields": {
+      "nome": "TE soldável 25mm",
+      "preco": 1.99,
+      "preco_venda": 2.70,
+      "quantidade": 800,
+      "descricao": "",
+      "status": 1
+    }
+  },
+  {
+    "model": "movimento.Produtos",
+    "pk": 65,
+    "fields": {
+      "nome": "Telha Ondulada fibrocimento 4mm 2,44m x 0,50m",
+      "preco": 50.99,
+      "preco_venda": 117.00,
+      "quantidade": 80,
+      "descricao": "",
+      "status": 1
+    }
+  },
+  {
+    "model": "movimento.Produtos",
+    "pk": 66,
+    "fields": {
+      "nome": "Tomada barra",
+      "preco": 2.00,
+      "preco_venda": 3.00,
+      "quantidade": 100,
+      "descricao": "",
+      "status": 1
+    }
+  },
+  {
+    "model": "movimento.Produtos",
+    "pk": 67,
+    "fields": {
+      "nome": "Tomada Nylon",
+      "preco": 1.99,
+      "preco_venda": 6.20,
+      "quantidade": 300,
+      "descricao": "",
+      "status": 1
+    }
+  },
+  {
+    "model": "movimento.Produtos",
+    "pk": 68,
+    "fields": {
+      "nome": "Torneira Plastica de Jardim 1/2'",
+      "preco": 3.50,
+      "preco_venda": 6.00,
+      "quantidade": 400,
+      "descricao": "",
+      "status": 1
+    }
+  },
+  {
+    "model": "movimento.Produtos",
+    "pk": 69,
+    "fields": {
+      "nome": "Tubo descarga p/ caixa",
+      "preco": 2.80,
+      "preco_venda": 4.52,
+      "quantidade": 30,
+      "descricao": "",
+      "status": 1
+    }
+  },
+  {
+    "model": "movimento.Produtos",
+    "pk": 70,
+    "fields": {
+      "nome": "Tubo Drenagem",
+      "preco": 100.80,
+      "preco_venda": 199.88,
+      "quantidade": 30,
+      "descricao": "",
+      "status": 1
+    }
+  },
+  {
+    "model": "movimento.Produtos",
+    "pk": 71,
+    "fields": {
+      "nome": "Tubo esgoto 100mm",
+      "preco": 100.80,
+      "preco_venda": 147.99,
+      "quantidade": 30,
+      "descricao": "",
+      "status": 1
+    }
+  },
+  {
+    "model": "movimento.Produtos",
+    "pk": 72,
+    "fields": {
+      "nome": "Tubo soldável 25mm",
+      "preco": 4.80,
+      "preco_venda": 9.10,
+      "quantidade": 20,
+      "descricao": "",
+      "status": 1
+    }
+  },
+  {
+    "model": "movimento.Produtos",
+    "pk": 73,
+    "fields": {
+      "nome": "Arame Recozido 10",
+      "preco": 20.00,
+      "preco_venda": 51.30,
+      "quantidade": 30,
+      "descricao": "",
+      "status": 1
+    }
+  },
+  {
+    "model": "movimento.Produtos",
+    "pk": 74,
+    "fields": {
+      "nome": "Arame Recozido 18",
+      "preco": 60.80,
+      "preco_venda": 133.75,
+      "quantidade": 30,
+      "descricao": "",
+      "status": 1
+    }
+  },
+  {
+    "model": "movimento.Produtos",
+    "pk": 75,
+    "fields": {
+      "nome": "Areia c/ Brita 0",
+      "preco": 350.80,
+      "preco_venda": 690.00,
+      "quantidade": 30,
+      "descricao": "",
+      "status": 1
+    }
+  },
+  {
+    "model": "movimento.Produtos",
+    "pk": 76,
+    "fields": {
+      "nome": "Areia c/ Brita 1",
+      "preco": 180.80,
+      "preco_venda": 240.00,
+      "quantidade": 30,
+      "descricao": "",
+      "status": 1
+    }
+  },
+  {
+    "model": "movimento.Produtos",
+    "pk": 77,
+    "fields": {
+      "nome": "Areia Média",
+      "preco": 99.80,
+      "preco_venda": 198.00,
+      "quantidade": 30,
+      "descricao": "",
+      "status": 1
+    }
+  },
+  {
+    "model": "movimento.Produtos",
+    "pk": 78,
+    "fields": {
+      "nome": "Escoras 3m",
+      "preco": 599.80,
+      "preco_venda": 755.25,
+      "quantidade": 30,
+      "descricao": "",
+      "status": 1
+    }
+  },
+  {
+    "model": "movimento.Produtos",
+    "pk": 79,
+    "fields": {
+      "nome": "Lage até 4m",
+      "preco": 1.200,
+      "preco_venda": 1.700,
+      "quantidade": 20,
+      "descricao": "",
+      "status": 1
+    }
+  },
+  {
+    "model": "movimento.Produtos",
+    "pk": 80,
+    "fields": {
+      "nome": "Lage até 5,3m",
+      "preco": 350.99,
+      "preco_venda": 690.00,
+      "quantidade": 12,
+      "descricao": "",
+      "status": 1
+    }
+  },
+  {
+    "model": "movimento.Produtos",
+    "pk": 81,
+    "fields": {
+      "nome": "Manta Asfática 3mm",
+      "preco": 180.55,
+      "preco_venda": 297.90,
+      "quantidade": 30,
+      "descricao": "",
+      "status": 1
+    }
+  },
+  {
+    "model": "movimento.Produtos",
+    "pk": 82,
+    "fields": {
+      "nome": "Prego 17x27",
+      "preco": 111.00,
+      "preco_venda": 178.40,
+      "quantidade": 30,
+      "descricao": "",
+      "status": 1
+    }
+  },
+  {
+    "model": "movimento.Produtos",
+    "pk": 83,
+    "fields": {
+      "nome": "Tabuas largura variada 2,5cm larg. Pinus",
+      "preco": 100.00,
+      "preco_venda": 145.00,
+      "quantidade": 30,
+      "descricao": "",
+      "status": 1
+    }
+  },
+  {
+    "model": "movimento.Produtos",
+    "pk": 84,
+    "fields": {
+      "nome": "Tinta asfáltica p/ Concreto",
+      "preco": 80.00,
+      "preco_venda": 145.00,
+      "quantidade": 30,
+      "descricao": "",
+      "status": 1
+    }
+  },
+  {
+    "model": "movimento.Produtos",
+    "pk": 85,
+    "fields": {
+      "nome": "Vedacit",
+      "preco": 82.00,
+      "preco_venda": 176.00,
+      "quantidade": 30,
+      "descricao": "",
+      "status": 1
+    }
+  },
+  {
+    "model": "movimento.Produtos",
+    "pk": 86,
+    "fields": {
+      "nome": "Vergalhão 10mm",
+      "preco": 350.00,
+      "preco_venda": 742.50,
+      "quantidade": 30,
+      "descricao": "",
+      "status": 1
+    }
+  },
+  {
+    "model": "movimento.Produtos",
+    "pk": 87,
+    "fields": {
+      "nome": "Vergalhão 5mm",
+      "preco": 1500.00,
+      "preco_venda": 1907.00,
+      "quantidade": 30,
+      "descricao": "",
+      "status": 1
+    }
+  },
+  {
+    "model": "movimento.Produtos",
+    "pk": 88,
+    "fields": {
+      "nome": "Vergalhão 8mm",
+      "preco": 380.10,
+      "preco_venda": 579.60,
+      "quantidade": 20,
+      "descricao": "",
+      "status": 1
+    }
+  },
 
   {
     "model": "pessoal.Cliente",
@@ -256,7 +1263,7 @@
       "telefone": "44-8443-5026",
       "celular": "11-25416-4899",
       "email": "gustavo.sdo@gmail.com",
-      "data": "2014-09-18 17:05:36",
+      "data": "2014-09-18 17:05Z",
       "observacao": "Cliente Especial.",
       "rg": "426277685"
     }
@@ -279,7 +1286,7 @@
       "telefone": "44-30303-8750",
       "celular": "",
       "email": "spossato@unipar.br",
-      "data": "2014-09-18 00:05:36",
+      "data": "2014-09-18 00:05Z",
       "observacao": "*-*",
       "rg": "403289440"
     }
@@ -304,7 +1311,7 @@
       "telefone": "44-8443-5026",
       "celular": "11-25416-4899",
       "email": "gustavo.sdo@gmail.com",
-      "data": "2014-09-18 17:05:36",
+      "data": "2014-09-18 17:05Z",
       "observacao": "Cliente Especial.",
       "tipo_pessoa": "PF",
       "cnpj": "",
@@ -329,7 +1336,7 @@
       "telefone": "44-30303-8750",
       "celular": "",
       "email": "spossato@unipar.br",
-      "data": "2014-09-18 00:05:36",
+      "data": "2014-09-18 00:05Z",
       "observacao": "*-*",
       "tipo_pessoa": "PJ",
       "cnpj": "75517151000110",
@@ -356,7 +1363,7 @@
       "telefone": "44-8443-5026",
       "celular": "11-25416-4899",
       "email": "gustavo.sdo@gmail.com",
-      "data": "2014-09-18 17:05:36",
+      "data": "2014-09-18 17:05Z",
       "observacao": "Cliente Especial.",
       "rg": "426277685",
       "salario": 5048.50,
@@ -382,7 +1389,7 @@
       "telefone": "44-30303-8750",
       "celular": "",
       "email": "spossato@unipar.br",
-      "data": "2014-09-18 00:05:36",
+      "data": "2014-09-18 00:05Z",
       "observacao": "*-*",
       "rg": "403289440",
       "salario": 3501.50,
@@ -396,7 +1403,7 @@
     "pk": 1,
     "fields": {
       "password": "pbkdf2_sha256$12000$UjxpI6EkJXg2$GoYKHvFp9n+wGJV3ZiaDwBDqiMISOvHANHbAV27qVjE=",
-      "last_login": "2014-12-31 01:18:47",
+      "last_login": "2014-12-31 01:18Z",
       "is_superuser": 1,
       "username": "admin",
       "first_name": "Gustavo",
@@ -404,7 +1411,7 @@
       "email": "gustavo.sdo@gmail.com",
       "is_staff": 1,
       "is_active": 1,
-      "date_joined": "2014-12-31 01:18:23"
+      "date_joined": "2014-12-31 01:18Z"
     }
   }
   

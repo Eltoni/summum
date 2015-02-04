@@ -6,7 +6,7 @@ admin.autodiscover()
 
 urlpatterns = patterns('',
     # index
-	url(r'^$', 'movimento.views.produtos_esgotando'),
+	url(r'^$', 'movimento.views.index'),
 	
     # django
     url(r'^doc/', include('django.contrib.admindocs.urls')),

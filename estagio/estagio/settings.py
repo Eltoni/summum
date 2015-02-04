@@ -159,16 +159,16 @@ SUIT_CONFIG = {
     'MENU': (
         # Keep original label and models
         {'label': u'Autenticação', 'app':'auth'},
-        'localidade',
-        'pessoal',
+        {'app':'localidade', 'icon':'icon-globe'},
+        {'app':'pessoal', 'icon':'icon-user'},
         {'label': u'Movimentos', 'app':'movimento'},
-        {'label': u'Parâmetros', 'app':'parametros_financeiros'},
-        'compra',
-        'venda',
-        {'label': u'Contas à pagar', 'app':'contas_pagar', 'models': ('contaspagar', 'parcelascontaspagar', 'pagamento')},
-        {'label': u'Contas à receber', 'app':'contas_receber', 'models': ('contasreceber', 'parcelascontasreceber', 'recebimento')},
-        'caixa',
-        {'label': u'Configurações', 'app':'configuracoes'},
+        {'label': u'Parâmetros', 'app':'parametros_financeiros', 'icon':'icon-barcode'},
+        {'app':'compra', 'icon':'icon-shopping-cart'}, 
+        {'app':'venda', 'icon':'icon-shopping-cart'},
+        {'label': u'Contas à pagar', 'icon':'icon-folder-close', 'app':'contas_pagar', 'models': ('contaspagar', 'parcelascontaspagar', 'pagamento')},
+        {'label': u'Contas à receber', 'icon':'icon-folder-open', 'app':'contas_receber', 'models': ('contasreceber', 'parcelascontasreceber', 'recebimento')},
+        {'app':'caixa', 'icon':'icon-inbox'},
+        {'label': u'Configurações', 'icon':'icon-wrench', 'app':'configuracoes'},
         # Separator
         '-',
     )

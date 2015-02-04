@@ -6,7 +6,7 @@ from models import Produtos
 from configuracoes.models import Parametrizacao
 
 
-def produtos_esgotando(request):
+def index(request):
 	u""" Indica na página inicial do sistema os produtos que estão se esgotando no estoque. """
 	
 	quantidade_minima = Parametrizacao.objects.values_list('qtde_minima_produtos_em_estoque')[0][0]

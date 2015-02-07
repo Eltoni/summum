@@ -1,13 +1,13 @@
 #-*- coding: UTF-8 -*-
 from django.conf.urls import patterns, include, url
-
 from django.contrib import admin
+
 admin.autodiscover()
 
 urlpatterns = patterns('',
-    # index
-	url(r'^$', 'movimento.views.index'),
-	
+    # dashboard
+    url(r'^dashboard/$', 'movimento.views.index'),
+    
     # django
     url(r'^doc/', include('django.contrib.admindocs.urls')),
     url(r'', include(admin.site.urls)),

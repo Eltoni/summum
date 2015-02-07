@@ -13,7 +13,55 @@
 {% block breadcrumbs %}{% endblock %}
 
 {% block content %}
-<!--
+
+<script>
+$(function () {
+  // $('#branding a, #suit-center > .breadcrumb > li:first > a').attr('href', '/dashboard/');
+  $('#branding a').attr('href', '/dashboard/');
+});
+
+
+// var $aSelected = $('#module').find('table');
+
+// if( $aSelected.hasClass('applist') ){
+//   alert( 'FOUND' );
+// }else{
+//   alert( 'NOT FOUND' );
+  // var url = document.URL;
+  // window.location.replace(url + 'dashboard/');
+// }
+
+</script>
+
+<style>
+.fonte-legenda {
+    font-weight: normal;
+    font-size: 12px;
+    display: inline-block;
+    line-height: normal;
+    color: #999;
+}
+
+/* basic positioning */
+.legenda-produtos-esgotando { 
+    list-style: none; 
+}
+.legenda-produtos-esgotando li { 
+    float: left; margin-right: 10px; 
+}
+.legenda-produtos-esgotando span { 
+    float: left; width: 12px; height: 12px; margin: 2px; 
+}
+
+/* colors */
+.legenda-produtos-esgotando .cinquenta-porcento { 
+    background-color: #f2dede; border: 1px solid #f2dede;
+}
+.legenda-produtos-esgotando .cem-porcento { 
+    background-color: #fcf8e3; border: 1px solid #fcf8e3;
+}
+</style>
+
   <div id="content-main">
     {% if app_list %}
       {% for app in app_list %}
@@ -44,16 +92,18 @@
         </div>
       {% endfor %}
     {% else %}
-      <p>{% trans "You don't have permission to edit anything." %}</p>
+      <!-- <p>{% trans "You don't have permission to edit anything." %}</p> -->
     {% endif %}
   </div>
--->
+
+  <div id="custom-dashboard">
   {% if produtos_esgotando %}
     {% if request.user.is_superuser %}    {# Mostra apenas para usuários com status de superusuário #}
       <div id="content-main">
         <div class="module">
-          <h4 class="italic-title">Esgotando em Estoque</h4>
-          <table class="table-overview table table-striped table-bordered table-hover table-condensed">
+          <h4 class="italic-title"><b>Esgotando em Estoque</b></h4>
+          <!-- <table class="table-overview table table-striped table-bordered table-hover table-condensed"> -->
+          <table class="table-overview table table-condensed">
             <thead>
               <tr>
                 <td></td>
@@ -73,11 +123,24 @@
             {% endfor %}
             </tbody>
           </table>
-          <h2><span class="description">Produtos com menos de {{ quantidade_minima }} itens em estoque</span></h2>
+          <h2><span class="description">Produtos com menos de {{ quantidade_minima }} itens em estoque.</span></h2>
+          <ul class="legenda-produtos-esgotando">
+              <li>
+                <span class="cinquenta-porcento"></span> 
+                <font class="fonte-legenda">Entre 50% e 100% da quantidade.</font>
+              </li>
+              <br>
+              <li>
+                <span class="cem-porcento"></span>
+                <font class="fonte-legenda">Abaixo de 50% da quantidade.</font>
+              </li>
+          </ul>
         </div>
       </div>
     {% endif %}
   {% endif %}
+  </div>
+
 {% endblock %}
 
 

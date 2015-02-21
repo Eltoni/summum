@@ -1,7 +1,7 @@
 #-*- coding: UTF-8 -*-
 from django.db import models
 from pessoal.models import Fornecedor
-from parametros_financeiros.models import FormaPagamento
+from parametros_financeiros.models import FormaPagamento, GrupoEncargo
 from movimento.models import Produtos
 from django.core.exceptions import ValidationError
 import datetime
@@ -19,7 +19,8 @@ class Compra(models.Model):
     desconto = models.DecimalField(max_digits=20, decimal_places=0, blank=True, null=True, verbose_name=u'Desconto (%)', help_text=u'Desconto sob o valor total da compra.')
     status = models.BooleanField(default=False, verbose_name=u'Cancelada?', help_text=u'Marcando o Checkbox, a compra será cancelada e o financeiro acertado.')
     fornecedor = models.ForeignKey(Fornecedor, on_delete=models.PROTECT)
-    forma_pagamento = models.ForeignKey(FormaPagamento, on_delete=models.PROTECT)
+    forma_pagamento = models.ForeignKey(FormaPagamento, verbose_name=u'Forma de pagamento', on_delete=models.PROTECT)
+    grupo_encargo = models.ForeignKey(GrupoEncargo, blank=False, null=False, verbose_name=u'Grupo de encargo', on_delete=models.PROTECT)
     observacao = models.TextField(blank=True, verbose_name=u'observações', help_text="Descreva na área as informações relavantes da compra.")
     pedido = models.CharField(max_length=1, blank=True, choices=((u'S', 'Sim'), (u'N', 'Não'),), verbose_name=u'Pedido?') 
     status_pedido = models.BooleanField(default=False, verbose_name=u'Pedido confirmado?', help_text=u'Marcando o Checkbox, os itens financeiros serão gerados e o estoque movimentado.')
@@ -73,6 +74,7 @@ class Compra(models.Model):
                                     compras=self, 
                                     fornecedores=self.fornecedor, 
                                     forma_pagamento=self.forma_pagamento, 
+                                    grupo_encargo=self.grupo_encargo,
                                     status=False
                                     )
                 conta.save()      

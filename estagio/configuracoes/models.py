@@ -37,6 +37,14 @@ class Parametrizacao(models.Model):
         verbose_name=u'Qtde mínima em estoque',
         help_text=u'Indique a quantidade mínima de itens de produto no estoque.'
     )
+    perc_valor_minimo_pagamento = models.DecimalField(
+        max_digits=20, 
+        decimal_places=0, 
+        blank=True, 
+        null=True,
+        verbose_name=u'Perc. Valor do 1º pagamento',
+        help_text=u'Percentual mínimo do valor do primeiro pagamento de uma parcela.'
+    )
     
     class Meta:
         verbose_name = u'Parametrização'

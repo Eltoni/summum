@@ -7,6 +7,7 @@ from django.core.mail import send_mail
 class CaixaAdmin(admin.ModelAdmin):
     model = Caixa
     list_display = ('id', 'data_abertura', 'data_fechamento', 'diferenca', 'status')
+    list_filter = ('data_fechamento',)
 
 
     def get_form(self, request, obj=None, **kwargs):

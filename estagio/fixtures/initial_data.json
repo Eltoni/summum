@@ -1,4 +1,15 @@
 [
+
+  {
+    "model": "caixa.Caixa",
+    "pk": 1,
+    "fields": {
+      "status": 1,
+      "data_abertura": "2015-02-11 01:18Z",
+      "valor_inicial": 1000
+    }
+  },
+
   {
     "model": "configuracoes.Parametrizacao",
     "pk": 1,
@@ -7,7 +18,21 @@
       "quantidade_inlines_venda": "4",
       "habilita_pedido_compra": 1,
       "habilita_pedido_venda": 1,
-      "qtde_minima_produtos_em_estoque": 15
+      "qtde_minima_produtos_em_estoque": 15,
+      "perc_valor_minimo_pagamento": 50
+    }
+  },
+
+  {
+    "model": "parametros_financeiros.GrupoEncargo",
+    "pk": 1,
+    "fields": {
+      "nome": "Grupo de encargos Padrão",
+      "multa": 4,
+      "juros": 3,
+      "tipo_juros": "S",
+      "status": 1,
+      "padrao": 1
     }
   },
 
@@ -155,7 +180,51 @@
       "ultima_alteracao": "2014-09-18 00:00Z"
     }
   },
-
+  {
+    "model": "localidade.Cidade",
+    "pk": 9,
+    "fields": {
+      "nome": "Xambrê",
+      "estado": "PR",
+      "ultima_alteracao": "2014-09-18 00:00Z"
+    }
+  },
+  {
+    "model": "localidade.Cidade",
+    "pk": 10,
+    "fields": {
+      "nome": "Terra Roxa",
+      "estado": "PR",
+      "ultima_alteracao": "2014-09-18 00:00Z"
+    }
+  },
+  {
+    "model": "localidade.Cidade",
+    "pk": 11,
+    "fields": {
+      "nome": "Querencia do Norte",
+      "estado": "PR",
+      "ultima_alteracao": "2014-09-18 00:00Z"
+    }
+  },
+  {
+    "model": "localidade.Cidade",
+    "pk": 12,
+    "fields": {
+      "nome": "Paranavaí",
+      "estado": "PR",
+      "ultima_alteracao": "2014-09-18 00:00Z"
+    }
+  },
+  {
+    "model": "localidade.Cidade",
+    "pk": 13,
+    "fields": {
+      "nome": "Pérola",
+      "estado": "PR",
+      "ultima_alteracao": "2014-09-18 00:00Z"
+    }
+  },
 
   {
     "model": "pessoal.Cargo",
@@ -1252,49 +1321,232 @@
     "model": "pessoal.Cliente",
     "pk": 1,
     "fields": {
-      "nome": "Gustavo Santana de Oliveira",
-      "data_nasc": "1993-11-06",
-      "cpf": "41095475800",
-      "ativo": 1,
-      "endereco": "Marialva",
-      "numero": "5398",
-      "bairro": "Zona III",
-      "complemento": "Próximo a Unipar",
+      "nome": "Miriam Leal",
+      "data_nasc": "1972-01-17",
+      "cpf": "09992615923",
+      "status": 1,
+      "endereco": "Emilho Magno Glatti",
+      "numero": "1512",
+      "bairro": "Santa Rita",
+      "complemento": "casa",
       "estado": "PR",
-      "cidade": 1,
-      "cep": "87502-100",
-      "telefone": "44-8443-5026",
-      "celular": "11-25416-4899",
-      "email": "gustavo.sdo@gmail.com",
-      "data": "2014-09-18 17:05Z",
-      "observacao": "Cliente Especial.",
-      "rg": "426277685"
+      "cidade": 4,
+      "cep": "85615-000",
+      "telefone": "",
+      "celular": "44-9915-5172",
+      "email": "mirikaleal72@live.com",
+      "data": "2015-02-20 20:05Z",
+      "observacao": "",
+      "rg": "56333851"
     }
   },
   {
     "model": "pessoal.Cliente",
     "pk": 2,
     "fields": {
-      "nome": "Stephanie Possato de Oliveira",
-      "data_nasc": "1991-09-13",
-      "cpf": "56271627676",
-      "ativo": 1,
-      "endereco": "Fortaleza",
-      "numero": "5652,",
-      "bairro": "Jardim America",
-      "complemento": "",
+      "nome": "Allana Tamara da Silva Camargo",
+      "data_nasc": "1995-01-17",
+      "cpf": "94115451904",
+      "status": 1,
+      "endereco": "Praça Garibaldi",
+      "numero": "197",
+      "bairro": "Vila Operaria",
+      "complemento": "Casa",
       "estado": "PR",
-      "cidade": 1,
-      "cep": "87502-300",
-      "telefone": "44-30303-8750",
-      "celular": "",
-      "email": "spossato@unipar.br",
-      "data": "2014-09-18 00:05Z",
-      "observacao": "*-*",
-      "rg": "403289440"
+      "cidade": 2,
+      "cep": "87209-154",
+      "telefone": "",
+      "celular": "44-9910-1315",
+      "email": "allanacamargo48@gmail.com",
+      "data": "2015-02-20 20:05Z",
+      "observacao": "",
+      "rg": "132273618"
     }
   },
-
+  {
+    "model": "pessoal.Cliente",
+    "pk": 3,
+    "fields": {
+      "nome": "Ana Paula Gimenes dos Santos",
+      "data_nasc": "1988-10-30",
+      "cpf": "07929726940",
+      "status": 1,
+      "endereco": "Waldemar dos Santos",
+      "numero": "589",
+      "bairro": "Centro",
+      "complemento": "",
+      "estado": "",
+      "cidade": 11,
+      "cep": "87930-000",
+      "telefone": "44-3462-2900",
+      "celular": "44-9893-6363",
+      "email": "ana-paulagimenes@hotmail.com",
+      "data": "2015-02-20 20:05Z",
+      "observacao": "",
+      "rg": "99720247"
+    }
+  },
+  {
+    "model": "pessoal.Cliente",
+    "pk": 4,
+    "fields": {
+      "nome": "Andre Junior de Oliveira",
+      "data_nasc": "1992-12-22",
+      "cpf": "06549467950",
+      "status": 1,
+      "endereco": "Projetada 03",
+      "numero": "10",
+      "bairro": "Delci",
+      "complemento": "",
+      "estado": "PR",
+      "cidade": 10,
+      "cep": "85990-000",
+      "telefone": "",
+      "celular": "44-9740-5002",
+      "email": "jeeh_nandinha@hotmail.com",
+      "data": "2015-02-20 20:05Z",
+      "observacao": "",
+      "rg": "106300640"
+    }
+  },
+  {
+    "model": "pessoal.Cliente",
+    "pk": 5,
+    "fields": {
+      "nome": "Karolayne Priscila Araujo Pereira",
+      "data_nasc": "1993-10-25",
+      "cpf": "05969188956",
+      "status": 1,
+      "endereco": "Avenida Parana",
+      "numero": "298",
+      "bairro": "Centro",
+      "complemento": "Casa",
+      "estado": "PR",
+      "cidade": 9,
+      "cep": "87535-000",
+      "telefone": "",
+      "celular": "44-8441-8466",
+      "email": "karol.adm.araujo@gmail.com",
+      "data": "2015-02-20 20:05Z",
+      "observacao": "",
+      "rg": "129090340"
+    }
+  },
+  {
+    "model": "pessoal.Cliente",
+    "pk": 6,
+    "fields": {
+      "nome": "Daisy Albuquerque Estellai Martins",
+      "data_nasc": "1988-03-17",
+      "cpf": "",
+      "status": 1,
+      "endereco": "Altino da Silva Azeredo",
+      "numero": "322",
+      "bairro": "Jardim Alvorada do Sul",
+      "complemento": "",
+      "estado": "PR",
+      "cidade": 12,
+      "cep": "87707-070",
+      "telefone": "",
+      "celular": "44-9878-3400",
+      "email": "estellai_daisy@hotmail.com",
+      "data": "2015-02-20 20:05Z",
+      "observacao": "",
+      "rg": "001574850"
+    }
+  },
+  {
+    "model": "pessoal.Cliente",
+    "pk": 7,
+    "fields": {
+      "nome": "Janine Carolina Bellozo",
+      "data_nasc": "1988-01-10",
+      "cpf": "08897718981",
+      "status": 0,
+      "endereco": "Rua Oscar Boeing",
+      "numero": "670",
+      "bairro": "Morada do Sol Quatro",
+      "complemento": "",
+      "estado": "PR",
+      "cidade": 2,
+      "cep": "87210-314",
+      "telefone": "33519115",
+      "celular": "99508496",
+      "email": "janine_bellozo@hotmail.com",
+      "data": "2015-02-20 20:05Z",
+      "observacao": "",
+      "rg": "96316569"
+    }
+  },
+  {
+    "model": "pessoal.Cliente",
+    "pk": 8,
+    "fields": {
+      "nome": "Bruna Suelen Telva de Oliveira",
+      "data_nasc": "1995-09-29",
+      "cpf": "05534605952",
+      "status": 1,
+      "endereco": "Avenida Presidente Vargas",
+      "numero": "834",
+      "bairro": "Centro",
+      "complemento": "",
+      "estado": "PR",
+      "cidade": 13,
+      "cep": "08007-540",
+      "telefone": "",
+      "celular": "9810-3983",
+      "email": "suelem.bruna_2013@hotmail.com",
+      "data": "2015-02-20 20:05Z",
+      "observacao": "",
+      "rg": "134121882"
+    }
+  },
+  {
+    "model": "pessoal.Cliente",
+    "pk": 9,
+    "fields": {
+      "nome": "Julciléia Fernandes da Silva",
+      "data_nasc": "1985-03-25",
+      "cpf": "09442616986",
+      "status": 1,
+      "endereco": "Rua Alexandre Buso",
+      "numero": "180",
+      "bairro": "Morada do Sol",
+      "complemento": "",
+      "estado": "PR",
+      "cidade": 2,
+      "cep": "87210-130",
+      "telefone": "",
+      "celular": "44-9919-2339",
+      "email": "lojanubiamastercianorte@hotmail.com",
+      "data": "2015-02-20 20:05Z",
+      "observacao": "",
+      "rg": "89020247"
+    }
+  },
+  {
+    "model": "pessoal.Cliente",
+    "pk": 10,
+    "fields": {
+      "nome": "Jane Cruz",
+      "data_nasc": "1979-11-30",
+      "cpf": "00473301989",
+      "status": 1,
+      "endereco": "Jequitiba",
+      "numero": "1319",
+      "bairro": "",
+      "complemento": "Jardim Paraíso",
+      "estado": "PR",
+      "cidade": 1,
+      "cep": "87505-250",
+      "telefone": "44-3055-4701",
+      "celular": "44-9978-0526",
+      "email": "antaresvendas6@hotmail.com",
+      "data": "2015-02-20 20:05Z",
+      "observacao": "",
+      "rg": "78192380"
+    }
+  },
 
   {
     "model": "pessoal.Fornecedor",
@@ -1303,7 +1555,7 @@
       "nome": "Gustavo Santana de Oliveira",
       "data_nasc": "1993-11-06",
       "cpf": "41095475800",
-      "ativo": 1,
+      "status": 1,
       "endereco": "Marialva",
       "numero": "5398",
       "bairro": "Zona III",
@@ -1328,7 +1580,7 @@
       "nome": "Stephanie Possato de Oliveira",
       "data_nasc": "1991-09-13",
       "cpf": "",
-      "ativo": 1,
+      "status": 1,
       "endereco": "Fortaleza",
       "numero": "5652,",
       "bairro": "Jardim America",
@@ -1355,7 +1607,7 @@
       "nome": "Gustavo Santana de Oliveira",
       "data_nasc": "1993-11-06",
       "cpf": "41095475800",
-      "ativo": 1,
+      "status": 1,
       "endereco": "Marialva",
       "numero": "5398",
       "bairro": "Zona III",
@@ -1381,7 +1633,7 @@
       "nome": "Stephanie Possato de Oliveira",
       "data_nasc": "1991-09-13",
       "cpf": "",
-      "ativo": 1,
+      "status": 1,
       "endereco": "Fortaleza",
       "numero": "5652,",
       "bairro": "Jardim America",

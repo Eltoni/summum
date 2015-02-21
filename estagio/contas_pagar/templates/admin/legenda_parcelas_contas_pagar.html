@@ -1,0 +1,80 @@
+<style>
+.item-legenda {
+    width: 25%;
+}
+
+.fonte-legenda, .fonte-legenda-vencida, .fonte-legenda-paga-parcialmente {
+    font-weight: normal;
+    font-size: 12px;
+    display: inline-block;
+    line-height: normal;
+}
+
+.fonte-legenda-vencida {
+    color: #E8262A;
+}
+
+.fonte-legenda-paga-parcialmente {
+    color: #355EED;
+}
+
+.fonte-legenda-paga {
+    color: #2DB218;
+}
+
+.fonte-legenda-aberto {
+    color: #333333;
+}
+
+
+/* basic positioning */
+.legenda-parcelas { 
+    list-style: none; 
+}
+.legenda-parcelas li { 
+    float: left; margin-right: 10px; 
+}
+.legenda-parcelas span { 
+    float: left;
+    width: 7px;
+    height: 7px;
+    margin: 2px;
+    margin-top: 4px;
+}
+
+/* colors */
+.legenda-parcelas .cor-vencida { 
+    background-color: #E8262A; border: 1px solid #E8262A;
+}
+.legenda-parcelas .cor-paga-parcialmente { 
+    background-color: #355EED; border: 1px solid #355EED;
+}
+.legenda-parcelas .cor-paga { 
+    background-color: #2DB218; border: 1px solid #2DB218;
+}
+.legenda-parcelas .cor-aberto { 
+    background-color: #333333; border: 1px solid #333333;
+}
+.cor-vencida, .cor-paga-parcialmente, .cor-paga, .cor-aberto {
+    border-radius: 50%;
+}
+</style>
+
+<ul class="legenda-parcelas">
+  <li class="item-legenda">
+    <span class="cor-paga"></span>
+    <font class="fonte-legenda-paga">Paga</font>
+  </li>
+  <li class="item-legenda">
+    <span class="cor-paga-parcialmente"></span>
+    <font class="fonte-legenda-paga-parcialmente">Paga parcialmente</font>
+  </li>
+  <li class="item-legenda">
+    <span class="cor-aberto"></span> 
+    <font class="fonte-legenda-aberto">Em aberto</font>
+  </li>
+  <li>
+    <span class="cor-vencida"></span> 
+    <font class="fonte-legenda-vencida">Vencida</font>
+  </li>
+</ul>

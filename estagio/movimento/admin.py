@@ -12,6 +12,8 @@ class ProdutosAdmin(ExportMixin, admin.ModelAdmin):
 
     model = Produtos
     list_display = ('nome', 'quantidade', 'descricao', 'status')
+    list_filter = ('status',)
+    search_fields = ['nome',]
     readonly_fields = ('quantidade',)
 
     fieldsets = (
@@ -25,6 +27,12 @@ class ProdutosAdmin(ExportMixin, admin.ModelAdmin):
         ('geral', 'Geral'),
     )
 
-    
+    def suit_row_attributes(self, obj, request):
+        rowclass = ''
+        if not obj.status:
+            rowclass = 'error'
+
+        return {'class': rowclass}
+
 
 admin.site.register(Produtos, ProdutosAdmin)

@@ -53,6 +53,11 @@ class VendaForm(ModelForm):
                         'oninvalid': "this.setCustomValidity('Informe a forma de pagamento.')", 
                         'oninput': "this.setCustomValidity('')"
                 }),
+            'grupo_encargo': Select(
+                attrs={ 'required': 'required', 
+                        'oninvalid': "this.setCustomValidity('Informe o grupo de encargo.')", 
+                        'oninput': "this.setCustomValidity('')"
+                }),
             'status': CheckboxInput(attrs={'class': 'status-venda'}),
         }
 
@@ -60,12 +65,19 @@ class VendaForm(ModelForm):
     def __init__(self, *args, **kwargs):
         super(VendaForm, self).__init__(*args, **kwargs)
         try:
-            self.fields['cliente'].queryset = Cliente.objects.exclude(ativo=0) 
+            self.fields['cliente'].queryset = Cliente.objects.exclude(status=0) 
             self.fields['forma_pagamento'].queryset = FormaPagamento.objects.exclude(status=0) 
+            self.fields['grupo_encargo'].queryset = GrupoEncargo.objects.exclude(status=0)
         except KeyError:
             pass
 
+        try:
+            grupo_encargo_padrao = GrupoEncargo.objects.get(padrao=1)
+            self.fields['grupo_encargo'].initial = grupo_encargo_padrao.pk
+        except GrupoEncargo.DoesNotExist and KeyError:
+            pass
 
+            
 
 class ItensVendaForm(ModelForm):
     u""" 

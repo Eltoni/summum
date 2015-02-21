@@ -5,6 +5,7 @@ from contas_receber.models import ContasReceber, ParcelasContasReceber, Recebime
 from django.core.exceptions import ValidationError
 from django.db.models.signals import post_save
 import datetime
+from decimal import Decimal
 
 
 class Caixa(models.Model):
@@ -150,30 +151,17 @@ def update_movimento_caixa_pagamento(sender, instance, **kwargs):
 
     # Insere os itens de saída de movimentos de caixa
     movimento_caixa = MovimentosCaixa(  descricao=descricao, 
-                                        valor=instance.valor,
+                                        valor=Decimal(instance.valor).quantize(Decimal("0.00")),
                                         data=instance.data, 
                                         tipo_mov='Débito', 
                                         caixa=Caixa.objects.get(status=1),
                                         pagamento=instance
                                         )
     # Não insere duas vezes se o pagamento existir e se o mesmo tiver o mesmo valor
-    if MovimentosCaixa.objects.filter(pagamento__pk=instance.pk, valor=instance.valor).exists():
+    if MovimentosCaixa.objects.filter(pagamento__pk=instance.pk).exists():
         pass
     else:
         movimento_caixa.save()
-
-
-    #Atualiza o status da conta à pagar indicando se a compra está fechada, ou tem parcelas em aberto.
-    conta_aberta = ParcelasContasPagar.objects.filter(contas_pagar=conta[0], status=0).exists()
-    conta_pagar = ContasPagar.objects.get(pk=conta[0])
-
-    if conta_aberta:
-        conta_pagar.status = False
-        conta_pagar.save()
-    else:
-        conta_pagar.status = True
-        conta_pagar.save()
-
 
 # registro da signal
 post_save.connect(update_movimento_caixa_pagamento, sender=Pagamento, dispatch_uid="update_movimento_caixa_pagamento")
@@ -201,30 +189,17 @@ def update_movimento_caixa_recebimento(sender, instance, **kwargs):
 
     # Insere os itens de saída de movimentos de caixa
     movimento_caixa = MovimentosCaixa(  descricao=descricao, 
-                                        valor=instance.valor,
+                                        valor=Decimal(instance.valor).quantize(Decimal("0.00")),
                                         data=instance.data, 
                                         tipo_mov='Crédito', 
                                         caixa=Caixa.objects.get(status=1),
                                         recebimento=instance
                                         )
     # Não insere duas vezes se o recebimento existir e se o mesmo tiver o mesmo valor
-    if MovimentosCaixa.objects.filter(recebimento__pk=instance.pk, valor=instance.valor).exists():
+    if MovimentosCaixa.objects.filter(recebimento__pk=instance.pk).exists():
         pass
     else:
         movimento_caixa.save()
-
-
-    #Atualiza o status da conta à receber indicando se a compra está fechada, ou tem parcelas em aberto.
-    conta_aberta = ParcelasContasReceber.objects.filter(contas_receber=conta[0], status=0).exists()
-    conta_receber = ContasReceber.objects.get(pk=conta[0])
-
-    if conta_aberta:
-        conta_receber.status = False
-        conta_receber.save()
-    else:
-        conta_receber.status = True
-        conta_receber.save()
-
 
 # registro da signal
 post_save.connect(update_movimento_caixa_recebimento, sender=Recebimento, dispatch_uid="update_movimento_caixa_recebimento")

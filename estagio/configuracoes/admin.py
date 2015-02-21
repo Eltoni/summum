@@ -1,10 +1,11 @@
 #-*- coding: UTF-8 -*-
 from django.contrib import admin
 from models import *
+from forms import *
 
 
 class ParametrizacaoAdmin(admin.ModelAdmin):
-
+    form = ParametrizacaoForm
     fieldsets = (
         (None, {
             'classes': ('suit-tab suit-tab-geral',),
@@ -13,7 +14,8 @@ class ParametrizacaoAdmin(admin.ModelAdmin):
                 'quantidade_inlines_venda',
                 'habilita_pedido_compra',
                 'habilita_pedido_venda',
-                'qtde_minima_produtos_em_estoque'
+                'qtde_minima_produtos_em_estoque',
+                'perc_valor_minimo_pagamento'
             )
         }),
     )
@@ -29,6 +31,12 @@ class ParametrizacaoAdmin(admin.ModelAdmin):
     def has_add_permission(self, request):
         u""" Não permite adicionar outros registros de parametrização do sistema. """
         return False
+
+    def save_model(self, request, obj, form, change):
+        if not obj.perc_valor_minimo_pagamento:
+            obj.perc_valor_minimo_pagamento = 0
+
+        obj.save()
 
 
 admin.site.register(Parametrizacao, ParametrizacaoAdmin)

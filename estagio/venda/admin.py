@@ -57,25 +57,38 @@ class VendaAdmin(admin.ModelAdmin):
     list_filter = ('data', 'status', 'forma_pagamento', 'cliente')
     readonly_fields = ('data',)
 
-    fieldsets = (
-        (None, {
-            'classes': ('suit-tab suit-tab-geral',),
-            'fields': ('total', 'desconto', 'status')
-        }),
-        (None, {
-            'classes': ('suit-tab suit-tab-geral',),
-            'fields': ('cliente', 'forma_pagamento', 'data')
-        }),
-        (None, {
-            'classes': ('suit-tab suit-tab-info_adicionais',),
-            'fields': ('observacao', 'pedido', 'status_pedido',)
-        }),
-    )
+    def get_form(self, request, obj=None, **kwargs):
+        self.suit_form_tabs = (
+            ('geral', 'Geral'),
+            ('info_adicionais', 'Informações adicionais')
+        )
+        
+        self.fieldsets = (
+            (None, {
+                'classes': ('suit-tab suit-tab-geral',),
+                'fields': ('total', 'desconto', 'status')
+            }),
+            (None, {
+                'classes': ('suit-tab suit-tab-geral',),
+                'fields': ('cliente', 'forma_pagamento', 'grupo_encargo', 'data')
+            }),
+            (None, {
+                'classes': ('suit-tab suit-tab-info_adicionais',),
+                'fields': ('observacao', 'pedido', 'status_pedido',)
+            }),
+        )
 
-    suit_form_tabs = (
-        ('geral', 'Geral'),
-        ('info_adicionais', 'Informações adicionais')
-    )
+        if obj is None:
+            self.fieldsets[0][1]['fields'] = tuple(x for x in self.fieldsets[0][1]['fields'] if (x!='status'))
+            self.fieldsets[1][1]['fields'] = tuple(x for x in self.fieldsets[1][1]['fields'] if (x!='data'))
+            self.fieldsets[2][1]['fields'] = tuple(x for x in self.fieldsets[2][1]['fields'] if (x!='pedido' and x!='status_pedido'))
+
+        else:
+            if obj.pedido == 'N':
+                self.fieldsets[2][1]['fields'] = tuple(x for x in self.fieldsets[2][1]['fields'] if (x!='status_pedido'))
+
+        return super(VendaAdmin, self).get_form(request, obj, **kwargs)
+
 
     def has_delete_permission(self, request, obj=None):
         u""" Somente o usuário admin pode deletar uma venda. """
@@ -90,7 +103,7 @@ class VendaAdmin(admin.ModelAdmin):
         u""" Define todos os campos da venda como somente leitura caso o registro seja salvo no BD """
 
         if obj:
-            return ['total', 'data', 'desconto', 'cliente', 'forma_pagamento', 'pedido', 'status_pedido',]
+            return ['total', 'data', 'desconto', 'cliente', 'forma_pagamento', 'pedido', 'status_pedido', 'grupo_encargo',]
         else:
             return ['data', 'pedido', 'status_pedido']
 
@@ -139,6 +152,14 @@ class VendaAdmin(admin.ModelAdmin):
             return HttpResponseRedirect("../%s" % (obj.pk))
         else:
             return super(VendaAdmin, self).response_change(request, obj)
+
+
+    def suit_row_attributes(self, obj, request):
+        rowclass = ''
+        if obj.status:
+            rowclass = 'error'
+
+        return {'class': rowclass}
 
 
 admin.site.register(Venda, VendaAdmin)

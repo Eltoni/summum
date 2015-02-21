@@ -31,7 +31,7 @@ class BaseCadastroPessoa(models.Model):
     nome = models.CharField(max_length=255)
     data_nasc = models.DateField(validators=[valida_data_nascimento], blank=True, null=True, verbose_name=u'Data de nascimento')
     cpf = models.CharField(max_length=11, null=True, unique=True)
-    ativo = models.BooleanField(default=True)
+    status = models.BooleanField(default=True)
     endereco = models.CharField(max_length=50)
     numero = models.CharField(max_length=15) 
     bairro = models.CharField(max_length=50)
@@ -50,13 +50,30 @@ class BaseCadastroPessoa(models.Model):
 
 
 
-
 class Cliente(BaseCadastroPessoa):
     rg = models.CharField(max_length=20, blank=True, verbose_name=u'RG')
-    
 
     def __unicode__(self):
         return u'%s' % (self.nome)
+
+
+    def status_financeiro(obj):
+        u""" 
+            Método que checa se determinado cliente tem alguma parcela que esteja em aberto e vencida.
+            Caso haja, o cliente é classificado como inadimplente com a empresa.
+         """
+        from contas_receber.models import ParcelasContasReceber
+
+        hoje = date.today()
+        status = ParcelasContasReceber.objects.filter(vencimento__lt=hoje, status=False, contas_receber__cliente=obj.pk).select_related('contas_receber__contasreceber').exists()
+        
+        if status:
+            return '<span style="color: #FF0000;"><b>Inadimplente</b></span>'
+        else:
+            return '<span style="color: #3E3CBF;"><b>Adimplente</b></span>'
+
+    status_financeiro.allow_tags = True
+    status_financeiro.short_description = 'Status financeiro'
 
     # class Meta:
         # verbose_name = u'Meta de polo'
@@ -80,6 +97,24 @@ class Fornecedor(BaseCadastroPessoa):
 
     def __unicode__(self):
         return u'%s' % (self.nome)
+
+    def status_financeiro(obj):
+        u""" 
+            Método que checa se determinado cliente tem alguma parcela que esteja em aberto e vencida.
+            Caso haja, o cliente é classificado como inadimplente com a empresa.
+         """
+        from contas_pagar.models import ParcelasContasPagar
+
+        hoje = date.today()
+        status = ParcelasContasPagar.objects.filter(vencimento__lt=hoje, status=False, contas_pagar__fornecedores=obj.pk).select_related('contas_pagar__contaspagar').exists()
+        
+        if status:
+            return '<span style="color: #FF0000;"><b>Inadimplente</b></span>'
+        else:
+            return '<span style="color: #3E3CBF;"><b>Adimplente</b></span>'
+
+    status_financeiro.allow_tags = True
+    status_financeiro.short_description = 'Status financeiro'
 
 
 

@@ -1,7 +1,7 @@
 #-*- coding: UTF-8 -*-
 from django.db import models
 from pessoal.models import Cliente
-from parametros_financeiros.models import FormaPagamento
+from parametros_financeiros.models import FormaPagamento, GrupoEncargo
 from movimento.models import Produtos
 from django.core.exceptions import ValidationError
 import datetime
@@ -20,6 +20,7 @@ class Venda(models.Model):
     status = models.BooleanField(default=False, verbose_name=u'Cancelada?', help_text=u'Marcando o Checkbox, a venda será cancelada e os itens financeiros estornados.')
     cliente = models.ForeignKey(Cliente, on_delete=models.PROTECT)
     forma_pagamento = models.ForeignKey(FormaPagamento, on_delete=models.PROTECT)
+    grupo_encargo = models.ForeignKey(GrupoEncargo, blank=False, null=False, verbose_name=u'Grupo de encargo', on_delete=models.PROTECT)
     observacao = models.TextField(blank=True, verbose_name=u'observações', help_text="Descreva na área as informações relavantes da venda.")
     pedido = models.CharField(max_length=1, blank=True, choices=((u'S', 'Sim'), (u'N', 'Não'),), verbose_name=u'Pedido?') 
     status_pedido = models.BooleanField(default=False, verbose_name=u'Pedido confirmado?', help_text=u'Marcando o Checkbox, os itens financeiros serão gerados e o estoque movimentado.')
@@ -60,7 +61,7 @@ class Venda(models.Model):
             conta_gerada = ContasReceber.objects.filter(vendas=self.pk).exists()
             super(Venda, self).save(*args, **kwargs)
 
-            # Gera financeiro somente se compra for confirmada
+            # Gera financeiro somente se venda for confirmada
             if self.pedido == 'N' and not conta_gerada or (self.status_pedido and not conta_gerada):
 
                 # Descrição informada no contas à receber
@@ -73,6 +74,7 @@ class Venda(models.Model):
                                     vendas=self, 
                                     cliente=self.cliente, 
                                     forma_pagamento=self.forma_pagamento, 
+                                    grupo_encargo=self.grupo_encargo, 
                                     status=False
                                     )
                 venda.save()
@@ -107,7 +109,7 @@ class ItensVenda(models.Model):
     u""" 
     Classe ItensVenda. 
     Inline criada para ser exibida na página de vendas.
-    Nesta, todos os itens de uma compra são registrados.
+    Nesta, todos os itens de uma venda são registrados.
     
     Criada em 05/10/2014. 
     """

@@ -162,7 +162,7 @@ SUIT_CONFIG = {
         {'app':'localidade', 'icon':'icon-globe'},
         {'app':'pessoal', 'icon':'icon-user'},
         {'label': u'Movimentos', 'app':'movimento'},
-        {'label': u'Parâmetros', 'app':'parametros_financeiros', 'icon':'icon-barcode'},
+        {'label': u'Parâmetros', 'app':'parametros_financeiros', 'icon':'icon-barcode', 'models': ('formapagamento', 'grupoencargo')},
         {'app':'compra', 'icon':'icon-shopping-cart'}, 
         {'app':'venda', 'icon':'icon-shopping-cart'},
         {'label': u'Contas à pagar', 'icon':'icon-folder-close', 'app':'contas_pagar', 'models': ('contaspagar', 'parcelascontaspagar', 'pagamento')},

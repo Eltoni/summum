@@ -41,8 +41,8 @@ $(document).ready(function(){
 
     var $tableRows = $("table tbody tr");
     $tableRows.each(function(n) {
-        var valorTotal = $(this).find('.field-valor_total').text();
-        var valorPago = $(this).find('.field-valor_pago').text();
+        var valorTotal = parseFloat($(this).find('.field-valor_total').text());
+        var valorPago = parseFloat($(this).find('.field-valor_pago').text());
         if (valorTotal > valorPago && valorPago > 0.00){
             $(this).css('color', '#355EED');
         }

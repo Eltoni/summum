@@ -1,9 +1,11 @@
 from django.contrib import admin
 from models import *
 from forms import *
+from app_global.admin import GlobalAdmin
+from django.contrib.admin.views.main import IS_POPUP_VAR
 
 
-class FormaPagamentoAdmin(admin.ModelAdmin):
+class FormaPagamentoAdmin(GlobalAdmin):
 
     model = FormaPagamento
     list_display = ('nome', 'quant_parcelas', 'prazo_entre_parcelas', 'status')
@@ -39,8 +41,16 @@ class FormaPagamentoAdmin(admin.ModelAdmin):
         return {'class': rowclass}
 
 
+    def queryset(self, request):
+        qs = super(FormaPagamentoAdmin, self).queryset(request)
+        
+        if IS_POPUP_VAR in request.GET:  
+            return qs.filter(status=True)
+        return qs
 
-class GrupoEncargoAdmin(admin.ModelAdmin):
+
+
+class GrupoEncargoAdmin(GlobalAdmin):
 
     model = GrupoEncargo
     form = GrupoEncargoForm
@@ -85,6 +95,14 @@ class GrupoEncargoAdmin(admin.ModelAdmin):
             rowclass = 'error'
 
         return {'class': rowclass}
+
+
+    def queryset(self, request):
+        qs = super(GrupoEncargoAdmin, self).queryset(request)
+        
+        if IS_POPUP_VAR in request.GET:  
+            return qs.filter(status=True)
+        return qs
 
 
 admin.site.register(FormaPagamento, FormaPagamentoAdmin)

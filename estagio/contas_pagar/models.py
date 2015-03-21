@@ -10,6 +10,7 @@ import datetime
 from decimal import Decimal
 from django.db.models import Sum
 from django.core.urlresolvers import reverse
+from django.utils.html import format_html
 
 
 class ContasPagar(models.Model):
@@ -111,6 +112,14 @@ class ContasPagar(models.Model):
         valor_pago = Pagamento.objects.filter(parcelas_contas_pagar__contas_pagar=self.pk).aggregate(Sum('valor')).items()[0][1]
         return valor_pago or Decimal(0.00).quantize(Decimal("0.00"))
     valor_total_pago.short_description = 'Valor total pago'
+
+
+    def link_pagamentos_conta(self):
+        url = reverse('admin:app_list', kwargs={'app_label': 'contas_pagar'})
+        return format_html('<a href="{0}pagamento/pagamentos_conta/{1}" target="_blank">{2}<span class="icon-share icon-alpha5" style="vertical-align: text-bottom; margin-left: 10px;" rel="tooltip" title="Visualize todos os pagamentos efetuados da conta {1}"</span></a>', url, self.pk, self.valor_total_pago())
+        # return u"<a href='%spagamento/pagamentos_conta/%s' target='_blank'>%s</a>" % (url, self.pk, self.valor_total_pago())
+    link_pagamentos_conta.allow_tags = True
+    link_pagamentos_conta.short_description = u'Valor total pago'
 
 
     def valor_total_a_pagar(self):
@@ -236,6 +245,7 @@ class ContasPagar(models.Model):
                 Pagamento(  data=data, 
                             valor=parcela_paga.valor, 
                             juros=0.00, 
+                            multa=0.00,
                             desconto=0.00, 
                             parcelas_contas_pagar=parcela_paga
                             ).save()
@@ -363,9 +373,33 @@ class ParcelasContasPagar(models.Model):
 
     def valor_a_pagar(self):
         parcela_pagamentos = Pagamento.objects.filter(parcelas_contas_pagar=self.pk).aggregate(Sum('valor')).items()[0][1]
-        valor_a_pagar = self.valor_total() - (Decimal(0.00).quantize(Decimal("0.00")) if not parcela_pagamentos else parcela_pagamentos)
+        valor_a_pagar = Decimal(self.valor_total()).quantize(Decimal("0.00")) - (Decimal(0.00).quantize(Decimal("0.00")) if not parcela_pagamentos else parcela_pagamentos)
         return valor_a_pagar
     valor_a_pagar.short_description = 'Valor a Pagar'
+
+
+    def link_pagamentos_parcela_cores(self):
+        data = datetime.date.today()
+        if self.valor_pago() >= self.valor_total():
+            return '#2DB218 !important' #Pago
+
+        if self.valor_total() > self.valor_pago() and self.valor_pago() > 0.00:
+            return '#355EED !important' #Pago Parcial
+
+        if self.vencimento < data:
+            return '#E8262A !important' #Vencido
+
+        else: 
+            return '#333333 !important' #Em aberto
+
+
+    def link_pagamentos_parcela(self):
+        #return u"<a href='../../pagamento/add' target='_blank'>Pagar</a>"
+        url = reverse('admin:app_list', kwargs={'app_label': 'contas_pagar'})
+        # return u"<a href='%spagamento/pagamentos_parcela/%s' target='_blank' name='_return_id_parcela'>%s</a>" % (url, self.pk, self.valor_pago())
+        return format_html('<a href="{0}pagamento/pagamentos_parcela/{1}" target="_blank" style="color: {2};">{3}<span class="icon-share icon-alpha5" style="position: relative; float: right; right: 20%;" rel="tooltip" title="Visualize todos os pagamentos efetuados da parcela {1}"</span></a>', url, self.pk, self.link_pagamentos_parcela_cores(), self.valor_pago())
+    link_pagamentos_parcela.allow_tags = True
+    link_pagamentos_parcela.short_description = u'Valor Pago'
 
 
     def link_pagamento(self):

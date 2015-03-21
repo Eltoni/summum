@@ -10,6 +10,7 @@ import datetime
 from decimal import Decimal
 from django.db.models import Sum
 from django.core.urlresolvers import reverse
+from django.utils.html import format_html
 
 
 class ContasReceber(models.Model):
@@ -111,6 +112,13 @@ class ContasReceber(models.Model):
         valor_recebido = Recebimento.objects.filter(parcelas_contas_receber__contas_receber=self.pk).aggregate(Sum('valor')).items()[0][1]
         return valor_recebido or Decimal(0.00).quantize(Decimal("0.00"))
     valor_total_recebido.short_description = 'Valor total recebido'
+
+
+    def link_recebimentos_conta(self):
+        url = reverse('admin:app_list', kwargs={'app_label': 'contas_receber'})
+        return format_html('<a href="{0}recebimento/recebimentos_conta/{1}" target="_blank">{2}<span class="icon-share icon-alpha5" style="vertical-align: text-bottom; margin-left: 10px;" rel="tooltip" title="Visualize todos os recebimentos da conta {1}"</span></a>', url, self.pk, self.valor_total_recebido())
+    link_recebimentos_conta.allow_tags = True
+    link_recebimentos_conta.short_description = u'Valor total recebido'
 
 
     def valor_total_a_receber(self):
@@ -236,6 +244,7 @@ class ContasReceber(models.Model):
                 Recebimento(data=data, 
                             valor=parcela_paga.valor, 
                             juros=0.00, 
+                            multa=0.00,
                             desconto=0.00, 
                             parcelas_contas_receber=parcela_paga
                             ).save()
@@ -363,9 +372,31 @@ class ParcelasContasReceber(models.Model):
 
     def valor_a_receber(self):
         parcela_recebimentos = Recebimento.objects.filter(parcelas_contas_receber=self.pk).aggregate(Sum('valor')).items()[0][1]
-        valor_a_receber = self.valor_total() - (Decimal(0.00).quantize(Decimal("0.00")) if not parcela_recebimentos else parcela_recebimentos)
+        valor_a_receber = Decimal(self.valor_total()).quantize(Decimal("0.00")) - (Decimal(0.00).quantize(Decimal("0.00")) if not parcela_recebimentos else parcela_recebimentos)
         return valor_a_receber
     valor_a_receber.short_description = 'Valor a Receber'
+
+
+    def link_recebimentos_parcela_cores(self):
+        data = datetime.date.today()
+        if self.valor_pago() >= self.valor_total():
+            return '#2DB218 !important' #Pago
+
+        if self.valor_total() > self.valor_pago() and self.valor_pago() > 0.00:
+            return '#355EED !important' #Pago Parcial
+
+        if self.vencimento < data:
+            return '#E8262A !important' #Vencido
+
+        else: 
+            return '#333333 !important' #Em aberto
+
+
+    def link_recebimentos_parcela(self):
+        url = reverse('admin:app_list', kwargs={'app_label': 'contas_receber'})
+        return format_html('<a href="{0}recebimento/recebimentos_parcela/{1}" target="_blank" style="color: {2};">{3}<span class="icon-share icon-alpha5" style="position: relative; float: right; right: 20%;" rel="tooltip" title="Visualize todos os recebimentos da parcela {1}"</span></a>', url, self.pk, self.link_recebimentos_parcela_cores(), self.valor_pago())
+    link_recebimentos_parcela.allow_tags = True
+    link_recebimentos_parcela.short_description = u'Valor Pago'
 
 
     def link_recebimento(self):

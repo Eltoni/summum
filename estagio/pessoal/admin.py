@@ -6,14 +6,17 @@ from import_export.admin import ExportMixin
 from export import ClienteResource, FornecedorResource, FuncionarioResource, CargoResource
 from contas_receber.models import ContasReceber, ParcelasContasReceber
 from contas_pagar.models import ContasPagar, ParcelasContasPagar
+from django.contrib.admin.views.main import IS_POPUP_VAR
+from app_global.admin import GlobalAdmin
 
 
-class BaseCadastroPessoaAdmin(admin.ModelAdmin):
+class BaseCadastroPessoaAdmin(GlobalAdmin):
     model = BaseCadastroPessoa
     form = BaseCadastroPessoaForm
 
     list_display = ('nome', 'email', 'data')
     list_filter = ('status', 'cidade')
+    popup_list_filter = ('cidade',)
     search_fields = ['nome', 'email', 'cpf',]
     date_hierarchy = 'data'
     readonly_fields = ('id', 'data')
@@ -30,6 +33,14 @@ class BaseCadastroPessoaAdmin(admin.ModelAdmin):
             rowclass = 'error'
 
         return {'class': rowclass}
+
+
+    def queryset(self, request):
+        qs = super(BaseCadastroPessoaAdmin, self).queryset(request)
+        
+        if IS_POPUP_VAR in request.GET:  
+            return qs.filter(status=True)
+        return qs
 
 
 
@@ -173,6 +184,7 @@ class FornecedorAdmin(ExportMixin, BaseCadastroPessoaAdmin):
     form = FornecedorForm
     readonly_fields = ('status_financeiro', 'id', 'data')
     list_display = ('nome', 'email', 'status', 'status_financeiro')
+    popup_list_display = ('nome', 'email', 'status', 'status_financeiro')
 
 
     def get_form(self, request, obj=None, **kwargs):

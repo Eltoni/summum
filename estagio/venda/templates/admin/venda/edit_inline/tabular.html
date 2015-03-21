@@ -45,19 +45,19 @@
 
 
                   // Impede que o mesmo item de venda seja adicionado duas vezes numa mesma transação de venda
-                  var $selects = $('.field-produto select');
-                  $('.field-produto select').change(function () {
-                      $('option:hidden', $selects).each(function () {
-                          var self = this,
-                              toShow = true;
-                          $selects.not($(this).parent()).each(function () {
-                              if (self.value == this.value) toShow = false;
-                          })
-                          if (toShow) $(this).show();
-                      });
-                      if (this.value != 0) //to keep default option available
-                        $selects.not(this).children('option[value=' + this.value + ']').hide();
-                  });
+                  // var $selects = $('.field-produto select');
+                  // $('.field-produto select').change(function () {
+                  //     $('option:hidden', $selects).each(function () {
+                  //         var self = this,
+                  //             toShow = true;
+                  //         $selects.not($(this).parent()).each(function () {
+                  //             if (self.value == this.value) toShow = false;
+                  //         })
+                  //         if (toShow) $(this).show();
+                  //     });
+                  //     if (this.value != 0) //to keep default option available
+                  //       $selects.not(this).children('option[value=' + this.value + ']').hide();
+                  // });
 
 
                   /*-------------------------------------------------------------------------------------------------------------------------------
@@ -126,16 +126,6 @@
                               });
                           }
                       }); 
-                  });
-                  
-
-                  // tratamento para bloquear botão para finalização do cadastro enquanto há um campo sendo editado
-                  $("input, select").focusin(function() {
-                        $(":submit").attr("disabled", true);
-                  });
-
-                  $("input, select").focusout(function() {
-                        $(":submit").attr("disabled", false);
                   });
 
 

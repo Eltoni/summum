@@ -1,0 +1,48 @@
+.salmonella-clear-field {
+    /*background-image: url("/static/grappelli/images/icons/related-remove.png");
+    background-repeat: no-repeat;
+    background-position: center center;
+    display: inline-block;
+    position: relative;
+    top: 5px;
+    margin: 0 5px 0 10px;
+    height: 15px;
+    width: 15px;
+    cursor: pointer;*/
+}
+.salmonella_label {
+    vertical-align: middle;
+    position: relative;
+    left: 3px;
+    /*position: inline-block;
+    position: relative;
+    top: 2px;*/
+}
+.salmonella_label a {
+    /*background: #fff;*/
+    /*padding: 2px 5px;*/
+    text-decoration: none;
+
+    color: #ffffff;
+    background-color: #3d7dff;
+    cursor: default;
+    background-image: none;
+    opacity: 0.65;
+    box-shadow: none;
+    display: inline-block;
+    padding: 1px 4px;
+    margin-bottom: 0;
+    font-size: 12px;
+    line-height: 18px;
+    text-align: center;
+    vertical-align: middle;
+    border: 1px solid #0044cc;
+    border-radius: 4px;
+}
+
+.field-produto .salmonella_label a {
+    text-overflow: ellipsis;
+    max-width: 176px;
+    overflow: hidden;
+    white-space: nowrap;
+}

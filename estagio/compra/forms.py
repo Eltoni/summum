@@ -6,16 +6,6 @@ from django.forms.models import BaseInlineFormSet
 from models import *
 
 
-class Select(LinkedSelect):
-    u"""
-    Sobrescrita classe LinkedSelect do django suit
-    """
-
-    def __init__(self, attrs=None, choices=()):
-        super(LinkedSelect, self).__init__(attrs, choices)
-
-
-
 class CompraForm(ModelForm):
     u""" 
     Classe CompraForm. 
@@ -28,6 +18,7 @@ class CompraForm(ModelForm):
     class Media:
         js = (
             '/static/js/formata_campos_compra.js',
+            '/static/js/controle_campos_compra.js',
         )
 
     class Meta:
@@ -43,33 +34,33 @@ class CompraForm(ModelForm):
                         'oninput': "this.setCustomValidity('')"
                 }),
             'observacao': AutosizedTextarea(attrs={'rows': 5, 'class': 'input-xxlarge', 'placeholder': '...'}),
-            'fornecedor': Select(
-                attrs={ 'required': 'required', 
-                        'oninvalid': "this.setCustomValidity('Informe o fornecedor.')", 
-                        'oninput': "this.setCustomValidity('')"
-                }),
-            'forma_pagamento': Select(
-                attrs={ 'required': 'required', 
-                        'oninvalid': "this.setCustomValidity('Informe a forma de pagamento.')", 
-                        'oninput': "this.setCustomValidity('')"
-                }),
-            'grupo_encargo': Select(
-                attrs={ 'required': 'required', 
-                        'oninvalid': "this.setCustomValidity('Informe o grupo de encargo.')", 
-                        'oninput': "this.setCustomValidity('')"
-                }),
+            # 'fornecedor': Select(
+            #     attrs={ 'required': 'required', 
+            #             'oninvalid': "this.setCustomValidity('Informe o fornecedor.')", 
+            #             'oninput': "this.setCustomValidity('')"
+            #     }),
+            # 'forma_pagamento': Select(
+            #     attrs={ 'required': 'required', 
+            #             'oninvalid': "this.setCustomValidity('Informe a forma de pagamento.')", 
+            #             'oninput': "this.setCustomValidity('')"
+            #     }),
+            # 'grupo_encargo': Select(
+            #     attrs={ 'required': 'required', 
+            #             'oninvalid': "this.setCustomValidity('Informe o grupo de encargo.')", 
+            #             'oninput': "this.setCustomValidity('')"
+            #     }),
             'status': CheckboxInput(attrs={'class': 'status-compra'}),
         }
 
 
     def __init__(self, *args, **kwargs):
         super(CompraForm, self).__init__(*args, **kwargs)
-        try:
-            self.fields['fornecedor'].queryset = Fornecedor.objects.exclude(status=0) 
-            self.fields['forma_pagamento'].queryset = FormaPagamento.objects.exclude(status=0) 
-            self.fields['grupo_encargo'].queryset = GrupoEncargo.objects.exclude(status=0)
-        except KeyError:
-            pass
+        # try:
+        #     self.fields['fornecedor'].queryset = Fornecedor.objects.exclude(status=0) 
+        #     self.fields['forma_pagamento'].queryset = FormaPagamento.objects.exclude(status=0) 
+        #     self.fields['grupo_encargo'].queryset = GrupoEncargo.objects.exclude(status=0)
+        # except KeyError:
+        #     pass
 
         try:
             grupo_encargo_padrao = GrupoEncargo.objects.get(padrao=1)
@@ -89,10 +80,6 @@ class ItensCompraForm(ModelForm):
     """
 
     class Media:
-        js = (
-            '/static/js/formata_campos.js',
-            '/static/js/controle_campos_compra.js',
-        )
         css = {
             'all': ('/static/css/itens_compra.css',)
         }
@@ -105,7 +92,7 @@ class ItensCompraForm(ModelForm):
                         'placeholder': '0', 
                         'min': '0'
                 }),
-            'produto': Select(attrs={'class': 'input-large'}),
+            # 'produto': Select(attrs={'class': 'input-large'}),
             'valor_unitario': NumberInput(
                 attrs={ 'readonly':'readonly', 
                         'class': 'input-small text-right', 
@@ -130,12 +117,12 @@ class ItensCompraForm(ModelForm):
         }
 
 
-    def __init__(self, *args, **kwargs):
-        super(ItensCompraForm, self).__init__(*args, **kwargs)
-        try:
-            self.fields['produto'].queryset = Produtos.objects.exclude(status=0) 
-        except KeyError:
-            pass
+    # def __init__(self, *args, **kwargs):
+    #     super(ItensCompraForm, self).__init__(*args, **kwargs)
+    #     try:
+    #         self.fields['produto'].queryset = Produtos.objects.exclude(status=0) 
+    #     except KeyError:
+    #         pass
 
 
 

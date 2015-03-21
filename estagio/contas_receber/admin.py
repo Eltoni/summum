@@ -3,12 +3,23 @@ from django.contrib import admin
 from models import *
 from forms import *
 from django.http import HttpResponseRedirect
+from django.conf.urls import patterns
+from views import retorna_recebimentos_parcela, retorna_recebimentos_conta
+from salmonella.admin import SalmonellaMixin
 
 
 class RecebimentoAdmin(admin.ModelAdmin):
     form = RecebimentoForm
     model = Recebimento
     list_display = ('id', 'parcelas_contas_receber', 'data', 'valor')
+
+    def get_urls(self):
+        urls = super(RecebimentoAdmin, self).get_urls()
+        my_urls = patterns('',
+            (r'recebimentos_parcela/(?P<id_parcela>\d+)/$', self.admin_site.admin_view(retorna_recebimentos_parcela)),
+            (r'recebimentos_conta/(?P<id_conta>\d+)/$', self.admin_site.admin_view(retorna_recebimentos_conta)),
+        )
+        return my_urls + urls
 
 
     def get_form(self, request, obj=None, **kwargs):
@@ -71,8 +82,8 @@ class ParcelasContasReceberInline(admin.TabularInline):
     model = ParcelasContasReceber
     form = ParcelasContasReceberForm
     suit_classes = 'suit-tab suit-tab-geral'
-    fields = ('id', 'num_parcelas', 'contas_receber', 'formata_data', 'valor', 'encargos_calculados', 'valor_total', 'valor_pago', 'valor_a_receber', 'link_recebimento')
-    readonly_fields = ('id', 'num_parcelas', 'contas_receber', 'formata_data', 'encargos_calculados', 'valor_total', 'valor', 'valor_pago', 'valor_a_receber', 'link_recebimento')
+    fields = ('id', 'num_parcelas', 'contas_receber', 'formata_data', 'valor', 'encargos_calculados', 'valor_total', 'link_recebimentos_parcela', 'valor_a_receber', 'link_recebimento')
+    readonly_fields = ('id', 'num_parcelas', 'contas_receber', 'formata_data', 'encargos_calculados', 'valor_total', 'valor', 'valor_pago', 'valor_a_receber', 'link_recebimento', 'link_recebimentos_parcela')
     extra = 0
     can_delete = False
 
@@ -81,11 +92,12 @@ class ParcelasContasReceberInline(admin.TabularInline):
 
 
 
-class ContasReceberAdmin(admin.ModelAdmin):
+class ContasReceberAdmin(SalmonellaMixin, admin.ModelAdmin):
     model = ContasReceber
     form = ContasReceberForm
     list_display = ('id', 'venda_associada', 'data', 'descricao', 'status')
     list_filter = ('status', 'vendas',)
+    salmonella_fields = ('cliente', 'forma_pagamento', 'grupo_encargo',)
 
 
     def get_form(self, request, obj=None, **kwargs):
@@ -96,7 +108,7 @@ class ContasReceberAdmin(admin.ModelAdmin):
             }),
             (None, {
                 'classes': ('suit-tab suit-tab-detalhe',),
-                'fields': ('valor_total_juros', 'valor_total_multa', 'valor_total_encargos', 'valor_total_cobrado', 'valor_total_recebido', 'valor_total_a_receber')
+                'fields': ('valor_total_juros', 'valor_total_multa', 'valor_total_encargos', 'valor_total_cobrado', 'link_recebimentos_conta', 'valor_total_a_receber')
             }),
         )
 
@@ -106,7 +118,8 @@ class ContasReceberAdmin(admin.ModelAdmin):
 
         self.suit_form_includes = []
         if obj is None:
-            self.fieldsets[1][1]['fields'] = tuple(x for x in self.fieldsets[1][1]['fields'] if (x!='valor_total_recebido' and x!='valor_total_cobrado' and x!='valor_total_a_receber' and x!='valor_total_encargos' and x!='valor_total_juros' and x!='valor_total_multa'))
+            self.fieldsets[0][1]['fields'] = tuple(x for x in self.fieldsets[0][1]['fields'] if (x!='venda_associada' and x!='id' and x!='status'))
+            self.fieldsets[1][1]['fields'] = tuple(x for x in self.fieldsets[1][1]['fields'] if (x!='link_recebimentos_conta' and x!='valor_total_cobrado' and x!='valor_total_a_receber' and x!='valor_total_encargos' and x!='valor_total_juros' and x!='valor_total_multa'))
         
         else:
             insert_into_suit_form_tabs = tuple([('detalhe', 'Detalhes da Conta')])
@@ -123,7 +136,7 @@ class ContasReceberAdmin(admin.ModelAdmin):
         """ Define todos os campos da inline como somente leitura caso o registro seja salvo no BD """
 
         if obj:
-            return ['status', 'id', 'venda_associada', 'valor_total', 'data', 'descricao', 'cliente', 'forma_pagamento', 'grupo_encargo', 'valor_total_recebido', 'valor_total_juros', 'valor_total_multa', 'valor_total_encargos', 'valor_total_cobrado', 'valor_total_a_receber',]
+            return ['status', 'id', 'venda_associada', 'valor_total', 'data', 'descricao', 'cliente', 'forma_pagamento', 'grupo_encargo', 'valor_total_recebido', 'valor_total_juros', 'valor_total_multa', 'valor_total_encargos', 'valor_total_cobrado', 'valor_total_a_receber', 'link_recebimentos_conta',]
         else:
             return ['status', 'id', 'venda_associada', ]
 

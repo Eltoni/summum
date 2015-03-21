@@ -15,12 +15,12 @@ class ContasPagarForm(ModelForm):
 
     def __init__(self, *args, **kwargs):
         super(ContasPagarForm, self).__init__(*args, **kwargs)
-        try:
-            self.fields['fornecedores'].queryset = Fornecedor.objects.exclude(status=0) 
-            self.fields['forma_pagamento'].queryset = FormaPagamento.objects.exclude(status=0) 
-            self.fields['grupo_encargo'].queryset = GrupoEncargo.objects.exclude(status=0)
-        except KeyError:
-            pass
+        # try:
+        #     self.fields['fornecedores'].queryset = Fornecedor.objects.exclude(status=0) 
+        #     self.fields['forma_pagamento'].queryset = FormaPagamento.objects.exclude(status=0) 
+        #     self.fields['grupo_encargo'].queryset = GrupoEncargo.objects.exclude(status=0)
+        # except KeyError:
+        #     pass
 
         try:
             grupo_encargo_padrao = GrupoEncargo.objects.get(padrao=1)
@@ -54,7 +54,7 @@ class ParcelasContasPagarForm(ModelForm):
     class Media:
         js = (
             '/static/js/formata_campos_contas_pagar.js',
-            '/static/js/formata_parcelas.js',
+            '/static/js/formata_parcelas_contas_pagar.js',
         )
 
     class Meta:

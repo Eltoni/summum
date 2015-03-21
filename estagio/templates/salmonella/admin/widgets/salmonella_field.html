@@ -1,0 +1,47 @@
+{{ hidden_input }}
+
+<a href="{{ related_url }}{{ url }}" data-name="{{ name }}" data-app="{{ app_name }}" data-model="{{ model_name }}" class="salmonella-related-lookup" id="lookup_id_{{ name }}" style="padding: 2px 5px;">
+    <!-- <span class="icon-search"></span> -->
+    <img src="/static/admin/img/selector-search.gif" width="16" height="16" alt="Lookup">
+    <!-- <img src="{{ SALMONELLA_STATIC }}img/selector-search.gif" alt="Lookup" height="16" width="16"> -->
+</a>
+<a data-name="developers" data-app="{{ app_name }}" data-model="{{ model_name }}" class="salmonella-clear-field">
+    <span class="icon-remove"></span>
+    <!-- <img src="{{ SALMONELLA_STATIC }}img/icon_deletelink.gif" alt="Lookup" height="10" width="10"> -->
+</a>
+<span class="salmonella_label" id="{{ name }}_salmonella_label"></span>
+
+
+<script type="text/javascript">
+    function valida_salmonella_label(element){
+        var value = element.val(),
+            app = element.next("a").attr("data-app"),
+            model = element.next("a").attr("data-model"),
+            MOUNT_URL = window.SALMONELLA_MOUNT_URL || "/admin/salmonella",
+            url = MOUNT_URL,
+            url = url + "/" + app + "/" + model + "/" + value + "/";
+        
+            $.ajax({       
+                type: "GET",
+                url: url,
+                dataType: "text",
+                success: function(status){
+                    //alert(status);
+                    if (status != 'True') {
+                        element.parent().find('input').val("");
+                        element.parent().find(".salmonella_label").empty();
+                    }
+                },
+                error: function(e) {
+                    alert("Erro ao executar a view checa_foreignkey_habilitada " + e);
+                }
+            }); 
+        // element.stopPropagation();
+    }
+
+    $(".vForeignKeyRawIdAdminField").change(function(e){
+        var $this = $(this);
+        valida_salmonella_label($this);
+        // e.stopPropagation();
+    });
+</script>

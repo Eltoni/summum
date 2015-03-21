@@ -10,3 +10,16 @@ $("a").each(function() {
          $(this).attr('href', '/dashboard/');               
      }
  });
+
+
+// Bloqueia entradas de valores diferentes de números, bloqueando também ponto e traço
+$(".vForeignKeyRawIdAdminField").numeric({ decimal: false, negative: false });
+
+//
+$(".vForeignKeyRawIdAdminField").change(function(){
+    var valorID = $(this).val();
+    if (valorID == 0 || valorID == ""){
+        $(this).parent().find('input').val("");
+        $(this).parent().find(".salmonella_label").empty();
+    }
+});

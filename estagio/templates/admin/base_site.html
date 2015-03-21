@@ -7,22 +7,22 @@
 
 
 {# Additional CSS includes #}
-{#{% block extrastyle %}#}
-{#  <link rel="stylesheet" type="text/css" href="{% static 'css/my_project.css' %}" media="all">#}
-{#{% endblock %}#}
+{% block extrastyle %}
+	<link rel="stylesheet" type="text/css" href="{% static 'css/salmonella.css' %}" media="all">
+{% endblock %}
 
 
 {# Additional JS files in footer, right before </body> #}
 {% block extrajs %}
-
-    {# Script personalizado para todo o site #}
-    <script type="text/javascript" src="{% static 'js/base.js' %}"></script>
     
     {# jQuery Mask - Script para criar as mascaras dos campos #}
     <script type="text/javascript" src="{% static 'js/jquery.mask.min.js' %}"></script>
     
     {# jquery.numeric.js - Script para controle de campos numéricos #}
     <script type="text/javascript" src="{% static 'js/jquery.numeric.js' %}"></script>
+
+    {# Script personalizado para todo o site #}
+    <script type="text/javascript" src="{% static 'js/base.js' %}"></script>
     
 {% endblock %}
 

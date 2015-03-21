@@ -44,6 +44,7 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
     # Modulos do sistema
+    'app_global',
     'pessoal',
     'localidade',
     'parametros_financeiros',
@@ -58,6 +59,7 @@ INSTALLED_APPS = (
     # Bibliotecas em uso pelo projeto
     'import_export',
     'smart_selects',
+    'salmonella',
 )
 
 

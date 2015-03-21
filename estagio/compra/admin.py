@@ -4,14 +4,17 @@ from models import *
 from forms import *
 from django.http import HttpResponseRedirect
 from configuracoes.models import Parametrizacao
+from salmonella.admin import SalmonellaMixin
+from app_global.widgets import NoAddingRelatedFieldWidgetWrapper
 
 
-class ItensCompraInline(admin.TabularInline):
+class ItensCompraInline(SalmonellaMixin, admin.TabularInline):
     form = ItensCompraForm
     formset = ItensCompraFormSet
     model = ItensCompra
     can_delete = False
     fields = ('produto', 'quantidade', 'valor_unitario', 'desconto', 'valor_total')
+    salmonella_fields = ('produto',)
     template = "admin/compra/edit_inline/tabular.html"  # Chama o template personalizado para realizar da inline para fazer todo o tratamento necessário para a tela de compras
 
 
@@ -44,7 +47,7 @@ class ItensCompraInline(admin.TabularInline):
 
 
 
-class CompraAdmin(admin.ModelAdmin):
+class CompraAdmin(SalmonellaMixin, admin.ModelAdmin):
     inlines = [ 
         ItensCompraInline,
     ]
@@ -56,7 +59,8 @@ class CompraAdmin(admin.ModelAdmin):
     search_fields = ['id', 'fornecedor']
     list_filter = ('data', 'status', 'forma_pagamento', 'fornecedor')
     readonly_fields = ('data',)
-
+    salmonella_fields = ('fornecedor', 'forma_pagamento', 'grupo_encargo',)
+    # raw_id_fields = ('fornecedor',)
 
     def get_form(self, request, obj=None, **kwargs):
         self.suit_form_tabs = (

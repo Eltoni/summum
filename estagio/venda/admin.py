@@ -4,14 +4,16 @@ from models import *
 from forms import *
 from django.http import HttpResponseRedirect
 from configuracoes.models import Parametrizacao
+from salmonella.admin import SalmonellaMixin
 
 
-class ItensVendaInline(admin.TabularInline):
+class ItensVendaInline(SalmonellaMixin, admin.TabularInline):
     form = ItensVendaForm
     formset = ItensVendaFormSet
     model = ItensVenda
     can_delete = False
     fields = ('produto', 'quantidade', 'valor_unitario', 'desconto', 'valor_total')
+    salmonella_fields = ('produto',)
     template = "admin/venda/edit_inline/tabular.html"  # Chama o template personalizado para realizar da inline para fazer todo o tratamento necessário para a tela de vendas
 
 
@@ -44,7 +46,7 @@ class ItensVendaInline(admin.TabularInline):
 
 
 
-class VendaAdmin(admin.ModelAdmin):
+class VendaAdmin(SalmonellaMixin, admin.ModelAdmin):
     inlines = [ 
         ItensVendaInline,
     ]
@@ -56,6 +58,8 @@ class VendaAdmin(admin.ModelAdmin):
     search_fields = ['id', 'cliente']
     list_filter = ('data', 'status', 'forma_pagamento', 'cliente')
     readonly_fields = ('data',)
+    salmonella_fields = ('cliente', 'forma_pagamento', 'grupo_encargo',)
+    
 
     def get_form(self, request, obj=None, **kwargs):
         self.suit_form_tabs = (

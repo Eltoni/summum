@@ -1,0 +1,46 @@
+{% extends "admin/base_site.html" %}
+{% load i18n admin_static %}
+{% block bodyclass %}dashboard{% endblock %}
+
+{% if not is_popup %}
+{% block breadcrumbs %}
+<div class="breadcrumbs">
+<a href="{% url 'admin:index' %}">{% trans 'Home' %}</a>
+&rsaquo; <a href="{% url 'admin:app_list' app_label=app_name %}">{{ app_name|capfirst|escape }}</a>
+&rsaquo; {{ title|capfirst }}
+</div>
+{% endblock %}
+{% endif %}
+
+{% block coltype %}flex{% endblock %}
+
+{% block content %}
+
+    {% if pagamentos %}
+       <h2>Pagamentos já realizados da conta {{ pagamentos.0.6 }}</h2>
+
+       <table class="table table-bordered table-condensed table-striped">
+         <thead><tr>
+             <th colspan="1">ID</th>
+             <th>Data do Pagamento</th>
+             <th>Valor</th>
+             <th>Juros</th>
+             <th>Multa</th>
+             <th>Desconto</th>
+         </tr></thead>
+         <tbody>
+            {% for pagamento in pagamentos %}
+                <tr class="form-row row1 has_original dynamic-parcelascontaspagar_set" id="parcelascontaspagar_set-0" style="color: rgb(45, 178, 24);">
+                      <td><p>{{ pagamento.0 }}</p></td>
+                      <td><p>{{ pagamento.1 }}</p></td>
+                      <td><p>{{ pagamento.2 }}</p></td>
+                      <td><p>{{ pagamento.3 }}</p></td>
+                      <td><p>{{ pagamento.4 }}</p></td>
+                      <td><p>{{ pagamento.5 }}</p></td>
+                </tr>
+            {% endfor %}     
+         </tbody>
+       </table>
+    {% endif %}
+
+{% endblock %}

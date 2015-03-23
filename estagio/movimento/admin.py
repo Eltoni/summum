@@ -3,6 +3,7 @@ from django.contrib import admin
 from models import *
 from import_export.admin import ExportMixin
 from export import ProdutosResource
+from django.contrib.admin.views.main import IS_POPUP_VAR
 
 
 class ProdutosAdmin(ExportMixin, admin.ModelAdmin):
@@ -33,6 +34,14 @@ class ProdutosAdmin(ExportMixin, admin.ModelAdmin):
             rowclass = 'error'
 
         return {'class': rowclass}
+
+
+    def queryset(self, request):
+        qs = super(ProdutosAdmin, self).queryset(request)
+        if IS_POPUP_VAR in request.GET:  
+            return qs.filter(status=True)
+        return qs
+
 
 
 admin.site.register(Produtos, ProdutosAdmin)

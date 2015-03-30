@@ -22,7 +22,7 @@ $(document).ready(function(){
         var dataVencimento = $(this).text().split("/");
         dataVencimentoConv = new Date(dataVencimento[2], dataVencimento[1] - 1, dataVencimento[0]);
         var dataAtual = new Date();
-        if (formatDate(dataVencimentoConv) < formatDate(dataAtual)) {
+        if (dataVencimentoConv < dataAtual) {
             $(this).closest("tr").css('color', '#E8262A');
         }
         

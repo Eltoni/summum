@@ -34,33 +34,12 @@ class CompraForm(ModelForm):
                         'oninput': "this.setCustomValidity('')"
                 }),
             'observacao': AutosizedTextarea(attrs={'rows': 5, 'class': 'input-xxlarge', 'placeholder': '...'}),
-            # 'fornecedor': Select(
-            #     attrs={ 'required': 'required', 
-            #             'oninvalid': "this.setCustomValidity('Informe o fornecedor.')", 
-            #             'oninput': "this.setCustomValidity('')"
-            #     }),
-            # 'forma_pagamento': Select(
-            #     attrs={ 'required': 'required', 
-            #             'oninvalid': "this.setCustomValidity('Informe a forma de pagamento.')", 
-            #             'oninput': "this.setCustomValidity('')"
-            #     }),
-            # 'grupo_encargo': Select(
-            #     attrs={ 'required': 'required', 
-            #             'oninvalid': "this.setCustomValidity('Informe o grupo de encargo.')", 
-            #             'oninput': "this.setCustomValidity('')"
-            #     }),
             'status': CheckboxInput(attrs={'class': 'status-compra'}),
         }
 
 
     def __init__(self, *args, **kwargs):
         super(CompraForm, self).__init__(*args, **kwargs)
-        # try:
-        #     self.fields['fornecedor'].queryset = Fornecedor.objects.exclude(status=0) 
-        #     self.fields['forma_pagamento'].queryset = FormaPagamento.objects.exclude(status=0) 
-        #     self.fields['grupo_encargo'].queryset = GrupoEncargo.objects.exclude(status=0)
-        # except KeyError:
-        #     pass
 
         try:
             grupo_encargo_padrao = GrupoEncargo.objects.get(padrao=1)
@@ -92,10 +71,9 @@ class ItensCompraForm(ModelForm):
                         'placeholder': '0', 
                         'min': '0'
                 }),
-            # 'produto': Select(attrs={'class': 'input-large'}),
             'valor_unitario': NumberInput(
                 attrs={ 'readonly':'readonly', 
-                        'class': 'input-small text-right', 
+                        'class': 'input-small text-right valor-unitario-ic', 
                         'step': '0.01'
                 }),
             'desconto': NumberInput(
@@ -115,14 +93,6 @@ class ItensCompraForm(ModelForm):
                         'step': '0.01'
                 }),
         }
-
-
-    # def __init__(self, *args, **kwargs):
-    #     super(ItensCompraForm, self).__init__(*args, **kwargs)
-    #     try:
-    #         self.fields['produto'].queryset = Produtos.objects.exclude(status=0) 
-    #     except KeyError:
-    #         pass
 
 
 

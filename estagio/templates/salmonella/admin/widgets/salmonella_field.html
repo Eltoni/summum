@@ -30,6 +30,7 @@
                     if (status != 'True') {
                         element.parent().find('input').val("");
                         element.parent().find(".salmonella_label").empty();
+                        element.focus();
                     }
                 },
                 error: function(e) {
@@ -41,7 +42,10 @@
 
     $(".vForeignKeyRawIdAdminField").change(function(e){
         var $this = $(this);
-        valida_salmonella_label($this);
+        var val = $this.val();
+        if (val) {
+            valida_salmonella_label($this);
+        }
         // e.stopPropagation();
     });
 </script>

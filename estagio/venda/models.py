@@ -150,6 +150,15 @@ class ItensVenda(models.Model):
             super(ItensVenda, self).save(*args, **kwargs)
 
 
+    def clean_fields(self, *args, **kwargs):
+        """
+        Método que trata o movimento no estoque.
+        """
+        quant_produto_estoque = Produtos.objects.filter(pk=self.produto.pk).values_list('quantidade')[0][0]
+        if self.quantidade > quant_produto_estoque:
+            raise ValidationError({'quantidade': ["Há somente %s unidade(s) deste produto em estoque." % (quant_produto_estoque),]})   
+
+
 
 # Importado no final do arquivo para não ocorrer problemas com dependencia circular 
 from contas_receber.models import ContasReceber, ParcelasContasReceber

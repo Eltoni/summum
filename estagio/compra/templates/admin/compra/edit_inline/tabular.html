@@ -27,138 +27,7 @@
               Início do Script que faz a busca pelo item de compra
               Autor: Gustavo Santana de Oliveira
           -->
-          <script type="text/javascript">
-              /* Abaixo função para realizar testes com o inline da aplicação */ 
-              
-              //$(document).ready(function(){
-                  //$( ".linked-select" ).change(function() {
-                      //alert( "Handler for .change() called." );
-                  //});
-              //});
-
-              $(document).ready(function(){
-                  // Limpa todos os campos da inline, exceto o de produto
-                  function LimpaCamposInline()
-                  {
-                     $("input[name=itenscompra_set-{{ forloop.counter0 }}-quantidade], input[name=itenscompra_set-{{ forloop.counter0 }}-valor_unitario], input[name=itenscompra_set-{{ forloop.counter0 }}-desconto], input[name=itenscompra_set-{{ forloop.counter0 }}-valor_total]").val("");
-                  }
-
-
-                  // Impede que o mesmo item de compra seja adicionado duas vezes numa mesma transação de compra
-                  // var $selects = $('.field-produto select');
-                  // $('.field-produto select').change(function () {
-                  //     $('option:hidden', $selects).each(function () {
-                  //         var self = this,
-                  //             toShow = true;
-                  //         $selects.not($(this).parent()).each(function () {
-                  //             if (self.value == this.value) toShow = false;
-                  //         })
-                  //         if (toShow) $(this).show();
-                  //     });
-                  //     if (this.value != 0) //to keep default option available
-                  //       $selects.not(this).children('option[value=' + this.value + ']').hide();
-                  // });
-
-
-                  /*-------------------------------------------------------------------------------------------------------------------------------
-                  Busca o valor unitário do produto informado
-                  -------------------------------------------------------------------------------------------------------------------------------*/
-                  var valorUnitario;
-                  var id;
-
-                  // executa a função quando a select de produto sofrer alterações
-                  $("#id_itenscompra_set-{{ forloop.counter0 }}-produto").change(function(){
-                      id = $("#id_itenscompra_set-{{ forloop.counter0 }}-produto").val();             // Armazena na variável id o produto selecionado na select
-                      if (id) {                                                                       // Condição que verifica se a inline tem produto cadastrado
-                          $.ajax({       
-                              type: "GET",                                                            // Determina o método http: GET, POST…
-                              url: "/get_valor_unitario/"+id,                                         // url declarada no urls.py
-                              dataType: "json",                                                       // Tipo de dados que a url vai retornar
-                              success: function(retorno){                                             // Caso tenhamos sucesso a função segue em frente
-                                  $.each(retorno, function(i, produtos){                              // Faz um laço e pega todos os itens do objeto “retorno”
-                                      var valorUnitario = produtos.fields['preco'];                   // Armazena na variável o valor de compra do produto
-                                      $('input[name="itenscompra_set-{{ forloop.counter0 }}-valor_unitario"]').val(valorUnitario); // seta o valor obtido no campo valor unitário
-                                      //alert( "Handler for .change() called." );
-                                  });
-                              }
-                          }); 
-                          //$("input[name=itenscompra_set-{{ forloop.counter0 }}-quantidade], input[name=itenscompra_set-{{ forloop.counter0 }}-desconto]").keyup(); // Chama a função abaixo, que calcula o valor total do item de compra
-                          LimpaCamposInline();                                                          // Chama função que limpa os campos do registro 
-                          $("input[name=itenscompra_set-{{ forloop.counter0 }}-quantidade]").focus();   // O campo quantidade recebe o foco
-                          $(":submit").attr("disabled", true);                                          // Desabilitar a finalização do cadastro
-
-                          jQuery('#id_itenscompra_set-{{ forloop.counter0 }}-quantidade').attr({"required": "required"});  // Torna o campo quantidade obrigatório
-                          jQuery('#id_itenscompra_set-{{ forloop.counter0 }}-quantidade').removeAttr('readonly');          // Remove o atributo readonly do campo quantidade
-                          jQuery('#id_itenscompra_set-{{ forloop.counter0 }}-desconto').removeAttr('readonly');            // Remove o atributo readonly do campo desconto
-
-                      } else {
-                          // Se usuário desmarcar um item de compra, todos os campos do registro são zerados
-                          jQuery('#id_itenscompra_set-{{ forloop.counter0 }}-desconto').attr({"readonly": "readonly"});    // Add o atributo readonly no campo desconto
-                          var $this = $('#id_itenscompra_set-{{ forloop.counter0 }}-quantidade');
-                          $this.attr({"readonly": "readonly"});
-                          $this.removeAttr('required');                                                                   // Remove a obrigatoriedade do campo quantidade
-                          LimpaCamposInline();
-                      }; 
-                      calculateSum();                   
-                  });
-
-
-                  /*-------------------------------------------------------------------------------------------------------------------------------
-                  Faz o cálculo do valor do item da compra, multiplicando o valor unitário do produto pela quantidade informada
-                  e fazendo a subtração da porcentagem de desconto (caso exista algum desconto).
-                  -------------------------------------------------------------------------------------------------------------------------------*/
-                  $("input[name=itenscompra_set-{{ forloop.counter0 }}-quantidade], input[name=itenscompra_set-{{ forloop.counter0 }}-desconto]").keyup(function () {
-                      var quantidade = $('input[name="itenscompra_set-{{ forloop.counter0 }}-quantidade"]').val();            // Armazena a quantidade de produtos informada
-                      var valorUnitario = $('input[name="itenscompra_set-{{ forloop.counter0 }}-valor_unitario"]').val();     // Obtém o valor unitário do produto
-                      var valorItemCompra = valorUnitario * quantidade;                                                       // Obtém o valor inicial do item de compra
-                      var desconto = $('input[name=itenscompra_set-{{ forloop.counter0 }}-desconto]').val();                  // Armazena o desconto inserido pelo usuário
-                      var valorPercentualDesconto = (valorItemCompra * desconto) / 100.00;                                    // Cálcula o desconto equivalente a porcentagem informada
-                      valorItemCompra = valorItemCompra - valorPercentualDesconto;                                            // Cálculo do valor final do item de compra
-
-                      if (id) {
-                          // seta o valor total do item de compra no campo correspondente
-                          $('input[name="itenscompra_set-{{ forloop.counter0 }}-valor_total"]').val(valorItemCompra.toFixed(2));  // Com duas casas decimais
-                      };
-                  }).keyup();
-
-
-                  /*-------------------------------------------------------------------------------------------------------------------------------
-                  Faz o cálculo do valor total da compra
-                  -------------------------------------------------------------------------------------------------------------------------------*/
-
-                  // iteração através de cada campo e adiciona keyup
-                  // manipulador para desencadear evento soma
-                  $(".quantidade-ic, #id_desconto, .desconto").each(function() {
-           
-                      $(this).keyup(function(){
-                          calculateSum();
-                      });
-                  });
-
-                  function calculateSum() {
-               
-                      var sum = 0;
-                      // iteração através de cada campo e adiciona o valor
-                      $(".valor-total-ic").each(function() {
-               
-                          // adiciona somente se o valor é número
-                          if(!isNaN(this.value) && this.value.length!=0) {
-                              sum += parseFloat(this.value);
-                          }
-               
-                      });
-                      // .toFixed() método de arredondamento da soma final para 2 casas decimais
-
-                      var descontoTotal = $('#id_desconto').val();
-                      var percentualDescontoTotal = (sum * descontoTotal) / 100.00;
-                      sum = sum - percentualDescontoTotal;
-
-                      $('#id_total').val(sum.toFixed(2));
-                  }
-
-
-              });
-          </script>
+          <script type="text/javascript" src="{% static 'js/inline_compra.js' %}"></script>
           <!--      
               Fim do Script que faz a busca pelo item de compra
           -->
@@ -259,6 +128,9 @@
                 }
             });
         }
+        var insereScriptInlineCompra = function() {
+            $.getScript("{% static "js/inline_compra.js" %}", function(){});
+        }
         $(rows).formset({
             prefix: "{{ inline_admin_formset.formset.prefix }}",
             addText: "{% blocktrans with verbose_name=inline_admin_formset.opts.verbose_name|title %}Add another {{ verbose_name }}{% endblocktrans %}",
@@ -272,6 +144,7 @@
                 reinitDateTimeShortCuts();
                 updateSelectFilter();
                 alternatingRows(row);
+                insereScriptInlineCompra();
                 Suit.after_inline.run("{{ inline_admin_formset.formset.prefix }}", row);
             })
         });

@@ -73,6 +73,7 @@ def index(request):
 		####################################################################################################################################################
 
 		data = {
+			'title': 'Dashboard',
 			'dashboard': True,
 			'tab_limite_estoque': tab_limite_estoque,
 			'produtos_esgotando': produtos_esgotando,

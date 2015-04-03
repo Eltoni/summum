@@ -121,6 +121,17 @@ USE_TZ = True
 
 SITE_ID = 1
 
+
+# Absolute filesystem path to the directory that will hold user-uploaded files.
+# Example: "/var/www/example.com/media/"
+MEDIA_ROOT = os.path.join(BASE_DIR, 'estagio/media')
+
+# URL that handles the media served from MEDIA_ROOT. Make sure to use a
+# trailing slash.
+# Examples: "http://example.com/media/", "http://media.example.com/"
+MEDIA_URL = '/media/'
+
+
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.6/howto/static-files/
 
@@ -173,7 +184,7 @@ SUIT_CONFIG = {
         {'label': u'Autenticação', 'app':'auth'},
         {'app':'localidade', 'icon':'icon-globe'},
         {'app':'pessoal', 'icon':'icon-user'},
-        {'label': u'Movimentos', 'app':'movimento'},
+        {'label': u'Movimentos', 'app':'movimento', 'models': ('produtos', 'marca', 'categoria')},
         {'label': u'Parâmetros', 'app':'parametros_financeiros', 'icon':'icon-barcode', 'models': ('formapagamento', 'grupoencargo')},
         {'app':'compra', 'icon':'icon-shopping-cart'}, 
         {'app':'venda', 'icon':'icon-shopping-cart'},

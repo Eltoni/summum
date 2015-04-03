@@ -1668,6 +1668,23 @@
       "is_active": 1,
       "date_joined": "2014-12-31 01:18Z"
     }
+  },
+
+  {
+    "model": "auth.User",
+    "pk": 2,
+    "fields": {
+      "password": "pbkdf2_sha256$12000$UjxpI6EkJXg2$GoYKHvFp9n+wGJV3ZiaDwBDqiMISOvHANHbAV27qVjE=",
+      "last_login": "2015-01-01 01:18Z",
+      "is_superuser": 0,
+      "username": "spossato",
+      "first_name": "Stephanie",
+      "last_name": "Possato de Oliveira",
+      "email": "spossato@unipar.br",
+      "is_staff": 1,
+      "is_active": 1,
+      "date_joined": "2015-01-01 01:18Z"
+    }
   }
   
 ]

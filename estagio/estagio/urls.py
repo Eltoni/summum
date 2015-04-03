@@ -1,6 +1,8 @@
 #-*- coding: UTF-8 -*-
 from django.conf.urls import patterns, include, url
 from django.contrib import admin
+from django.conf import settings
+from django.conf.urls.static import static
 
 admin.autodiscover()
 
@@ -23,4 +25,5 @@ urlpatterns = patterns('',
     (r'^checa_pedido_venda_habilitado/(?P<id>\d+)/$', 'venda.views.checa_pedido_venda_habilitado'),
     (r'^get_valor_unitario/(?P<id>\d+)/$', 'venda.views.get_valor_unitario'),
     (r'^get_dados_usuario/(?P<id>\d+)/$', 'pessoal.views.get_dados_usuario'),
-)
+
+) + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

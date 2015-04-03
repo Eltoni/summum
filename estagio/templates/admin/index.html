@@ -1,9 +1,17 @@
 {% extends "admin/base_site.html" %}
 {% load i18n admin_static %}
+{% load nvd3_tags %}  
 {% load geral_filters %}
 
 {% block extrastyle %}
   {{ block.super }}
+
+  {% if dashboard %}
+    {# Jquery CDN : Needed when using jquery_on_ready=True #}
+    <script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
+    {% include_chart_jscss %}
+    {% load_chart charttype chartdata chartcontainer extra %}
+  {% endif %}
 {% endblock %}
 
 {% block coltype %}colMS{% endblock %}
@@ -15,12 +23,33 @@
 {% block content %}
 
 <style>
+.alert-info {
+  color: #31708f;
+  background-color: #d9edf7;
+  border-color: #bce8f1;
+}
+.alert-success {
+    color: #3c763d;
+    background-color: #dff0d8;
+    border-color: #d6e9c6;
+}
+.alert {
+    padding: 15px;
+    margin-bottom: 20px;
+    border: 1px solid transparent;
+    border-radius: 4px;
+}
+
 .fonte-legenda {
     font-weight: normal;
     font-size: 12px;
     display: inline-block;
     line-height: normal;
     color: #999;
+}
+
+.module.blocks-content-main {
+  margin: 0px 0px 15% 0px;
 }
 
 /* basic positioning */
@@ -44,126 +73,151 @@
 </style>
 
   <div id="content-main">
-    {% if app_list %}
-      {% for app in app_list %}
-        <div class="module">
-          <table class="table-overview applist" summary="{% blocktrans with name=app.name %}Models available in the {{ name }} application.{% endblocktrans %}">
-            <caption><a href="{{ app.app_url }}" class="section">{% trans app.name %}</a></caption>
-            {% for model in app.models %}
-              <tr>
-                <th scope="row">{{ model.name }}</th>
-                {% if model.admin_url %}
-                  <td>
-                    <a href="{{ model.admin_url }}" class="changelink icon">{% trans 'Change' %}</a>
-                  </td>
-                {% else %}
-                  <td>&nbsp;</td>
-                {% endif %}
+    {% if not dashboard %}
+      {% if app_list %}
+        {% for app in app_list %}
+          <div class="module">
+            <table class="table-overview applist" summary="{% blocktrans with name=app.name %}Models available in the {{ name }} application.{% endblocktrans %}">
+              <caption><a href="{{ app.app_url }}" class="section">{% trans app.name %}</a></caption>
+              {% for model in app.models %}
+                <tr>
+                  <th scope="row">{{ model.name }}</th>
+                  {% if model.admin_url %}
+                    <td>
+                      <a href="{{ model.admin_url }}" class="changelink icon">{% trans 'Change' %}</a>
+                    </td>
+                  {% else %}
+                    <td>&nbsp;</td>
+                  {% endif %}
 
-                {% if model.add_url %}
-                  <td><a href="{{ model.add_url }}" class="addlink icon"><i
-                          class="icon-plus-sign icon-alpha75"></i>{% trans 'Add' %}
-                  </a></td>
-                {% else %}
-                  <td>&nbsp;</td>
-                {% endif %}
-              </tr>
-            {% endfor %}
-          </table>
-        </div>
-      {% endfor %}
-    {% else %}
-      <!-- <p>{% trans "You don't have permission to edit anything." %}</p> -->
+                  {% if model.add_url %}
+                    <td><a href="{{ model.add_url }}" class="addlink icon"><i
+                            class="icon-plus-sign icon-alpha75"></i>{% trans 'Add' %}
+                    </a></td>
+                  {% else %}
+                    <td>&nbsp;</td>
+                  {% endif %}
+                </tr>
+              {% endfor %}
+            </table>
+          </div>
+        {% endfor %}
+      {% else %}
+        <p>{% trans "You don't have permission to edit anything." %}</p>
+      {% endif %}
     {% endif %}
   </div>
 
   <div id="custom-dashboard">
-  {% if produtos_esgotando %}
     {% if request.user.is_superuser %}    {# Mostra apenas para usuários com status de superusuário #}
       <div id="content-main">
-        <div class="module">
-          <h4 class="italic-title"><b>Esgotando em Estoque</b></h4>
-          <!-- <table class="table-overview table table-striped table-bordered table-hover table-condensed"> -->
-          <table class="table-overview table table-condensed">
-            <thead>
-              <tr>
-                <td></td>
-                <td>ID</td>
-                <td>Produto</td>
-                <td>Quantidade em estoque</td>
-              </tr>
-            </thead>
-            <tbody>
-            {% for produtos in produtos_esgotando %}
-              <tr class='{{produtos.2|formata_quantidade_produtos:quantidade_minima}}'>
-                <td><span class="icon-pencil icon-alpha5"></span></td>
-                <td><a href="{% url 'admin:movimento_produtos_change' produtos.0 %}">{{ produtos.0 }}</a></td>
-                <td><a href="{% url 'admin:movimento_produtos_change' produtos.0 %}">{{ produtos.1 }}</a></td>
-                <td>{{ produtos.2 }}</td>
-              </tr>
-            {% endfor %}
-            </tbody>
+        {% if tab_limite_estoque %}
+          {% if produtos_esgotando %}
+            <div class="module blocks-content-main">
+              <h4 class="italic-title" style="margin-left: 26px;"><b>Estoque</b></h4>
+              <h2><span class="description">Indicativo de Produtos esgotando em estoque</span></h2>
+              <!-- <table class="table-overview table table-striped table-bordered table-hover table-condensed"> -->
+              <table class="table-overview table table-condensed">
+                <thead>
+                  <tr>
+                    <td></td>
+                    <td>ID</td>
+                    <td>Produto</td>
+                    <td>Quantidade em estoque</td>
+                  </tr>
+                </thead>
+                <tbody>
+                {% for produtos in produtos_esgotando %}
+                  <tr class='{{produtos.2|formata_quantidade_produtos:quantidade_minima}}'>
+                    <td><span class="icon-pencil icon-alpha5"></span></td>
+                    <td><a href="{% url 'admin:movimento_produtos_change' produtos.0 %}">{{ produtos.0 }}</a></td>
+                    <td><a href="{% url 'admin:movimento_produtos_change' produtos.0 %}">{{ produtos.1 }}</a></td>
+                    <td>{{ produtos.2 }}</td>
+                  </tr>
+                {% endfor %}
+                </tbody>
+              </table>
+              <h2><span class="description">Produtos com menos de {{ quantidade_minima }} itens em estoque.</span></h2>
+              <ul class="legenda-produtos-esgotando">
+                  <li>
+                    <span class="cinquenta-porcento"></span> 
+                    <font class="fonte-legenda">Abaixo de 50% da quantidade.</font>
+                  </li>
+                  <br>
+                  <li>
+                    <span class="cem-porcento"></span>
+                    <font class="fonte-legenda">Entre 50% e 100% da quantidade.</font>
+                  </li>
+              </ul>
+            </div>
+          {% else %}
+            <div class="module blocks-content-main alert alert-success">
+              <h4 class="italic-title" style="margin-left: 26px;"><b>Estoque</b></h4>
+              <h2><span class="description">Não há produtos esgotando em estoque.</span></h2>
+            </div>
+          {% endif %}
+        {% endif %}
+        <div class="blocks-content-main">
+          {% if grafico_mov_dia %}
+          <table>
+            <tr>
+              <td>
+                <h4 class="italic-title" style="margin-left: 26px;"><b>Movimentação Financeira Diária</b></h4>
+                <h2><span class="description">Demonstrativo diário de Débitos e Créditos movimentados em caixa</span></h2>
+                {% include_container chartcontainer 500 1000 %}
+              </td>
+            </tr>
           </table>
-          <h2><span class="description">Produtos com menos de {{ quantidade_minima }} itens em estoque.</span></h2>
-          <ul class="legenda-produtos-esgotando">
-              <li>
-                <span class="cinquenta-porcento"></span> 
-                <font class="fonte-legenda">Abaixo de 50% da quantidade.</font>
-              </li>
-              <br>
-              <li>
-                <span class="cem-porcento"></span>
-                <font class="fonte-legenda">Entre 50% e 100% da quantidade.</font>
-              </li>
-          </ul>
+          {% endif %}
         </div>
       </div>
     {% endif %}
-  {% endif %}
   </div>
 
 {% endblock %}
 
 
 {% block sidebar %}
-  <div id="content-related">
-    <div class="module" id="recent-actions-module">
-     
-      <h4 class="italic-title">{% trans 'My Actions' %}</h4>
+  {% if not dashboard %}
+    <div id="content-related">
+      <div class="module" id="recent-actions-module">
+       
+        <h4 class="italic-title">{% trans 'My Actions' %}</h4>
 
-      {% load log %}
-      {% get_admin_log 10 as admin_log for_user user %}
-      {% if not admin_log %}
-        <p>{% trans 'None available' %}</p>
-      {% else %}
-        <ul class="actionlist">
-          {% for entry in admin_log %}
-            <li class="{% if entry.is_addition %}addlink{% endif %}{% if entry.is_change %}changelink{% endif %}{% if entry.is_deletion %}text-error{% endif %}">
+        {% load log %}
+        {% get_admin_log 10 as admin_log for_user user %}
+        {% if not admin_log %}
+          <p>{% trans 'None available' %}</p>
+        {% else %}
+          <ul class="actionlist">
+            {% for entry in admin_log %}
+              <li class="{% if entry.is_addition %}addlink{% endif %}{% if entry.is_change %}changelink{% endif %}{% if entry.is_deletion %}text-error{% endif %}">
 
-              <i class="{% if entry.is_addition %}icon-plus{% endif %}{% if entry.is_change %}icon-pencil{% endif %}{% if entry.is_deletion %}icon-trash{% endif %} icon-alpha5"></i>
+                <i class="{% if entry.is_addition %}icon-plus{% endif %}{% if entry.is_change %}icon-pencil{% endif %}{% if entry.is_deletion %}icon-trash{% endif %} icon-alpha5"></i>
 
-              {% spaceless %}
-                {% if entry.is_addition %}{% trans 'added'|capfirst %}{% endif %}
-                {% if entry.is_change %}{% trans 'changed'|capfirst %}{% endif %}
-                {% if entry.is_deletion %}{% trans 'deleted'|capfirst %}{% endif %}
+                {% spaceless %}
+                  {% if entry.is_addition %}{% trans 'added'|capfirst %}{% endif %}
+                  {% if entry.is_change %}{% trans 'changed'|capfirst %}{% endif %}
+                  {% if entry.is_deletion %}{% trans 'deleted'|capfirst %}{% endif %}
 
-                {% if entry.content_type %}
-                  <span class="mini quiet">{% filter capfirst %}
-                    {% trans entry.content_type.name %}{% endfilter %}</span>
+                  {% if entry.content_type %}
+                    <span class="mini quiet">{% filter capfirst %}
+                      {% trans entry.content_type.name %}{% endfilter %}</span>
+                  {% else %}
+                    <span class="mini quiet">{% trans 'Unknown content' %}</span>
+                  {% endif %}
+                {% endspaceless %}&nbsp;
+
+                {% if entry.is_deletion or not entry.get_admin_url %}
+                  <span class="color-grey">{{ entry.object_repr }}</span>
                 {% else %}
-                  <span class="mini quiet">{% trans 'Unknown content' %}</span>
+                  <a href="{{ entry.get_admin_url }}">{{ entry.object_repr }}</a>
                 {% endif %}
-              {% endspaceless %}&nbsp;
-
-              {% if entry.is_deletion or not entry.get_admin_url %}
-                <span class="color-grey">{{ entry.object_repr }}</span>
-              {% else %}
-                <a href="{{ entry.get_admin_url }}">{{ entry.object_repr }}</a>
-              {% endif %}
-            </li>
-          {% endfor %}
-        </ul>
-      {% endif %}
+              </li>
+            {% endfor %}
+          </ul>
+        {% endif %}
+      </div>
     </div>
-  </div>
+  {% endif %}
 {% endblock %}

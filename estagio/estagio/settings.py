@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/1.6/ref/settings/
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 import os
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
+HOME_PATH = os.path.expanduser('~')
 
 # Caminho para o fixtures. Arquivo que popula os dados iniciais das tabelas da base de dados
 FIXTURE_DIRS = (
@@ -60,6 +61,8 @@ INSTALLED_APPS = (
     'import_export',
     'smart_selects',
     'salmonella',
+    'djangobower',
+    'django_nvd3',
 )
 
 
@@ -121,6 +124,8 @@ SITE_ID = 1
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.6/howto/static-files/
 
+STATIC_ROOT = os.path.join(BASE_DIR, 'estagio/static')
+
 
 STATIC_URL = '/static/'
 
@@ -136,16 +141,22 @@ STATICFILES_DIRS = (
 )
 
 
+STATICFILES_FINDERS = (
+    'django.contrib.staticfiles.finders.FileSystemFinder',
+    'django.contrib.staticfiles.finders.AppDirectoriesFinder',
+    # 'django.contrib.staticfiles.finders.DefaultStorageFinder',
+    'djangobower.finders.BowerFinder',
+)
+
+
 # Django Suit
 # -----------
-
 from django.conf.global_settings import TEMPLATE_CONTEXT_PROCESSORS as TCP
 
 TEMPLATE_CONTEXT_PROCESSORS = TCP + (
     'django.core.context_processors.request',
 )
 
-# Django Suit configuration example
 SUIT_CONFIG = {
     'SEARCH_URL': '/auth/user/',
     # header
@@ -159,7 +170,6 @@ SUIT_CONFIG = {
 
     # menu
     'MENU': (
-        # Keep original label and models
         {'label': u'Autenticação', 'app':'auth'},
         {'app':'localidade', 'icon':'icon-globe'},
         {'app':'pessoal', 'icon':'icon-user'},
@@ -176,6 +186,16 @@ SUIT_CONFIG = {
     )
 }
 
+# Django Nvd3
+# -----------
+BOWER_COMPONENTS_ROOT = BASE_DIR + '\\estagio\\static\\components\\'
+
+BOWER_PATH = HOME_PATH + '/AppData/Roaming/npm/bower.cmd'
+
+BOWER_INSTALLED_APPS = (
+    'd3#3.3.6',
+    'nvd3#1.1.12-beta',
+)
 
 # Email configuration
 DEFAULT_FROM_EMAIL = 'gustavo.sdo@gmail.com'

@@ -63,6 +63,7 @@ INSTALLED_APPS = (
     'salmonella',
     'djangobower',
     'django_nvd3',
+    'sorl.thumbnail',
 )
 
 

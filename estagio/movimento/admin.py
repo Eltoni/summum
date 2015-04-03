@@ -1,29 +1,32 @@
 #-*- coding: UTF-8 -*-
 from django.contrib import admin
-from models import *
 from import_export.admin import ExportMixin
 from export import ProdutosResource
 from app_global.admin import GlobalAdmin
 from django.contrib.admin.views.main import IS_POPUP_VAR
-from django.forms import CheckboxSelectMultiple
+from sorl.thumbnail.admin import AdminImageMixin
+from salmonella.admin import SalmonellaMixin
+from models import *
 
 
-class MarcaAdmin(admin.ModelAdmin):
+class MarcaAdmin(AdminImageMixin, admin.ModelAdmin):
     model = Marca
+    fields = ('nome', 'logo', 'descricao')
 
 
 class CategoriaAdmin(admin.ModelAdmin):
     model = Categoria
+    fields = ('nome', 'descricao')
 
 
-class ProdutosAdmin(ExportMixin, GlobalAdmin):
+class ProdutosAdmin(ExportMixin, SalmonellaMixin, GlobalAdmin):
     resource_class = ProdutosResource
     change_list_template = 'change_list_export.html'
     export_template_name = 'export.html'
 
     model = Produtos
     filter_horizontal = ('categorias',)
-    # raw_id_fields = ('categorias',)
+    salmonella_fields = ('marca',)
     popup_list_display = ('nome', 'marca', 'quantidade', 'descricao')
     list_display = ('nome', 'quantidade', 'descricao', 'status')
     list_filter = ('status',)

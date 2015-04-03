@@ -1,10 +1,12 @@
 #-*- coding: UTF-8 -*-
 from django.db import models
+from sorl.thumbnail import ImageField
 
 
 class Marca(models.Model):
     nome = models.CharField(max_length=255, unique=True)
-    logo = models.ImageField(upload_to='marcas', blank=True, null=True)
+    logo = ImageField(upload_to='marcas', max_length=255, blank=True)
+    descricao = models.TextField(blank=True, verbose_name=u'Descrição') 
 
     def __unicode__(self):
         return u'%s' % (self.nome)
@@ -12,6 +14,7 @@ class Marca(models.Model):
 
 class Categoria(models.Model):
     nome = models.CharField(max_length=255, unique=True)
+    descricao = models.TextField(blank=True, verbose_name=u'Descrição') 
 
     def __unicode__(self):
         return u'%s' % (self.nome)

@@ -89,9 +89,6 @@ class ContasReceberInline(admin.TabularInline):
 
 class ClienteAdmin(ExportMixin, BaseCadastroPessoaAdmin):
     resource_class = ClienteResource
-    change_list_template = 'change_list_export.html'
-    export_template_name = 'export.html'
-
     model = Cliente
     readonly_fields = ('status_financeiro', 'id', 'data')
     list_display = ('nome', 'email', 'data', 'status_financeiro',)
@@ -184,9 +181,6 @@ class ContasPagarInline(admin.TabularInline):
 
 class FornecedorAdmin(ExportMixin, BaseCadastroPessoaAdmin):
     resource_class = FornecedorResource
-    change_list_template = 'change_list_export.html'
-    export_template_name = 'export.html'
-
     model = Fornecedor
     form = FornecedorForm
     readonly_fields = ('status_financeiro', 'id', 'data')
@@ -266,9 +260,6 @@ class FornecedorAdmin(ExportMixin, BaseCadastroPessoaAdmin):
 
 class CargoAdmin(ExportMixin, admin.ModelAdmin):
     resource_class = CargoResource
-    change_list_template = 'change_list_export.html'
-    export_template_name = 'export.html'
-
     model = Cargo
     list_display = ('nome', 'descricao')
 
@@ -276,9 +267,6 @@ class CargoAdmin(ExportMixin, admin.ModelAdmin):
 
 class FuncionarioAdmin(ExportMixin, BaseCadastroPessoaAdmin):
     resource_class = FuncionarioResource
-    change_list_template = 'change_list_export.html'
-    export_template_name = 'export.html'
-
     model = Funcionario
     form = FuncionarioForm
 

@@ -56,6 +56,7 @@ class VendaAdmin(SalmonellaMixin, admin.ModelAdmin):
 
     list_display = ('id', 'data', 'total', 'status')
     search_fields = ['id', 'cliente']
+    date_hierarchy = 'data'
     list_filter = ('data', 'status', 'forma_pagamento', 'cliente')
     readonly_fields = ('data',)
     salmonella_fields = ('cliente', 'forma_pagamento', 'grupo_encargo',)

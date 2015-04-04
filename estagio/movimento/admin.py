@@ -21,9 +21,6 @@ class CategoriaAdmin(admin.ModelAdmin):
 
 class ProdutosAdmin(ExportMixin, SalmonellaMixin, AdminImageMixin, GlobalAdmin):
     resource_class = ProdutosResource
-    change_list_template = 'change_list_export.html'
-    export_template_name = 'export.html'
-
     model = Produtos
     filter_horizontal = ('categorias',)
     salmonella_fields = ('marca',)

@@ -12,6 +12,7 @@ class PagamentoAdmin(admin.ModelAdmin):
     form = PagamentoForm
     model = Pagamento
     list_display = ('id', 'parcelas_contas_pagar', 'data', 'valor')
+    date_hierarchy = 'data'
 
     def get_urls(self):
         urls = super(PagamentoAdmin, self).get_urls()
@@ -97,6 +98,7 @@ class ContasPagarAdmin(SalmonellaMixin, admin.ModelAdmin):
     form = ContasPagarForm
     list_display = ('id', 'compra_associada', 'data', 'descricao', 'status')
     list_filter = ('status', 'compras',)
+    date_hierarchy = 'data'
     salmonella_fields = ('fornecedores', 'forma_pagamento', 'grupo_encargo',)
 
 

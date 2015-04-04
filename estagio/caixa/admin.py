@@ -8,6 +8,7 @@ class CaixaAdmin(admin.ModelAdmin):
     model = Caixa
     list_display = ('id', 'data_abertura', 'data_fechamento', 'diferenca', 'status')
     list_filter = ('data_fechamento',)
+    date_hierarchy = 'data_abertura'
 
 
     def get_form(self, request, obj=None, **kwargs):
@@ -67,6 +68,7 @@ class CaixaAdmin(admin.ModelAdmin):
 class MovimentosCaixaAdmin(admin.ModelAdmin):
     model = MovimentosCaixa
     list_display = ('id', 'caixa', 'pagamento_associado', 'recebimento_associado', 'tipo_mov', 'valor')
+    date_hierarchy = 'data'
     readonly_fields = ('descricao', 'valor', 'data', 'tipo_mov', 'caixa', 'pagamento_associado', 'recebimento_associado')
     fields = ('descricao', 'valor', 'data', 'tipo_mov', 'caixa', 'pagamento_associado', 'recebimento_associado')
 

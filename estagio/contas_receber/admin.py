@@ -12,6 +12,7 @@ class RecebimentoAdmin(admin.ModelAdmin):
     form = RecebimentoForm
     model = Recebimento
     list_display = ('id', 'parcelas_contas_receber', 'data', 'valor')
+    date_hierarchy = 'data'
 
     def get_urls(self):
         urls = super(RecebimentoAdmin, self).get_urls()
@@ -97,6 +98,7 @@ class ContasReceberAdmin(SalmonellaMixin, admin.ModelAdmin):
     form = ContasReceberForm
     list_display = ('id', 'venda_associada', 'data', 'descricao', 'status')
     list_filter = ('status', 'vendas',)
+    date_hierarchy = 'data'
     salmonella_fields = ('cliente', 'forma_pagamento', 'grupo_encargo',)
 
 

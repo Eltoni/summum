@@ -57,6 +57,7 @@ class CompraAdmin(SalmonellaMixin, admin.ModelAdmin):
 
     list_display = ('id', 'data', 'total', 'status')
     search_fields = ['id', 'fornecedor']
+    date_hierarchy = 'data'
     list_filter = ('data', 'status', 'forma_pagamento', 'fornecedor')
     readonly_fields = ('data',)
     salmonella_fields = ('fornecedor', 'forma_pagamento', 'grupo_encargo',)

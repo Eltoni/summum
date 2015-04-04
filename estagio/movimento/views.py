@@ -42,10 +42,10 @@ def index(request):
 				if d == d2[0].date():
 					if d2[2] == u'Crédito':
 						cred += Decimal(d2[1].strip(' "'))
-						deb += 0
+						deb += Decimal('0.00'.strip(' "'))
 					else:
 						deb += Decimal(d2[1].strip(' "'))
-						cred += 0
+						cred += Decimal('0.00'.strip(' "'))
 			credito.append(str(cred))
 			debito.append(str(deb))
 

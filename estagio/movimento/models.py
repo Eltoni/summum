@@ -29,6 +29,7 @@ class Produtos(models.Model):
     status = models.BooleanField(default=True, help_text=u'Indica se o produto está ativo para atividades de compra e venda.')
     marca = models.ForeignKey(Marca, blank=True, null=True, on_delete=models.PROTECT)
     categorias = models.ManyToManyField(Categoria, blank=True, null=True)
+    imagem = ImageField(upload_to='produtos', max_length=255, blank=True)
 
     class Meta:
         verbose_name = u'Produto'

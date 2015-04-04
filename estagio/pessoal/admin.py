@@ -3,6 +3,7 @@ from django.contrib import admin
 from models import *
 from forms import *
 from import_export.admin import ExportMixin
+from sorl.thumbnail.admin import AdminImageMixin
 from export import ClienteResource, FornecedorResource, FuncionarioResource, CargoResource
 from contas_receber.models import ContasReceber, ParcelasContasReceber
 from contas_pagar.models import ContasPagar, ParcelasContasPagar
@@ -10,7 +11,7 @@ from django.contrib.admin.views.main import IS_POPUP_VAR
 from app_global.admin import GlobalAdmin
 
 
-class BaseCadastroPessoaAdmin(GlobalAdmin):
+class BaseCadastroPessoaAdmin(AdminImageMixin, GlobalAdmin):
     model = BaseCadastroPessoa
     form = BaseCadastroPessoaForm
 
@@ -24,7 +25,8 @@ class BaseCadastroPessoaAdmin(GlobalAdmin):
     suit_form_tabs = (
         ('geral', 'Geral'),
         ('endereco', 'Endereço'),
-        ('identidade', 'Identidade')
+        ('identidade', 'Identidade'),
+        ('detalhes', 'Detalhes'),
     )
 
     def suit_row_attributes(self, obj, request):
@@ -113,12 +115,17 @@ class ClienteAdmin(ExportMixin, BaseCadastroPessoaAdmin):
                 'classes': ('suit-tab suit-tab-endereco',),
                 'fields': (('endereco', 'numero'), 'complemento', 'bairro', ('estado', 'cidade'), 'cep')
             }),
+            (None, {
+                'classes': ('suit-tab suit-tab-detalhes',),
+                'fields': ('foto',)
+            }),
         )
 
         self.suit_form_tabs = (
             ('geral', 'Geral'),
             ('endereco', 'Endereço'),
-            ('identidade', 'Identidade')
+            ('identidade', 'Identidade'),
+            ('detalhes', 'Detalhes'),
         )
 
         if obj is None:
@@ -205,12 +212,17 @@ class FornecedorAdmin(ExportMixin, BaseCadastroPessoaAdmin):
                 'classes': ('suit-tab suit-tab-endereco',),
                 'fields': (('endereco', 'numero'), 'complemento', 'bairro', ('estado', 'cidade'), 'cep')
             }),
+            (None, {
+                'classes': ('suit-tab suit-tab-detalhes',),
+                'fields': ('foto',)
+            }),
         )
 
         self.suit_form_tabs = (
             ('geral', 'Geral'),
             ('endereco', 'Endereço'),
-            ('identidade', 'Identidade')
+            ('identidade', 'Identidade'),
+            ('detalhes', 'Detalhes'),
         )
 
         if obj is None:
@@ -291,6 +303,10 @@ class FuncionarioAdmin(ExportMixin, BaseCadastroPessoaAdmin):
             (None, {
                 'classes': ('suit-tab suit-tab-identidade',),
                 'fields': ('cpf', 'rg', 'data_nasc', 'observacao')
+            }),
+            (None, {
+                'classes': ('suit-tab suit-tab-detalhes',),
+                'fields': ('foto',)
             }),
         )
 

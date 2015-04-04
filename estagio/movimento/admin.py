@@ -19,7 +19,7 @@ class CategoriaAdmin(admin.ModelAdmin):
     fields = ('nome', 'descricao')
 
 
-class ProdutosAdmin(ExportMixin, SalmonellaMixin, GlobalAdmin):
+class ProdutosAdmin(ExportMixin, SalmonellaMixin, AdminImageMixin, GlobalAdmin):
     resource_class = ProdutosResource
     change_list_template = 'change_list_export.html'
     export_template_name = 'export.html'
@@ -37,6 +37,10 @@ class ProdutosAdmin(ExportMixin, SalmonellaMixin, GlobalAdmin):
         (None, {
             'classes': ('suit-tab suit-tab-geral',),
             'fields': ('nome', 'preco', 'preco_venda', 'quantidade', 'status')
+        }),
+        (None, {
+            'classes': ('suit-tab suit-tab-geral',),
+            'fields': ('imagem',)
         }),
         (None, {
             'classes': ('suit-tab suit-tab-detalhes',),

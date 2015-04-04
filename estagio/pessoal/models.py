@@ -6,6 +6,7 @@ from smart_selects.db_fields import ChainedForeignKey
 from django.core.exceptions import ValidationError
 import datetime
 from datetime import date
+from sorl.thumbnail import ImageField
 
 
 class BaseCadastroPessoa(models.Model):
@@ -44,6 +45,7 @@ class BaseCadastroPessoa(models.Model):
     email = models.EmailField(max_length=100, blank=True, verbose_name=u'e-mail')
     data = models.DateTimeField(auto_now_add=True, verbose_name=u'Data do cadastro')
     observacao = models.TextField(blank=True, verbose_name=u'observações')
+    foto = ImageField(upload_to='fotos_pessoas', max_length=255, blank=True)
 
     class Meta:
         abstract = True

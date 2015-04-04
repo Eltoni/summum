@@ -23,3 +23,8 @@ $(".vForeignKeyRawIdAdminField").change(function(){
         $(this).parent().find(".salmonella_label").empty();
     }
 });
+
+
+// Define todos os campos do tipo file com a classe .filestyle, e passa as definições para estes campos
+$('input[type=file]').addClass('filestyle');
+$(":file").filestyle({input: false, buttonText: "Enviar arquivo"});

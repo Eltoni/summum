@@ -134,7 +134,6 @@
 
         if (app == 'movimento' && model == 'produtos'){
             var row = $(inline).closest('tr');
-            calcula_valor_total();
 
             if (valor != ""){
                 busca_valor_unitario(valor, row);
@@ -142,6 +141,7 @@
             else{
                 limpa_campos_inline(row);
             }
+            calcula_valor_total();
         }
     });
 

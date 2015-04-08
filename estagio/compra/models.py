@@ -5,6 +5,7 @@ from parametros_financeiros.models import FormaPagamento, GrupoEncargo
 from movimento.models import Produtos
 from django.core.exceptions import ValidationError
 import datetime
+from django.utils.translation import ugettext_lazy as _
 
 
 class Compra(models.Model):
@@ -14,16 +15,16 @@ class Compra(models.Model):
 
     Criada em 15/06/2014. 
     """
-    total = models.DecimalField(max_digits=20, decimal_places=2, verbose_name=u'Total (R$)', help_text=u'Valor total da compra.')
-    data = models.DateTimeField(auto_now_add=True, verbose_name=u'Data da compra')
-    desconto = models.DecimalField(max_digits=20, decimal_places=0, blank=True, null=True, verbose_name=u'Desconto (%)', help_text=u'Desconto sob o valor total da compra.')
-    status = models.BooleanField(default=False, verbose_name=u'Cancelada?', help_text=u'Marcando o Checkbox, a compra será cancelada e o financeiro acertado.')
-    fornecedor = models.ForeignKey(Fornecedor, on_delete=models.PROTECT)
-    forma_pagamento = models.ForeignKey(FormaPagamento, verbose_name=u'Forma de pagamento', on_delete=models.PROTECT)
-    grupo_encargo = models.ForeignKey(GrupoEncargo, blank=False, null=False, verbose_name=u'Grupo de encargo', on_delete=models.PROTECT)
-    observacao = models.TextField(blank=True, verbose_name=u'observações', help_text="Descreva na área as informações relavantes da compra.")
-    pedido = models.CharField(max_length=1, blank=True, choices=((u'S', 'Sim'), (u'N', 'Não'),), verbose_name=u'Pedido?') 
-    status_pedido = models.BooleanField(default=False, verbose_name=u'Pedido confirmado?', help_text=u'Marcando o Checkbox, os itens financeiros serão gerados e o estoque movimentado.')
+    total = models.DecimalField(max_digits=20, decimal_places=2, verbose_name=_(u"Total (R$)"), help_text=_(u"Valor total da compra."))
+    data = models.DateTimeField(auto_now_add=True, verbose_name=_(u"Data da compra"))
+    desconto = models.DecimalField(max_digits=20, decimal_places=0, blank=True, null=True, verbose_name=_(u"Desconto (%)"), help_text=_(u"Desconto sob o valor total da compra."))
+    status = models.BooleanField(default=False, verbose_name=_(u"Cancelada?"), help_text=_(u"Marcando o Checkbox, a compra será cancelada e o financeiro acertado."))
+    fornecedor = models.ForeignKey(Fornecedor, on_delete=models.PROTECT, verbose_name=_(u"Fornecedor"))
+    forma_pagamento = models.ForeignKey(FormaPagamento, verbose_name=_(u"Forma de pagamento"), on_delete=models.PROTECT)
+    grupo_encargo = models.ForeignKey(GrupoEncargo, blank=False, null=False, verbose_name=_(u"Grupo de encargo"), on_delete=models.PROTECT)
+    observacao = models.TextField(blank=True, verbose_name=_(u"Observações"), help_text=_(u"Descreva na área as informações relavantes da compra."))
+    pedido = models.CharField(max_length=1, blank=True, choices=((u'S', _(u"Sim")), (u'N', _(u"Não")),), verbose_name=_(u"Pedido?")) 
+    status_pedido = models.BooleanField(default=False, verbose_name=_(u"Pedido confirmado?"), help_text=_(u"Marcando o Checkbox, os itens financeiros serão gerados e o estoque movimentado."))
 
     def __unicode__(self):
         return u'%s' % (self.id)
@@ -35,7 +36,7 @@ class Compra(models.Model):
         """
         from caixa.models import Caixa
         if not Caixa.objects.filter(status=1).exists() and not self.pk:
-            raise ValidationError('Não há caixa aberto. Para efetivar uma compra é necessário ter o caixa aberto.')
+            raise ValidationError(_(u"Não há caixa aberto. Para efetivar uma compra é necessário ter o caixa aberto."))
 
 
     def clean_fields(self, *args, **kwargs):
@@ -46,7 +47,7 @@ class Compra(models.Model):
         contas_pagar = ContasPagar.objects.filter(compras__pk=self.pk)
         compra_movimento_financeiro = ParcelasContasPagar.objects.filter(contas_pagar=contas_pagar, status=True).select_related('contas_pagar__contaspagar').values_list('status').exists()
         if self.status and compra_movimento_financeiro:
-            raise ValidationError({'status': ["Compra não pode ser cancelada. Já há pagamento feito para esta compra. [Conta à Pagar: %s]" % (contas_pagar[0]),]})      
+            raise ValidationError({'status': [_(u"Compra não pode ser cancelada. Já há pagamento feito para esta compra. [Conta a Pagar: %(conta_pagar)s]") % {'conta_pagar': contas_pagar[0]},]})
 
 
     def save(self, *args, **kwargs):
@@ -65,7 +66,7 @@ class Compra(models.Model):
             if self.pedido == 'N' and not conta_gerada or (self.status_pedido and not conta_gerada):
 
                 # Descrição informada no contas à pagar
-                descricao = u'Conta aberta proveniente de compra %s' % (self)
+                descricao = _(u"Conta aberta proveniente de compra %(compra)s") % {'compra': self}
 
                 # Insere o contas à pagar
                 conta = ContasPagar(data=data, 
@@ -109,16 +110,16 @@ class ItensCompra(models.Model):
     """
 
     quantidade = models.IntegerField()
-    valor_unitario = models.DecimalField(max_digits=20, decimal_places=2, verbose_name=u'Valor unitário (R$)')
-    valor_total = models.DecimalField(max_digits=20, decimal_places=2, verbose_name=u'Total (R$)')
-    desconto = models.DecimalField(max_digits=20, decimal_places=0, blank=True, null=True, verbose_name=u'Desconto (%)')
-    produto = models.ForeignKey(Produtos, on_delete=models.PROTECT)
-    compras = models.ForeignKey(Compra, on_delete=models.PROTECT)
-    add_estoque = models.BooleanField(default=False, verbose_name=u'Adicionado ao estoque?')
+    valor_unitario = models.DecimalField(max_digits=20, decimal_places=2, verbose_name=_(u"Valor unitário (R$)"))
+    valor_total = models.DecimalField(max_digits=20, decimal_places=2, verbose_name=_(u"Total (R$)"))
+    desconto = models.DecimalField(max_digits=20, decimal_places=0, blank=True, null=True, verbose_name=_(u"Desconto (%)"))
+    produto = models.ForeignKey(Produtos, on_delete=models.PROTECT, verbose_name=_(u"Produto"))
+    compras = models.ForeignKey(Compra, on_delete=models.PROTECT, verbose_name=_(u"Compra"))
+    add_estoque = models.BooleanField(default=False, verbose_name=_(u"Adicionado ao estoque?"))
 
     class Meta:
-        verbose_name = u'Item de Compra'
-        verbose_name_plural = "Itens de Compra"
+        verbose_name = _(u"Item de Compra")
+        verbose_name_plural = _(u"Itens de Compra")
 
 
     def __unicode__(self):

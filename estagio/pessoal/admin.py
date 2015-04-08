@@ -9,6 +9,7 @@ from contas_receber.models import ContasReceber, ParcelasContasReceber
 from contas_pagar.models import ContasPagar, ParcelasContasPagar
 from django.contrib.admin.views.main import IS_POPUP_VAR
 from app_global.admin import GlobalAdmin
+from django.utils.translation import ugettext_lazy as _
 
 
 class BaseCadastroPessoaAdmin(AdminImageMixin, GlobalAdmin):
@@ -23,10 +24,10 @@ class BaseCadastroPessoaAdmin(AdminImageMixin, GlobalAdmin):
     readonly_fields = ('id', 'data')
 
     suit_form_tabs = (
-        ('geral', 'Geral'),
-        ('endereco', 'Endereço'),
-        ('identidade', 'Identidade'),
-        ('detalhes', 'Detalhes'),
+        ('geral', _(u"Geral")),
+        ('endereco', _(u"Endereço")),
+        ('identidade', _(u"Identidade")),
+        ('detalhes', _(u"Detalhes")),
     )
 
     def suit_row_attributes(self, obj, request):
@@ -67,7 +68,7 @@ class ContasReceberInline(admin.TabularInline):
         return "<a href=\"/%s/%s/%s\" target='_blank'>%s</a>" % (instance._meta.app_label, instance._meta.module_name, instance.id, instance.id,)
     
     link_conta.allow_tags = True
-    link_conta.short_description = 'ID'
+    link_conta.short_description = _(u"ID")
 
 # class ParcelasContasReceberInline(admin.TabularInline):
 #     model = ParcelasContasReceber
@@ -119,10 +120,10 @@ class ClienteAdmin(ExportMixin, BaseCadastroPessoaAdmin):
         )
 
         self.suit_form_tabs = (
-            ('geral', 'Geral'),
-            ('endereco', 'Endereço'),
-            ('identidade', 'Identidade'),
-            ('detalhes', 'Detalhes'),
+            ('geral', _(u"Geral")),
+            ('endereco', _(u"Endereço")),
+            ('identidade', _(u"Identidade")),
+            ('detalhes', _(u"Detalhes")),
         )
 
         if obj is None:
@@ -130,7 +131,7 @@ class ClienteAdmin(ExportMixin, BaseCadastroPessoaAdmin):
             self.fieldsets[0][1]['fields'] = tuple(x for x in self.fieldsets[0][1]['fields'] if (x!='status_financeiro'))
 
         else:
-            insert_into_suit_form_tabs = tuple([('financeiro', 'Financeiro')])
+            insert_into_suit_form_tabs = tuple([('financeiro', _(u"Financeiro"))])
             self.suit_form_tabs += insert_into_suit_form_tabs
 
         return super(ClienteAdmin, self).get_form(request, obj, **kwargs)
@@ -175,7 +176,7 @@ class ContasPagarInline(admin.TabularInline):
         return "<a href=\"/%s/%s/%s\" target='_blank'>%s</a>" % (instance._meta.app_label, instance._meta.module_name, instance.id, instance.id,)
     
     link_conta.allow_tags = True
-    link_conta.short_description = 'ID'
+    link_conta.short_description = _(u"ID")
 
 
 
@@ -213,10 +214,10 @@ class FornecedorAdmin(ExportMixin, BaseCadastroPessoaAdmin):
         )
 
         self.suit_form_tabs = (
-            ('geral', 'Geral'),
-            ('endereco', 'Endereço'),
-            ('identidade', 'Identidade'),
-            ('detalhes', 'Detalhes'),
+            ('geral', _(u"Geral")),
+            ('endereco', _(u"Endereço")),
+            ('identidade', _(u"Identidade")),
+            ('detalhes', _(u"Detalhes")),
         )
 
         if obj is None:
@@ -224,7 +225,7 @@ class FornecedorAdmin(ExportMixin, BaseCadastroPessoaAdmin):
             self.fieldsets[0][1]['fields'] = tuple(x for x in self.fieldsets[0][1]['fields'] if (x!='status_financeiro'))
         
         else:
-            insert_into_suit_form_tabs = tuple([('financeiro', 'Financeiro')])
+            insert_into_suit_form_tabs = tuple([('financeiro', _(u"Financeiro"))])
             self.suit_form_tabs += insert_into_suit_form_tabs
 
         return super(FornecedorAdmin, self).get_form(request, obj, **kwargs)

@@ -6,6 +6,7 @@ from django.core.exceptions import ValidationError
 from django.db.models.signals import post_save
 import datetime
 from decimal import Decimal
+from django.utils.translation import ugettext_lazy as _
 
 
 class Caixa(models.Model):
@@ -24,15 +25,15 @@ class Caixa(models.Model):
     diferenca> tem como objetivo principal saber se o que tem no caixa é o mesmo valor que foi calculado pelo sistema.
     
     """
-    status = models.BooleanField(default=True, help_text=u'Desmarque o Checkbox para indicar que o caixa está fechado.')
-    data_abertura = models.DateTimeField(null=True, verbose_name=u'Data de abertura')
-    data_fechamento = models.DateTimeField(null=True, verbose_name=u'Data de fechamento')
-    valor_entrada = models.DecimalField(max_digits=20, decimal_places=2, default=0.00, verbose_name=u'Valor de entrada')
-    valor_saida = models.DecimalField(max_digits=20, decimal_places=2, default=0.00, verbose_name='Valor de saída')
-    valor_total = models.DecimalField(max_digits=20, decimal_places=2, default=0.00, verbose_name=u'Valor total')
+    status = models.BooleanField(default=True, verbose_name=_(u"Status"), help_text=_(u"Desmarque o Checkbox para indicar que o caixa está fechado."))
+    data_abertura = models.DateTimeField(null=True, verbose_name=_(u"Data de abertura"))
+    data_fechamento = models.DateTimeField(null=True, verbose_name=_(u"Data de fechamento"))
+    valor_entrada = models.DecimalField(max_digits=20, decimal_places=2, default=0.00, verbose_name=_(u"Valor de entrada"))
+    valor_saida = models.DecimalField(max_digits=20, decimal_places=2, default=0.00, verbose_name=_(u"Valor de saída"))
+    valor_total = models.DecimalField(max_digits=20, decimal_places=2, default=0.00, verbose_name=_(u"Valor total"))
     valor_inicial = models.DecimalField(max_digits=20, decimal_places=2, default=0.00)
-    valor_fechamento = models.DecimalField(max_digits=20, decimal_places=2, default=0.00, verbose_name=u'Valor de fechamento')
-    diferenca = models.DecimalField(max_digits=20, decimal_places=2, default=0.00, verbose_name='Diferença')
+    valor_fechamento = models.DecimalField(max_digits=20, decimal_places=2, default=0.00, verbose_name=_(u"Valor de fechamento"))
+    diferenca = models.DecimalField(max_digits=20, decimal_places=2, default=0.00, verbose_name=_(u"Diferença"))
     
     def __unicode__(self):
         return u'%s' % (self.id)
@@ -80,18 +81,18 @@ class Caixa(models.Model):
             caixa_aberto = False
 
         if caixa_aberto and self.status == 1:
-            raise ValidationError('Já há um caixa aberto. Para abrir este, é necessário fechar o caixa atualmente aberto (Caixa: %s).' % caixa_aberto[0])
-        
+            raise ValidationError(_(u"Já há um caixa aberto. Para abrir este, é necessário fechar o caixa atualmente aberto (Caixa: %(caixa_aberto)s).") % {'caixa_aberto': caixa_aberto[0]})
+
 
 
 class MovimentosCaixa(models.Model):
-    descricao = models.CharField(max_length=100)
-    valor = models.CharField(max_length=45)
-    data = models.DateTimeField()
-    tipo_mov = models.CharField(max_length=45)
-    caixa = models.ForeignKey(Caixa, on_delete=models.PROTECT)
-    pagamento = models.ForeignKey(Pagamento, on_delete=models.PROTECT, blank=True, null=True)
-    recebimento = models.ForeignKey(Recebimento, on_delete=models.PROTECT, blank=True, null=True)
+    descricao = models.CharField(max_length=100, verbose_name=_(u"Descrição"))
+    valor = models.CharField(max_length=45, verbose_name=_(u"Valor"))
+    data = models.DateTimeField(verbose_name=_(u"Data"))
+    tipo_mov = models.CharField(max_length=45, verbose_name=_(u"Tipo de movimento"))
+    caixa = models.ForeignKey(Caixa, on_delete=models.PROTECT, verbose_name=_(u"Caixa"))
+    pagamento = models.ForeignKey(Pagamento, on_delete=models.PROTECT, blank=True, null=True, verbose_name=_(u"Pagamento"))
+    recebimento = models.ForeignKey(Recebimento, on_delete=models.PROTECT, blank=True, null=True, verbose_name=_(u"Recebimento"))
 
     def __unicode__(self):
         return u'%s' % (self.id)
@@ -101,14 +102,14 @@ class MovimentosCaixa(models.Model):
         if self.pagamento:
             return self.pagamento
         return '-'
-    pagamento_associado.short_description = 'Pagamento'
+    pagamento_associado.short_description = _(u"Pagamento")
 
 
     def recebimento_associado(self):
         if self.recebimento:
             return self.recebimento
         return '-'
-    recebimento_associado.short_description = 'Recebimento'
+    recebimento_associado.short_description = _(u"Recebimento")
 
 
     def save(self, *args, **kwargs):
@@ -132,7 +133,7 @@ class MovimentosCaixa(models.Model):
 
 def update_movimento_caixa_pagamento(sender, instance, **kwargs):
     """ 
-    Método para ïnserir na tabela de movimentos_de_caixa os movimentos de saída financeira.
+    Método para inserir na tabela de movimentos_de_caixa os movimentos de saída financeira.
     O mesmo age sobre o Movimento de Caixa e o Caixa, fazendo todo o cálculo para controle dessas entidades.
 
     Criada em 01/10/2014. 
@@ -143,11 +144,11 @@ def update_movimento_caixa_pagamento(sender, instance, **kwargs):
     
     # Condição que monta a descrição que é salvo no registro do movimento. Condiciona para descrições distintas caso o pagamento seja de uma conta avulsa, ou de uma conta vinculada a uma compra
     if conta[1]:
-        descricao = u'Pagamento: %s, proveniente da parcela: %s, da conta à pagar: %s, da compra: %s.' % (instance.pk, instance.parcelas_contas_pagar.pk, conta[0], conta[1])
+        descricao = _(u"Pagamento: %(pagamento)s, proveniente da parcela: %(parcela)s, da conta a pagar: %(conta_pagar)s, da compra: %(compra)s.") % {'pagamento': instance.pk, 'parcela': instance.parcelas_contas_pagar.pk, 'conta_pagar': conta[0], 'compra': conta[1]}
     
     else:
         conta_avulsa = ParcelasContasPagar.objects.filter(pk=instance.parcelas_contas_pagar.pk).select_related('contas_pagar__contaspagar').values_list('contas_pagar__descricao', flat=True)[0]
-        descricao = u'Pagamento avulso. %s' % (conta_avulsa[:50])
+        descricao = _(u"Pagamento avulso. %(pagamento)s") % {'pagamento': conta_avulsa[:50]}
 
     # Insere os itens de saída de movimentos de caixa
     movimento_caixa = MovimentosCaixa(  descricao=descricao, 
@@ -181,11 +182,11 @@ def update_movimento_caixa_recebimento(sender, instance, **kwargs):
     
     # Condição que monta a descrição que é salvo no registro do movimento. Condiciona para descrições distintas caso o recebimento seja de uma conta avulsa, ou de uma conta vinculada a uma compra
     if conta[1]:
-        descricao = u'Recebimento: %s, proveniente da parcela: %s, da conta à receber: %s, da venda: %s.' % (instance.pk, instance.parcelas_contas_receber.pk, conta[0], conta[1])
+        descricao = _(u"Recebimento: %(recebimento)s, proveniente da parcela: %(parcela)s, da conta a receber: %(conta_receber)s, da venda: %(venda)s.") % {'recebimento': instance.pk, 'parcela': instance.parcelas_contas_receber.pk, 'conta_receber': conta[0], 'venda': conta[1]}
     
     else:
         conta_avulsa = ParcelasContasReceber.objects.filter(pk=instance.parcelas_contas_receber.pk).select_related('contas_receber__contasreceber').values_list('contas_receber__descricao', flat=True)[0]
-        descricao = u'Recebimento avulso. %s' % (conta_avulsa[:50])
+        descricao = _(u"Recebimento avulso. %(recebimento)s") % {'recebimento': conta_avulsa[:50]}
 
     # Insere os itens de saída de movimentos de caixa
     movimento_caixa = MovimentosCaixa(  descricao=descricao, 

@@ -52,19 +52,15 @@ def index(request):
 		# print credito
 		# print debito
 		formato_data = "%d/%m/%Y"
-		extra_serie1 = {
+		extra_serie = {
 			"tooltip": {"y_start": "R$", "y_end": ""},
-			"date_format": formato_data,
-			'color': '#a4c639'
+			"date_format": formato_data
 		}
-		extra_serie2 = {
-			"tooltip": {"y_start": "R$", "y_end": ""},
-			"date_format": formato_data,
-			'color': '#FF8aF8'
-		}
+
 		chartdata = {'x': data_mov,
-		'name1': 'Crédito', 'y1': credito, 'extra1': extra_serie1,
-		'name2': 'Débito', 'y2': debito, 'extra2': extra_serie2}
+					 'name1': u'Crédito (R$)', 'y1': credito, 'extra1': extra_serie,
+					 'name2': u'Débito (R$)', 'y2': debito, 'extra2': extra_serie
+		}
 
 		charttype = "lineChart"
 		chartcontainer = 'linechart_container'  # container name

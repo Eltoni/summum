@@ -7,6 +7,7 @@ from django.contrib.admin.views.main import IS_POPUP_VAR
 from sorl.thumbnail.admin import AdminImageMixin
 from salmonella.admin import SalmonellaMixin
 from models import *
+from django.utils.translation import ugettext_lazy as _
 
 
 class MarcaAdmin(AdminImageMixin, admin.ModelAdmin):
@@ -46,8 +47,8 @@ class ProdutosAdmin(ExportMixin, SalmonellaMixin, AdminImageMixin, GlobalAdmin):
     )
 
     suit_form_tabs = (
-        ('geral', 'Geral'),
-        ('detalhes', 'Detalhes'),
+        ('geral', _(u"Geral")),
+        ('detalhes', _(u"Detalhes")),
     )
 
     def suit_row_attributes(self, obj, request):

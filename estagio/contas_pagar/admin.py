@@ -6,6 +6,7 @@ from django.http import HttpResponseRedirect
 from django.conf.urls import patterns
 from views import retorna_pagamentos_parcela, retorna_pagamentos_conta
 from salmonella.admin import SalmonellaMixin
+from django.utils.translation import ugettext_lazy as _
 
 
 class PagamentoAdmin(admin.ModelAdmin):
@@ -115,7 +116,7 @@ class ContasPagarAdmin(SalmonellaMixin, admin.ModelAdmin):
         )
 
         self.suit_form_tabs = (
-            ('geral', 'Geral'),
+            ('geral', _(u"Geral")),
         )
 
         self.suit_form_includes = []
@@ -124,7 +125,7 @@ class ContasPagarAdmin(SalmonellaMixin, admin.ModelAdmin):
             self.fieldsets[1][1]['fields'] = tuple(x for x in self.fieldsets[1][1]['fields'] if (x!='link_pagamentos_conta' and x!='valor_total_cobrado' and x!='valor_total_a_pagar' and x!='valor_total_encargos' and x!='valor_total_juros' and x!='valor_total_multa'))
         
         else:
-            insert_into_suit_form_tabs = tuple([('detalhe', 'Detalhes da Conta')])
+            insert_into_suit_form_tabs = tuple([('detalhe', _(u"Detalhes da Conta"))])
             self.suit_form_tabs += insert_into_suit_form_tabs
 
             self.suit_form_includes = (

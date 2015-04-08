@@ -11,6 +11,7 @@ from decimal import Decimal
 from django.db.models import Sum
 from django.core.urlresolvers import reverse
 from django.utils.html import format_html
+from django.utils.translation import ugettext_lazy as _
 
 
 class ContasReceber(models.Model):
@@ -20,18 +21,18 @@ class ContasReceber(models.Model):
     Criada em 22/09/2014. 
     """
 
-    data = models.DateField()
-    valor_total = models.DecimalField(max_digits=20, decimal_places=2)
-    status = models.BooleanField(default=False, verbose_name=u'Conta fechada', help_text=u'Se desmarcado, indica que há parcelas em aberto, caso contrário, a conta foi fechada.')
-    descricao = models.TextField(blank=True, verbose_name=u'Descrição') 
-    vendas = models.ForeignKey(Venda, on_delete=models.PROTECT, null=True, verbose_name=u'Venda') 
-    cliente = models.ForeignKey(Cliente, on_delete=models.PROTECT, null=True)
-    forma_pagamento = models.ForeignKey(FormaPagamento, on_delete=models.PROTECT)
-    grupo_encargo = models.ForeignKey(GrupoEncargo, blank=False, null=False, verbose_name=u'Grupo de encargo', on_delete=models.PROTECT)
+    data = models.DateField(verbose_name=_(u"Data"))
+    valor_total = models.DecimalField(max_digits=20, decimal_places=2, verbose_name=_(u"Valor total"))
+    status = models.BooleanField(default=False, verbose_name=_(u"Conta fechada"), help_text=_(u"Se desmarcado, indica que há parcelas em aberto, caso contrário, a conta foi fechada."))
+    descricao = models.TextField(blank=True, verbose_name=_(u"Descrição")) 
+    vendas = models.ForeignKey(Venda, on_delete=models.PROTECT, null=True, verbose_name=_(u"Venda")) 
+    cliente = models.ForeignKey(Cliente, on_delete=models.PROTECT, null=True, verbose_name=_(u"Cliente"))
+    forma_pagamento = models.ForeignKey(FormaPagamento, on_delete=models.PROTECT, verbose_name=_(u"Forma de pagamento"))
+    grupo_encargo = models.ForeignKey(GrupoEncargo, blank=False, null=False, verbose_name=_(u"Grupo de encargo"), on_delete=models.PROTECT)
 
     class Meta:
-        verbose_name = u'Conta a Receber'
-        verbose_name_plural = "Contas a Receber"
+        verbose_name = _(u"Conta a Receber")
+        verbose_name_plural = _(u"Contas a Receber")
 
 
     def clean(self):
@@ -40,10 +41,10 @@ class ContasReceber(models.Model):
         """
         from caixa.models import Caixa
         if not Caixa.objects.filter(status=1).exists() and not self.pk:
-            raise ValidationError('Não há caixa aberto. Para efetivar um cadastro de uma conta a receber avulsa, é necessário ter o caixa aberto.')
+            raise ValidationError(_(u"Não há caixa aberto. Para efetivar um cadastro de uma conta a receber avulsa, é necessário ter o caixa aberto."))
 
         if not Caixa.objects.filter(status=1).exists() and self.pk:
-            raise ValidationError('Não há caixa aberto. Alterações numa conta a receber só podem ser efetivadas após a abertura do caixa.')
+            raise ValidationError(_(u"Não há caixa aberto. Alterações numa conta a receber só podem ser efetivadas após a abertura do caixa."))
 
 
     def __unicode__(self):
@@ -56,7 +57,7 @@ class ContasReceber(models.Model):
             return u"<a href='%s' target='_blank'>%s</a>" % (url, self.vendas)
         return '-'
     venda_associada.allow_tags = True
-    venda_associada.short_description = 'Venda'
+    venda_associada.short_description = _(u"Venda")
 
 
     def valor_total_juros(self):
@@ -69,7 +70,7 @@ class ContasReceber(models.Model):
             valor_juros = 0 if not valor else valor
             valor_total_juros += valor_juros
         return Decimal(valor_total_juros).quantize(Decimal("0.00")) or Decimal(0.00).quantize(Decimal("0.00"))
-    valor_total_juros.short_description = 'Valor total de juros'
+    valor_total_juros.short_description = _(u"Valor total de juros")
 
 
     def valor_total_multa(self):
@@ -82,7 +83,7 @@ class ContasReceber(models.Model):
             valor_multa = 0 if not valor else valor
             valor_total_multa += valor_multa
         return Decimal(valor_total_multa).quantize(Decimal("0.00")) or Decimal(0.00).quantize(Decimal("0.00"))
-    valor_total_multa.short_description = 'Valor total de multa'
+    valor_total_multa.short_description = _(u"Valor total de multa")
 
 
     def valor_total_encargos(self):
@@ -93,7 +94,7 @@ class ContasReceber(models.Model):
             retorna_id_parcelas = ParcelasContasReceber.objects.filter(contas_receber=self.pk).values_list('pk')[i][0]
             valor_encargos += ParcelasContasReceber.objects.get(pk=retorna_id_parcelas).encargos_calculados()
         return valor_encargos or Decimal(0.00).quantize(Decimal("0.00"))
-    valor_total_encargos.short_description = 'Valor total de encargos'
+    valor_total_encargos.short_description = _(u"Valor total de encargos")
 
 
     def valor_total_cobrado(self):
@@ -104,21 +105,21 @@ class ContasReceber(models.Model):
             retorna_id_parcelas = ParcelasContasReceber.objects.filter(contas_receber=self.pk).values_list('pk')[i][0]
             valor_cobrado += ParcelasContasReceber.objects.get(pk=retorna_id_parcelas).valor_total()
         return valor_cobrado or Decimal(0.00).quantize(Decimal("0.00"))
-    valor_total_cobrado.short_description = 'Valor total cobrado'
+    valor_total_cobrado.short_description = _(u"Valor total cobrado")
 
 
     def valor_total_recebido(self):
 
         valor_recebido = Recebimento.objects.filter(parcelas_contas_receber__contas_receber=self.pk).aggregate(Sum('valor')).items()[0][1]
         return valor_recebido or Decimal(0.00).quantize(Decimal("0.00"))
-    valor_total_recebido.short_description = 'Valor total recebido'
+    valor_total_recebido.short_description = _(u"Valor total recebido")
 
 
     def link_recebimentos_conta(self):
         url = reverse('admin:app_list', kwargs={'app_label': 'contas_receber'})
         return format_html('<a href="{0}recebimento/recebimentos_conta/{1}" target="_blank">{2}<span class="icon-share icon-alpha5" style="vertical-align: text-bottom; margin-left: 10px;" rel="tooltip" title="Visualize todos os recebimentos da conta {1}"</span></a>', url, self.pk, self.valor_total_recebido())
     link_recebimentos_conta.allow_tags = True
-    link_recebimentos_conta.short_description = u'Valor total recebido'
+    link_recebimentos_conta.short_description = _(u"Valor total recebido")
 
 
     def valor_total_a_receber(self):
@@ -129,7 +130,7 @@ class ContasReceber(models.Model):
             retorna_id_parcelas = ParcelasContasReceber.objects.filter(contas_receber=self.pk).values_list('pk')[i][0]
             valor_a_receber += ParcelasContasReceber.objects.get(pk=retorna_id_parcelas).valor_a_receber()
         return valor_a_receber or Decimal(0.00).quantize(Decimal("0.00"))
-    valor_total_a_receber.short_description = 'Valor total a receber'
+    valor_total_a_receber.short_description = _(u"Valor total a receber")
 
 
     def prazo_primeira_parcela(self, data, num_parcela):
@@ -264,15 +265,15 @@ class ParcelasContasReceber(models.Model):
     Criada em 22/09/2014.  
     """
     
-    vencimento = models.DateField()
-    valor = models.DecimalField(max_digits=20, decimal_places=2) 
-    status = models.BooleanField(default=False)
-    num_parcelas = models.IntegerField(verbose_name=u'Nº Parcela')
-    contas_receber = models.ForeignKey(ContasReceber, on_delete=models.PROTECT, verbose_name=u'Conta à receber')
+    vencimento = models.DateField(verbose_name=_(u"Vencimento"))
+    valor = models.DecimalField(max_digits=20, decimal_places=2, verbose_name=_(u"Valor")) 
+    status = models.BooleanField(default=False, verbose_name=_(u"Status"))
+    num_parcelas = models.IntegerField(verbose_name=_(u"Nº Parcela"))
+    contas_receber = models.ForeignKey(ContasReceber, on_delete=models.PROTECT, verbose_name=_(u"Conta à receber"))
 
     class Meta:
-        verbose_name = u'Parcela de Conta à Receber'
-        verbose_name_plural = "Parcelas de Contas à Receber"
+        verbose_name = _(u"Parcela de Conta à Receber")
+        verbose_name_plural = _(u"Parcelas de Contas à Receber")
 
 
     def __unicode__(self):
@@ -310,7 +311,7 @@ class ParcelasContasReceber(models.Model):
                 return calculo_composto(self.valor, dias_vencidos, percentual_juros)
             
         return 0.00
-    calculo_juros.short_description = 'Juros'
+    calculo_juros.short_description = _(u"Juros")
 
 
     def calculo_multa(self):
@@ -340,7 +341,7 @@ class ParcelasContasReceber(models.Model):
             return calculo_simples(self.valor, dias_vencidos, percentual_multa)
 
         return 0.00
-    calculo_multa.short_description = 'Multa'
+    calculo_multa.short_description = _(u"Multa")
 
 
     def encargos_calculados(self):
@@ -350,7 +351,7 @@ class ParcelasContasReceber(models.Model):
 
         valor_total_encargos = Decimal(self.calculo_juros() + self.calculo_multa()).quantize(Decimal("0.00"))
         return valor_total_encargos
-    encargos_calculados.short_description = 'Encargos'
+    encargos_calculados.short_description = _(u"Encargos")
 
 
     def valor_total(self):
@@ -360,21 +361,21 @@ class ParcelasContasReceber(models.Model):
 
         valor_total = Decimal(self.valor + self.encargos_calculados()).quantize(Decimal("0.00"))
         return valor_total or 0.00
-    valor_total.short_description = 'Valot Total'
+    valor_total.short_description = _(u"Valot Total")
 
 
     def valor_pago(self):
 
         valor_pago = Recebimento.objects.filter(parcelas_contas_receber=self.pk).aggregate(Sum('valor')).items()[0][1]
         return valor_pago or Decimal(0.00).quantize(Decimal("0.00"))
-    valor_pago.short_description = 'Valor Pago'
+    valor_pago.short_description = _(u"Valor Pago")
 
 
     def valor_a_receber(self):
         parcela_recebimentos = Recebimento.objects.filter(parcelas_contas_receber=self.pk).aggregate(Sum('valor')).items()[0][1]
         valor_a_receber = Decimal(self.valor_total()).quantize(Decimal("0.00")) - (Decimal(0.00).quantize(Decimal("0.00")) if not parcela_recebimentos else parcela_recebimentos)
         return valor_a_receber
-    valor_a_receber.short_description = 'Valor a Receber'
+    valor_a_receber.short_description = _(u"Valor a Receber")
 
 
     def link_recebimentos_parcela_cores(self):
@@ -396,7 +397,7 @@ class ParcelasContasReceber(models.Model):
         url = reverse('admin:app_list', kwargs={'app_label': 'contas_receber'})
         return format_html('<a href="{0}recebimento/recebimentos_parcela/{1}" target="_blank" style="color: {2};">{3}<span class="icon-share icon-alpha5" style="position: relative; float: right; right: 20%;" rel="tooltip" title="Visualize todos os recebimentos da parcela {1}"</span></a>', url, self.pk, self.link_recebimentos_parcela_cores(), self.valor_pago())
     link_recebimentos_parcela.allow_tags = True
-    link_recebimentos_parcela.short_description = u'Valor Pago'
+    link_recebimentos_parcela.short_description = _(u"Valor Pago")
 
 
     def link_recebimento(self):
@@ -409,7 +410,7 @@ class ParcelasContasReceber(models.Model):
 
     def formata_data(obj):
       return obj.vencimento.strftime('%d/%m/%Y')
-    formata_data.short_description = 'Vencimento'
+    formata_data.short_description = _(u"Vencimento")
 
 
     # def save(self, *args, **kwargs):
@@ -461,12 +462,17 @@ class Recebimento(models.Model):
     Criada em 15/06/2014. 
     """
 
-    data = models.DateTimeField(auto_now_add=True)
-    valor = models.DecimalField(max_digits=20, decimal_places=2)
-    juros = models.DecimalField(max_digits=20, decimal_places=2, blank=True, null=True)
-    multa = models.DecimalField(max_digits=20, decimal_places=2, blank=True, null=True)
-    desconto = models.DecimalField(max_digits=20, decimal_places=2, blank=True, null=True)
-    parcelas_contas_receber = models.ForeignKey(ParcelasContasReceber, on_delete=models.PROTECT, verbose_name=u'Recebimento de parcela')
+    data = models.DateTimeField(auto_now_add=True, verbose_name=_(u"Data"))
+    valor = models.DecimalField(max_digits=20, decimal_places=2, verbose_name=_(u"Valor"))
+    juros = models.DecimalField(max_digits=20, decimal_places=2, blank=True, null=True, verbose_name=_(u"Juros"))
+    multa = models.DecimalField(max_digits=20, decimal_places=2, blank=True, null=True, verbose_name=_(u"Multa"))
+    desconto = models.DecimalField(max_digits=20, decimal_places=2, blank=True, null=True, verbose_name=_(u"Desconto"))
+    parcelas_contas_receber = models.ForeignKey(ParcelasContasReceber, on_delete=models.PROTECT, verbose_name=_(u"Recebimento de parcela"))
+
+    class Meta:
+        verbose_name = _(u"Recebimento")
+        verbose_name_plural = _(u"Recebimentos")
+
 
     def __unicode__(self):
         return u'%s' % (self.id)
@@ -483,10 +489,10 @@ class Recebimento(models.Model):
         # Checa a situação do caixa
         from caixa.models import Caixa
         if not Caixa.objects.filter(status=1).exists() and not self.pk:
-            raise ValidationError('Não há caixa aberto. Para efetivar um recebimento é necessário ter o caixa aberto.')
+            raise ValidationError(_(u"Não há caixa aberto. Para efetivar um recebimento é necessário ter o caixa aberto."))
 
         if not Caixa.objects.filter(status=1).exists() and self.pk:
-            raise ValidationError('Não há caixa aberto. Alterações num recebimento só podem ser efetivados após a abertura do caixa.')
+            raise ValidationError(_(u"Não há caixa aberto. Alterações num recebimento só podem ser efetivados após a abertura do caixa."))
 
         # Checa a situação do valor do recebimento
         from configuracoes.models import *
@@ -496,7 +502,7 @@ class Recebimento(models.Model):
         valor_minimo_recebimento = round((parcela.valor_total() * perc_valor_minimo_recebimento) / 100, 2)
         primeiro_recebimento = Recebimento.objects.filter(parcelas_contas_receber=self.parcelas_contas_receber.pk).exists()
         if self.valor < valor_minimo_recebimento and not primeiro_recebimento:
-            raise ValidationError('Primeiro recebimento deve ser de no mínimo %s%% do valor da parcela. Valor mínimo: %s.' % (perc_valor_minimo_recebimento, valor_minimo_recebimento))
+            raise ValidationError(_(u"Primeiro recebimento deve ser de no mínimo %(perc_valor_minimo)s%% do valor da parcela. Valor mínimo: %(valor_minimo)s.") % {'perc_valor_minimo': perc_valor_minimo_recebimento, 'valor_minimo': valor_minimo_recebimento})
 
 
     def save(self, *args, **kwargs):

@@ -17,16 +17,16 @@
 {% block content %}
 
     {% if pagamentos %}
-       <h2>Pagamentos já realizados da parcela {{ pagamentos.0.6 }}</h2>
+       <h2>{% trans 'Pagamentos já realizados da parcela' %} {{ pagamentos.0.6 }}</h2>
 
        <table class="table table-bordered table-condensed table-striped">
          <thead><tr>
-             <th colspan="1">ID</th>
-             <th>Data do Pagamento</th>
-             <th>Valor</th>
-             <th>Juros</th>
-             <th>Multa</th>
-             <th>Desconto</th>
+             <th colspan="1">{% trans 'ID' %}</th>
+             <th>{% trans 'Data do Pagamento' %}</th>
+             <th>{% trans 'Valor' %}</th>
+             <th>{% trans 'Juros' %}</th>
+             <th>{% trans 'Multa' %}</th>
+             <th>{% trans 'Desconto' %}</th>
          </tr></thead>
          <tbody>
             {% for pagamento in pagamentos %}

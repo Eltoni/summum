@@ -1,3 +1,5 @@
+{% load i18n admin_static %}
+
 <style>
 .item-legenda {
     width: 25%;
@@ -63,18 +65,18 @@
 <ul class="legenda-parcelas">
   <li class="item-legenda">
     <span class="cor-paga"></span>
-    <font class="fonte-legenda-paga">Paga</font>
+    <font class="fonte-legenda-paga">{% trans 'Paga' %}</font>
   </li>
   <li class="item-legenda">
     <span class="cor-paga-parcialmente"></span>
-    <font class="fonte-legenda-paga-parcialmente">Paga parcialmente</font>
+    <font class="fonte-legenda-paga-parcialmente">{% trans 'Paga parcialmente' %}</font>
   </li>
   <li class="item-legenda">
     <span class="cor-aberto"></span> 
-    <font class="fonte-legenda-aberto">Em aberto</font>
+    <font class="fonte-legenda-aberto">{% trans 'Em aberto' %}</font>
   </li>
   <li>
     <span class="cor-vencida"></span> 
-    <font class="fonte-legenda-vencida">Vencida</font>
+    <font class="fonte-legenda-vencida">{% trans 'Vencida' %}</font>
   </li>
 </ul>

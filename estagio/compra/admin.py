@@ -6,6 +6,7 @@ from django.http import HttpResponseRedirect
 from configuracoes.models import Parametrizacao
 from salmonella.admin import SalmonellaMixin
 from app_global.widgets import NoAddingRelatedFieldWidgetWrapper
+from django.utils.translation import ugettext_lazy as _
 
 
 class ItensCompraInline(SalmonellaMixin, admin.TabularInline):
@@ -65,8 +66,8 @@ class CompraAdmin(SalmonellaMixin, admin.ModelAdmin):
 
     def get_form(self, request, obj=None, **kwargs):
         self.suit_form_tabs = (
-            ('geral', 'Geral'),
-            ('info_adicionais', 'Informações adicionais')
+            ('geral', _(u"Geral")),
+            ('info_adicionais', _(u"Informações adicionais"))
         )
 
         self.fieldsets = (

@@ -3,6 +3,7 @@ from models import *
 from forms import *
 from app_global.admin import GlobalAdmin
 from django.contrib.admin.views.main import IS_POPUP_VAR
+from django.utils.translation import ugettext_lazy as _
 
 
 class FormaPagamentoAdmin(GlobalAdmin):
@@ -20,7 +21,7 @@ class FormaPagamentoAdmin(GlobalAdmin):
     )
 
     suit_form_tabs = (
-        ('geral', 'Geral'),
+        ('geral', _(u"Geral")),
     )
 
 
@@ -66,7 +67,7 @@ class GrupoEncargoAdmin(GlobalAdmin):
     )
 
     suit_form_tabs = (
-        ('geral', 'Geral'),
+        ('geral', _(u"Geral")),
     )
 
 

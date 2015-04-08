@@ -2,6 +2,7 @@
 from django.contrib import admin
 from models import *
 from forms import *
+from django.utils.translation import ugettext_lazy as _
 
 
 class ParametrizacaoAdmin(admin.ModelAdmin):
@@ -21,7 +22,7 @@ class ParametrizacaoAdmin(admin.ModelAdmin):
     )
     
     suit_form_tabs = (
-        ('geral', 'Geral'),
+        ('geral', _(u"Geral")),
     )
 
     def has_delete_permission(self, request, obj=None):

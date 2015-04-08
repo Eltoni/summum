@@ -17,16 +17,16 @@
 {% block content %}
 
     {% if recebimentos %}
-       <h2>Recebimentos já realizados da parcela {{ recebimentos.0.6 }}</h2>
+       <h2>{% trans 'Recebimentos já realizados da parcela' %} {{ recebimentos.0.6 }}</h2>
 
        <table class="table table-bordered table-condensed table-striped">
          <thead><tr>
-             <th colspan="1">ID</th>
-             <th>Data do Recebimento</th>
-             <th>Valor</th>
-             <th>Juros</th>
-             <th>Multa</th>
-             <th>Desconto</th>
+             <th colspan="1">{% trans 'ID' %}</th>
+             <th>{% trans 'Data do Recebimento' %}</th>
+             <th>{% trans 'Valor' %}</th>
+             <th>{% trans 'Juros' %}</th>
+             <th>{% trans 'Multa' %}</th>
+             <th>{% trans 'Desconto' %}</th>
          </tr></thead>
          <tbody>
             {% for recebimento in recebimentos %}

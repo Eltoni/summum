@@ -2,6 +2,7 @@
 from django.contrib import admin
 from models import *
 from django.core.mail import send_mail
+from django.utils.translation import ugettext_lazy as _
 
 
 class CaixaAdmin(admin.ModelAdmin):
@@ -12,7 +13,7 @@ class CaixaAdmin(admin.ModelAdmin):
 
 
     def get_form(self, request, obj=None, **kwargs):
-        self.suit_form_tabs = [('geral', 'Geral'),]
+        self.suit_form_tabs = [('geral', _(u"Geral")),]
         self.fieldsets = (
             (None, {
                 'classes': ('suit-tab suit-tab-geral',),
@@ -52,9 +53,10 @@ class CaixaAdmin(admin.ModelAdmin):
 
     def save_model(self, request, obj, form, change):
         if not change:
-            texto = u'Há um novo Caixa criado no sistema, aberto por: %s %s. Com Valor inicial de R$ %s.' % (request.user.first_name, request.user.last_name, obj.valor_inicial)
+            texto = _(u"Há um novo Caixa criado no sistema, aberto por: %(nome)s %(sobrenome)s. Com Valor inicial de R$%(valor_inicial)s.") % {'nome': request.user.first_name, 'sobrenome': request.user.last_name, 'valor_inicial': obj.valor_inicial}
+            assunto = _(u"Notificação (Estágio)")
             send_mail(
-                'Notificação (Estágio)',    # subject
+                assunto,                    # subject
                 texto,                      # message
                 'gustavo.sdo@gmail.com',    # from
                 ['gustavo.sdo@gmail.com'],  # to

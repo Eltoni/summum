@@ -5,6 +5,7 @@ from suit.widgets import LinkedSelect, NumberInput, AutosizedTextarea
 from localflavor.br.forms import BRStateChoiceField, BRPhoneNumberField, BRCPFField, BRZipCodeField, BRCNPJField
 from django.forms import ModelForm, TextInput
 from django.utils.safestring import mark_safe
+from django.utils.translation import ugettext_lazy as _
 
 
 class BaseCadastroPessoaForm(forms.ModelForm):
@@ -35,7 +36,7 @@ class BaseCadastroPessoaForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super(BaseCadastroPessoaForm, self).__init__(*args, **kwargs)
         self.fields['estado'] = BRStateChoiceField(initial="PR")
-        self.fields['cpf'] = BRCPFField(required=False, label="CPF")
+        self.fields['cpf'] = BRCPFField(required=False, label=_(u"CPF"))
         self.fields['cep'] = BRZipCodeField(required=False)
         self.fields['telefone'] = BRPhoneNumberField(required=False)
         self.fields['celular'] = BRPhoneNumberField(required=False)
@@ -88,8 +89,8 @@ class FornecedorForm(BaseCadastroPessoaForm):
 
     def __init__(self, *args, **kwargs):
         super (FornecedorForm, self).__init__(*args,**kwargs)
-        self.fields['cnpj'] = BRCNPJField(required=False, label="CNPJ")
-        self.fields['razao_social'] = BRCNPJField(required=False, label="Razão Social")
+        self.fields['cnpj'] = BRCNPJField(required=False, label=_(u"CNPJ"))
+        self.fields['razao_social'] = BRCNPJField(required=False, label=_(u"Razão Social"))
 
     # Método que permite salvar valores nulos para o campo CNPJ, já que o mesmo está setado como Unique=True mas não é de preenchimento obrigatório
     # Também trata o valor para que seja salvo no banco

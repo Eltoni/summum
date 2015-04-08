@@ -110,7 +110,17 @@ DATABASES = {
 # Internationalization
 # https://docs.djangoproject.com/en/1.6/topics/i18n/
 
+LOCALE_PATHS = (
+    os.path.join(BASE_DIR, 'locale/'),
+)
+
 LANGUAGE_CODE = 'pt-br'
+
+ugettext = lambda s: s
+LANGUAGES = (
+    ('pt-br', ugettext('Português')),
+    ('en', ugettext('Inglês')),
+)
 
 TIME_ZONE = 'America/Sao_Paulo'
 
@@ -121,6 +131,7 @@ USE_L10N = True
 USE_TZ = True
 
 SITE_ID = 1
+
 
 
 # Absolute filesystem path to the directory that will hold user-uploaded files.
@@ -195,18 +206,22 @@ SUIT_CONFIG = {
         {'label': u'Configurações', 'icon':'icon-wrench', 'app':'configuracoes'},
         # Separator
         '-',
+        '-',
+        {'label': u'relatórios', 'icon':'icon-th-list', 'permissions': 'movimento.visualizar_relatorios', 'models': [
+            {'label': u'Venda', 'url': '/#'},
+        ]},
     )
 }
 
 # Django Nvd3
 # -----------
-BOWER_COMPONENTS_ROOT = BASE_DIR + '\\estagio\\static\\components\\'
+BOWER_COMPONENTS_ROOT = os.path.join(BASE_DIR, 'estagio/static/components')
 
 BOWER_PATH = HOME_PATH + '/AppData/Roaming/npm/bower.cmd'
 
 BOWER_INSTALLED_APPS = (
-    'd3#3.3.6',
-    'nvd3#1.1.12-beta',
+    'd3#3.3.13',
+    'nvd3#1.7.1',
 )
 
 # Email configuration

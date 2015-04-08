@@ -114,16 +114,16 @@
           {% if tab_limite_estoque %}
             {% if produtos_esgotando %}
               <div class="module blocks-content-main">
-                <h4 class="italic-title" style="margin-left: 26px;"><b>Estoque</b></h4>
-                <h2><span class="description">Indicativo de Produtos esgotando em estoque</span></h2>
+                <h4 class="italic-title" style="margin-left: 26px;"><b>{% trans 'Estoque' %}</b></h4>
+                <h2><span class="description">{% trans 'Indicativo de Produtos esgotando em estoque' %}</span></h2>
                 <!-- <table class="table-overview table table-striped table-bordered table-hover table-condensed"> -->
                 <table class="table-overview table table-condensed">
                   <thead>
                     <tr>
                       <td></td>
-                      <td>ID</td>
-                      <td>Produto</td>
-                      <td>Quantidade em estoque</td>
+                      <td>{% trans 'ID' %}</td>
+                      <td>{% trans 'Produto' %}</td>
+                      <td>{% trans 'Quantidade em estoque' %}</td>
                     </tr>
                   </thead>
                   <tbody>
@@ -137,23 +137,23 @@
                   {% endfor %}
                   </tbody>
                 </table>
-                <h2><span class="description">Produtos com menos de {{ quantidade_minima }} itens em estoque.</span></h2>
+                <h2><span class="description">{% blocktrans %}Produtos com menos de {{ quantidade_minima }} itens em estoque.{% endblocktrans %}</span></h2>
                 <ul class="legenda-produtos-esgotando">
                     <li>
                       <span class="cinquenta-porcento"></span> 
-                      <font class="fonte-legenda">Abaixo de 50% da quantidade.</font>
+                      <font class="fonte-legenda">{% trans 'Abaixo de 50% da quantidade.' %}</font>
                     </li>
                     <br>
                     <li>
                       <span class="cem-porcento"></span>
-                      <font class="fonte-legenda">Entre 50% e 100% da quantidade.</font>
+                      <font class="fonte-legenda">{% trans 'Entre 50% e 100% da quantidade.' %}</font>
                     </li>
                 </ul>
               </div>
             {% else %}
               <div class="module blocks-content-main alert alert-success">
-                <h4 class="italic-title" style="margin-left: 26px;"><b>Estoque</b></h4>
-                <h2><span class="description">Não há produtos esgotando em estoque.</span></h2>
+                <h4 class="italic-title" style="margin-left: 26px;"><b>{% trans 'Estoque' %}</b></h4>
+                <h2><span class="description">{% trans 'Não há produtos esgotando em estoque.' %}</span></h2>
               </div>
             {% endif %}
           {% endif %}
@@ -164,8 +164,8 @@
               <table>
                 <tr>
                   <td>
-                    <h4 class="italic-title" style="margin-left: 26px;"><b>Movimentação Financeira Diária</b></h4>
-                    <h2><span class="description">Demonstrativo diário de Débitos e Créditos movimentados em caixa</span></h2>
+                    <h4 class="italic-title" style="margin-left: 26px;"><b>{% trans 'Movimentação Financeira Diária' %}</b></h4>
+                    <h2><span class="description">{% trans 'Demonstrativo diário de Débitos e Créditos movimentados em caixa' %}</span></h2>
                     {% include_container chartcontainer 500 1000 %}
                   </td>
                 </tr>

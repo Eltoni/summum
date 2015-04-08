@@ -1,5 +1,6 @@
 {% extends "admin/base.html" %}
 {% load admin_static %}
+{% load i18n %}
 
 {# Additional <head> content here, some extra meta tags or favicon #}
 {#{% block extrahead %}#}
@@ -32,7 +33,7 @@
 
 {# Footer links (left side) #}
 {% block footer_links %}
-  <a href="/doc/" class="icon"><i class="icon-question-sign"></i>Documentação</a>
+  <a href="/doc/" class="icon"><i class="icon-question-sign"></i>{% trans 'Documentação' %}</a>
 {% endblock %}
 
 {# Additional header content like notifications or language switcher #}
@@ -65,5 +66,5 @@
 
 {# Footer copyright (right side) #}
 {% block copyright %}
-Copyright &copy; 2014 Versão - Estágio<br>Desenvolvido por <a href="http://gustavosdo.github.io/" target="_blank">Gustavo Santana</a>
+Copyright &copy; 2015 {% trans 'Versão' %} - Estágio<br>{% trans 'Desenvolvido por ' %}<a href="http://gustavosdo.github.io/" target="_blank">Gustavo Santana</a>
 {% endblock %}

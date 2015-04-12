@@ -6,6 +6,8 @@ from django.http import HttpResponseRedirect
 from configuracoes.models import Parametrizacao
 from salmonella.admin import SalmonellaMixin
 from django.utils.translation import ugettext_lazy as _
+from import_export.admin import ExportMixin
+from export import VendaResource
 
 
 class ItensVendaInline(SalmonellaMixin, admin.TabularInline):
@@ -47,7 +49,8 @@ class ItensVendaInline(SalmonellaMixin, admin.TabularInline):
 
 
 
-class VendaAdmin(SalmonellaMixin, admin.ModelAdmin):
+class VendaAdmin(ExportMixin, SalmonellaMixin, admin.ModelAdmin):
+    resource_class = VendaResource
     inlines = [ 
         ItensVendaInline,
     ]

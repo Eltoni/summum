@@ -288,8 +288,8 @@ class ParcelasContasPagar(models.Model):
 
         data = datetime.date.today()
 
-        #if (self.vencimento < data and not existe_pagamento) or (data_primeiro_pagamento > self.vencimento):
-        if self.vencimento < data:
+        # Após a atualização para o Django 1.7.7, é preciso checar se está o objeto está instanciado (if self.pk) 
+        if self.pk and self.vencimento < data:
             
             parametros_grupo_encargo = GrupoEncargo.objects.filter(pk=self.contas_pagar.grupo_encargo.pk).values_list('juros', 'tipo_juros')[0]
             # Percentual de multa
@@ -324,7 +324,8 @@ class ParcelasContasPagar(models.Model):
 
         data = datetime.date.today()
 
-        if self.vencimento < data:
+        # Após a atualização para o Django 1.7.7, é preciso checar se está o objeto está instanciado (if self.pk) 
+        if self.pk and self.vencimento < data:
             
             percentual_multa = GrupoEncargo.objects.filter(pk=self.contas_pagar.grupo_encargo.pk).values_list('multa')[0][0]
             percentual_multa = percentual_multa / 100
@@ -359,9 +360,12 @@ class ParcelasContasPagar(models.Model):
         u""" 
         Retorna o valor total da parcela com os encargos cálculados (valor juro + valor multa + valor mensalidade) 
         """
-
-        valor_total = Decimal(self.valor + self.encargos_calculados()).quantize(Decimal("0.00"))
-        return valor_total or 0.00
+        
+        # Após a atualização para o Django 1.7.7, é preciso checar se está o objeto está instanciado (if self.pk) 
+        if self.pk:
+            valor_total = Decimal(self.valor + self.encargos_calculados()).quantize(Decimal("0.00"))
+            return valor_total or 0.00
+        return 0.00
     valor_total.short_description = _(u"Valot Total")
 
 

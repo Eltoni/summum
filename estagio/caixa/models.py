@@ -4,7 +4,7 @@ from contas_pagar.models import ContasPagar, ParcelasContasPagar, Pagamento
 from contas_receber.models import ContasReceber, ParcelasContasReceber, Recebimento
 from django.core.exceptions import ValidationError
 from django.db.models.signals import post_save
-import datetime
+from datetime import datetime
 from decimal import Decimal
 from django.utils.translation import ugettext_lazy as _
 
@@ -34,22 +34,21 @@ class Caixa(models.Model):
     valor_inicial = models.DecimalField(max_digits=20, decimal_places=2, default=0.00)
     valor_fechamento = models.DecimalField(max_digits=20, decimal_places=2, default=0.00, verbose_name=_(u"Valor de fechamento"))
     diferenca = models.DecimalField(max_digits=20, decimal_places=2, default=0.00, verbose_name=_(u"Diferença"))
-    
+
+    class Meta:
+        permissions = ((u"recebe_notificacoes_caixa", _(u"Receber notificações de caixa.")),)
+
+
     def __unicode__(self):
         return u'%s' % (self.id)
-
-    # def __init__(self, *args, **kwargs):
-    #     super(Caixa, self).__init__(*args, **kwargs)
-    #     if not self.data:
-    #         self.data = '2014-01-01'
-    #     else:
-    #         pass
+        
 
     def save(self, *args, **kwargs):
         """
         Método que trata a geração e cálculo do Caixa.
         """
-        data = datetime.date.today()
+
+        data = datetime.now()
 
         if self.pk:
 

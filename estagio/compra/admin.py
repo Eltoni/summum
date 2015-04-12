@@ -7,6 +7,8 @@ from configuracoes.models import Parametrizacao
 from salmonella.admin import SalmonellaMixin
 from app_global.widgets import NoAddingRelatedFieldWidgetWrapper
 from django.utils.translation import ugettext_lazy as _
+from import_export.admin import ExportMixin
+from export import CompraResource
 
 
 class ItensCompraInline(SalmonellaMixin, admin.TabularInline):
@@ -48,7 +50,8 @@ class ItensCompraInline(SalmonellaMixin, admin.TabularInline):
 
 
 
-class CompraAdmin(SalmonellaMixin, admin.ModelAdmin):
+class CompraAdmin(ExportMixin, SalmonellaMixin, admin.ModelAdmin):
+    resource_class = CompraResource
     inlines = [ 
         ItensCompraInline,
     ]

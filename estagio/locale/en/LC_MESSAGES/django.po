@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-04-08 20:01-0300\n"
+"POT-Creation-Date: 2015-04-11 17:06-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,23 +17,12 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: .\caixa\admin.py:16 .\compra\admin.py:69 .\configuracoes\admin.py:25
-#: .\contas_pagar\admin.py:119 .\contas_receber\admin.py:119
+#: .\caixa\admin.py:20 .\compra\admin.py:72 .\configuracoes\admin.py:25
+#: .\contas_pagar\admin.py:122 .\contas_receber\admin.py:122
 #: .\movimento\admin.py:50 .\parametros_financeiros\admin.py:24
 #: .\parametros_financeiros\admin.py:70 .\pessoal\admin.py:27
-#: .\pessoal\admin.py:123 .\pessoal\admin.py:217 .\venda\admin.py:68
+#: .\pessoal\admin.py:123 .\pessoal\admin.py:217 .\venda\admin.py:71
 msgid "Geral"
-msgstr ""
-
-#: .\caixa\admin.py:56
-#, python-format
-msgid ""
-"Há um novo Caixa criado no sistema, aberto por: %(nome)s %(sobrenome)s. Com "
-"Valor inicial de R$%(valor_inicial)s."
-msgstr ""
-
-#: .\caixa\admin.py:57
-msgid "Notificação (Estágio)"
 msgstr ""
 
 #: .\caixa\models.py:28 .\contas_pagar\models.py:271
@@ -75,77 +64,77 @@ msgstr ""
 msgid "Diferença"
 msgstr ""
 
-#: .\caixa\models.py:84
+#: .\caixa\models.py:78
 #, python-format
 msgid ""
 "Já há um caixa aberto. Para abrir este, é necessário fechar o caixa "
 "atualmente aberto (Caixa: %(caixa_aberto)s)."
 msgstr ""
 
-#: .\caixa\models.py:89 .\contas_pagar\models.py:27
+#: .\caixa\models.py:83 .\contas_pagar\models.py:27
 #: .\contas_receber\models.py:27 .\movimento\models.py:10
 #: .\movimento\models.py:18 .\movimento\models.py:29
 #: .\parametros_financeiros\models.py:9 .\pessoal\models.py:121
 msgid "Descrição"
 msgstr ""
 
-#: .\caixa\models.py:90 .\contas_pagar\models.py:270
-#: .\contas_pagar\models.py:458
+#: .\caixa\models.py:84 .\contas_pagar\models.py:270
+#: .\contas_pagar\models.py:462
 #: .\contas_pagar\templates\admin\pagamentos_conta.html:26
 #: .\contas_pagar\templates\admin\pagamentos_parcela.html:26
-#: .\contas_receber\models.py:269 .\contas_receber\models.py:466
+#: .\contas_receber\models.py:269 .\contas_receber\models.py:470
 #: .\contas_receber\templates\admin\recebimentos_conta.html:26
 #: .\contas_receber\templates\admin\recebimentos_parcela.html:26
 msgid "Valor"
 msgstr ""
 
-#: .\caixa\models.py:91 .\contas_pagar\models.py:24
-#: .\contas_pagar\models.py:457 .\contas_receber\models.py:24
-#: .\contas_receber\models.py:465 .\pessoal\models.py:47
+#: .\caixa\models.py:85 .\contas_pagar\models.py:24
+#: .\contas_pagar\models.py:461 .\contas_receber\models.py:24
+#: .\contas_receber\models.py:469 .\pessoal\models.py:47
 msgid "Data"
 msgstr ""
 
-#: .\caixa\models.py:92
+#: .\caixa\models.py:86
 msgid "Tipo de movimento"
 msgstr ""
 
-#: .\caixa\models.py:93
+#: .\caixa\models.py:87
 msgid "Caixa"
 msgstr ""
 
-#: .\caixa\models.py:94 .\caixa\models.py:105
+#: .\caixa\models.py:88 .\caixa\models.py:99
 msgid "Pagamento"
 msgstr ""
 
-#: .\caixa\models.py:95 .\caixa\models.py:112 .\contas_receber\models.py:473
+#: .\caixa\models.py:89 .\caixa\models.py:106 .\contas_receber\models.py:477
 msgid "Recebimento"
 msgstr ""
 
-#: .\caixa\models.py:147
+#: .\caixa\models.py:141
 #, python-format
 msgid ""
 "Pagamento: %(pagamento)s, proveniente da parcela: %(parcela)s, da conta a "
 "pagar: %(conta_pagar)s, da compra: %(compra)s."
 msgstr ""
 
-#: .\caixa\models.py:151
+#: .\caixa\models.py:145
 #, python-format
 msgid "Pagamento avulso. %(pagamento)s"
 msgstr ""
 
-#: .\caixa\models.py:185
+#: .\caixa\models.py:179
 #, python-format
 msgid ""
 "Recebimento: %(recebimento)s, proveniente da parcela: %(parcela)s, da conta "
 "a receber: %(conta_receber)s, da venda: %(venda)s."
 msgstr ""
 
-#: .\caixa\models.py:189
+#: .\caixa\models.py:183
 #, python-format
 msgid "Recebimento avulso. %(recebimento)s"
 msgstr ""
 
-#: .\compra\admin.py:70 .\venda\admin.py:69
+#: .\compra\admin.py:73 .\venda\admin.py:72
 msgid "Informações adicionais"
 msgstr ""
 
@@ -272,17 +261,20 @@ msgid "Itens de Compra"
 msgstr ""
 
 #: .\compra\templates\admin\compra\edit_inline\tabular.html:20
+#: .\compra\templates\admin\compra\tabular.html:17
 #: .\venda\templates\admin\venda\edit_inline\tabular.html:20
 msgid "Delete?"
 msgstr ""
 
 #: .\compra\templates\admin\compra\edit_inline\tabular.html:136
+#: .\compra\templates\admin\compra\tabular.html:120
 #: .\venda\templates\admin\venda\edit_inline\tabular.html:136
 #, python-format
 msgid "Add another %(verbose_name)s"
 msgstr ""
 
 #: .\compra\templates\admin\compra\edit_inline\tabular.html:139
+#: .\compra\templates\admin\compra\tabular.html:123
 #: .\venda\templates\admin\venda\edit_inline\tabular.html:139
 msgid "Remove"
 msgstr ""
@@ -347,7 +339,7 @@ msgstr ""
 msgid "Parametrizações"
 msgstr ""
 
-#: .\contas_pagar\admin.py:128 .\contas_receber\admin.py:128
+#: .\contas_pagar\admin.py:131 .\contas_receber\admin.py:131
 msgid "Detalhes da Conta"
 msgstr ""
 
@@ -405,8 +397,8 @@ msgstr ""
 msgid "Valor total a pagar"
 msgstr ""
 
-#: .\contas_pagar\models.py:269 .\contas_pagar\models.py:416
-#: .\contas_receber\models.py:268 .\contas_receber\models.py:413
+#: .\contas_pagar\models.py:269 .\contas_pagar\models.py:420
+#: .\contas_receber\models.py:268 .\contas_receber\models.py:417
 msgid "Vencimento"
 msgstr ""
 
@@ -426,79 +418,71 @@ msgstr ""
 msgid "Parcelas de Contas à Pagar"
 msgstr ""
 
-#: .\contas_pagar\models.py:315 .\contas_pagar\models.py:459
+#: .\contas_pagar\models.py:315 .\contas_pagar\models.py:463
 #: .\contas_pagar\templates\admin\pagamentos_conta.html:27
 #: .\contas_pagar\templates\admin\pagamentos_parcela.html:27
-#: .\contas_receber\models.py:314 .\contas_receber\models.py:467
+#: .\contas_receber\models.py:314 .\contas_receber\models.py:471
 #: .\contas_receber\templates\admin\recebimentos_conta.html:27
 #: .\contas_receber\templates\admin\recebimentos_parcela.html:27
 msgid "Juros"
 msgstr ""
 
-#: .\contas_pagar\models.py:345 .\contas_pagar\models.py:460
+#: .\contas_pagar\models.py:346 .\contas_pagar\models.py:464
 #: .\contas_pagar\templates\admin\pagamentos_conta.html:28
 #: .\contas_pagar\templates\admin\pagamentos_parcela.html:28
-#: .\contas_receber\models.py:344 .\contas_receber\models.py:468
+#: .\contas_receber\models.py:345 .\contas_receber\models.py:472
 #: .\contas_receber\templates\admin\recebimentos_conta.html:28
 #: .\contas_receber\templates\admin\recebimentos_parcela.html:28
 msgid "Multa"
 msgstr ""
 
-#: .\contas_pagar\models.py:355 .\contas_receber\models.py:354
+#: .\contas_pagar\models.py:356 .\contas_receber\models.py:355
 msgid "Encargos"
 msgstr ""
 
-#: .\contas_pagar\models.py:365 .\contas_receber\models.py:364
+#: .\contas_pagar\models.py:369 .\contas_receber\models.py:368
 msgid "Valot Total"
 msgstr ""
 
-#: .\contas_pagar\models.py:372 .\contas_pagar\models.py:403
-#: .\contas_receber\models.py:371 .\contas_receber\models.py:400
+#: .\contas_pagar\models.py:376 .\contas_pagar\models.py:407
+#: .\contas_receber\models.py:375 .\contas_receber\models.py:404
 msgid "Valor Pago"
 msgstr ""
 
-#: .\contas_pagar\models.py:379
+#: .\contas_pagar\models.py:383
 msgid "Valor a Pagar"
 msgstr ""
 
-#: .\contas_pagar\models.py:461
+#: .\contas_pagar\models.py:465
 #: .\contas_pagar\templates\admin\pagamentos_conta.html:29
 #: .\contas_pagar\templates\admin\pagamentos_parcela.html:29
-#: .\contas_receber\models.py:469
+#: .\contas_receber\models.py:473
 #: .\contas_receber\templates\admin\recebimentos_conta.html:29
 #: .\contas_receber\templates\admin\recebimentos_parcela.html:29
 msgid "Desconto"
 msgstr ""
 
-#: .\contas_pagar\models.py:462
+#: .\contas_pagar\models.py:466
 msgid "Pagamento de parcela"
 msgstr ""
 
-#: .\contas_pagar\models.py:479
+#: .\contas_pagar\models.py:483
 msgid ""
 "Não há caixa aberto. Para efetivar um pagamento é necessário ter o caixa "
 "aberto."
 msgstr ""
 
-#: .\contas_pagar\models.py:482
+#: .\contas_pagar\models.py:486
 msgid ""
 "Não há caixa aberto. Alterações num pagamento só podem ser efetivados após a "
 "abertura do caixa."
 msgstr ""
 
-#: .\contas_pagar\models.py:492
+#: .\contas_pagar\models.py:496
 #, python-format
 msgid ""
 "Primeiro pagamento deve ser de no mínimo %(perc_valor_minimo)s%% do valor da "
 "parcela. Valor mínimo: %(valor_minimo)s."
-msgstr ""
-
-#: .\contas_pagar\views.py:13
-msgid "Pagamentos da parcela"
-msgstr ""
-
-#: .\contas_pagar\views.py:25
-msgid "Pagamentos da conta"
 msgstr ""
 
 #: .\contas_pagar\templates\admin\legenda_parcelas_contas_pagar.html:68
@@ -550,6 +534,14 @@ msgstr ""
 msgid "Pagamentos já realizados da parcela"
 msgstr ""
 
+#: .\contas_pagar\views.py:13
+msgid "Pagamentos da parcela"
+msgstr ""
+
+#: .\contas_pagar\views.py:25
+msgid "Pagamentos da conta"
+msgstr ""
+
 #: .\contas_receber\models.py:28 .\contas_receber\models.py:60
 #: .\venda\models.py:123
 msgid "Venda"
@@ -599,43 +591,35 @@ msgstr ""
 msgid "Parcelas de Contas à Receber"
 msgstr ""
 
-#: .\contas_receber\models.py:378
+#: .\contas_receber\models.py:382
 msgid "Valor a Receber"
 msgstr ""
 
-#: .\contas_receber\models.py:470
+#: .\contas_receber\models.py:474
 msgid "Recebimento de parcela"
 msgstr ""
 
-#: .\contas_receber\models.py:474
+#: .\contas_receber\models.py:478
 msgid "Recebimentos"
 msgstr ""
 
-#: .\contas_receber\models.py:492
+#: .\contas_receber\models.py:496
 msgid ""
 "Não há caixa aberto. Para efetivar um recebimento é necessário ter o caixa "
 "aberto."
 msgstr ""
 
-#: .\contas_receber\models.py:495
+#: .\contas_receber\models.py:499
 msgid ""
 "Não há caixa aberto. Alterações num recebimento só podem ser efetivados após "
 "a abertura do caixa."
 msgstr ""
 
-#: .\contas_receber\models.py:505
+#: .\contas_receber\models.py:509
 #, python-format
 msgid ""
 "Primeiro recebimento deve ser de no mínimo %(perc_valor_minimo)s%% do valor "
 "da parcela. Valor mínimo: %(valor_minimo)s."
-msgstr ""
-
-#: .\contas_receber\views.py:13
-msgid "Recebimentos da parcela"
-msgstr ""
-
-#: .\contas_receber\views.py:25
-msgid "Recebimentos da conta"
 msgstr ""
 
 #: .\contas_receber\templates\admin\recebimentos_conta.html:20
@@ -649,6 +633,14 @@ msgstr ""
 
 #: .\contas_receber\templates\admin\recebimentos_parcela.html:20
 msgid "Recebimentos já realizados da parcela"
+msgstr ""
+
+#: .\contas_receber\views.py:13
+msgid "Recebimentos da parcela"
+msgstr ""
+
+#: .\contas_receber\views.py:25
+msgid "Recebimentos da conta"
 msgstr ""
 
 #: .\estagio\settings.py:121
@@ -858,11 +850,11 @@ msgstr ""
 msgid "Razão Social"
 msgstr ""
 
-#: .\pessoal\models.py:26
+#: .\pessoal\models.py:17
 msgid "Data de nascimento deve ser menor que hoje!"
 msgstr ""
 
-#: .\pessoal\models.py:30
+#: .\pessoal\models.py:21
 msgid "Cliente deve ser maior de 18 anos!"
 msgstr ""
 
@@ -966,6 +958,24 @@ msgstr ""
 msgid "Desenvolvido por "
 msgstr ""
 
+#: .\templates\admin\import_export\change_list_export.html:6
+#: .\templates\admin\import_export\export.html:8
+#: .\templates\admin\import_export\export.html:12
+msgid "Export"
+msgstr ""
+
+#: .\templates\admin\import_export\export.html:6
+msgid "Exportar"
+msgstr "Export"
+
+#: .\templates\admin\import_export\export.html:6
+msgid "Sistema de Controle"
+msgstr ""
+
+#: .\templates\admin\import_export\export.html:32
+msgid "Submit"
+msgstr ""
+
 #: .\templates\admin\index.html:80
 #, python-format
 msgid "Models available in the %(name)s application."
@@ -1044,24 +1054,6 @@ msgstr ""
 
 #: .\templates\admin\index.html:210
 msgid "Unknown content"
-msgstr ""
-
-#: .\templates\admin\import_export\change_list_export.html:6
-#: .\templates\admin\import_export\export.html:8
-#: .\templates\admin\import_export\export.html:12
-msgid "Export"
-msgstr ""
-
-#: .\templates\admin\import_export\export.html:6
-msgid "Exportar"
-msgstr "Export"
-
-#: .\templates\admin\import_export\export.html:6
-msgid "Sistema de Controle"
-msgstr ""
-
-#: .\templates\admin\import_export\export.html:32
-msgid "Submit"
 msgstr ""
 
 #: .\venda\forms.py:110

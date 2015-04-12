@@ -9,4 +9,4 @@ from django.contrib.auth.models import User
 def get_dados_usuario(request, id):
     usuario = User.objects.all().filter(id=id)
     retorno = serializers.serialize("json",  usuario)
-    return HttpResponse(retorno, mimetype="text/javascript")
+    return HttpResponse(retorno, content_type="text/javascript")

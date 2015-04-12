@@ -7,6 +7,8 @@ from django.conf.urls import patterns
 from views import retorna_pagamentos_parcela, retorna_pagamentos_conta
 from salmonella.admin import SalmonellaMixin
 from django.utils.translation import ugettext_lazy as _
+from import_export.admin import ExportMixin
+from export import ContasPagarResource
 
 
 class PagamentoAdmin(admin.ModelAdmin):
@@ -94,7 +96,8 @@ class ParcelasContasPagarInline(admin.TabularInline):
 
 
 
-class ContasPagarAdmin(SalmonellaMixin, admin.ModelAdmin):
+class ContasPagarAdmin(ExportMixin, SalmonellaMixin, admin.ModelAdmin):
+    resource_class = ContasPagarResource
     model = ContasPagar
     form = ContasPagarForm
     list_display = ('id', 'compra_associada', 'data', 'descricao', 'status')

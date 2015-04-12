@@ -11,12 +11,12 @@ def get_valor_unitario(request, id):
 
     produtos = Produtos.objects.all().filter(id=id)
     retorno = serializers.serialize("json",  produtos)
-    return HttpResponse(retorno, mimetype="text/javascript")
+    return HttpResponse(retorno, content_type="text/javascript")
 
 
 def checa_pedido_compra_habilitado(request, id):
     exibe_botao_pedido_compra = Parametrizacao.objects.filter(id=id)
     retorno = serializers.serialize("json",  exibe_botao_pedido_compra)
-    return HttpResponse(retorno, mimetype="text/javascript")
+    return HttpResponse(retorno, content_type="text/javascript")
 
 

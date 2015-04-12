@@ -7,6 +7,8 @@ from django.conf.urls import patterns
 from views import retorna_recebimentos_parcela, retorna_recebimentos_conta
 from salmonella.admin import SalmonellaMixin
 from django.utils.translation import ugettext_lazy as _
+from import_export.admin import ExportMixin
+from export import ContasReceberResource
 
 
 class RecebimentoAdmin(admin.ModelAdmin):
@@ -94,7 +96,8 @@ class ParcelasContasReceberInline(admin.TabularInline):
 
 
 
-class ContasReceberAdmin(SalmonellaMixin, admin.ModelAdmin):
+class ContasReceberAdmin(ExportMixin, SalmonellaMixin, admin.ModelAdmin):
+    resource_class = ContasReceberResource
     model = ContasReceber
     form = ContasReceberForm
     list_display = ('id', 'venda_associada', 'data', 'descricao', 'status')

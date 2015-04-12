@@ -38,8 +38,8 @@ class BaseCadastroPessoaAdmin(AdminImageMixin, GlobalAdmin):
         return {'class': rowclass}
 
 
-    def queryset(self, request):
-        qs = super(BaseCadastroPessoaAdmin, self).queryset(request)
+    def get_queryset(self, request):
+        qs = super(BaseCadastroPessoaAdmin, self).get_queryset(request)
         
         if IS_POPUP_VAR in request.GET:  
             return qs.filter(status=True)

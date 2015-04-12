@@ -1,11 +1,18 @@
 #-*- coding: UTF-8 -*-
 from django.contrib import admin
 from models import *
-from django.core.mail import send_mail
+from django.core.mail import EmailMultiAlternatives
 from django.utils.translation import ugettext_lazy as _
+from import_export.admin import ExportMixin
+from export import CaixaResource, MovimentosCaixaResource
+from decimal import Decimal
+from django.contrib.auth.models import Permission
+from django.contrib.auth.models import User
+from django.db.models import Q
 
 
-class CaixaAdmin(admin.ModelAdmin):
+class CaixaAdmin(ExportMixin, admin.ModelAdmin):
+    resource_class = CaixaResource
     model = Caixa
     list_display = ('id', 'data_abertura', 'data_fechamento', 'diferenca', 'status')
     list_filter = ('data_fechamento',)
@@ -53,21 +60,40 @@ class CaixaAdmin(admin.ModelAdmin):
 
     def save_model(self, request, obj, form, change):
         if not change:
-            texto = _(u"Há um novo Caixa criado no sistema, aberto por: %(nome)s %(sobrenome)s. Com Valor inicial de R$%(valor_inicial)s.") % {'nome': request.user.first_name, 'sobrenome': request.user.last_name, 'valor_inicial': obj.valor_inicial}
-            assunto = _(u"Notificação (Estágio)")
-            send_mail(
-                assunto,                    # subject
-                texto,                      # message
-                'gustavo.sdo@gmail.com',    # from
-                ['gustavo.sdo@gmail.com'],  # to
-                fail_silently=False
-            )
+            obj.save()
+
+            # Envia email somente para usuários com permissão para receber
+            perm = Permission.objects.get(codename='recebe_notificacoes_caixa')
+            usuarios_perm = User.objects.filter(Q(groups__permissions=perm) | Q(user_permissions=perm) | Q(is_superuser=True)).values_list('email')
+            usuarios_perm_notificacao = ', '.join([str(i[0]) for i in usuarios_perm])
+            #to = 'gustavo.sdo@gmail.com'
+
+            assunto = u'Notificação (Abertura de Caixa)'
+            from_email = 'gustavo.sdo@gmail.com'
+            text_content = u'Essa é uma mensagem importante.'
+            html_content = u'<p>Há um novo Caixa criado no sistema, aberto por: %(nome)s %(sobrenome)s.</p> \
+                             <br> \
+                             <a href="http://%(url)s/%(caixa)s" target="_blank">Caixa %(caixa)s</a>\
+                             <p>Valor inicial de <strong>R$%(valor_inicial)s</strong>.</p> \
+                             <p>Data de abertura <strong>R$%(data_abertura)s</strong>.</p>' \
+                             % {'nome': request.user.first_name, 
+                                'sobrenome': request.user.last_name, 
+                                'valor_inicial': Decimal(obj.valor_inicial).quantize(Decimal("0.00")),
+                                'url': request.META['HTTP_HOST'] + '/' + obj._meta.app_label + '/' + obj._meta.model_name,
+                                'caixa': obj.pk,
+                                'data_abertura': obj.data_abertura.strftime('%d/%m/%Y às %H:%M:%S').decode('utf-8'),
+                                }
+
+            mensagem = EmailMultiAlternatives(assunto, text_content, from_email, [usuarios_perm_notificacao])
+            mensagem.attach_alternative(html_content, "text/html")
+            mensagem.send()
         obj.save()
         super(CaixaAdmin, self).save_model(request, obj, form, change)
 
 
 
-class MovimentosCaixaAdmin(admin.ModelAdmin):
+class MovimentosCaixaAdmin(ExportMixin, admin.ModelAdmin):
+    resource_class = MovimentosCaixaResource
     model = MovimentosCaixa
     list_display = ('id', 'caixa', 'pagamento_associado', 'recebimento_associado', 'tipo_mov', 'valor')
     date_hierarchy = 'data'

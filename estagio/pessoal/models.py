@@ -10,6 +10,17 @@ from sorl.thumbnail import ImageField
 from django.utils.translation import ugettext_lazy as _
 
 
+# faz a validação da data de nascimento para que o usuário fique impedido de informar data maior ou igual a hoje, e seja maior de 18 anos
+def valida_data_nascimento(value):
+    # verifica se data é menor que hoje
+    if value >= datetime.date.today():
+        raise ValidationError(_(u"Data de nascimento deve ser menor que hoje!"))
+    # verifica se pessoa é maior de 18 anos
+    dias_no_ano = 365.2425    
+    if int((date.today() - value).days / dias_no_ano) < 18:
+        raise ValidationError(_(u"Cliente deve ser maior de 18 anos!"))
+
+
 class BaseCadastroPessoa(models.Model):
     u""" 
     Classe BaseCadastroPessoa. 
@@ -18,17 +29,6 @@ class BaseCadastroPessoa(models.Model):
     Criada em 15/06/2014. 
     Última alteração em 16/06/2014.
     """
-
-    # faz a validação da data de nascimento para que o usuário fique impedido de informar data maior ou igual a hoje, e seja maior de 18 anos
-    def valida_data_nascimento(value):
-        # verifica se data é menor que hoje
-        if value >= datetime.date.today():
-            raise ValidationError(_(u"Data de nascimento deve ser menor que hoje!"))
-        # verifica se pessoa é maior de 18 anos
-        dias_no_ano = 365.2425    
-        if int((date.today() - value).days / dias_no_ano) < 18:
-            raise ValidationError(_(u"Cliente deve ser maior de 18 anos!"))
-
 
     nome = models.CharField(max_length=255, verbose_name=_(u"Nome"))
     data_nasc = models.DateField(validators=[valida_data_nascimento], blank=True, null=True, verbose_name=_(u"Data de nascimento"))

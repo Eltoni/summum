@@ -59,8 +59,8 @@ class ProdutosAdmin(ExportMixin, SalmonellaMixin, AdminImageMixin, GlobalAdmin):
         return {'class': rowclass}
 
 
-    def queryset(self, request):
-        qs = super(ProdutosAdmin, self).queryset(request)
+    def get_queryset(self, request):
+        qs = super(ProdutosAdmin, self).get_queryset(request)
         if IS_POPUP_VAR in request.GET:  
             return qs.filter(status=True)
         return qs

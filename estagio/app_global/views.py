@@ -17,4 +17,4 @@ def checa_foreignkey_habilitada(request, app_name, model_name, id):
     except:
         status = False
     
-    return HttpResponse(status, mimetype="text/javascript")
+    return HttpResponse(status, content_type="text/javascript")

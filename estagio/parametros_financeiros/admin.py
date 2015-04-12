@@ -42,8 +42,8 @@ class FormaPagamentoAdmin(GlobalAdmin):
         return {'class': rowclass}
 
 
-    def queryset(self, request):
-        qs = super(FormaPagamentoAdmin, self).queryset(request)
+    def get_queryset(self, request):
+        qs = super(FormaPagamentoAdmin, self).get_queryset(request)
         
         if IS_POPUP_VAR in request.GET:  
             return qs.filter(status=True)
@@ -98,8 +98,8 @@ class GrupoEncargoAdmin(GlobalAdmin):
         return {'class': rowclass}
 
 
-    def queryset(self, request):
-        qs = super(GrupoEncargoAdmin, self).queryset(request)
+    def get_queryset(self, request):
+        qs = super(GrupoEncargoAdmin, self).get_queryset(request)
         
         if IS_POPUP_VAR in request.GET:  
             return qs.filter(status=True)

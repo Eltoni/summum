@@ -1,4 +1,4 @@
-Django==1.6.9
+Django==1.7.7
 Jinja2==2.7.3
 MarkupSafe==0.23
 Pillow==2.8.1
@@ -9,7 +9,7 @@ django-import-export==0.2.6
 django-localflavor==1.1
 django-nvd3==0.8.2
 django-salmonella==0.6.1
-django-smart-selects==1.0.9
+django-smart-selects==1.0.9.3
 django-suit==0.2.12
 docutils==0.12
 mysql-python==1.2.5

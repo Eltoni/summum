@@ -6,6 +6,7 @@ from configuracoes.models import Parametrizacao
 from caixa.models import *
 import time
 from itertools import groupby
+from utilitarios.funcoes_data import date_settings_timezone
 
 
 def index(request):
@@ -20,6 +21,7 @@ def index(request):
 		except:
 			produtos_esgotando = None 
 
+
 		####################################################################################################################################################
 		# Início do gráfico de movimentos monetários diários
 		####################################################################################################################################################
@@ -27,7 +29,7 @@ def index(request):
 		grafico_mov_dia = data or None
 
 		datas = []
-		for key, values in groupby(data, key=lambda d: d[0].date()):
+		for key, values in groupby(data, key=lambda d: date_settings_timezone(d[0])):
 			datas.append(key)
 
 		data_mov = [ int(time.mktime(d.timetuple()) * 1000) for d in datas ]
@@ -39,7 +41,7 @@ def index(request):
 			deb = 0
 			cred = 0
 			for d2 in data:
-				if d == d2[0].date():
+				if d == date_settings_timezone(d2[0]):
 					if d2[2] == u'Crédito':
 						cred += Decimal(d2[1].strip(' "'))
 						deb += Decimal('0.00'.strip(' "'))

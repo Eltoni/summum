@@ -1,5 +1,15 @@
 #-*- coding: UTF-8 -*-
 import datetime
+from pytz import timezone
+from estagio import settings
+
+def date_settings_timezone(d):
+    """
+    """
+    settings_timezone = timezone(settings.TIME_ZONE)
+    data = settings_timezone.normalize(d.astimezone(settings_timezone)).date()
+    return data
+
 
 def date_add_months(t, p):
     """

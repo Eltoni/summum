@@ -3,7 +3,7 @@ from django.db import models
 from pessoal.models import Cliente
 from venda.models import Venda
 from parametros_financeiros.models import FormaPagamento, GrupoEncargo
-from utilitarios.funcoes_data import date_add_months, date_add_week, date_add_days
+from utilitarios.funcoes_data import date_add_months, date_add_week, date_add_days, date_settings_timezone
 from utilitarios.calculos_encargos import calculo_composto, calculo_simples
 from django.core.exceptions import ValidationError
 import datetime
@@ -300,8 +300,8 @@ class ParcelasContasReceber(models.Model):
                 dias_vencidos = data - self.vencimento
                 dias_vencidos = dias_vencidos.days
             else: 
-                data_primeiro_recebimento = Recebimento.objects.filter(parcelas_contas_receber=self.pk).values_list('data')[0][0].date()
-                dias_vencidos = data_primeiro_recebimento - self.vencimento
+                data_primeiro_recebimento = Recebimento.objects.filter(parcelas_contas_receber=self.pk).values_list('data')[0][0]
+                dias_vencidos = date_settings_timezone(data_primeiro_recebimento) - self.vencimento
                 dias_vencidos = dias_vencidos.days
 
             if parametros_grupo_encargo[1] == 'S':
@@ -335,8 +335,8 @@ class ParcelasContasReceber(models.Model):
                 dias_vencidos = data - self.vencimento
                 dias_vencidos = dias_vencidos.days
             else: 
-                data_primeiro_recebimento = Recebimento.objects.filter(parcelas_contas_receber=self.pk).values_list('data')[0][0].date()
-                dias_vencidos = data_primeiro_recebimento - self.vencimento
+                data_primeiro_recebimento = Recebimento.objects.filter(parcelas_contas_receber=self.pk).values_list('data')[0][0]
+                dias_vencidos = date_settings_timezone(data_primeiro_recebimento) - self.vencimento
                 dias_vencidos = dias_vencidos.days
 
             return calculo_simples(self.valor, dias_vencidos, percentual_multa)

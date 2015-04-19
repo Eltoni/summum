@@ -17,19 +17,6 @@
   },
 
   {
-    "model": "configuracoes.Parametrizacao",
-    "pk": 1,
-    "fields": {
-      "quantidade_inlines_compra": "8",
-      "quantidade_inlines_venda": "4",
-      "habilita_pedido_compra": 1,
-      "habilita_pedido_venda": 1,
-      "qtde_minima_produtos_em_estoque": 15,
-      "perc_valor_minimo_pagamento": 50
-    }
-  },
-
-  {
     "model": "parametros_financeiros.GrupoEncargo",
     "pk": 1,
     "fields": {

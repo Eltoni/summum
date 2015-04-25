@@ -18,6 +18,16 @@ class CaixaAdmin(ExportMixin, admin.ModelAdmin):
     list_display = ('id', 'data_abertura', 'data_fechamento', 'diferenca', 'status')
     list_filter = (('data_fechamento', DateRangeFilter),)
     date_hierarchy = 'data_abertura'
+    
+
+    def has_add_permission(self, request, obj=None):
+        """Remove a permissão para adicionar novo caixa, caso já exista um aberto"""
+
+        caixa_aberto = Caixa.objects.filter(status=True).exists()
+        if caixa_aberto:
+            return False
+        else:
+            return True
 
 
     def get_form(self, request, obj=None, **kwargs):

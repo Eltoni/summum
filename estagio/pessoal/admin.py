@@ -10,6 +10,32 @@ from contas_pagar.models import ContasPagar, ParcelasContasPagar
 from django.contrib.admin.views.main import IS_POPUP_VAR
 from app_global.admin import GlobalAdmin
 from django.utils.translation import ugettext_lazy as _
+import xml.etree.ElementTree
+
+
+def remove_tags(text):
+    """Remove elementos html de uma string e retorna o resultado"""
+    return ''.join(xml.etree.ElementTree.fromstring(text).itertext())
+
+
+class StatusFinanceiroFilter(admin.SimpleListFilter):
+    title = 'Status Financeiro'
+    parameter_name = 'status_financeiro'
+    def lookups(self, request, model_admin):
+        return (
+            ('Adimplente', 'Adimplente'),
+            ('Inadimplente', 'Inadimplente'),
+        )
+    def queryset(self, request, queryset):
+        if self.value():
+            array = []
+            for element in queryset:
+                if self.value() == 'Adimplente' and remove_tags(element.status_financeiro.__call__()) == 'Adimplente':
+                    array.append(element.id)
+                if self.value() == 'Inadimplente' and remove_tags(element.status_financeiro.__call__()) == 'Inadimplente':
+                    array.append(element.id)
+            return queryset.filter(pk__in=array)
+
 
 
 class BaseCadastroPessoaAdmin(AdminImageMixin, GlobalAdmin):
@@ -93,7 +119,7 @@ class ClienteAdmin(ExportMixin, BaseCadastroPessoaAdmin):
     model = Cliente
     readonly_fields = ('status_financeiro', 'id', 'data')
     list_display = ('nome', 'email', 'data', 'status_financeiro',)
-    list_filter = ('status', 'cidade')
+    list_filter = ('cidade', 'status', StatusFinanceiroFilter)
 
     def get_form(self, request, obj=None, **kwargs):
         self.fieldsets = (
@@ -186,6 +212,7 @@ class FornecedorAdmin(ExportMixin, BaseCadastroPessoaAdmin):
     form = FornecedorForm
     readonly_fields = ('status_financeiro', 'id', 'data')
     list_display = ('nome', 'email', 'status', 'status_financeiro')
+    list_filter = ('cidade', 'status', StatusFinanceiroFilter)
     popup_list_display = ('nome', 'email', 'status', 'status_financeiro')
 
 

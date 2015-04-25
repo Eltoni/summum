@@ -9,6 +9,7 @@ from salmonella.admin import SalmonellaMixin
 from django.utils.translation import ugettext_lazy as _
 from import_export.admin import ExportMixin
 from export import ContasPagarResource
+from daterange_filter.filter import DateRangeFilter
 
 
 class PagamentoAdmin(admin.ModelAdmin):
@@ -101,7 +102,7 @@ class ContasPagarAdmin(ExportMixin, SalmonellaMixin, admin.ModelAdmin):
     model = ContasPagar
     form = ContasPagarForm
     list_display = ('id', 'compra_associada', 'data', 'descricao', 'status')
-    list_filter = ('status', 'compras',)
+    list_filter = (('data', DateRangeFilter), 'status', 'compras',)
     date_hierarchy = 'data'
     salmonella_fields = ('fornecedores', 'forma_pagamento', 'grupo_encargo',)
 

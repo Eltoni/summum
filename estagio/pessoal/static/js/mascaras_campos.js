@@ -1,7 +1,7 @@
 //$('#id_telefone').mask("(00) 00009-0000");
 
 $(document).ready(function(){
-    $('#id_data_nasc').mask('00/00/0000');
+    //$('#id_data_nasc').mask('00/00/0000');
     //$('.time').mask('00:00:00');
     //$('.date_time').mask('00/00/0000 00:00:00');
     $('#id_cep').mask('00000-000');

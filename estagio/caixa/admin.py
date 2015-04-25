@@ -9,13 +9,14 @@ from decimal import Decimal
 from django.contrib.auth.models import Permission
 from django.contrib.auth.models import User
 from django.db.models import Q
+from daterange_filter.filter import DateRangeFilter
 
 
 class CaixaAdmin(ExportMixin, admin.ModelAdmin):
     resource_class = CaixaResource
     model = Caixa
     list_display = ('id', 'data_abertura', 'data_fechamento', 'diferenca', 'status')
-    list_filter = ('data_fechamento',)
+    list_filter = (('data_fechamento', DateRangeFilter),)
     date_hierarchy = 'data_abertura'
 
 
@@ -96,6 +97,7 @@ class MovimentosCaixaAdmin(ExportMixin, admin.ModelAdmin):
     resource_class = MovimentosCaixaResource
     model = MovimentosCaixa
     list_display = ('id', 'caixa', 'pagamento_associado', 'recebimento_associado', 'tipo_mov', 'valor')
+    list_filter = (('data', DateRangeFilter),)
     date_hierarchy = 'data'
     readonly_fields = ('descricao', 'valor', 'data', 'tipo_mov', 'caixa', 'pagamento_associado', 'recebimento_associado')
     fields = ('descricao', 'valor', 'data', 'tipo_mov', 'caixa', 'pagamento_associado', 'recebimento_associado')

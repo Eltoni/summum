@@ -2,6 +2,10 @@
 $("input, select, textarea").attr("autocomplete", "off");
 
 
+// Defina o formato padrão de datas
+$('.vDateField').mask('00/00/0000');
+
+
 // defini todos os links apontados para a página inicial do sistema para redirecionar para o dashboard customizado 
 $("a").each(function() { 
      var href = $(this).attr('href');

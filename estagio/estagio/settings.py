@@ -64,6 +64,7 @@ INSTALLED_APPS = (
     'djangobower',
     'django_nvd3',
     'sorl.thumbnail',
+    'daterange_filter',
 )
 
 

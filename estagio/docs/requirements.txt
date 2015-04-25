@@ -5,12 +5,13 @@ Pillow==2.8.1
 Unidecode==0.04.17
 diff-match-patch==20121119
 django-bower==5.0.3
+django-daterange-filter==1.1.1
 django-import-export==0.2.6
 django-localflavor==1.1
 django-nvd3==0.8.2
 django-salmonella==0.6.1
 django-smart-selects==1.0.9.3
-django-suit==0.2.12
+django-suit==0.2.13
 docutils==0.12
 mysql-python==1.2.5
 python-nvd3==0.13.8

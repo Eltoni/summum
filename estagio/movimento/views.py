@@ -51,6 +51,12 @@ def index(request):
 			credito.append(str(cred))
 			debito.append(str(deb))
 
+
+		table_creditos_debitos = []
+		for d, cr, de in zip(datas, credito, debito):
+		    table_creditos_debitos.append(((d), (cr), (de)))
+
+
 		# print credito
 		# print debito
 		formato_data = "%d/%m/%Y"
@@ -77,6 +83,7 @@ def index(request):
 			'produtos_esgotando': produtos_esgotando,
 			'quantidade_minima': quantidade_minima,
 			'grafico_mov_dia': grafico_mov_dia,
+			'table_creditos_debitos': table_creditos_debitos[::-1],
 			'charttype': charttype,
 			'chartdata': chartdata,
 			'chartcontainer': chartcontainer,

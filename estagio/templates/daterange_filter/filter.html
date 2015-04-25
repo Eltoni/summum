@@ -1,0 +1,17 @@
+{% load i18n admin_static %}
+
+<script type="text/javascript" src="{% url 'admin:jsi18n' %}"></script>
+
+<style>
+    .input-append .add-on:last-child, .input-append .btn:last-child, .input-append .btn-group:last-child>.dropdown-toggle {
+      margin-top: 5px;
+    }
+</style>
+
+    {{ spec.form.media }}
+
+    <!-- <font style="white-space: nowrap;"> -->
+    {% for form_field in spec.form %}
+        {{ form_field }}
+    {% endfor %}
+    <!-- </font> -->

@@ -6,6 +6,7 @@ from django.utils.translation import ugettext_lazy as _
 
 
 class ParametrizacaoAdmin(admin.ModelAdmin):
+    actions = None
     form = ParametrizacaoForm
     fieldsets = (
         (None, {

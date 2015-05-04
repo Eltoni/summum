@@ -11,6 +11,7 @@ from django.contrib.admin.views.main import IS_POPUP_VAR
 from app_global.admin import GlobalAdmin
 from django.utils.translation import ugettext_lazy as _
 import xml.etree.ElementTree
+from selectable_filter.filter import SelectableFilter
 
 
 def remove_tags(text):
@@ -43,7 +44,7 @@ class BaseCadastroPessoaAdmin(AdminImageMixin, GlobalAdmin):
     form = BaseCadastroPessoaForm
 
     list_display = ('nome', 'email', 'data')
-    list_filter = ('status', 'cidade')
+    list_filter = (('cidade', SelectableFilter), 'status')
     popup_list_filter = ('cidade',)
     search_fields = ['nome', 'email', 'cpf',]
     date_hierarchy = 'data'
@@ -119,7 +120,7 @@ class ClienteAdmin(ExportMixin, BaseCadastroPessoaAdmin):
     model = Cliente
     readonly_fields = ('status_financeiro', 'id', 'data')
     list_display = ('nome', 'email', 'data', 'status_financeiro',)
-    list_filter = ('cidade', 'status', StatusFinanceiroFilter)
+    list_filter = (('cidade', SelectableFilter), 'status', StatusFinanceiroFilter)
 
     def get_form(self, request, obj=None, **kwargs):
         self.fieldsets = (
@@ -212,7 +213,7 @@ class FornecedorAdmin(ExportMixin, BaseCadastroPessoaAdmin):
     form = FornecedorForm
     readonly_fields = ('status_financeiro', 'id', 'data')
     list_display = ('nome', 'email', 'status', 'status_financeiro')
-    list_filter = ('cidade', 'status', StatusFinanceiroFilter)
+    list_filter = (('cidade', SelectableFilter), 'status', StatusFinanceiroFilter)
     popup_list_display = ('nome', 'email', 'status', 'status_financeiro')
 
 

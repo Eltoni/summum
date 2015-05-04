@@ -64,7 +64,9 @@ INSTALLED_APPS = (
     'djangobower',
     'django_nvd3',
     'sorl.thumbnail',
+    'selectable',
     'daterange_filter',
+    'selectable_filter',
 )
 
 
@@ -213,6 +215,12 @@ SUIT_CONFIG = {
         ]},
     )
 }
+
+
+# django Selectable
+# -----------
+SELECTABLE_MAX_LIMIT = 10
+
 
 # Django Nvd3
 # -----------

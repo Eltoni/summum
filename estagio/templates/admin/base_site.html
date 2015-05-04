@@ -3,13 +3,17 @@
 {% load i18n %}
 
 {# Additional <head> content here, some extra meta tags or favicon #}
-{#{% block extrahead %}#}
-{#{% endblock %}#}
+{% block extrahead %}
+    {% load selectable_tags %}
+    {% include_ui_theme %}
+    {% include_jquery_libs %}
+{% endblock %}
 
 
 {# Additional CSS includes #}
 {% block extrastyle %}
 	<link rel="stylesheet" type="text/css" href="{% static 'css/salmonella.css' %}" media="all">
+    <!-- <link xmlns="http://www.w3.org/1999/xhtml" rel="shortcut icon" href="{{STATIC_URL}}img/tool.svg" /> -->
 {% endblock %}
 
 

@@ -10,6 +10,7 @@ from django.utils.translation import ugettext_lazy as _
 from import_export.admin import ExportMixin
 from export import CompraResource
 from daterange_filter.filter import DateRangeFilter
+from selectable_filter.filter import SelectableFilter
 
 
 class ItensCompraInline(SalmonellaMixin, admin.TabularInline):
@@ -63,7 +64,7 @@ class CompraAdmin(ExportMixin, SalmonellaMixin, admin.ModelAdmin):
     list_display = ('id', 'data', 'total', 'status')
     search_fields = ['id', 'fornecedor__nome']
     date_hierarchy = 'data'
-    list_filter = (('data', DateRangeFilter), 'status', 'forma_pagamento', 'fornecedor')
+    list_filter = (('fornecedor', SelectableFilter), ('data', DateRangeFilter), 'status', 'forma_pagamento')
     readonly_fields = ('data',)
     salmonella_fields = ('fornecedor', 'forma_pagamento', 'grupo_encargo',)
     # raw_id_fields = ('fornecedor',)

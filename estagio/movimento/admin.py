@@ -8,6 +8,7 @@ from sorl.thumbnail.admin import AdminImageMixin
 from salmonella.admin import SalmonellaMixin
 from models import *
 from django.utils.translation import ugettext_lazy as _
+from selectable_filter.filter import SelectableFilter
 
 
 class MarcaAdmin(AdminImageMixin, admin.ModelAdmin):
@@ -27,7 +28,7 @@ class ProdutosAdmin(ExportMixin, SalmonellaMixin, AdminImageMixin, GlobalAdmin):
     salmonella_fields = ('marca',)
     popup_list_display = ('nome', 'marca', 'quantidade', 'descricao')
     list_display = ('nome', 'quantidade', 'descricao', 'status')
-    list_filter = ('status',)
+    list_filter = (('categorias', SelectableFilter), ('marca', SelectableFilter), 'status')
     search_fields = ['nome',]
     readonly_fields = ('quantidade',)
 

@@ -17,7 +17,8 @@ urlpatterns = patterns('',
     # bibliotecas
     url(r'^chaining/', include('smart_selects.urls')),      # url necessária para o funcionamento da biblioteca django-smart-selects
     url(r'^admin/salmonella/', include('salmonella.urls')), # url necessária para o funcionamento da biblioteca django-salmonella
-
+    url(r'^selectable/', include('selectable.urls')),       # url necessária para o funcionamento da biblioteca django-selectable
+    
     # urls das aplicações
     url(r'^admin/salmonella/(?P<app_name>[\w-]+)/(?P<model_name>[\w-]+)/(?P<id>\d+)/$', 'app_global.views.checa_foreignkey_habilitada'),
     (r'^checa_pedido_compra_habilitado/(?P<id>\d+)/$', 'compra.views.checa_pedido_compra_habilitado'),

@@ -1,19 +1,6 @@
 
 $(document).ready(function(){
 
-    // Desabilita o campo checkbox para edição
-    $('.status-compra').each(function(){
-        if ( $(this).is(':checked')) {
-    		jQuery(this).prop('disabled', true);
-        }
-    })
-
-    // desafaz o bloqueio do campo checkbox de não-edição para que o elemnto não perca o valor original após o submit da página
-    $('button[type="submit"]').click(function(){
-        $('input[type="checkbox"]').attr("disabled",false);
-    });
-
-
     // tratamento para bloquear botão para finalização do cadastro enquanto há um campo sendo editado
     $("input, select").focusin(function() {
         $(":submit").attr("disabled", true);
@@ -46,4 +33,17 @@ $(document).ready(function(){
     jQuery('#id_forma_pagamento').attr({'required': 'required', 'oninvalid': "this.setCustomValidity('Informe a forma de pagamento.')", 'oninput': "this.setCustomValidity('')"});
     jQuery('#id_grupo_encargo').attr({'required': 'required', 'oninvalid': "this.setCustomValidity('Informe o grupo de encargo.')", 'oninput': "this.setCustomValidity('')"});
 
+});
+
+
+document.addEventListener('DOMContentLoaded', function() {
+    
+    // Verifica se registro está cadastrado
+    // Sendo cadastrado, o link para adicionar outra inline é escondido
+    if ( $( ".field-data div .controls .readonly" ).length ) {
+        $(".add-row").each(function(){                               
+            $(this).addClass( "hidden-element" );                                 
+            }  
+        );
+    }
 });

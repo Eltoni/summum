@@ -115,6 +115,16 @@ class ContasReceberInline(admin.TabularInline):
 #         return False
 
 
+class EnderecoEntregaClienteInline(admin.StackedInline):
+    model = EnderecoEntregaCliente
+    form = EnderecoEntregaClienteForm
+    ordering = ("status", "pk",)
+    suit_classes = 'suit-tab suit-tab-endereco'
+    extra = 0
+    fields = ('status', ('endereco', 'numero'), 'complemento', 'bairro', ('estado', 'cidade'), 'cep', 'observacao',)
+
+
+
 class ClienteAdmin(ExportMixin, BaseCadastroPessoaAdmin):
     resource_class = ClienteResource
     model = Cliente
@@ -128,8 +138,8 @@ class ClienteAdmin(ExportMixin, BaseCadastroPessoaAdmin):
                 'classes': ('suit-tab suit-tab-geral',),
                 'fields': ('status_financeiro', 'nome', 'telefone', 'celular', 'email', 'status')
             }),
-            (None, {
-                'classes': ('suit-tab suit-tab-geral',),
+            ('Informações do cadastro', {
+                'classes': ('suit-tab suit-tab-geral collapse',),
                 'fields': ('id', 'data')
             }),
             (None, {
@@ -167,13 +177,13 @@ class ClienteAdmin(ExportMixin, BaseCadastroPessoaAdmin):
     # trata as inlines que aparecem no resumo financeiro dos clientes
     def get_inline_instances(self, request, obj=None):
         
-        self.inlines = []
+        self.inlines = [EnderecoEntregaClienteInline,]
 
         #self.inlines.insert(1, ParcelasContasReceberInline)
         try:
             tem_contas = ContasReceber.objects.filter(cliente=obj.pk).exists()
             if tem_contas:
-                self.inlines.insert(0, ContasReceberInline)
+                self.inlines.insert(1, ContasReceberInline)
 
         except:
             pass
@@ -223,8 +233,8 @@ class FornecedorAdmin(ExportMixin, BaseCadastroPessoaAdmin):
                 'classes': ('suit-tab suit-tab-geral',),
                 'fields': ('status_financeiro', 'nome', 'telefone', 'celular', 'email', 'status')
             }),
-            (None, {
-                'classes': ('suit-tab suit-tab-geral',),
+            ('Informações do cadastro', {
+                'classes': ('suit-tab suit-tab-geral collapse',),
                 'fields': ('id', 'data')
             }),
             (None, {
@@ -301,16 +311,17 @@ class FuncionarioAdmin(ExportMixin, BaseCadastroPessoaAdmin):
 
     def get_form(self, request, obj=None, **kwargs):
         self.fieldsets = (
-            (None, {
+            ('Informações profissionais', {
                 'classes': ('suit-tab suit-tab-geral',),
+                'description': 'Dados do usuário',
                 'fields': ('usuario', 'cargo', 'salario')
             }),
             (None, {
                 'classes': ('suit-tab suit-tab-geral',),
                 'fields': ('nome', 'telefone', 'celular', 'email', 'status')
             }),
-            (None, {
-                'classes': ('suit-tab suit-tab-geral',),
+            ('Informações do cadastro', {
+                'classes': ('suit-tab suit-tab-geral collapse',),
                 'fields': ('id', 'data')
             }),
             (None, {

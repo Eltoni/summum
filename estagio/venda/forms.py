@@ -19,7 +19,6 @@ class VendaForm(ModelForm):
     class Media:
         js = (
             '/static/js/formata_campos_venda.js',
-            '/static/js/controle_campos_venda.js',
         )
 
     class Meta:
@@ -37,6 +36,9 @@ class VendaForm(ModelForm):
             'observacao': AutosizedTextarea(attrs={'rows': 5, 'class': 'input-xxlarge', 'placeholder': '...'}),
             'status': CheckboxInput(attrs={'class': 'status-venda'}),
         }
+
+    def clean_desconto(self):
+        return self.cleaned_data['desconto'] or 0
 
 
     def __init__(self, *args, **kwargs):
@@ -95,6 +97,9 @@ class ItensVendaForm(ModelForm):
                 }),
         }
 
+    def clean_desconto(self):
+        return self.cleaned_data['desconto'] or 0
+
 
 
 class ItensVendaFormSet(BaseInlineFormSet):
@@ -108,3 +113,23 @@ class ItensVendaFormSet(BaseInlineFormSet):
         if not any(cleaned_data and not cleaned_data.get('DELETE', False)
             for cleaned_data in self.cleaned_data):
             raise forms.ValidationError(_(u"Pelo menos um item de venda deve ser cadastrado."))
+
+
+
+class EntregaVendaForm(ModelForm):
+
+    class Meta:
+        widgets = {
+            'observacao': AutosizedTextarea(attrs={'rows': 5, 'class': 'input-xxlarge', 'placeholder': '...'}),
+            'endereco': LinkedSelect(attrs={'class': 'input-xxlarge'}),
+        }
+
+    def __init__(self, *args, **kwargs):
+        super(EntregaVendaForm, self).__init__(*args, **kwargs)
+        
+        if self.instance.pk:
+            entrega_venda = EntregaVenda.objects.filter(pk=self.instance.pk).values_list('venda__cliente__pk')
+        try:
+            self.fields['endereco'].queryset = EnderecoEntregaCliente.objects.filter(cliente=entrega_venda)
+        except:
+            pass

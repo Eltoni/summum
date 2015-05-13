@@ -29,7 +29,7 @@ class Produtos(models.Model):
     descricao = models.TextField(blank=True, verbose_name=_(u"Descrição")) 
     status = models.BooleanField(default=True, verbose_name=_(u"Status"), help_text=_(u"Indica se o produto está ativo para atividades de compra e venda."))
     marca = models.ForeignKey(Marca, blank=True, null=True, on_delete=models.PROTECT, verbose_name=_(u"Marca"))
-    categorias = models.ManyToManyField(Categoria, blank=True, null=True, verbose_name=_(u"Categoria"))
+    categorias = models.ManyToManyField(Categoria, blank=True, verbose_name=_(u"Categoria"))
     imagem = ImageField(upload_to='produtos', max_length=255, blank=True, verbose_name=_(u"Imagem"))
 
     class Meta:

@@ -7,14 +7,13 @@ from django.db import models, migrations
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('parametros_financeiros', '0001_initial'),
+        ('venda', '0002_auto_20150511_2127'),
     ]
 
     operations = [
-        migrations.AlterField(
-            model_name='grupoencargo',
+        migrations.AddField(
+            model_name='entregavenda',
             name='status',
-            field=models.BooleanField(default=True, verbose_name='Status'),
-            preserve_default=True,
+            field=models.BooleanField(default=False, verbose_name='Tem entrega?'),
         ),
     ]

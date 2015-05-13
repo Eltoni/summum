@@ -12,18 +12,42 @@ class ParametrizacaoAdmin(admin.ModelAdmin):
         (None, {
             'classes': ('suit-tab suit-tab-geral',),
             'fields': (
+                'perc_valor_minimo_pagamento',
+            )
+        }),
+        (None, {
+            'classes': ('suit-tab suit-tab-compra',),
+            'fields': (
                 'quantidade_inlines_compra',
-                'quantidade_inlines_venda',
                 'habilita_pedido_compra',
+            )
+        }),
+        (None, {
+            'classes': ('suit-tab suit-tab-venda',),
+            'fields': (
+                'quantidade_inlines_venda',
                 'habilita_pedido_venda',
+            )
+        }),
+        ('Entrega', {
+            'classes': ('suit-tab suit-tab-venda',),
+            'fields': (
+                'intervalo_dias_entrega_venda',
+            )
+        }),
+        (None, {
+            'classes': ('suit-tab suit-tab-relatorios',),
+            'fields': (
                 'qtde_minima_produtos_em_estoque',
-                'perc_valor_minimo_pagamento'
             )
         }),
     )
     
     suit_form_tabs = (
         ('geral', _(u"Geral")),
+        ('compra', _(u"Compra")),
+        ('venda', _(u"Venda")),
+        ('relatorios', _(u"Relatórios")),
     )
 
     def has_delete_permission(self, request, obj=None):

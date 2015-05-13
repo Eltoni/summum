@@ -14,10 +14,6 @@ import os
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 HOME_PATH = os.path.expanduser('~')
 
-# Caminho para o fixtures. Arquivo que popula os dados iniciais das tabelas da base de dados
-FIXTURE_DIRS = (
-    os.path.join(BASE_DIR, 'fixtures'),
-)
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.6/howto/deployment/checklist/
@@ -67,6 +63,8 @@ INSTALLED_APPS = (
     'selectable',
     'daterange_filter',
     'selectable_filter',
+    'debug_toolbar',
+    'geoposition',
 )
 
 
@@ -202,7 +200,7 @@ SUIT_CONFIG = {
         {'label': u'Movimentos', 'app':'movimento', 'models': ('produtos', 'marca', 'categoria')},
         {'label': u'Parâmetros', 'app':'parametros_financeiros', 'icon':'icon-barcode', 'models': ('formapagamento', 'grupoencargo')},
         {'app':'compra', 'icon':'icon-shopping-cart'}, 
-        {'app':'venda', 'icon':'icon-shopping-cart'},
+        {'label': u'Venda', 'app':'venda', 'icon':'icon-shopping-cart', 'models': ('venda', 'entregavenda')},
         {'label': u'Contas à pagar', 'icon':'icon-folder-close', 'app':'contas_pagar', 'models': ('contaspagar', 'parcelascontaspagar', 'pagamento')},
         {'label': u'Contas à receber', 'icon':'icon-folder-open', 'app':'contas_receber', 'models': ('contasreceber', 'parcelascontasreceber', 'recebimento')},
         {'app':'caixa', 'icon':'icon-inbox'},

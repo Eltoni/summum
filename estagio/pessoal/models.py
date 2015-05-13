@@ -79,6 +79,26 @@ class Cliente(BaseCadastroPessoa):
     status_financeiro.short_description = _(u"Status financeiro")
 
 
+    def save(self, *args, **kwargs):
+
+        if self.pk:
+            super(Cliente, self).save(*args, **kwargs)
+
+        else:
+            super(Cliente, self).save(*args, **kwargs)
+            endereco_cliente = EnderecoEntregaCliente(status=True, 
+                                                      endereco=self.endereco, 
+                                                      numero=self.numero,
+                                                      bairro=self.bairro, 
+                                                      complemento=self.complemento, 
+                                                      estado=self.estado, 
+                                                      cidade=self.cidade,
+                                                      cep=self.cep,
+                                                      cliente=self
+                                                      )
+            endereco_cliente.save()   
+
+
 
 class Fornecedor(BaseCadastroPessoa):
     TIPO_PESSOA_CHOICES = (
@@ -133,7 +153,7 @@ class Funcionario(BaseCadastroPessoa):
     rg = models.CharField(max_length=20, blank=True, verbose_name=_(u"RG"))
     salario = models.DecimalField(max_digits=20, decimal_places=2, blank=True, null=True, verbose_name=_(u"Salário")) 
     cargo = models.ForeignKey(Cargo, on_delete=models.PROTECT, verbose_name=_(u"Cargo"))
-    usuario = models.ForeignKey(User, on_delete=models.PROTECT, null=True, blank=True, unique=True, verbose_name=_(u"Usuário"))
+    usuario = models.OneToOneField(User, on_delete=models.PROTECT, null=True, blank=True, unique=True, verbose_name=_(u"Usuário"))
 
     class Meta:
         verbose_name = _(u"Funcionário")
@@ -141,3 +161,24 @@ class Funcionario(BaseCadastroPessoa):
 
     def __unicode__(self):
         return u'%s' % (self.nome)
+
+
+
+class EnderecoEntregaCliente(models.Model):
+    status = models.BooleanField(default=True, verbose_name=_(u"Status"))
+    endereco = models.CharField(max_length=50, verbose_name=_(u"Endereço"))
+    numero = models.CharField(max_length=15, verbose_name=_(u"Número")) 
+    bairro = models.CharField(max_length=50, verbose_name=_(u"Bairro"))
+    complemento = models.CharField(max_length=50, blank=True, verbose_name=_(u"Complemento"))
+    estado = models.CharField(max_length=2, blank=True, null=True, verbose_name=_(u"Estado"))
+    cidade = ChainedForeignKey(Cidade, on_delete=models.PROTECT, chained_field="estado", chained_model_field="estado", show_all=False, auto_choose=True, verbose_name=_(u"Cidade"))
+    cep = models.CharField(max_length=9, verbose_name=_(u"CEP"))
+    observacao = models.TextField(blank=True, verbose_name=_(u"Observações"))
+    cliente = models.ForeignKey(Cliente, on_delete=models.PROTECT, verbose_name=_(u"Cliente"))
+
+    class Meta:
+        verbose_name = _(u"Endereço de Entrega")
+        verbose_name_plural = _(u"Endereços de Entrega")
+
+    def __unicode__(self):
+        return u'%s, %s, %s, %s - %s' % (self.endereco, self.numero, self.bairro, self.cidade, self.estado)

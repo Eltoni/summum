@@ -13,7 +13,8 @@
 {# Additional CSS includes #}
 {% block extrastyle %}
 	<link rel="stylesheet" type="text/css" href="{% static 'css/salmonella.css' %}" media="all">
-    <!-- <link xmlns="http://www.w3.org/1999/xhtml" rel="shortcut icon" href="{{STATIC_URL}}img/tool.svg" /> -->
+    <!-- <link rel="icon" type="image/png" sizes="any" href="{{STATIC_URL}}img/favicon.svg"> -->
+    <link rel="shortcut icon" href="{{STATIC_URL}}img/favicon.ico" />
 {% endblock %}
 
 
@@ -28,6 +29,10 @@
 
     {# bootstrap-filestyle.min.js - Script para customização de campos do tipo file em html, para bootstrap #}
     <script type="text/javascript" src="{% static 'js/bootstrap-filestyle.min.js' %}"></script>
+
+    {# FooTable - Script para criar paginações para tabelas #}
+    <script type="text/javascript" src="{% static 'js/footable.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/footable.paginate.js' %}"></script>
 
     {# Script personalizado para todo o site #}
     <script type="text/javascript" src="{% static 'js/base.js' %}"></script>

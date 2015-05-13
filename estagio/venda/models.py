@@ -1,11 +1,14 @@
 #-*- coding: UTF-8 -*-
 from django.db import models
-from pessoal.models import Cliente
+from pessoal.models import Cliente, EnderecoEntregaCliente
 from parametros_financeiros.models import FormaPagamento, GrupoEncargo
 from movimento.models import Produtos
 from django.core.exceptions import ValidationError
 import datetime
 from django.utils.translation import ugettext_lazy as _
+from geoposition.fields import GeopositionField
+from configuracoes.models import Parametrizacao
+from utilitarios.funcoes_data import datetime_settings_timezone
 
 
 class Venda(models.Model):
@@ -58,7 +61,6 @@ class Venda(models.Model):
         
         if self.pk:
 
-            status_antigo = Venda.objects.get(pk=self.pk)
             conta_gerada = ContasReceber.objects.filter(vendas=self.pk).exists()
             super(Venda, self).save(*args, **kwargs)
 
@@ -80,8 +82,17 @@ class Venda(models.Model):
                                     )
                 venda.save()
             
+            try:
+                cancela_venda = self.botao_acionado
+            except:
+                cancela_venda = None
+
             # trata cancelamento de venda/pedido de venda efetuada
-            if not status_antigo.status and self.status:
+            if not self.status and cancela_venda == '_addcancelavenda':
+                # Define a venda/pedido de venda com status cancelado
+                self.status = True
+                self.save()
+
                 # Numa venda cancelada: acrescenta a quantidade dos produtos cancelados novamente ao estoque.
                 for i in ItensVenda.objects.filter(vendas=self.pk).values_list('id', 'produto', 'quantidade'):
                     produto = Produtos.objects.get(pk=i[1])
@@ -156,8 +167,37 @@ class ItensVenda(models.Model):
         Método que trata o movimento no estoque.
         """
         quant_produto_estoque = Produtos.objects.filter(pk=self.produto.pk).values_list('quantidade')[0][0]
-        if self.quantidade > quant_produto_estoque:
+        if self.pk is None and self.quantidade > quant_produto_estoque:
             raise ValidationError({'quantidade': ["Há somente %(quantidade)s unidade(s) deste produto em estoque." % {'quantidade': quant_produto_estoque},]})
+
+
+
+class EntregaVenda(models.Model):
+    status = models.BooleanField(default=False, verbose_name=_(u"Entrega agendada?"))
+    endereco = models.ForeignKey(EnderecoEntregaCliente, null=True, blank=True, on_delete=models.PROTECT, verbose_name=_(u"Endereço"))
+    data = models.DateTimeField(null=True, blank=True, verbose_name=_(u"Data de entrega"))
+    observacao = models.TextField(blank=True, verbose_name=_(u"Observações"), help_text=_(u"Descreva na área as informações relavantes da entrega."))
+    posicao = GeopositionField(blank=True, verbose_name=_(u"Posição"))
+    venda = models.OneToOneField(Venda, null=True, blank=True, verbose_name=_(u"Venda"))
+    # status_entrega = models.CharField(max_length=1, blank=True, choices=((u'1', _(u"Realizada")), (u'2', _(u"Em andamento")), (u'3', _(u"Atrasada")),), verbose_name=_(u"Status da entrega")) 
+
+    class Meta:
+        verbose_name = _(u"Entrega")
+        verbose_name_plural = _(u"Entregas")
+
+    def __unicode__(self):
+        return u'%s' % (self.id)
+
+
+    def clean_fields(self, *args, **kwargs):
+
+        quantidade = Parametrizacao.objects.get().intervalo_dias_entrega_venda
+        venda = Venda.objects.get(pk=self.venda.pk)
+        data_minima_para_entrega = datetime_settings_timezone(venda.data) + datetime.timedelta(days=quantidade)
+
+        # Data de entrega não pode ser menor que data de venda + quantidade de dias para entrega (configurada nas parametrizações do sistema)
+        if self.data < data_minima_para_entrega:
+            raise ValidationError({'data': [_(u"Data de entrega inválida. Data mínima para entrega dos produtos: %(data_minima_entrega)s") % {'data_minima_entrega': data_minima_para_entrega.strftime('%d/%m/%Y às %H:%M:%S').decode('utf-8')},]})
 
 
 

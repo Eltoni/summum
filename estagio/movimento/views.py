@@ -95,7 +95,7 @@ def index(request):
 			}
 		}
 
-		return render_to_response('admin/index.html', data, context_instance=RequestContext(request))
+		return render_to_response('admin/dashboard.html', data, context_instance=RequestContext(request))
 
 	else:
 		return HttpResponseRedirect('/logout/')

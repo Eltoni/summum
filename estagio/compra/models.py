@@ -18,13 +18,13 @@ class Compra(models.Model):
     total = models.DecimalField(max_digits=20, decimal_places=2, verbose_name=_(u"Total (R$)"), help_text=_(u"Valor total da compra."))
     data = models.DateTimeField(auto_now_add=True, verbose_name=_(u"Data da compra"))
     desconto = models.DecimalField(max_digits=20, decimal_places=0, blank=True, null=True, verbose_name=_(u"Desconto (%)"), help_text=_(u"Desconto sob o valor total da compra."))
-    status = models.BooleanField(default=False, verbose_name=_(u"Cancelada?"), help_text=_(u"Marcando o Checkbox, a compra será cancelada e o financeiro acertado."))
+    status = models.BooleanField(default=False, verbose_name=_(u"Cancelada?"), help_text=_(u"Indica se o status da compra está ativo ou cancelada."))
     fornecedor = models.ForeignKey(Fornecedor, on_delete=models.PROTECT, verbose_name=_(u"Fornecedor"))
     forma_pagamento = models.ForeignKey(FormaPagamento, verbose_name=_(u"Forma de pagamento"), on_delete=models.PROTECT)
     grupo_encargo = models.ForeignKey(GrupoEncargo, blank=False, null=False, verbose_name=_(u"Grupo de encargo"), on_delete=models.PROTECT)
     observacao = models.TextField(blank=True, verbose_name=_(u"Observações"), help_text=_(u"Descreva na área as informações relavantes da compra."))
     pedido = models.CharField(max_length=1, blank=True, choices=((u'S', _(u"Sim")), (u'N', _(u"Não")),), verbose_name=_(u"Pedido?")) 
-    status_pedido = models.BooleanField(default=False, verbose_name=_(u"Pedido confirmado?"), help_text=_(u"Marcando o Checkbox, os itens financeiros serão gerados e o estoque movimentado."))
+    status_pedido = models.BooleanField(default=False, verbose_name=_(u"Pedido confirmado?"), help_text=_(u"Caso confirmado, os itens financeiros serão gerados e o estoque movimentado."))
 
     def __unicode__(self):
         return u'%s' % (self.id)
@@ -39,17 +39,6 @@ class Compra(models.Model):
             raise ValidationError(_(u"Não há caixa aberto. Para efetivar uma compra é necessário ter o caixa aberto."))
 
 
-    def clean_fields(self, *args, **kwargs):
-        """ 
-        Bloqueia o cancelamento de uma compra quando já há pagamentos no caixa.
-        """
-
-        contas_pagar = ContasPagar.objects.filter(compras__pk=self.pk)
-        compra_movimento_financeiro = ParcelasContasPagar.objects.filter(contas_pagar=contas_pagar, status=True).select_related('contas_pagar__contaspagar').values_list('status').exists()
-        if self.status and compra_movimento_financeiro:
-            raise ValidationError({'status': [_(u"Compra não pode ser cancelada. Já há pagamento feito para esta compra. [Conta a Pagar: %(conta_pagar)s]") % {'conta_pagar': contas_pagar[0]},]})
-
-
     def save(self, *args, **kwargs):
         """
         Método que trata a geração e cálculo da parte financeira de uma compra.
@@ -58,7 +47,6 @@ class Compra(models.Model):
 
         if self.pk:
 
-            status_antigo = Compra.objects.get(pk=self.pk)
             conta_gerada = ContasPagar.objects.filter(compras=self.pk).exists()
             super(Compra, self).save(*args, **kwargs)
 
@@ -80,8 +68,17 @@ class Compra(models.Model):
                                     )
                 conta.save()      
             
+            try:
+                cancela_compra = self.botao_acionado
+            except:
+                cancela_compra = None
+
             # trata cancelamento de compra efetuada
-            if not status_antigo.status and self.status and (self.pedido == 'N' or (self.pedido == 'S' and self.status_pedido)):
+            if not self.status and cancela_compra == '_addcancelacompra' and (self.pedido == 'N' or (self.pedido == 'S' and self.status_pedido)):
+                # Define a compra com status cancelado
+                self.status = True
+                self.save()
+
                 # Numa compra cancelada: decrescenta a quantidade dos produtos cancelados novamente ao estoque.
                 for i in ItensCompra.objects.filter(compras=self.pk).values_list('id', 'produto', 'quantidade'):
                     produto = Produtos.objects.get(pk=i[1])
@@ -151,4 +148,4 @@ class ItensCompra(models.Model):
 
 
 # Importado no final do arquivo para não ocorrer problemas com dependencia circular 
-from contas_pagar.models import ContasPagar, ParcelasContasPagar
+from contas_pagar.models import ContasPagar

@@ -19,7 +19,6 @@ class CompraForm(ModelForm):
     class Media:
         js = (
             '/static/js/formata_campos_compra.js',
-            '/static/js/controle_campos_compra.js',
         )
 
     class Meta:
@@ -37,6 +36,9 @@ class CompraForm(ModelForm):
             'observacao': AutosizedTextarea(attrs={'rows': 5, 'class': 'input-xxlarge', 'placeholder': '...'}),
             'status': CheckboxInput(attrs={'class': 'status-compra'}),
         }
+
+    def clean_desconto(self):
+        return self.cleaned_data['desconto'] or 0
 
 
     def __init__(self, *args, **kwargs):
@@ -95,7 +97,10 @@ class ItensCompraForm(ModelForm):
                 }),
         }
 
+    def clean_desconto(self):
+        return self.cleaned_data['desconto'] or 0
 
+        
 
 class ItensCompraFormSet(BaseInlineFormSet):
 

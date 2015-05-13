@@ -15,4 +15,9 @@ class Migration(migrations.Migration):
             model_name='cidade',
             name='ultima_alteracao',
         ),
+        migrations.AlterField(
+            model_name='cidade',
+            name='nome',
+            field=models.CharField(max_length=255, verbose_name='Nome'),
+        ),
     ]

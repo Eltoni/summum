@@ -7,9 +7,72 @@ from configuracoes.models import Parametrizacao
 from salmonella.admin import SalmonellaMixin
 from django.utils.translation import ugettext_lazy as _
 from import_export.admin import ExportMixin
-from export import VendaResource
+from export import VendaResource, EntregaVendaResource
 from daterange_filter.filter import DateRangeFilter
 from selectable_filter.filter import SelectableFilter
+
+
+class EntregaVendaAdmin(ExportMixin, admin.ModelAdmin):
+    resource_class = EntregaVendaResource
+    model = EntregaVenda
+    actions = None
+
+    list_display = ('id_venda', 'link_venda', 'endereco', 'data', 'posicao', 'posicao_mapa')
+    search_fields = ['id',]
+    date_hierarchy = 'data'
+    list_filter = (('data', DateRangeFilter),)
+    # readonly_fields = ('data',)
+
+    def posicao_mapa(self, instance):
+        if instance.posicao is not None:
+            return '<img src="http://maps.googleapis.com/maps/api/staticmap?center=%(latitude)s,%(longitude)s&zoom=%(zoom)s&size=%(width)sx%(height)s&maptype=roadmap&markers=%(latitude)s,%(longitude)s&sensor=false&visual_refresh=true&scale=%(scale)s" width="%(width)s" height="%(height)s">' % {
+                'latitude': instance.posicao.latitude,
+                'longitude': instance.posicao.longitude,
+                'zoom': 15,
+                'width': 100,
+                'height': 100,
+                'scale': 2
+            }
+    posicao_mapa.allow_tags = True
+    posicao_mapa.short_description = _(u"Posição no mapa")
+
+
+    def id_venda(object, instance):
+        
+        return "<a href=\"/%s/%s/%s/#info_entrega\">%s</a>" % (instance._meta.app_label, instance.venda._meta.model_name, instance.venda, instance.id,)
+    id_venda.allow_tags = True
+    id_venda.short_description = _(u"ID")
+
+
+    def link_venda(object, instance):
+
+        return "<a href=\"/%s/%s/%s/#info_entrega\">%s</a>" % (instance._meta.app_label, instance.venda._meta.model_name, instance.venda, instance.venda,)
+    link_venda.allow_tags = True
+    link_venda.short_description = _(u"Venda")
+
+
+    def has_add_permission(self, request, obj=None):
+        return False
+
+
+
+class EntregaVendaInline(admin.StackedInline):
+    form = EntregaVendaForm
+    model = EntregaVenda
+    suit_classes = 'suit-tab suit-tab-info_entrega'
+    fields = ('status', 'endereco', 'data', 'observacao', 'posicao', 'venda')
+    list_display = ('endereco', 'cidade', 'data', 'posicao', 'venda',)
+
+    fieldsets = (
+                (None, {
+                        "fields" : ("status",)
+                }),
+                ("Mais Informações", {
+                        "classes" : ("collapse",),
+                        "fields" : ("endereco", "data", 'observacao', 'posicao', 'venda')
+                })
+    )
+
 
 
 class ItensVendaInline(SalmonellaMixin, admin.TabularInline):
@@ -17,6 +80,7 @@ class ItensVendaInline(SalmonellaMixin, admin.TabularInline):
     formset = ItensVendaFormSet
     model = ItensVenda
     can_delete = False
+    suit_classes = 'suit-tab suit-tab-geral'
     fields = ('produto', 'quantidade', 'valor_unitario', 'desconto', 'valor_total')
     salmonella_fields = ('produto',)
     template = "admin/venda/edit_inline/tabular.html"  # Chama o template personalizado para realizar da inline para fazer todo o tratamento necessário para a tela de vendas
@@ -53,9 +117,6 @@ class ItensVendaInline(SalmonellaMixin, admin.TabularInline):
 
 class VendaAdmin(ExportMixin, SalmonellaMixin, admin.ModelAdmin):
     resource_class = VendaResource
-    inlines = [ 
-        ItensVendaInline,
-    ]
     form = VendaForm
     model = Venda
     actions = None
@@ -69,9 +130,15 @@ class VendaAdmin(ExportMixin, SalmonellaMixin, admin.ModelAdmin):
     
 
     def get_form(self, request, obj=None, **kwargs):
+        self.inlines = [ 
+            ItensVendaInline,
+            #EntregaVendaInline,
+        ]
+
         self.suit_form_tabs = (
             ('geral', _(u"Geral")),
-            ('info_adicionais', _(u"Informações adicionais"))
+            ('info_adicionais', _(u"Informações adicionais")),
+            #('info_entrega', _(u"Informações de Entrega")),
         )
         
         self.fieldsets = (
@@ -95,6 +162,10 @@ class VendaAdmin(ExportMixin, SalmonellaMixin, admin.ModelAdmin):
             self.fieldsets[2][1]['fields'] = tuple(x for x in self.fieldsets[2][1]['fields'] if (x!='pedido' and x!='status_pedido'))
 
         else:
+            insert_into_suit_form_tabs = tuple([('info_entrega', _(u"Informações de entrega"))])
+            self.suit_form_tabs += insert_into_suit_form_tabs
+            self.inlines = self.inlines + [EntregaVendaInline,]
+
             if obj.pedido == 'N':
                 self.fieldsets[2][1]['fields'] = tuple(x for x in self.fieldsets[2][1]['fields'] if (x!='status_pedido'))
 
@@ -114,26 +185,9 @@ class VendaAdmin(ExportMixin, SalmonellaMixin, admin.ModelAdmin):
         u""" Define todos os campos da venda como somente leitura caso o registro seja salvo no BD """
 
         if obj:
-            return ['total', 'data', 'desconto', 'cliente', 'forma_pagamento', 'pedido', 'status_pedido', 'grupo_encargo',]
+            return ['total', 'data', 'desconto', 'cliente', 'forma_pagamento', 'pedido', 'status_pedido', 'grupo_encargo', 'status',]
         else:
             return ['data', 'pedido', 'status_pedido']
-
-
-    def save_model(self, request, obj, form, change):
-        if not obj.desconto:
-            obj.desconto = 0
-
-        obj.save()
-
-
-    def save_formset(self, request, form, formset, change):
-        instances = formset.save(commit=False)
-        for instance in instances:
-            if not instance.desconto:
-                instance.desconto = 0
-            
-            instance.save()
-        formset.save_m2m()
 
 
     def response_add(self, request, obj):
@@ -161,6 +215,11 @@ class VendaAdmin(ExportMixin, SalmonellaMixin, admin.ModelAdmin):
             obj.status = False
             obj.save()
             return HttpResponseRedirect("../%s" % (obj.pk))
+
+        if '_addcancelavenda' in request.POST:
+            obj.botao_acionado = '_addcancelavenda'
+            obj.save()
+            return HttpResponseRedirect("../%s" % (obj.pk))
         else:
             return super(VendaAdmin, self).response_change(request, obj)
 
@@ -174,3 +233,4 @@ class VendaAdmin(ExportMixin, SalmonellaMixin, admin.ModelAdmin):
 
 
 admin.site.register(Venda, VendaAdmin)
+admin.site.register(EntregaVenda, EntregaVendaAdmin)

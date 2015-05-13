@@ -46,6 +46,11 @@ class Parametrizacao(models.Model):
         verbose_name=_(u"Perc. Valor do 1º pagamento"),
         help_text=_(u"Percentual mínimo do valor do primeiro pagamento de uma parcela.")
     )
+    intervalo_dias_entrega_venda = models.IntegerField(
+        verbose_name=_(u"Intervalo para entrega"),
+        help_text=_(u"Intervalo mínimo entre a data de venda e a data de entrega (dias)."),
+        default=0
+    )
     
     class Meta:
         verbose_name = _(u"Parametrização")

@@ -115,26 +115,9 @@ class CompraAdmin(ExportMixin, SalmonellaMixin, admin.ModelAdmin):
         u""" Define todos os campos da compra como somente leitura caso o registro seja salvo no BD """
 
         if obj:
-            return ['total', 'data', 'desconto', 'fornecedor', 'forma_pagamento', 'pedido', 'status_pedido', 'grupo_encargo',]
+            return ['total', 'data', 'desconto', 'fornecedor', 'forma_pagamento', 'pedido', 'status_pedido', 'grupo_encargo', 'status',]
         else:
             return ['data', 'pedido', 'status_pedido']
-
-
-    def save_model(self, request, obj, form, change):
-        if not obj.desconto:
-            obj.desconto = 0
-
-        obj.save()
-
-
-    def save_formset(self, request, form, formset, change):
-        instances = formset.save(commit=False)
-        for instance in instances:
-            if not instance.desconto:
-                instance.desconto = 0
-            
-            instance.save()
-        formset.save_m2m()
 
 
     def save_itens_compra(self, obj):
@@ -172,6 +155,11 @@ class CompraAdmin(ExportMixin, SalmonellaMixin, admin.ModelAdmin):
             obj.status = False
             obj.save()
             self.save_itens_compra(obj.pk)
+            return HttpResponseRedirect("../%s" % (obj.pk))
+
+        if '_addcancelacompra' in request.POST:
+            obj.botao_acionado = '_addcancelacompra'
+            obj.save()
             return HttpResponseRedirect("../%s" % (obj.pk))
         else:
             return super(CompraAdmin, self).response_change(request, obj)

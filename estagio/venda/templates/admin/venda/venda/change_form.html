@@ -1,0 +1,29 @@
+{% extends "admin/change_form.html" %}
+
+{% load geral_filters %}
+{% load venda_filters %}
+
+{% block submit_buttons_bottom %}
+
+    {% checa_habilita_pedido_venda as habilita_pedido_venda %}
+
+    {% if not original %}
+        {% if habilita_pedido_venda %}
+            <button type="submit" name="_addpedido" class="btn btn-high btn-warning">Salvar Pedido</button>
+        {% endif %}
+    {% else %}
+        {% if original.pedido == "S" and not original.status_pedido and not original.status %}
+            <button type="submit" name="_addconfirmapedido" class="btn btn-high btn-warning">Confirmar Pedido</button>
+        {% endif %}
+        {% if not original.status and original.pedido == "N" and not original.pk|checa_pagamentos_venda or not original.status and original.pedido == "S" and original.status_pedido and not original.pk|checa_pagamentos_venda %}
+            <button type="submit" name="_addcancelavenda" class="btn btn-high btn-danger">Cancelar Compra</button>
+        {% endif %}
+        {% if not original.status and original.pedido == "S" and not original.status_pedido and not original.pk|checa_pagamentos_venda %}
+        	<button type="submit" name="_addcancelavenda" class="btn btn-high btn-danger">Cancelar Pedido</button>
+        {% endif %}
+
+    {% endif %}
+
+    {{ block.super }}
+    
+{% endblock %} 

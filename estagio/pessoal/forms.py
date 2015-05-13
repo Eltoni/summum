@@ -116,3 +116,23 @@ class FuncionarioForm(BaseCadastroPessoaForm):
         js = (
             '/static/js/get_dados_usuario.js',
         )
+
+
+
+class EnderecoEntregaClienteForm(forms.ModelForm):
+
+    class Meta:
+        model = EnderecoEntregaCliente
+        exclude = []
+        widgets = {
+            'observacao': AutosizedTextarea(attrs={'rows': 1, 'class': 'input-xxlarge', 'placeholder': '...'}),
+            'numero': TextInput(attrs={'class': 'input-mini'}),
+            # 'nome': TextInput(attrs={'autocomplete':'off'}),     # 'autocomplete':'off' > Desabilita o Auto-complete do campo pelo navegador
+        }
+
+
+    def __init__(self, *args, **kwargs):
+        super(EnderecoEntregaClienteForm, self).__init__(*args, **kwargs)
+        self.fields['estado'] = BRStateChoiceField(initial="PR")
+        self.fields['cpf'] = BRCPFField(required=False, label=_(u"CPF"))
+        self.fields['cep'] = BRZipCodeField(required=False)

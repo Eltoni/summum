@@ -36,7 +36,10 @@ class Caixa(models.Model):
     diferenca = models.DecimalField(max_digits=20, decimal_places=2, default=0.00, verbose_name=_(u"Diferença"))
 
     class Meta:
-        permissions = ((u"recebe_notificacoes_caixa", _(u"Receber notificações de caixa.")),)
+        verbose_name = _(u"Caixa")
+        verbose_name_plural = _(u"Caixas")
+        permissions = ((u"pode_exportar_caixa", _(u"Exportar Caixas")),
+                       (u"recebe_notificacoes_caixa", _(u"Receber notificações de caixa.")),)
 
 
     def __unicode__(self):
@@ -93,9 +96,13 @@ class MovimentosCaixa(models.Model):
     pagamento = models.ForeignKey(Pagamento, on_delete=models.PROTECT, blank=True, null=True, verbose_name=_(u"Pagamento"))
     recebimento = models.ForeignKey(Recebimento, on_delete=models.PROTECT, blank=True, null=True, verbose_name=_(u"Recebimento"))
 
+    class Meta:
+        verbose_name = _(u"Movimento de Caixa")
+        verbose_name_plural = _(u"Movimentos de Caixas")
+        permissions = ((u"pode_exportar_movimentoscaixa", _(u"Exportar Movimentos de Caixas")),)
+
     def __unicode__(self):
         return u'%s' % (self.id)
-
 
     def pagamento_associado(self):
         if self.pagamento:

@@ -95,6 +95,11 @@ class Cliente(BaseCadastroPessoa):
     cnpj = models.CharField(max_length=14, null=True, unique=True, verbose_name=_(u"CNPJ")) 
     razao_social = models.CharField(max_length=255, blank=True, null=True, verbose_name=_(u"Razão social")) 
     
+    class Meta:
+        verbose_name = _(u"Cliente")
+        verbose_name_plural = _(u"Clientes")
+        permissions = ((u"pode_exportar_cliente", _(u"Exportar Clientes")),)
+
     def __unicode__(self):
         return u'%s' % (self.nome)
 
@@ -151,6 +156,7 @@ class Fornecedor(BaseCadastroPessoa):
     class Meta:
         verbose_name = _(u"Fornecedor")
         verbose_name_plural = _(u"Fornecedores")
+        permissions = ((u"pode_exportar_fornecedor", _(u"Exportar Fornecedores")),)
 
     def __unicode__(self):
         return u'%s' % (self.nome)
@@ -182,6 +188,7 @@ class Cargo(models.Model):
     class Meta:
         verbose_name = _(u"Cargo")
         verbose_name_plural = _(u"Cargos")
+        permissions = ((u"pode_exportar_cargo", _(u"Exportar Cargos")),)
 
     def __unicode__(self):
         return u'%s' % (self.nome)
@@ -196,6 +203,7 @@ class Funcionario(BaseCadastroPessoa):
     class Meta:
         verbose_name = _(u"Funcionário")
         verbose_name_plural = _(u"Funcionários")
+        permissions = ((u"pode_exportar_funcionario", _(u"Exportar Funcionários")),)
 
     def __unicode__(self):
         return u'%s' % (self.nome)

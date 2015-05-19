@@ -33,6 +33,7 @@ class ContasReceber(models.Model):
     class Meta:
         verbose_name = _(u"Conta a Receber")
         verbose_name_plural = _(u"Contas a Receber")
+        permissions = ((u"pode_exportar_contasreceber", _(u"Exportar Contas a Receber")),)
 
 
     def clean(self):

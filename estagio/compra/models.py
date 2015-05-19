@@ -25,6 +25,11 @@ class Compra(models.Model):
     observacao = models.TextField(blank=True, verbose_name=_(u"Observações"), help_text=_(u"Descreva na área as informações relavantes da compra."))
     pedido = models.CharField(max_length=1, blank=True, choices=((u'S', _(u"Sim")), (u'N', _(u"Não")),), verbose_name=_(u"Pedido?")) 
     status_pedido = models.BooleanField(default=False, verbose_name=_(u"Pedido confirmado?"), help_text=_(u"Caso confirmado, os itens financeiros serão gerados e o estoque movimentado."))
+    
+    class Meta:
+        verbose_name = _(u"Compra")
+        verbose_name_plural = _(u"Compras")
+        permissions = ((u"pode_exportar_compra", _(u"Exportar Compras")),)
 
     def __unicode__(self):
         return u'%s' % (self.id)

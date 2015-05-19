@@ -29,6 +29,11 @@ class Venda(models.Model):
     pedido = models.CharField(max_length=1, blank=True, choices=((u'S', _(u"Sim")), (u'N', _(u"Não")),), verbose_name=_(u"Pedido?")) 
     status_pedido = models.BooleanField(default=False, verbose_name=_(u"Pedido confirmado?"), help_text=_(u"Marcando o Checkbox, os itens financeiros serão gerados e o estoque movimentado."))
 
+    class Meta:
+        verbose_name = _(u"Venda")
+        verbose_name_plural = _(u"Vendas")
+        permissions = ((u"pode_exportar_venda", _(u"Exportar Vendas")),)
+
     def __unicode__(self):
         return u'%s' % (self.id)
 
@@ -184,6 +189,7 @@ class EntregaVenda(models.Model):
     class Meta:
         verbose_name = _(u"Entrega")
         verbose_name_plural = _(u"Entregas")
+        permissions = ((u"pode_exportar_entregavenda", _(u"Exportar Entregas")),)
 
     def __unicode__(self):
         return u'%s' % (self.id)

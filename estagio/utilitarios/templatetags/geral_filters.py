@@ -1,5 +1,8 @@
 #-*- coding: UTF-8 -*-
 from django.conf import settings
+from django.db.models import Q
+from django.contrib.auth.models import Permission
+from django.contrib.auth.models import User
 from django import template
 
 register = template.Library()
@@ -34,3 +37,29 @@ def template_dir(this_object, its_name=""):
         output = dir(this_object)
         return "<pre>" + str(its_name) + " " + str(output) + "</pre>"
     return ""
+
+
+
+@register.filter(name='pode_exportar')
+def pode_exportar(usuario, model_name):
+    """
+    Retorna booleano que indica se usuário tem permissão para acesso ao elemento do contexto.
+
+    Para utilização no template:
+
+    {%/ load geral_filters %}
+    {%/ if user|pode_exportar:opts.model_name %}...{%/ endif %}
+    """
+
+    nome_permissao = 'pode_exportar_' + model_name
+    try:
+        perm = Permission.objects.get(codename=nome_permissao)
+    except Permission.DoesNotExist: 
+        perm = False
+
+    tem_permissao = User.objects.filter((Q(groups__permissions=perm) | Q(user_permissions=perm) | Q(is_superuser=True)) & Q(username=usuario)).exists()
+    
+    # Se existe permissão, retorna True
+    if tem_permissao:
+        return True
+    return False

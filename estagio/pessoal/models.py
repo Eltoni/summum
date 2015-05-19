@@ -8,6 +8,7 @@ import datetime
 from datetime import date
 from sorl.thumbnail import ImageField
 from django.utils.translation import ugettext_lazy as _
+from django.utils.html import format_html
 
 
 # faz a validação da data de nascimento para que o usuário fique impedido de informar data maior ou igual a hoje, e seja maior de 18 anos
@@ -30,10 +31,28 @@ class BaseCadastroPessoa(models.Model):
     Última alteração em 16/06/2014.
     """
 
+    ESTADO_CIVIL_CHOICES = (
+        ('solteiro', _(u"Solteiro")),
+        ('casado', _(u"Casado")),
+        ('separado', _(u"Separado")),
+        ('viuvo', _(u"Viuvo")),
+        ('divorciado', _(u"Divorciado")),
+        ('marital', _(u"Marital")),
+        ('separado_judicialmente', _(u"Separado Judicialmente")),
+        ('separado_concensualmente', _(u"Separado Concensualmente")),
+        ('uniao_estavel', _(u"União Estável")),
+    )
+    SEXO_CHOICES = (
+        ('M', _(u"Masculino")),
+        ('F', _(u"Feminino")),
+    )
+
     nome = models.CharField(max_length=255, verbose_name=_(u"Nome"))
     data_nasc = models.DateField(validators=[valida_data_nascimento], blank=True, null=True, verbose_name=_(u"Data de nascimento"))
     cpf = models.CharField(max_length=11, null=True, unique=True, verbose_name=_(u"CPF"))
-    status = models.BooleanField(default=True, verbose_name=_(u"Status"))
+    rg = models.CharField(max_length=20, blank=True, verbose_name=_(u"RG"))
+    sexo = models.CharField(max_length=1, blank=True, choices=SEXO_CHOICES, verbose_name=_(u"Sexo")) 
+    estado_civil = models.CharField(max_length=30, blank=True, choices=ESTADO_CIVIL_CHOICES, verbose_name=_(u"Estado Civil")) 
     endereco = models.CharField(max_length=50, verbose_name=_(u"Endereço"))
     numero = models.CharField(max_length=15, verbose_name=_(u"Número")) 
     bairro = models.CharField(max_length=50, verbose_name=_(u"Bairro"))
@@ -44,18 +63,38 @@ class BaseCadastroPessoa(models.Model):
     telefone = models.CharField(max_length=30, blank=True, verbose_name=_(u"Telefone"))
     celular = models.CharField(max_length=30, blank=True, verbose_name=_(u"Celular")) 
     email = models.EmailField(max_length=100, blank=True, verbose_name=_(u"E-mail"))
+    banco = models.DecimalField(max_digits=3, decimal_places=0, null=True, blank=True, verbose_name=_(u"Banco"))
+    agencia = models.CharField(max_length=7, null=True, blank=True, verbose_name=_(u"Agência"))
+    conta_banco = models.CharField(max_length=15, null=True, blank=True, verbose_name=_(u"Conta Corrente")) 
     data = models.DateTimeField(auto_now_add=True, verbose_name=_(u"Data"))
+    status = models.BooleanField(default=True, verbose_name=_(u"Status"))
     observacao = models.TextField(blank=True, verbose_name=_(u"Observações"))
     foto = ImageField(upload_to='fotos_pessoas', max_length=255, blank=True, verbose_name=_(u"Foto"))
 
     class Meta:
         abstract = True
 
+    def formata_data_nascimento(obj):
+        u""" Retorna a idade baseada na data de nascimento cadastrada para a pessoa """
+        
+        if obj.data_nasc:
+            idade = int((date.today() - obj.data_nasc).days / 365.2425)
+            return format_html('<span style="color: #000000;">{0}</span>', '%s anos' % (idade))
+        return '-'
+    formata_data_nascimento.allow_tags = True
+    formata_data_nascimento.short_description = 'Idade'
+
 
 
 class Cliente(BaseCadastroPessoa):
-    rg = models.CharField(max_length=20, blank=True, verbose_name=_(u"RG"))
-
+    TIPO_PESSOA_CHOICES = (
+        ('PF', _(u"Pessoa Física")),
+        ('PJ', _(u"Pessoa Jurídica")),
+    )
+    tipo_pessoa = models.CharField(choices=TIPO_PESSOA_CHOICES, max_length=2, blank=False, null=False, default='PF', verbose_name=_(u"Tipo pessoa"))
+    cnpj = models.CharField(max_length=14, null=True, unique=True, verbose_name=_(u"CNPJ")) 
+    razao_social = models.CharField(max_length=255, blank=True, null=True, verbose_name=_(u"Razão social")) 
+    
     def __unicode__(self):
         return u'%s' % (self.nome)
 
@@ -150,7 +189,6 @@ class Cargo(models.Model):
 
 
 class Funcionario(BaseCadastroPessoa):
-    rg = models.CharField(max_length=20, blank=True, verbose_name=_(u"RG"))
     salario = models.DecimalField(max_digits=20, decimal_places=2, blank=True, null=True, verbose_name=_(u"Salário")) 
     cargo = models.ForeignKey(Cargo, on_delete=models.PROTECT, verbose_name=_(u"Cargo"))
     usuario = models.OneToOneField(User, on_delete=models.PROTECT, null=True, blank=True, unique=True, verbose_name=_(u"Usuário"))

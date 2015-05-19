@@ -85,6 +85,8 @@ class FornecedorForm(BaseCadastroPessoaForm):
 
         widgets = {
             'tipo_pessoa': forms.RadioSelect(renderer=HorizontalRadioRenderer),
+            'observacao': AutosizedTextarea(attrs={'rows': 5, 'class': 'input-xxlarge', 'placeholder': '...'}),
+            'numero': TextInput(attrs={'class': 'input-mini'}),
         }
 
     def __init__(self, *args, **kwargs):

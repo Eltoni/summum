@@ -1,9 +1,12 @@
 {% extends "admin/import_export/change_list.html" %}
 {% load i18n %}
+{% load geral_filters %}
 
 {% block object-tools-items %}
-  <a href="export/{{ cl.get_query_string }}" class="btn btn-success">
-    <i class="icon-circle-arrow-up icon-white"></i>&nbsp;&nbsp;{% trans "Export" %}
-  </a>
+  {% if user|pode_exportar:opts.model_name %}
+    <a href="export/{{ cl.get_query_string }}" class="btn btn-success">
+      <i class="icon-circle-arrow-up icon-white"></i>&nbsp;&nbsp;{% trans "Export" %}
+    </a>
+  {% endif %}
   {{ block.super }}
 {% endblock %}

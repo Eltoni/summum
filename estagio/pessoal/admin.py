@@ -48,7 +48,7 @@ class BaseCadastroPessoaAdmin(AdminImageMixin, GlobalAdmin):
     popup_list_filter = ('cidade',)
     search_fields = ['nome', 'email', 'cpf',]
     date_hierarchy = 'data'
-    readonly_fields = ('id', 'data')
+    readonly_fields = ('id', 'data', 'formata_data_nascimento')
 
     suit_form_tabs = (
         ('geral', _(u"Geral")),
@@ -128,7 +128,7 @@ class EnderecoEntregaClienteInline(admin.StackedInline):
 class ClienteAdmin(ExportMixin, BaseCadastroPessoaAdmin):
     resource_class = ClienteResource
     model = Cliente
-    readonly_fields = ('status_financeiro', 'id', 'data')
+    readonly_fields = ('status_financeiro', 'id', 'data', 'formata_data_nascimento')
     list_display = ('nome', 'email', 'data', 'status_financeiro',)
     list_filter = (('cidade', SelectableFilter), 'status', StatusFinanceiroFilter)
 
@@ -144,7 +144,11 @@ class ClienteAdmin(ExportMixin, BaseCadastroPessoaAdmin):
             }),
             (None, {
                 'classes': ('suit-tab suit-tab-identidade',),
-                'fields': ('cpf', 'rg', 'data_nasc', 'observacao')
+                'fields': ('cpf', 'rg', 'data_nasc', 'formata_data_nascimento')
+            }),
+            ('Dados bancários', {
+                'classes': ('suit-tab suit-tab-identidade',),
+                'fields': ('banco', 'agencia', 'conta_banco')
             }),
             (None, {
                 'classes': ('suit-tab suit-tab-endereco',),
@@ -152,7 +156,7 @@ class ClienteAdmin(ExportMixin, BaseCadastroPessoaAdmin):
             }),
             (None, {
                 'classes': ('suit-tab suit-tab-detalhes',),
-                'fields': ('foto',)
+                'fields': ('sexo', 'estado_civil', 'foto', 'observacao',)
             }),
         )
 
@@ -166,6 +170,7 @@ class ClienteAdmin(ExportMixin, BaseCadastroPessoaAdmin):
         if obj is None:
             self.fieldsets[1][1]['fields'] = tuple(x for x in self.fieldsets[1][1]['fields'] if (x!='id' and x!='data'))
             self.fieldsets[0][1]['fields'] = tuple(x for x in self.fieldsets[0][1]['fields'] if (x!='status_financeiro'))
+            self.fieldsets[2][1]['fields'] = tuple(x for x in self.fieldsets[2][1]['fields'] if (x!='formata_data_nascimento'))
 
         else:
             insert_into_suit_form_tabs = tuple([('financeiro', _(u"Financeiro"))])
@@ -221,7 +226,7 @@ class FornecedorAdmin(ExportMixin, BaseCadastroPessoaAdmin):
     resource_class = FornecedorResource
     model = Fornecedor
     form = FornecedorForm
-    readonly_fields = ('status_financeiro', 'id', 'data')
+    readonly_fields = ('status_financeiro', 'id', 'data', 'formata_data_nascimento')
     list_display = ('nome', 'email', 'status', 'status_financeiro')
     list_filter = (('cidade', SelectableFilter), 'status', StatusFinanceiroFilter)
     popup_list_display = ('nome', 'email', 'status', 'status_financeiro')
@@ -239,7 +244,11 @@ class FornecedorAdmin(ExportMixin, BaseCadastroPessoaAdmin):
             }),
             (None, {
                 'classes': ('suit-tab suit-tab-identidade',),
-                'fields': ('tipo_pessoa', 'cnpj', 'razao_social', 'cpf', 'data_nasc', 'observacao')
+                'fields': ('tipo_pessoa', 'cnpj', 'razao_social', 'cpf', 'rg', 'data_nasc', 'formata_data_nascimento')
+            }),
+            ('Dados bancários', {
+                'classes': ('suit-tab suit-tab-identidade',),
+                'fields': ('banco', 'agencia', 'conta_banco')
             }),
             (None, {
                 'classes': ('suit-tab suit-tab-endereco',),
@@ -247,7 +256,7 @@ class FornecedorAdmin(ExportMixin, BaseCadastroPessoaAdmin):
             }),
             (None, {
                 'classes': ('suit-tab suit-tab-detalhes',),
-                'fields': ('foto',)
+                'fields': ('sexo', 'estado_civil', 'foto', 'observacao',)
             }),
         )
 
@@ -261,6 +270,7 @@ class FornecedorAdmin(ExportMixin, BaseCadastroPessoaAdmin):
         if obj is None:
             self.fieldsets[1][1]['fields'] = tuple(x for x in self.fieldsets[1][1]['fields'] if (x!='id' and x!='data'))
             self.fieldsets[0][1]['fields'] = tuple(x for x in self.fieldsets[0][1]['fields'] if (x!='status_financeiro'))
+            self.fieldsets[2][1]['fields'] = tuple(x for x in self.fieldsets[2][1]['fields'] if (x!='formata_data_nascimento'))
         
         else:
             insert_into_suit_form_tabs = tuple([('financeiro', _(u"Financeiro"))])
@@ -330,16 +340,21 @@ class FuncionarioAdmin(ExportMixin, BaseCadastroPessoaAdmin):
             }),
             (None, {
                 'classes': ('suit-tab suit-tab-identidade',),
-                'fields': ('cpf', 'rg', 'data_nasc', 'observacao')
+                'fields': ('cpf', 'rg', 'data_nasc', 'formata_data_nascimento')
+            }),
+            ('Dados bancários', {
+                'classes': ('suit-tab suit-tab-identidade',),
+                'fields': ('banco', 'agencia', 'conta_banco')
             }),
             (None, {
                 'classes': ('suit-tab suit-tab-detalhes',),
-                'fields': ('foto',)
+                'fields': ('sexo', 'estado_civil', 'foto', 'observacao',)
             }),
         )
 
         if obj is None:
             self.fieldsets[2][1]['fields'] = tuple(x for x in self.fieldsets[2][1]['fields'] if (x!='id' and x!='data'))
+            self.fieldsets[4][1]['fields'] = tuple(x for x in self.fieldsets[4][1]['fields'] if (x!='formata_data_nascimento'))
 
         return super(FuncionarioAdmin, self).get_form(request, obj, **kwargs)
 

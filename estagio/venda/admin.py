@@ -67,11 +67,17 @@ class EntregaVendaInline(admin.StackedInline):
                 (None, {
                         "fields" : ("status",)
                 }),
-                ("Mais Informações", {
-                        "classes" : ("collapse",),
+                ("Detalhes", {
+                        #"classes" : ("collapse",),
                         "fields" : ("endereco", "data", 'observacao', 'posicao', 'venda')
                 })
     )
+
+
+class EntregaVendaAddInline(EntregaVendaInline):
+    fieldsets = ((None, {
+                        "fields" : ("status",)
+                }),)
 
 
 
@@ -164,7 +170,12 @@ class VendaAdmin(ExportMixin, SalmonellaMixin, admin.ModelAdmin):
         else:
             insert_into_suit_form_tabs = tuple([('info_entrega', _(u"Informações de entrega"))])
             self.suit_form_tabs += insert_into_suit_form_tabs
-            self.inlines = self.inlines + [EntregaVendaInline,]
+
+            sit_entrega = EntregaVenda.objects.filter(venda=obj.pk).exists()
+            if sit_entrega:
+                self.inlines = self.inlines + [EntregaVendaInline,]
+            else:
+                self.inlines = self.inlines + [EntregaVendaAddInline,]
 
             if obj.pedido == 'N':
                 self.fieldsets[2][1]['fields'] = tuple(x for x in self.fieldsets[2][1]['fields'] if (x!='status_pedido'))

@@ -11,7 +11,7 @@ $(document).ready(function(){
     if ( $('#id_tipo_pessoa_0').attr('checked')) {
         $(".field-cnpj, .field-razao_social").hide();
     } else {
-        $(".field-cpf").hide();
+        $(".field-cpf, .field-rg, .field-sexo, .field-estado_civil").hide();
     }
 
 
@@ -25,12 +25,12 @@ $(document).ready(function(){
                     // esconde os campos no contexto
                     $(this).hide();
                     // e mostra os campos das classes abaixo
-                    $(".field-cpf").show();
+                    $(".field-cpf, .field-rg, .field-sexo, .field-estado_civil").show();
 
                     // checa se campo cnpj tem valor
                     if ( $("#id_cnpj").val()!='') {
                         // se tem, o campo cpf fica vazio
-                        $('#id_cpf').val(""); 
+                        $('#id_cpf, #id_rg').val(""); 
                     }  
                 });
             }
@@ -43,7 +43,7 @@ $(document).ready(function(){
         $(this).click(function(){
             // checa se a opção 'Pessoa Jurídica' está selecionado 
             if ( $(this).is(':checked')) {
-                $(".field-cpf").each(function(){
+                $(".field-cpf, .field-rg, .field-sexo, .field-estado_civil").each(function(){
                     // esconde os campos no contexto
                     $(this).hide();
                     // e mostra os campos das classes abaixo

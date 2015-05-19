@@ -37,7 +37,8 @@ class Produtos(models.Model):
         verbose_name_plural = _(u"Produtos")
         permissions = ((u"visualizar_rel_produtos_esgotando", _(u"Ver relatorio de produtos esgotando em estoque")),
                        (u"visualizar_rel_debitos_creditos_diario", _(u"Ver relatorio de debitos e creditos diarios")),
-                       (u"visualizar_relatorios", _(u"Ver relatorios")),)
+                       (u"visualizar_relatorios", _(u"Ver relatorios")),
+                       (u"pode_exportar_produtos", _(u"Exportar Produtos")),)
 
     def __unicode__(self):
         return u'%s' % (self.nome)

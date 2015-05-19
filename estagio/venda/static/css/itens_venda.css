@@ -16,3 +16,8 @@ input::-webkit-inner-spin-button {
 .hidden-element {
     display: none;
 }
+
+/* Acerta posição campo biblioteca geoposition */
+.geoposition-search { 
+    margin-right: 15px; 
+}

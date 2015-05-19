@@ -196,7 +196,7 @@ class EntregaVenda(models.Model):
         data_minima_para_entrega = datetime_settings_timezone(venda.data) + datetime.timedelta(days=quantidade)
 
         # Data de entrega não pode ser menor que data de venda + quantidade de dias para entrega (configurada nas parametrizações do sistema)
-        if self.data < data_minima_para_entrega:
+        if self.data and self.data < data_minima_para_entrega:
             raise ValidationError({'data': [_(u"Data de entrega inválida. Data mínima para entrega dos produtos: %(data_minima_entrega)s") % {'data_minima_entrega': data_minima_para_entrega.strftime('%d/%m/%Y às %H:%M:%S').decode('utf-8')},]})
 
 

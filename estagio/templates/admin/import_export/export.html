@@ -3,35 +3,39 @@
 {% load i18n %}
 {% load admin_urls %}
 {% load import_export_tags %}
+{% load geral_filters %}
 {% block title %}{{ _('Exportar') }} | {{ site_title|default:_('Sistema de Controle') }}{% endblock %}
 {% block breadcrumbs_last %}
 {% trans "Export" %}
 {% endblock %}
 
 {% block content %}
-<h1>{% trans "Export" %}</h1>
+{% if user|pode_exportar:opts.model_name %}
+  
+  <h1>{% trans "Export" %}</h1>
 
-<form action="" method="POST">
-  {% csrf_token %}
+  <form action="" method="POST">
+    {% csrf_token %}
 
-    <fieldset class="module aligned">
-      {% for field in form %}
-        <div class="form-row">
-          {{ field.errors }}
+      <fieldset class="module aligned">
+        {% for field in form %}
+          <div class="form-row">
+            {{ field.errors }}
 
-          {{ field.label_tag }}
+            {{ field.label_tag }}
 
-          {{ field }}
+            {{ field }}
 
-          {% if field.field.help_text %}
-          <p class="help">{{ field.field.help_text|safe }}</p>
-          {% endif %}
+            {% if field.field.help_text %}
+            <p class="help">{{ field.field.help_text|safe }}</p>
+            {% endif %}
+          
+        {% endfor %}
         
-      {% endfor %}
-      
-        <input type="submit" class="btn btn-success" style="margin-bottom:10px;" value="{% trans "Submit" %}">
-        </div>
-    </fieldset>
-    
-</form>
+          <input type="submit" class="btn btn-success" style="margin-bottom:10px;" value="{% trans "Submit" %}">
+          </div>
+      </fieldset>
+  </form>
+
+{% endif %}
 {% endblock %}

@@ -19,6 +19,7 @@ class VendaForm(ModelForm):
     class Media:
         js = (
             '/static/js/formata_campos_venda.js',
+            '/static/js/formata_campos_venda_entrega.js',
         )
 
     class Meta:
@@ -121,7 +122,7 @@ class EntregaVendaForm(ModelForm):
     class Meta:
         widgets = {
             'observacao': AutosizedTextarea(attrs={'rows': 5, 'class': 'input-xxlarge', 'placeholder': '...'}),
-            'endereco': LinkedSelect(attrs={'class': 'input-xxlarge'}),
+            'endereco': LinkedSelect(attrs={'class': 'input-xxlarge endereco-entrega-field'}),
         }
 
     def __init__(self, *args, **kwargs):

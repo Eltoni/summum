@@ -131,7 +131,7 @@ class VendaAdmin(ExportMixin, SalmonellaMixin, admin.ModelAdmin):
     search_fields = ['id', 'cliente']
     date_hierarchy = 'data'
     list_filter = (('cliente', SelectableFilter), ('data', DateRangeFilter), 'status', 'forma_pagamento')
-    readonly_fields = ('data',)
+    readonly_fields = ('data', 'vendedor', 'vendedor_associado')
     salmonella_fields = ('cliente', 'forma_pagamento', 'grupo_encargo',)
     
 
@@ -158,14 +158,14 @@ class VendaAdmin(ExportMixin, SalmonellaMixin, admin.ModelAdmin):
             }),
             (None, {
                 'classes': ('suit-tab suit-tab-info_adicionais',),
-                'fields': ('observacao', 'pedido', 'status_pedido',)
+                'fields': ('observacao', 'pedido', 'status_pedido', 'vendedor_associado')
             }),
         )
 
         if obj is None:
             self.fieldsets[0][1]['fields'] = tuple(x for x in self.fieldsets[0][1]['fields'] if (x!='status'))
             self.fieldsets[1][1]['fields'] = tuple(x for x in self.fieldsets[1][1]['fields'] if (x!='data'))
-            self.fieldsets[2][1]['fields'] = tuple(x for x in self.fieldsets[2][1]['fields'] if (x!='pedido' and x!='status_pedido'))
+            self.fieldsets[2][1]['fields'] = tuple(x for x in self.fieldsets[2][1]['fields'] if (x!='pedido' and x!='status_pedido' and x!='vendedor' and x!='vendedor_associado'))
 
         else:
             insert_into_suit_form_tabs = tuple([('info_entrega', _(u"Informações de entrega"))])
@@ -196,7 +196,7 @@ class VendaAdmin(ExportMixin, SalmonellaMixin, admin.ModelAdmin):
         u""" Define todos os campos da venda como somente leitura caso o registro seja salvo no BD """
 
         if obj:
-            return ['total', 'data', 'desconto', 'cliente', 'forma_pagamento', 'pedido', 'status_pedido', 'grupo_encargo', 'status',]
+            return ['total', 'data', 'desconto', 'cliente', 'forma_pagamento', 'pedido', 'status_pedido', 'grupo_encargo', 'status', 'vendedor', 'vendedor_associado']
         else:
             return ['data', 'pedido', 'status_pedido']
 
@@ -241,6 +241,13 @@ class VendaAdmin(ExportMixin, SalmonellaMixin, admin.ModelAdmin):
             rowclass = 'error'
 
         return {'class': rowclass}
+
+
+    def save_model(self, request, obj, form, change):
+        if not obj.pk:
+            obj.vendedor = request.user
+        
+        obj.save()
 
 
 admin.site.register(Venda, VendaAdmin)

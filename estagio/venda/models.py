@@ -9,6 +9,7 @@ from django.utils.translation import ugettext_lazy as _
 from geoposition.fields import GeopositionField
 from configuracoes.models import Parametrizacao
 from utilitarios.funcoes_data import datetime_settings_timezone
+from django.contrib.auth.models import User
 
 
 class Venda(models.Model):
@@ -28,6 +29,7 @@ class Venda(models.Model):
     observacao = models.TextField(blank=True, verbose_name=_(u"Observações"), help_text=_(u"Descreva na área as informações relavantes da venda."))
     pedido = models.CharField(max_length=1, blank=True, choices=((u'S', _(u"Sim")), (u'N', _(u"Não")),), verbose_name=_(u"Pedido?")) 
     status_pedido = models.BooleanField(default=False, verbose_name=_(u"Pedido confirmado?"), help_text=_(u"Marcando o Checkbox, os itens financeiros serão gerados e o estoque movimentado."))
+    vendedor = models.ForeignKey(User, blank=True, null=True, on_delete=models.DO_NOTHING, verbose_name=_(u"Vendedor"))
 
     class Meta:
         verbose_name = _(u"Venda")
@@ -38,6 +40,14 @@ class Venda(models.Model):
         return u'%s' % (self.id)
 
 
+    def vendedor_associado(self):
+        if self.vendedor:
+            return u"<b>%s (%s %s)</b>" % (self.vendedor, self.vendedor.first_name, self.vendedor.last_name)
+        return '-'
+    vendedor_associado.allow_tags = True
+    vendedor_associado.short_description = _(u"Vendedor")
+
+
     def clean(self):
         """ 
         Bloqueia o registro de uma venda quando não há caixa aberto.
@@ -45,17 +55,6 @@ class Venda(models.Model):
         from caixa.models import Caixa
         if not Caixa.objects.filter(status=1).exists() and not self.pk:
             raise ValidationError(_(u"Não há caixa aberto. Para efetivar uma venda é necessário ter o caixa aberto."))
-
-
-    def clean_fields(self, *args, **kwargs):
-        """ 
-        Bloqueia o cancelamento de uma venda quando já há pagamentos no caixa.
-        """
-
-        contas_receber = ContasReceber.objects.filter(vendas__pk=self.pk)
-        venda_movimento_financeiro = ParcelasContasReceber.objects.filter(contas_receber=contas_receber, status=True).select_related('contas_receber__contasreceber').values_list('status').exists()
-        if self.status and venda_movimento_financeiro:
-            raise ValidationError({'status': [_(u"Venda não pode ser cancelada. Já há pagamento feito para esta venda. [Conta a Receber: %(conta_receber)s]") % {'conta_receber': contas_receber[0]},]})
 
 
     def save(self, *args, **kwargs):

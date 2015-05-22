@@ -14,15 +14,13 @@ class Migration(migrations.Migration):
             name='Cidade',
             fields=[
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
-                ('nome', models.CharField(max_length=255, verbose_name='Name')),
+                ('nome', models.CharField(max_length=255, verbose_name='Nome')),
                 ('estado', models.CharField(max_length=2, null=True, verbose_name='Estado', blank=True)),
-                ('ultima_alteracao', models.DateTimeField(auto_now=True, verbose_name='\xdaltima altera\xe7\xe3o')),
             ],
             options={
                 'verbose_name': 'Cidade',
                 'verbose_name_plural': 'Cidades',
             },
-            bases=(models.Model,),
         ),
         migrations.AlterUniqueTogether(
             name='cidade',

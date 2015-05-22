@@ -20,11 +20,11 @@ class Migration(migrations.Migration):
                 ('habilita_pedido_venda', models.BooleanField(default=True, help_text='Marcando o Checkbox, o bot\xe3o para adicionar um pedido de venda ser\xe1 exibido no cadastro da venda.', verbose_name='Habilita pedido de venda?')),
                 ('qtde_minima_produtos_em_estoque', models.IntegerField(help_text='Indique a quantidade m\xednima de itens de produto no estoque.', null=True, verbose_name='Qtde m\xednima em estoque', blank=True)),
                 ('perc_valor_minimo_pagamento', models.DecimalField(decimal_places=0, max_digits=20, blank=True, help_text='Percentual m\xednimo do valor do primeiro pagamento de uma parcela.', null=True, verbose_name='Perc. Valor do 1\xba pagamento')),
+                ('intervalo_dias_entrega_venda', models.IntegerField(default=0, help_text='Intervalo m\xednimo entre a data de venda e a data de entrega (dias).', verbose_name='Intervalo para entrega')),
             ],
             options={
                 'verbose_name': 'Parametriza\xe7\xe3o',
                 'verbose_name_plural': 'Parametriza\xe7\xf5es',
             },
-            bases=(models.Model,),
         ),
     ]

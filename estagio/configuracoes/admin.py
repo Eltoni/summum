@@ -15,6 +15,12 @@ class ParametrizacaoAdmin(admin.ModelAdmin):
                 'perc_valor_minimo_pagamento',
             )
         }),
+        ('Caixa', {
+            'classes': ('suit-tab suit-tab-geral',),
+            'fields': (
+                'email_abertura_caixa',
+            )
+        }),
         (None, {
             'classes': ('suit-tab suit-tab-compra',),
             'fields': (

@@ -8,9 +8,9 @@ import django.db.models.deletion
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('parametros_financeiros', '__first__'),
-        ('venda', '__first__'),
-        ('pessoal', '__first__'),
+        ('parametros_financeiros', '0001_initial'),
+        ('venda', '0001_initial'),
+        ('pessoal', '0001_initial'),
     ]
 
     operations = [
@@ -30,8 +30,8 @@ class Migration(migrations.Migration):
             options={
                 'verbose_name': 'Conta a Receber',
                 'verbose_name_plural': 'Contas a Receber',
+                'permissions': (('pode_exportar_contasreceber', 'Exportar Contas a Receber'),),
             },
-            bases=(models.Model,),
         ),
         migrations.CreateModel(
             name='ParcelasContasReceber',
@@ -47,7 +47,6 @@ class Migration(migrations.Migration):
                 'verbose_name': 'Parcela de Conta \xe0 Receber',
                 'verbose_name_plural': 'Parcelas de Contas \xe0 Receber',
             },
-            bases=(models.Model,),
         ),
         migrations.CreateModel(
             name='Recebimento',
@@ -64,6 +63,5 @@ class Migration(migrations.Migration):
                 'verbose_name': 'Recebimento',
                 'verbose_name_plural': 'Recebimentos',
             },
-            bases=(models.Model,),
         ),
     ]

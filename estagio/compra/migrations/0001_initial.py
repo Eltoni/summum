@@ -8,9 +8,9 @@ import django.db.models.deletion
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('movimento', '0001_initial'),
-        ('pessoal', '__first__'),
         ('parametros_financeiros', '0001_initial'),
+        ('pessoal', '0001_initial'),
+        ('movimento', '0001_initial'),
     ]
 
     operations = [
@@ -21,17 +21,19 @@ class Migration(migrations.Migration):
                 ('total', models.DecimalField(help_text='Valor total da compra.', verbose_name='Total (R$)', max_digits=20, decimal_places=2)),
                 ('data', models.DateTimeField(auto_now_add=True, verbose_name='Data da compra')),
                 ('desconto', models.DecimalField(decimal_places=0, max_digits=20, blank=True, help_text='Desconto sob o valor total da compra.', null=True, verbose_name='Desconto (%)')),
-                ('status', models.BooleanField(default=False, help_text='Marcando o Checkbox, a compra ser\xe1 cancelada e o financeiro acertado.', verbose_name='Cancelada?')),
+                ('status', models.BooleanField(default=False, help_text='Indica se o status da compra est\xe1 ativo ou cancelada.', verbose_name='Cancelada?')),
                 ('observacao', models.TextField(help_text='Descreva na \xe1rea as informa\xe7\xf5es relavantes da compra.', verbose_name='Observa\xe7\xf5es', blank=True)),
                 ('pedido', models.CharField(blank=True, max_length=1, verbose_name='Pedido?', choices=[('S', 'Sim'), ('N', 'N\xe3o')])),
-                ('status_pedido', models.BooleanField(default=False, help_text='Marcando o Checkbox, os itens financeiros ser\xe3o gerados e o estoque movimentado.', verbose_name='Pedido confirmado?')),
+                ('status_pedido', models.BooleanField(default=False, help_text='Caso confirmado, os itens financeiros ser\xe3o gerados e o estoque movimentado.', verbose_name='Pedido confirmado?')),
                 ('forma_pagamento', models.ForeignKey(on_delete=django.db.models.deletion.PROTECT, verbose_name='Forma de pagamento', to='parametros_financeiros.FormaPagamento')),
                 ('fornecedor', models.ForeignKey(on_delete=django.db.models.deletion.PROTECT, verbose_name='Fornecedor', to='pessoal.Fornecedor')),
                 ('grupo_encargo', models.ForeignKey(on_delete=django.db.models.deletion.PROTECT, verbose_name='Grupo de encargo', to='parametros_financeiros.GrupoEncargo')),
             ],
             options={
+                'verbose_name': 'Compra',
+                'verbose_name_plural': 'Compras',
+                'permissions': (('pode_exportar_compra', 'Exportar Compras'),),
             },
-            bases=(models.Model,),
         ),
         migrations.CreateModel(
             name='ItensCompra',
@@ -49,6 +51,5 @@ class Migration(migrations.Migration):
                 'verbose_name': 'Item de Compra',
                 'verbose_name_plural': 'Itens de Compra',
             },
-            bases=(models.Model,),
         ),
     ]

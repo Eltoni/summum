@@ -13,7 +13,7 @@ class Migration(migrations.Migration):
     operations = [
         migrations.AddField(
             model_name='parametrizacao',
-            name='intervalo_dias_entrega_venda',
-            field=models.IntegerField(default=0, help_text='Intervalo m\xednimo entre a data de venda e a data de entrega (dias).', verbose_name='Intervalo para entrega'),
+            name='email_abertura_caixa',
+            field=models.TextField(help_text='Insira uma mensagem customizada. Esta ser\xe1 exibida acima do rodap\xe9 no email de abertura do caixa.', verbose_name='Email de abertura de caixa', blank=True),
         ),
     ]

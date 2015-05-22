@@ -8,8 +8,8 @@ import django.db.models.deletion
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('pessoal', '__first__'),
         ('parametros_financeiros', '0001_initial'),
+        ('pessoal', '0001_initial'),
         ('compra', '0001_initial'),
     ]
 
@@ -30,8 +30,8 @@ class Migration(migrations.Migration):
             options={
                 'verbose_name': 'Conta a Pagar',
                 'verbose_name_plural': 'Contas a Pagar',
+                'permissions': (('pode_exportar_contaspagar', 'Exportar Contas a Pagar'),),
             },
-            bases=(models.Model,),
         ),
         migrations.CreateModel(
             name='Pagamento',
@@ -43,9 +43,6 @@ class Migration(migrations.Migration):
                 ('multa', models.DecimalField(null=True, verbose_name='Multa', max_digits=20, decimal_places=2, blank=True)),
                 ('desconto', models.DecimalField(null=True, verbose_name='Desconto', max_digits=20, decimal_places=2, blank=True)),
             ],
-            options={
-            },
-            bases=(models.Model,),
         ),
         migrations.CreateModel(
             name='ParcelasContasPagar',
@@ -61,12 +58,10 @@ class Migration(migrations.Migration):
                 'verbose_name': 'Parcela de Conta \xe0 Pagar',
                 'verbose_name_plural': 'Parcelas de Contas \xe0 Pagar',
             },
-            bases=(models.Model,),
         ),
         migrations.AddField(
             model_name='pagamento',
             name='parcelas_contas_pagar',
             field=models.ForeignKey(on_delete=django.db.models.deletion.PROTECT, verbose_name='Pagamento de parcela', to='contas_pagar.ParcelasContasPagar'),
-            preserve_default=True,
         ),
     ]

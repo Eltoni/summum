@@ -8,8 +8,8 @@ import django.db.models.deletion
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('contas_pagar', '__first__'),
-        ('contas_receber', '__first__'),
+        ('contas_pagar', '0001_initial'),
+        ('contas_receber', '0001_initial'),
     ]
 
     operations = [
@@ -28,8 +28,10 @@ class Migration(migrations.Migration):
                 ('diferenca', models.DecimalField(default=0.0, verbose_name='Diferen\xe7a', max_digits=20, decimal_places=2)),
             ],
             options={
+                'verbose_name': 'Caixa',
+                'verbose_name_plural': 'Caixas',
+                'permissions': (('pode_exportar_caixa', 'Exportar Caixas'), ('recebe_notificacoes_caixa', 'Receber notifica\xe7\xf5es de caixa.')),
             },
-            bases=(models.Model,),
         ),
         migrations.CreateModel(
             name='MovimentosCaixa',
@@ -44,7 +46,9 @@ class Migration(migrations.Migration):
                 ('recebimento', models.ForeignKey(on_delete=django.db.models.deletion.PROTECT, verbose_name='Recebimento', blank=True, to='contas_receber.Recebimento', null=True)),
             ],
             options={
+                'verbose_name': 'Movimento de Caixa',
+                'verbose_name_plural': 'Movimentos de Caixas',
+                'permissions': (('pode_exportar_movimentoscaixa', 'Exportar Movimentos de Caixas'),),
             },
-            bases=(models.Model,),
         ),
     ]

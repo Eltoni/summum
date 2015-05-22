@@ -10,6 +10,8 @@ from django.contrib.auth.models import Permission
 from django.contrib.auth.models import User
 from django.db.models import Q
 from daterange_filter.filter import DateRangeFilter
+from utilitarios.funcoes_email import TextosEmail
+from configuracoes.models import Parametrizacao
 
 
 class CaixaAdmin(ExportMixin, admin.ModelAdmin):
@@ -78,21 +80,28 @@ class CaixaAdmin(ExportMixin, admin.ModelAdmin):
             usuarios_perm = User.objects.filter(Q(groups__permissions=perm) | Q(user_permissions=perm) | Q(is_superuser=True)).values_list('email')
             usuarios_perm_notificacao = ', '.join([str(i[0]) for i in usuarios_perm])
             #to = 'gustavo.sdo@gmail.com'
+            mensagem_customizada = Parametrizacao.objects.get().email_abertura_caixa
 
             assunto = u'Notificação (Abertura de Caixa)'
             from_email = 'gustavo.sdo@gmail.com'
             text_content = u'Essa é uma mensagem importante.'
-            html_content = u'<p>Há um novo Caixa criado no sistema, aberto por: %(nome)s %(sobrenome)s.</p> \
+            html_content = u'%(header)s \
+                             <p>Há um novo Caixa criado no sistema, aberto por: %(nome)s %(sobrenome)s.</p> \
                              <br> \
                              <a href="http://%(url)s/%(caixa)s" target="_blank">Caixa %(caixa)s</a>\
                              <p>Valor inicial de <strong>R$%(valor_inicial)s</strong>.</p> \
-                             <p>Data de abertura <strong>R$%(data_abertura)s</strong>.</p>' \
+                             <p>Data de abertura <strong>R$%(data_abertura)s</strong>.</p> \
+                             <br>%(texto_customizado)s \
+                             %(footer)s'\
                              % {'nome': request.user.first_name, 
                                 'sobrenome': request.user.last_name, 
                                 'valor_inicial': Decimal(obj.valor_inicial).quantize(Decimal("0.00")),
                                 'url': request.META['HTTP_HOST'] + '/' + obj._meta.app_label + '/' + obj._meta.model_name,
                                 'caixa': obj.pk,
                                 'data_abertura': obj.data_abertura.strftime('%d/%m/%Y às %H:%M:%S').decode('utf-8'),
+                                'header': TextosEmail.headerEmailInterno,
+                                'footer': TextosEmail.footerEmailInterno,
+                                'texto_customizado': mensagem_customizada
                                 }
 
             mensagem = EmailMultiAlternatives(assunto, text_content, from_email, [usuarios_perm_notificacao])

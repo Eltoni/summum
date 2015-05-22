@@ -65,6 +65,7 @@ INSTALLED_APPS = (
     'selectable_filter',
     'debug_toolbar',
     'geoposition',
+    'suit_redactor',
 )
 
 

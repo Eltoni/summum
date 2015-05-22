@@ -51,6 +51,11 @@ class Parametrizacao(models.Model):
         help_text=_(u"Intervalo mínimo entre a data de venda e a data de entrega (dias)."),
         default=0
     )
+    email_abertura_caixa = models.TextField(
+        blank=True, 
+        verbose_name=_(u"Email de abertura de caixa"), 
+        help_text=_(u"Insira uma mensagem customizada. Esta será exibida acima do rodapé no email de abertura do caixa.")
+    )
     
     class Meta:
         verbose_name = _(u"Parametrização")

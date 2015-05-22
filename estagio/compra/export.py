@@ -1,6 +1,6 @@
 #-*- coding: UTF-8 -*-
 from import_export import resources
-from models import Compra
+from compra.models import Compra
 from decimal import Decimal
 
 #classe usada pelo import_export

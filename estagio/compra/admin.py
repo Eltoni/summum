@@ -1,14 +1,14 @@
 #-*- coding: UTF-8 -*-
 from django.contrib import admin
-from models import *
-from forms import *
+from compra.models import *
+from compra.forms import *
 from django.http import HttpResponseRedirect
 from configuracoes.models import Parametrizacao
 from salmonella.admin import SalmonellaMixin
 from app_global.widgets import NoAddingRelatedFieldWidgetWrapper
 from django.utils.translation import ugettext_lazy as _
 from import_export.admin import ExportMixin
-from export import CompraResource
+from compra.export import CompraResource
 from daterange_filter.filter import DateRangeFilter
 from selectable_filter.filter import SelectableFilter
 

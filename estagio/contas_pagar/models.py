@@ -40,12 +40,13 @@ class ContasPagar(models.Model):
         u""" 
         Bloqueia o registro de uma conta a pagar avulsa quando não há caixa aberto.
         """
-        from caixa.models import Caixa
-        if not Caixa.objects.filter(status=1).exists() and not self.pk:
-            raise ValidationError(_(u"Não há caixa aberto. Para efetivar um cadastro de uma conta a pagar avulsa, é necessário ter o caixa aberto."))
+        pass
+        # from caixa.models import Caixa
+        # if not Caixa.objects.filter(status=1).exists() and not self.pk:
+        #     raise ValidationError(_(u"Não há caixa aberto. Para efetivar um cadastro de uma conta a pagar avulsa, é necessário ter o caixa aberto."))
 
-        if not Caixa.objects.filter(status=1).exists() and self.pk:
-            raise ValidationError(_(u"Não há caixa aberto. Alterações numa conta a pagar só podem ser efetivadas após a abertura do caixa."))
+        # if not Caixa.objects.filter(status=1).exists() and self.pk:
+        #     raise ValidationError(_(u"Não há caixa aberto. Alterações numa conta a pagar só podem ser efetivadas após a abertura do caixa."))
 
 
     def __unicode__(self):
@@ -478,23 +479,24 @@ class Pagamento(models.Model):
         Bloqueia a tentativa de efetuar um pagamento enquanto não houver caixa aberto no sistema.
         Bloqueia quaisquer alterações num registro de pagamento enquanto não houver caixa aberto no sistema.
         """
+        pass
         # Checa a situação do caixa
-        from caixa.models import Caixa
-        if not Caixa.objects.filter(status=1).exists() and not self.pk:
-            raise ValidationError(_(u"Não há caixa aberto. Para efetivar um pagamento é necessário ter o caixa aberto."))
+        # from caixa.models import Caixa
+        # if not Caixa.objects.filter(status=1).exists() and not self.pk:
+        #     raise ValidationError(_(u"Não há caixa aberto. Para efetivar um pagamento é necessário ter o caixa aberto."))
 
-        if not Caixa.objects.filter(status=1).exists() and self.pk:
-            raise ValidationError(_(u"Não há caixa aberto. Alterações num pagamento só podem ser efetivados após a abertura do caixa."))
+        # if not Caixa.objects.filter(status=1).exists() and self.pk:
+        #     raise ValidationError(_(u"Não há caixa aberto. Alterações num pagamento só podem ser efetivados após a abertura do caixa."))
 
-        # Checa a situação do valor do pagamento
-        from configuracoes.models import *
-        perc_valor_minimo_pagamento = Parametrizacao.objects.all().values_list('perc_valor_minimo_pagamento')[0][0]
+        # # Checa a situação do valor do pagamento
+        # from configuracoes.models import *
+        # perc_valor_minimo_pagamento = Parametrizacao.objects.all().values_list('perc_valor_minimo_pagamento')[0][0]
         
-        parcela = ParcelasContasPagar.objects.get(pk=self.parcelas_contas_pagar.pk)
-        valor_minimo_pagamento = round((parcela.valor_total() * perc_valor_minimo_pagamento) / 100, 2)
-        primeiro_pagamento = Pagamento.objects.filter(parcelas_contas_pagar=self.parcelas_contas_pagar.pk).exists()
-        if self.valor < valor_minimo_pagamento and not primeiro_pagamento:
-            raise ValidationError(_(u"Primeiro pagamento deve ser de no mínimo %(perc_valor_minimo)s%% do valor da parcela. Valor mínimo: %(valor_minimo)s.") % {'perc_valor_minimo': perc_valor_minimo_pagamento, 'valor_minimo': valor_minimo_pagamento})
+        # parcela = ParcelasContasPagar.objects.get(pk=self.parcelas_contas_pagar.pk)
+        # valor_minimo_pagamento = round((parcela.valor_total() * perc_valor_minimo_pagamento) / 100, 2)
+        # primeiro_pagamento = Pagamento.objects.filter(parcelas_contas_pagar=self.parcelas_contas_pagar.pk).exists()
+        # if self.valor < valor_minimo_pagamento and not primeiro_pagamento:
+        #     raise ValidationError(_(u"Primeiro pagamento deve ser de no mínimo %(perc_valor_minimo)s%% do valor da parcela. Valor mínimo: %(valor_minimo)s.") % {'perc_valor_minimo': perc_valor_minimo_pagamento, 'valor_minimo': valor_minimo_pagamento})
 
 
     def save(self, *args, **kwargs):

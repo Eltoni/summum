@@ -1,5 +1,5 @@
 #-*- coding: UTF-8 -*-
-from models import *
+from pessoal.models import *
 from django import forms
 from suit.widgets import LinkedSelect, NumberInput, AutosizedTextarea
 from localflavor.br.forms import BRStateChoiceField, BRPhoneNumberField, BRCPFField, BRZipCodeField, BRCNPJField

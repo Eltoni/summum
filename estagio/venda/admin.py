@@ -1,13 +1,13 @@
 #-*- coding: UTF-8 -*-
 from django.contrib import admin
-from models import *
-from forms import *
+from venda.models import *
+from venda.forms import *
 from django.http import HttpResponseRedirect
 from configuracoes.models import Parametrizacao
 from salmonella.admin import SalmonellaMixin
 from django.utils.translation import ugettext_lazy as _
 from import_export.admin import ExportMixin
-from export import VendaResource, EntregaVendaResource
+from venda.export import VendaResource, EntregaVendaResource
 from daterange_filter.filter import DateRangeFilter
 from selectable_filter.filter import SelectableFilter
 

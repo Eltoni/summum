@@ -18,7 +18,7 @@ django-smart-selects==1.0.9.3
 django-suit==0.2.13
 django-suit-redactor==0.0.2
 docutils==0.12
-mysql-python==1.2.5
+mysqlclient==1.3.6
 python-nvd3==0.13.10
 python-slugify==0.1.0
 pytz==2015.2

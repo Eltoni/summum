@@ -1,10 +1,10 @@
 #-*- coding: UTF-8 -*-
 from django.contrib import admin
-from models import *
+from caixa.models import *
 from django.core.mail import EmailMultiAlternatives
 from django.utils.translation import ugettext_lazy as _
 from import_export.admin import ExportMixin
-from export import CaixaResource, MovimentosCaixaResource
+from caixa.export import CaixaResource, MovimentosCaixaResource
 from decimal import Decimal
 from django.contrib.auth.models import Permission
 from django.contrib.auth.models import User

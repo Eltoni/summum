@@ -1,7 +1,7 @@
 from selectable.base import ModelLookup
 from selectable.registry import registry
 from selectable.decorators import login_required
-from models import Marca, Categoria
+from movimento.models import Marca, Categoria
 
 @login_required
 class CategoriasLookup(ModelLookup):

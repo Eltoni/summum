@@ -1,14 +1,14 @@
 #-*- coding: UTF-8 -*-
 from django.contrib import admin
-from models import *
-from forms import *
+from contas_receber.models import *
+from contas_receber.forms import *
 from django.http import HttpResponseRedirect
 from django.conf.urls import patterns
-from views import retorna_recebimentos_parcela, retorna_recebimentos_conta
+from contas_receber.views import retorna_recebimentos_parcela, retorna_recebimentos_conta
 from salmonella.admin import SalmonellaMixin
 from django.utils.translation import ugettext_lazy as _
 from import_export.admin import ExportMixin
-from export import ContasReceberResource
+from contas_receber.export import ContasReceberResource
 from daterange_filter.filter import DateRangeFilter
 
 

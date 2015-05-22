@@ -1,10 +1,10 @@
 #-*- coding: UTF-8 -*-
 from django.contrib import admin
-from models import *
-from forms import *
+from pessoal.models import *
+from pessoal.forms import *
 from import_export.admin import ExportMixin
 from sorl.thumbnail.admin import AdminImageMixin
-from export import ClienteResource, FornecedorResource, FuncionarioResource, CargoResource
+from pessoal.export import ClienteResource, FornecedorResource, FuncionarioResource, CargoResource
 from contas_receber.models import ContasReceber, ParcelasContasReceber
 from contas_pagar.models import ContasPagar, ParcelasContasPagar
 from django.contrib.admin.views.main import IS_POPUP_VAR

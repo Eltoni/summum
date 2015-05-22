@@ -1,12 +1,12 @@
 #-*- coding: UTF-8 -*-
 from django.contrib import admin
 from import_export.admin import ExportMixin
-from export import ProdutosResource
+from movimento.export import ProdutosResource
 from app_global.admin import GlobalAdmin
 from django.contrib.admin.views.main import IS_POPUP_VAR
 from sorl.thumbnail.admin import AdminImageMixin
 from salmonella.admin import SalmonellaMixin
-from models import *
+from movimento.models import *
 from django.utils.translation import ugettext_lazy as _
 from selectable_filter.filter import SelectableFilter
 

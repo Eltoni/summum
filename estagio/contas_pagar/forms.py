@@ -2,7 +2,7 @@
 from django.forms import ModelForm, CheckboxInput
 from suit.widgets import NumberInput
 from django.forms import forms
-from models import *
+from contas_pagar.models import *
 
 
 class ContasPagarForm(ModelForm):

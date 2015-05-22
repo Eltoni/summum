@@ -1,6 +1,6 @@
 #-*- coding: UTF-8 -*-
 from import_export import resources
-from models import ContasReceber
+from contas_receber.models import ContasReceber
 from decimal import Decimal
 
 #classe usada pelo import_export

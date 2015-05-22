@@ -1,5 +1,5 @@
 #-*- coding: UTF-8 -*-
-from models import Cliente, Fornecedor, Funcionario, Cargo
+from pessoal.models import Cliente, Fornecedor, Funcionario, Cargo
 from import_export import resources
 from import_export import fields
 

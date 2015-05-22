@@ -1,7 +1,7 @@
 #-*- coding: UTF-8 -*-
 from django.forms import ModelForm
 from suit.widgets import NumberInput
-from models import *
+from configuracoes.models import *
 from suit_redactor.widgets import RedactorWidget
 
 

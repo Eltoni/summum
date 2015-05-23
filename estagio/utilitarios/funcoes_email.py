@@ -1,6 +1,8 @@
 #-*- coding: UTF-8 -*-
+from datetime import date
         
 class TextosEmail(object):
+    ano_atual = date.today().year
     
     headerEmailInterno = u'<div style="color:#fff; font-size: 18px; text-shadow: 0 -1px #121414;\
                             background-color: #373b3d; padding: 10px;">Sistema de Controle</div><hr>'
@@ -11,10 +13,10 @@ class TextosEmail(object):
                             text-shadow: 0 1px rgba(255,255,255,0.5); height:60px;">\
                             <div style="border-top: 5px solid #e1e3e5;">\
                             <div style="padding: 9px 20px 0 0; float: right;text-align: right;">\
-                                Copyright © 2015 Versão - Estágio\
+                                Copyright © %(ano_atual)s Versão - Estágio\
                             </div>\
                             <div style="padding: 15px 0 0 0; margin: 0 auto; width: 200px;text-align: center;">\
                                 Sistema de Controle\
                             </div>\
                             </div>\
-                            </div>'
+                            </div>' % {'ano_atual': ano_atual}

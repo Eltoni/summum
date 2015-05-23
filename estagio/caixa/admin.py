@@ -90,7 +90,7 @@ class CaixaAdmin(ExportMixin, admin.ModelAdmin):
                              <br> \
                              <a href="http://%(url)s/%(caixa)s" target="_blank">Caixa %(caixa)s</a>\
                              <p>Valor inicial de <strong>R$%(valor_inicial)s</strong>.</p> \
-                             <p>Data de abertura <strong>R$%(data_abertura)s</strong>.</p> \
+                             <p>Data de abertura <strong>%(data_abertura)s</strong>.</p> \
                              <br>%(texto_customizado)s \
                              %(footer)s'\
                              % {'nome': request.user.first_name, 

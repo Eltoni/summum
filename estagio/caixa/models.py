@@ -7,8 +7,10 @@ from django.db.models.signals import post_save
 from datetime import datetime
 from decimal import Decimal
 from django.utils.translation import ugettext_lazy as _
+from django.utils.encoding import python_2_unicode_compatible
 
 
+@python_2_unicode_compatible
 class Caixa(models.Model):
     u"""
     : status            : indica se o caixa está aberto/fechado
@@ -42,8 +44,16 @@ class Caixa(models.Model):
                        (u"recebe_notificacoes_caixa", _(u"Receber notificações de caixa.")),)
 
 
-    def __unicode__(self):
+    def __str__(self):
         return u'%s' % (self.id)
+
+
+    def formata_data_fechamento(self):
+        if self.data_fechamento:
+            return self.data_fechamento
+        return '-'
+    formata_data_fechamento.allow_tags = True
+    formata_data_fechamento.short_description = _(u"Data de fechamento")
         
 
     def save(self, *args, **kwargs):
@@ -87,6 +97,7 @@ class Caixa(models.Model):
 
 
 
+@python_2_unicode_compatible
 class MovimentosCaixa(models.Model):
     descricao = models.CharField(max_length=100, verbose_name=_(u"Descrição"))
     valor = models.CharField(max_length=45, verbose_name=_(u"Valor"))
@@ -101,7 +112,7 @@ class MovimentosCaixa(models.Model):
         verbose_name_plural = _(u"Movimentos de Caixas")
         permissions = ((u"pode_exportar_movimentoscaixa", _(u"Exportar Movimentos de Caixas")),)
 
-    def __unicode__(self):
+    def __str__(self):
         return u'%s' % (self.id)
 
     def pagamento_associado(self):

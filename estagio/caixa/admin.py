@@ -17,7 +17,7 @@ from configuracoes.models import Parametrizacao
 class CaixaAdmin(ExportMixin, admin.ModelAdmin):
     resource_class = CaixaResource
     model = Caixa
-    list_display = ('id', 'data_abertura', 'data_fechamento', 'diferenca', 'status')
+    list_display = ('id', 'data_abertura', 'formata_data_fechamento', 'diferenca', 'status')
     list_filter = (('data_fechamento', DateRangeFilter),)
     date_hierarchy = 'data_abertura'
     
@@ -90,7 +90,7 @@ class CaixaAdmin(ExportMixin, admin.ModelAdmin):
                              <br> \
                              <a href="http://%(url)s/%(caixa)s" target="_blank">Caixa %(caixa)s</a>\
                              <p>Valor inicial de <strong>R$%(valor_inicial)s</strong>.</p> \
-                             <p>Data de abertura <strong>R$%(data_abertura)s</strong>.</p> \
+                             <p>Data de abertura <strong>%(data_abertura)s</strong>.</p> \
                              <br>%(texto_customizado)s \
                              %(footer)s'\
                              % {'nome': request.user.first_name, 
@@ -98,7 +98,7 @@ class CaixaAdmin(ExportMixin, admin.ModelAdmin):
                                 'valor_inicial': Decimal(obj.valor_inicial).quantize(Decimal("0.00")),
                                 'url': request.META['HTTP_HOST'] + '/' + obj._meta.app_label + '/' + obj._meta.model_name,
                                 'caixa': obj.pk,
-                                'data_abertura': obj.data_abertura.strftime('%d/%m/%Y às %H:%M:%S').decode('utf-8'),
+                                'data_abertura': obj.data_abertura.strftime('%d/%m/%Y às %H:%M:%S'),
                                 'header': TextosEmail.headerEmailInterno,
                                 'footer': TextosEmail.footerEmailInterno,
                                 'texto_customizado': mensagem_customizada

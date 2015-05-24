@@ -12,8 +12,11 @@ from django.db.models import Sum
 from django.core.urlresolvers import reverse
 from django.utils.html import format_html
 from django.utils.translation import ugettext_lazy as _
+from django.utils.encoding import python_2_unicode_compatible
+from configuracoes.models import *
 
 
+@python_2_unicode_compatible
 class ContasReceber(models.Model):
     u""" 
     Classe ContasReceber. 
@@ -40,16 +43,15 @@ class ContasReceber(models.Model):
         """ 
         Bloqueia o registro de uma conta a receber quando não há caixa aberto.
         """
-        pass
-        # from caixa.models import Caixa
-        # if not Caixa.objects.filter(status=1).exists() and not self.pk:
-        #     raise ValidationError(_(u"Não há caixa aberto. Para efetivar um cadastro de uma conta a receber avulsa, é necessário ter o caixa aberto."))
+        from caixa.models import Caixa
+        if not Caixa.objects.filter(status=1).exists() and not self.pk:
+            raise ValidationError(_(u"Não há caixa aberto. Para efetivar um cadastro de uma conta a receber avulsa, é necessário ter o caixa aberto."))
 
-        # if not Caixa.objects.filter(status=1).exists() and self.pk:
-        #     raise ValidationError(_(u"Não há caixa aberto. Alterações numa conta a receber só podem ser efetivadas após a abertura do caixa."))
+        if not Caixa.objects.filter(status=1).exists() and self.pk:
+            raise ValidationError(_(u"Não há caixa aberto. Alterações numa conta a receber só podem ser efetivadas após a abertura do caixa."))
 
 
-    def __unicode__(self):
+    def __str__(self):
         return u'%s' % (self.id)
 
 
@@ -112,7 +114,8 @@ class ContasReceber(models.Model):
 
     def valor_total_recebido(self):
 
-        valor_recebido = Recebimento.objects.filter(parcelas_contas_receber__contas_receber=self.pk).aggregate(Sum('valor')).items()[0][1]
+        valor_recebido = Recebimento.objects.filter(parcelas_contas_receber__contas_receber=self.pk).aggregate(Sum('valor'))
+        valor_recebido = valor_recebido["valor__sum"]
         return valor_recebido or Decimal(0.00).quantize(Decimal("0.00"))
     valor_total_recebido.short_description = _(u"Valor total recebido")
 
@@ -196,7 +199,7 @@ class ContasReceber(models.Model):
 
         if (num_parcela + 1) == quant_parc:
             soma_parcelas = valor_parcela * num_parcela
-            valor_parcela = float(total) - soma_parcelas
+            valor_parcela = Decimal(total).quantize(Decimal("0.00")) - soma_parcelas
             return valor_parcela
         else:
             return valor_parcela
@@ -260,6 +263,7 @@ class ContasReceber(models.Model):
 
 
 
+@python_2_unicode_compatible
 class ParcelasContasReceber(models.Model):
     u""" 
     Classe ParcelasContasReceber. 
@@ -278,7 +282,7 @@ class ParcelasContasReceber(models.Model):
         verbose_name_plural = _(u"Parcelas de Contas à Receber")
 
 
-    def __unicode__(self):
+    def __str__(self):
         return u'%s' % (self.id)
 
 
@@ -372,13 +376,15 @@ class ParcelasContasReceber(models.Model):
 
     def valor_pago(self):
 
-        valor_pago = Recebimento.objects.filter(parcelas_contas_receber=self.pk).aggregate(Sum('valor')).items()[0][1]
+        valor_pago = Recebimento.objects.filter(parcelas_contas_receber=self.pk).aggregate(Sum('valor'))
+        valor_pago = valor_pago["valor__sum"]
         return valor_pago or Decimal(0.00).quantize(Decimal("0.00"))
     valor_pago.short_description = _(u"Valor Pago")
 
 
     def valor_a_receber(self):
-        parcela_recebimentos = Recebimento.objects.filter(parcelas_contas_receber=self.pk).aggregate(Sum('valor')).items()[0][1]
+        parcela_recebimentos = Recebimento.objects.filter(parcelas_contas_receber=self.pk).aggregate(Sum('valor'))
+        parcela_recebimentos = parcela_recebimentos["valor__sum"]
         valor_a_receber = Decimal(self.valor_total()).quantize(Decimal("0.00")) - (Decimal(0.00).quantize(Decimal("0.00")) if not parcela_recebimentos else parcela_recebimentos)
         return valor_a_receber
     valor_a_receber.short_description = _(u"Valor a Receber")
@@ -459,6 +465,7 @@ class ParcelasContasReceber(models.Model):
 
 
 
+@python_2_unicode_compatible
 class Recebimento(models.Model):
     u""" 
     Classe Recebimento. 
@@ -480,7 +487,7 @@ class Recebimento(models.Model):
         verbose_name_plural = _(u"Recebimentos")
 
 
-    def __unicode__(self):
+    def __str__(self):
         return u'%s' % (self.id)
 
 
@@ -492,24 +499,22 @@ class Recebimento(models.Model):
         Bloqueia a tentativa de efetuar um recebimento enquanto não houver caixa aberto no sistema.
         Bloqueia quaisquer alterações num registro de recebimento enquanto não houver caixa aberto no sistema.
         """
-        pass
         # Checa a situação do caixa
-        # from caixa.models import Caixa
-        # if not Caixa.objects.filter(status=1).exists() and not self.pk:
-        #     raise ValidationError(_(u"Não há caixa aberto. Para efetivar um recebimento é necessário ter o caixa aberto."))
+        from caixa.models import Caixa
+        if not Caixa.objects.filter(status=1).exists() and not self.pk:
+            raise ValidationError(_(u"Não há caixa aberto. Para efetivar um recebimento é necessário ter o caixa aberto."))
 
-        # if not Caixa.objects.filter(status=1).exists() and self.pk:
-        #     raise ValidationError(_(u"Não há caixa aberto. Alterações num recebimento só podem ser efetivados após a abertura do caixa."))
+        if not Caixa.objects.filter(status=1).exists() and self.pk:
+            raise ValidationError(_(u"Não há caixa aberto. Alterações num recebimento só podem ser efetivados após a abertura do caixa."))
 
-        # # Checa a situação do valor do recebimento
-        # from configuracoes.models import *
-        # perc_valor_minimo_recebimento = Parametrizacao.objects.all().values_list('perc_valor_minimo_pagamento')[0][0]
+        # Checa a situação do valor do recebimento
+        perc_valor_minimo_recebimento = Parametrizacao.objects.all().values_list('perc_valor_minimo_pagamento')[0][0]
         
-        # parcela = ParcelasContasReceber.objects.get(pk=self.parcelas_contas_receber.pk)
-        # valor_minimo_recebimento = round((parcela.valor_total() * perc_valor_minimo_recebimento) / 100, 2)
-        # primeiro_recebimento = Recebimento.objects.filter(parcelas_contas_receber=self.parcelas_contas_receber.pk).exists()
-        # if self.valor < valor_minimo_recebimento and not primeiro_recebimento:
-        #     raise ValidationError(_(u"Primeiro recebimento deve ser de no mínimo %(perc_valor_minimo)s%% do valor da parcela. Valor mínimo: %(valor_minimo)s.") % {'perc_valor_minimo': perc_valor_minimo_recebimento, 'valor_minimo': valor_minimo_recebimento})
+        parcela = ParcelasContasReceber.objects.get(pk=self.parcelas_contas_receber.pk)
+        valor_minimo_recebimento = round((parcela.valor_total() * perc_valor_minimo_recebimento) / 100, 2)
+        primeiro_recebimento = Recebimento.objects.filter(parcelas_contas_receber=self.parcelas_contas_receber.pk).exists()
+        if self.valor < valor_minimo_recebimento and not primeiro_recebimento:
+            raise ValidationError(_(u"Primeiro recebimento deve ser de no mínimo %(perc_valor_minimo)s%% do valor da parcela. Valor mínimo: %(valor_minimo)s.") % {'perc_valor_minimo': perc_valor_minimo_recebimento, 'valor_minimo': valor_minimo_recebimento})
 
 
     def save(self, *args, **kwargs):

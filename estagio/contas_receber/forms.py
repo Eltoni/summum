@@ -1,6 +1,6 @@
 #-*- coding: UTF-8 -*-
 from django.forms import ModelForm, CheckboxInput
-from suit.widgets import NumberInput
+from suit.widgets import NumberInput, SuitDateWidget
 from django.forms import forms
 from contas_receber.models import *
 
@@ -28,6 +28,12 @@ class ContasReceberForm(ModelForm):
         except GrupoEncargo.DoesNotExist and KeyError:
             pass
 
+    class Meta:
+        widgets = {
+            'data': SuitDateWidget,
+        }
+
+        
 
 class RecebimentoForm(ModelForm):
     u""" 

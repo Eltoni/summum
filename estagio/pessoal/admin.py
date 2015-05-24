@@ -128,6 +128,7 @@ class EnderecoEntregaClienteInline(admin.StackedInline):
 class ClienteAdmin(ExportMixin, BaseCadastroPessoaAdmin):
     resource_class = ClienteResource
     model = Cliente
+    form = ClienteForm
     readonly_fields = ('status_financeiro', 'id', 'data', 'formata_data_nascimento')
     list_display = ('nome', 'email', 'data', 'status_financeiro',)
     list_filter = (('cidade', SelectableFilter), 'status', StatusFinanceiroFilter)
@@ -144,7 +145,7 @@ class ClienteAdmin(ExportMixin, BaseCadastroPessoaAdmin):
             }),
             (None, {
                 'classes': ('suit-tab suit-tab-identidade',),
-                'fields': ('cpf', 'rg', 'data_nasc', 'formata_data_nascimento')
+                'fields': ('tipo_pessoa', 'cnpj', 'razao_social', 'cpf', 'rg', 'data_nasc', 'formata_data_nascimento')
             }),
             ('Dados bancários', {
                 'classes': ('suit-tab suit-tab-identidade',),
@@ -177,6 +178,17 @@ class ClienteAdmin(ExportMixin, BaseCadastroPessoaAdmin):
             self.suit_form_tabs += insert_into_suit_form_tabs
 
         return super(ClienteAdmin, self).get_form(request, obj, **kwargs)
+
+
+    def save_model(self, request, obj, form, change):
+        # Trata o save no banco de dados para que o registro que seja de pessoa física não seja salvo com dados de pessoa jurídica e vice-versa
+        if obj.tipo_pessoa == 'PJ':
+            obj.cpf = None
+        else:
+            obj.cnpj = None
+            obj.razao_social = None
+
+        obj.save()
 
 
     # trata as inlines que aparecem no resumo financeiro dos clientes

@@ -1,0 +1,20 @@
+input[type="radio"] {
+    vertical-align: text-bottom;
+}
+
+input[type="radio"][value=""], li label[for="id_sexo_0"] {
+    display: none;
+}
+
+ul#id_tipo_pessoa, ul#id_sexo {
+    width: 50%;
+    display: flex;
+    position: relative;
+    float: left;
+    list-style-type: none;
+    margin-left: auto;
+}
+
+ul#id_tipo_pessoa li, ul#id_sexo li {
+    padding-right: 25px;
+}

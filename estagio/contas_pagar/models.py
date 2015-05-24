@@ -12,8 +12,11 @@ from django.db.models import Sum
 from django.core.urlresolvers import reverse
 from django.utils.html import format_html
 from django.utils.translation import ugettext_lazy as _
+from django.utils.encoding import python_2_unicode_compatible
+from configuracoes.models import *
 
 
+@python_2_unicode_compatible
 class ContasPagar(models.Model):
     u""" 
     Classe ContasPagar. 
@@ -40,16 +43,15 @@ class ContasPagar(models.Model):
         u""" 
         Bloqueia o registro de uma conta a pagar avulsa quando não há caixa aberto.
         """
-        pass
-        # from caixa.models import Caixa
-        # if not Caixa.objects.filter(status=1).exists() and not self.pk:
-        #     raise ValidationError(_(u"Não há caixa aberto. Para efetivar um cadastro de uma conta a pagar avulsa, é necessário ter o caixa aberto."))
+        from caixa.models import Caixa
+        if not Caixa.objects.filter(status=1).exists() and not self.pk:
+            raise ValidationError(_(u"Não há caixa aberto. Para efetivar um cadastro de uma conta a pagar avulsa, é necessário ter o caixa aberto."))
 
-        # if not Caixa.objects.filter(status=1).exists() and self.pk:
-        #     raise ValidationError(_(u"Não há caixa aberto. Alterações numa conta a pagar só podem ser efetivadas após a abertura do caixa."))
+        if not Caixa.objects.filter(status=1).exists() and self.pk:
+            raise ValidationError(_(u"Não há caixa aberto. Alterações numa conta a pagar só podem ser efetivadas após a abertura do caixa."))
 
 
-    def __unicode__(self):
+    def __str__(self):
         return u'%s' % (self.id)
 
 
@@ -112,7 +114,8 @@ class ContasPagar(models.Model):
 
     def valor_total_pago(self):
 
-        valor_pago = Pagamento.objects.filter(parcelas_contas_pagar__contas_pagar=self.pk).aggregate(Sum('valor')).items()[0][1]
+        valor_pago = Pagamento.objects.filter(parcelas_contas_pagar__contas_pagar=self.pk).aggregate(Sum('valor'))
+        valor_pago = valor_pago["valor__sum"]
         return valor_pago or Decimal(0.00).quantize(Decimal("0.00"))
     valor_total_pago.short_description = _(u"Valor total pago")
 
@@ -197,7 +200,7 @@ class ContasPagar(models.Model):
 
         if (num_parcela + 1) == quant_parc:
             soma_parcelas = valor_parcela * num_parcela
-            valor_parcela = float(total) - soma_parcelas
+            valor_parcela = Decimal(total).quantize(Decimal("0.00")) - soma_parcelas
             return valor_parcela
         else:
             return valor_parcela
@@ -261,6 +264,7 @@ class ContasPagar(models.Model):
 
 
 
+@python_2_unicode_compatible
 class ParcelasContasPagar(models.Model):
     u""" 
     Classe ParcelasContasPagar. 
@@ -279,7 +283,7 @@ class ParcelasContasPagar(models.Model):
         verbose_name_plural = _(u"Parcelas de Contas à Pagar")
 
 
-    def __unicode__(self):
+    def __str__(self):
         return u'%s' % (self.id)
 
 
@@ -373,13 +377,15 @@ class ParcelasContasPagar(models.Model):
 
     def valor_pago(self):
 
-        valor_pago = Pagamento.objects.filter(parcelas_contas_pagar=self.pk).aggregate(Sum('valor')).items()[0][1]
+        valor_pago = Pagamento.objects.filter(parcelas_contas_pagar=self.pk).aggregate(Sum('valor'))
+        valor_pago = valor_pago["valor__sum"]
         return valor_pago or Decimal(0.00).quantize(Decimal("0.00"))
     valor_pago.short_description = _(u"Valor Pago")
 
 
     def valor_a_pagar(self):
-        parcela_pagamentos = Pagamento.objects.filter(parcelas_contas_pagar=self.pk).aggregate(Sum('valor')).items()[0][1]
+        parcela_pagamentos = Pagamento.objects.filter(parcelas_contas_pagar=self.pk).aggregate(Sum('valor'))
+        parcela_pagamentos = parcela_pagamentos["valor__sum"]
         valor_a_pagar = Decimal(self.valor_total()).quantize(Decimal("0.00")) - (Decimal(0.00).quantize(Decimal("0.00")) if not parcela_pagamentos else parcela_pagamentos)
         return valor_a_pagar
     valor_a_pagar.short_description = _(u"Valor a Pagar")
@@ -450,6 +456,7 @@ class ParcelasContasPagar(models.Model):
 
 
 
+@python_2_unicode_compatible
 class Pagamento(models.Model):
     u""" 
     Classe Pagamento. 
@@ -467,7 +474,7 @@ class Pagamento(models.Model):
     desconto = models.DecimalField(max_digits=20, decimal_places=2, blank=True, null=True, verbose_name=_(u"Desconto"))
     parcelas_contas_pagar = models.ForeignKey(ParcelasContasPagar, on_delete=models.PROTECT, verbose_name=_(u"Pagamento de parcela"))
     
-    def __unicode__(self):
+    def __str__(self):
         return u'%s' % (self.id)
 
 
@@ -479,24 +486,22 @@ class Pagamento(models.Model):
         Bloqueia a tentativa de efetuar um pagamento enquanto não houver caixa aberto no sistema.
         Bloqueia quaisquer alterações num registro de pagamento enquanto não houver caixa aberto no sistema.
         """
-        pass
         # Checa a situação do caixa
-        # from caixa.models import Caixa
-        # if not Caixa.objects.filter(status=1).exists() and not self.pk:
-        #     raise ValidationError(_(u"Não há caixa aberto. Para efetivar um pagamento é necessário ter o caixa aberto."))
+        from caixa.models import Caixa
+        if not Caixa.objects.filter(status=1).exists() and not self.pk:
+            raise ValidationError(_(u"Não há caixa aberto. Para efetivar um pagamento é necessário ter o caixa aberto."))
 
-        # if not Caixa.objects.filter(status=1).exists() and self.pk:
-        #     raise ValidationError(_(u"Não há caixa aberto. Alterações num pagamento só podem ser efetivados após a abertura do caixa."))
+        if not Caixa.objects.filter(status=1).exists() and self.pk:
+            raise ValidationError(_(u"Não há caixa aberto. Alterações num pagamento só podem ser efetivados após a abertura do caixa."))
 
-        # # Checa a situação do valor do pagamento
-        # from configuracoes.models import *
-        # perc_valor_minimo_pagamento = Parametrizacao.objects.all().values_list('perc_valor_minimo_pagamento')[0][0]
+        # Checa a situação do valor do pagamento
+        perc_valor_minimo_pagamento = Parametrizacao.objects.all().values_list('perc_valor_minimo_pagamento')[0][0]
         
-        # parcela = ParcelasContasPagar.objects.get(pk=self.parcelas_contas_pagar.pk)
-        # valor_minimo_pagamento = round((parcela.valor_total() * perc_valor_minimo_pagamento) / 100, 2)
-        # primeiro_pagamento = Pagamento.objects.filter(parcelas_contas_pagar=self.parcelas_contas_pagar.pk).exists()
-        # if self.valor < valor_minimo_pagamento and not primeiro_pagamento:
-        #     raise ValidationError(_(u"Primeiro pagamento deve ser de no mínimo %(perc_valor_minimo)s%% do valor da parcela. Valor mínimo: %(valor_minimo)s.") % {'perc_valor_minimo': perc_valor_minimo_pagamento, 'valor_minimo': valor_minimo_pagamento})
+        parcela = ParcelasContasPagar.objects.get(pk=self.parcelas_contas_pagar.pk)
+        valor_minimo_pagamento = round((parcela.valor_total() * perc_valor_minimo_pagamento) / 100, 2)
+        primeiro_pagamento = Pagamento.objects.filter(parcelas_contas_pagar=self.parcelas_contas_pagar.pk).exists()
+        if self.valor < valor_minimo_pagamento and not primeiro_pagamento:
+            raise ValidationError(_(u"Primeiro pagamento deve ser de no mínimo %(perc_valor_minimo)s%% do valor da parcela. Valor mínimo: %(valor_minimo)s.") % {'perc_valor_minimo': perc_valor_minimo_pagamento, 'valor_minimo': valor_minimo_pagamento})
 
 
     def save(self, *args, **kwargs):

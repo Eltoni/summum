@@ -75,5 +75,6 @@
 
 {# Footer copyright (right side) #}
 {% block copyright %}
-Copyright &copy; 2015 {% trans 'Versão' %} - Estágio<br>{% trans 'Desenvolvido por ' %}<a href="http://gustavosdo.github.io/" target="_blank">Gustavo Santana</a>
+    Copyright &copy; {% now "Y" %} {% trans 'Versão' %} - Estágio<br>
+    {% trans 'Desenvolvido por ' %} <a href="http://gustavosdo.github.io/" target="_blank">Gustavo Santana</a>
 {% endblock %}

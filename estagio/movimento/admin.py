@@ -9,6 +9,7 @@ from salmonella.admin import SalmonellaMixin
 from movimento.models import *
 from django.utils.translation import ugettext_lazy as _
 from selectable_filter.filter import SelectableFilter
+from configuracoes.models import OrdemModelos
 
 
 class MarcaAdmin(AdminImageMixin, admin.ModelAdmin):
@@ -27,7 +28,11 @@ class ProdutosAdmin(ExportMixin, SalmonellaMixin, AdminImageMixin, GlobalAdmin):
     filter_horizontal = ('categorias',)
     salmonella_fields = ('marca',)
     popup_list_display = ('nome', 'marca', 'quantidade', 'descricao')
-    list_display = ('nome', 'quantidade', 'descricao', 'status')
+
+    lista = list(OrdemModelos.objects.filter(classe='Produtos', exibe_listagem_principal=True).values_list('campo', flat=True).order_by('ordem'))
+    print (lista)
+    list_display = lista
+    # list_display = ('nome', 'quantidade', 'descricao', 'status')
     list_filter = (('categorias', SelectableFilter), ('marca', SelectableFilter), 'status')
     search_fields = ['nome',]
     readonly_fields = ('quantidade',)

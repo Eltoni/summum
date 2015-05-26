@@ -66,3 +66,22 @@ class Parametrizacao(models.Model):
 
     def __str__(self):
         return u'%s' % self.id
+
+
+
+@python_2_unicode_compatible
+class OrdemModelos(models.Model):
+    campo = models.CharField(max_length=50)
+    classe = models.CharField(max_length=50)
+    ordem = models.PositiveIntegerField(default=0)
+    exibe_listagem_principal = models.BooleanField(default=False)
+    permite_exportar = models.BooleanField(default=False)
+    parametrizacao = models.ForeignKey(Parametrizacao, on_delete=models.PROTECT, null=True)
+
+    class Meta:
+        verbose_name = _(u"Ordenação do modelo")
+        verbose_name_plural = _(u"Ordenações dos modelos")
+
+
+    def __str__(self):
+        return u'%s' % self.id

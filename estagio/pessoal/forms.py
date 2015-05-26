@@ -6,21 +6,22 @@ from localflavor.br.forms import BRStateChoiceField, BRPhoneNumberField, BRCPFFi
 from django.forms import ModelForm, TextInput
 from django.utils.safestring import mark_safe
 from django.utils.translation import ugettext_lazy as _
+from pessoal.lookups import CidadeChainedLookup
+from selectable.forms import AutoCompleteSelectField, AutoComboboxSelectWidget
 
 
 class BaseCadastroPessoaForm(forms.ModelForm):
-    u""" 
-    Classe BaseCadastroPessoaForm. 
-    Criada para aplicar as customizações dos formulários da página administrativa do sistema.
-    Serve de base para todas as outras classes da aplicação Pessoal.
-    
-    Criada em 15/06/2014. 
-    Última alteração em 20/08/2014.
-    """
+    cidade = AutoCompleteSelectField(
+        lookup_class=CidadeChainedLookup,
+        label='Cidade',
+        required=True,
+        widget=AutoComboboxSelectWidget
+    )
 
     class Media:
         js = (
             '/static/js/mascaras_campos.js',
+            '/static/js/consulta_cidades.js',
         )
         # css personalizado
         css = {
@@ -127,6 +128,17 @@ class ClienteForm(BaseCadastroPessoaForm):
 
 
 class EnderecoEntregaClienteForm(forms.ModelForm):
+    cidade = AutoCompleteSelectField(
+        lookup_class=CidadeChainedLookup,
+        label='Cidade',
+        required=True,
+        widget=AutoComboboxSelectWidget
+    )
+
+    class Media:
+        js = (
+            '/static/js/consulta_cidades.js',
+        )
 
     class Meta:
         model = EnderecoEntregaCliente

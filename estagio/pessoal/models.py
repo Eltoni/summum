@@ -2,7 +2,6 @@
 from django.db import models
 from localidade.models import Cidade
 from django.contrib.auth.models import User
-from smart_selects.db_fields import ChainedForeignKey 
 from django.core.exceptions import ValidationError
 import datetime
 from datetime import date
@@ -59,7 +58,7 @@ class BaseCadastroPessoa(models.Model):
     bairro = models.CharField(max_length=50, verbose_name=_(u"Bairro"))
     complemento = models.CharField(max_length=50, blank=True, verbose_name=_(u"Complemento"))
     estado = models.CharField(max_length=2, blank=True, null=True, verbose_name=_(u"Estado"))
-    cidade = ChainedForeignKey(Cidade, on_delete=models.PROTECT, chained_field="estado", chained_model_field="estado", show_all=False, auto_choose=True, verbose_name=_(u"Cidade"))
+    cidade = models.ForeignKey(Cidade, on_delete=models.PROTECT, verbose_name=_(u"Cidade"))
     cep = models.CharField(max_length=9, verbose_name=_(u"CEP"))
     telefone = models.CharField(max_length=30, blank=True, verbose_name=_(u"Telefone"))
     celular = models.CharField(max_length=30, blank=True, verbose_name=_(u"Celular")) 
@@ -223,7 +222,7 @@ class EnderecoEntregaCliente(models.Model):
     bairro = models.CharField(max_length=50, verbose_name=_(u"Bairro"))
     complemento = models.CharField(max_length=50, blank=True, verbose_name=_(u"Complemento"))
     estado = models.CharField(max_length=2, blank=True, null=True, verbose_name=_(u"Estado"))
-    cidade = ChainedForeignKey(Cidade, on_delete=models.PROTECT, chained_field="estado", chained_model_field="estado", show_all=False, auto_choose=True, verbose_name=_(u"Cidade"))
+    cidade = models.ForeignKey(Cidade, on_delete=models.PROTECT, verbose_name=_(u"Cidade"))
     cep = models.CharField(max_length=9, verbose_name=_(u"CEP"))
     observacao = models.TextField(blank=True, verbose_name=_(u"Observações"))
     cliente = models.ForeignKey(Cliente, on_delete=models.PROTECT, verbose_name=_(u"Cliente"))

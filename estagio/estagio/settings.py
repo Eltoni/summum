@@ -219,6 +219,10 @@ SUIT_CONFIG = {
 # -----------
 SELECTABLE_MAX_LIMIT = 10
 
+# django daterange-filter
+# -----------
+DATE_RANGE_FILTER_USE_WIDGET_SUIT = True
+
 
 # Django Nvd3
 # -----------

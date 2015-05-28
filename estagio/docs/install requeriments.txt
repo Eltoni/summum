@@ -1,0 +1,8 @@
+:: clone do projeto no meu repositório
+pip install -e git://github.com/Gustavosdo/django-selectable-filter.git#egg=django-selectable-filter
+
+:: clone do projeto no meu repositório
+pip install -e git://github.com/Gustavosdo/django-datefilterspec.git#egg=django-datefilterspec
+
+
+pip install django django-daterange-filter django-debug-toolbar django-geoposition django-import-export django-localflavor django-salmonella django-selectable django-selectable-filter django-smart-selects django-suit django-suit-redactor docutils pytz sorl-thumbnail

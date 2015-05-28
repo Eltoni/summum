@@ -118,6 +118,7 @@ class ContasReceberInline(admin.TabularInline):
 class EnderecoEntregaClienteInline(admin.StackedInline):
     model = EnderecoEntregaCliente
     form = EnderecoEntregaClienteForm
+    template = "admin/pessoal/edit_inline/stacked.html"
     ordering = ("status", "pk",)
     suit_classes = 'suit-tab suit-tab-endereco'
     extra = 0

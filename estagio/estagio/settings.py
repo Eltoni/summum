@@ -55,7 +55,6 @@ INSTALLED_APPS = (
     'utilitarios',
     # Bibliotecas em uso pelo projeto
     'import_export',
-    'smart_selects',
     'salmonella',
     'djangobower',
     'django_nvd3',

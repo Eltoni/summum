@@ -134,6 +134,7 @@ class VendaAdmin(ExportMixin, SalmonellaMixin, admin.ModelAdmin):
     readonly_fields = ('data', 'vendedor', 'vendedor_associado')
     salmonella_fields = ('cliente', 'forma_pagamento', 'grupo_encargo',)
     
+    suit_js_include = 'js/inline_venda.js'
 
     def get_form(self, request, obj=None, **kwargs):
         self.inlines = [ 

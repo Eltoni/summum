@@ -57,6 +57,8 @@ class BaseCadastroPessoaAdmin(AdminImageMixin, GlobalAdmin):
         ('detalhes', _(u"Detalhes")),
     )
 
+    suit_js_include = 'js/inline_endereco.js'
+
     def suit_row_attributes(self, obj, request):
         rowclass = ''
         if not obj.status:

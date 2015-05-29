@@ -68,7 +68,8 @@ class CompraAdmin(ExportMixin, SalmonellaMixin, admin.ModelAdmin):
     readonly_fields = ('data',)
     salmonella_fields = ('fornecedor', 'forma_pagamento', 'grupo_encargo',)
     # raw_id_fields = ('fornecedor',)
-
+    suit_js_include = 'js/inline_compra.js'
+    
     def get_form(self, request, obj=None, **kwargs):
         self.suit_form_tabs = (
             ('geral', _(u"Geral")),

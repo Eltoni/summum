@@ -9,14 +9,9 @@
 
 {% for inline_admin_form in inline_admin_formset %}
 
-  <!--      
-      Início do Script que faz o tratamento de endereços do cliente
-      Autor: Gustavo Santana de Oliveira
-  -->
-  <script type="text/javascript" src="{% static 'js/inline_endereco.js' %}"></script>
-  <!--      
-      Fim do Script que faz o tratamento de endereços do cliente
-  -->
+    {% if adminform.model_admin.suit_js_include %}
+      <script type="text/javascript" src="{% static '' %}{{ adminform.model_admin.suit_js_include }}"></script>
+    {% endif %}
 
   <div class="inline-related{% if forloop.last %} empty-form last-related{% endif %}" id="{{ inline_admin_formset.formset.prefix }}-{% if not forloop.last %}{{ forloop.counter0 }}{% else %}empty{% endif %}">
   <h3><b>{{ inline_admin_formset.opts.verbose_name|title }}:</b>&nbsp;<span class="inline_label">{% if inline_admin_form.original %}{{ inline_admin_form.original }}{% else %}{% if not forloop.first and forloop.last %}#{{ forloop.counter }}{% endif %}{% endif %}</span>
@@ -76,8 +71,8 @@
                 }
             });
         };
-        var insereScriptInlineEndereco = function() {
-            $.getScript("{% static "js/inline_endereco.js" %}", function(){});
+        var insertSuitJSInclude = function() {
+            $.getScript("{% if adminform.model_admin.suit_js_include %}{% static "" %}{{ adminform.model_admin.suit_js_include }}{% endif %}", function(){});
         }
         $(rows).formset({
             prefix: "{{ inline_admin_formset.formset.prefix }}",
@@ -92,7 +87,7 @@
                 reinitDateTimeShortCuts();
                 updateSelectFilter();
                 updateInlineLabel(row);
-                insereScriptInlineEndereco();
+                insertSuitJSInclude();
                 Suit.after_inline.run("{{ inline_admin_formset.formset.prefix }}", row);
             })
         });

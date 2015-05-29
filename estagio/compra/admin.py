@@ -20,7 +20,7 @@ class ItensCompraInline(SalmonellaMixin, admin.TabularInline):
     can_delete = False
     fields = ('produto', 'quantidade', 'valor_unitario', 'desconto', 'valor_total')
     salmonella_fields = ('produto',)
-    template = "admin/compra/edit_inline/tabular.html"  # Chama o template personalizado para realizar da inline para fazer todo o tratamento necessário para a tela de compras
+    template = "admin/edit_inline/tabular.html"  # Chama o template personalizado para realizar da inline para fazer todo o tratamento necessário para a tela de compras
 
 
     def get_formset(self, request, obj=None, **kwargs): 

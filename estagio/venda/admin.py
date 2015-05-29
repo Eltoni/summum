@@ -89,7 +89,7 @@ class ItensVendaInline(SalmonellaMixin, admin.TabularInline):
     suit_classes = 'suit-tab suit-tab-geral'
     fields = ('produto', 'quantidade', 'valor_unitario', 'desconto', 'valor_total')
     salmonella_fields = ('produto',)
-    template = "admin/venda/edit_inline/tabular.html"  # Chama o template personalizado para realizar da inline para fazer todo o tratamento necessário para a tela de vendas
+    template = "admin/edit_inline/tabular.html"  # Chama o template personalizado para realizar da inline para fazer todo o tratamento necessário para a tela de vendas
 
 
     def get_formset(self, request, obj=None, **kwargs): 

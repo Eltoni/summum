@@ -1,6 +1,6 @@
 #-*- coding: UTF-8 -*-
 from import_export import resources
-from models import Produtos
+from movimento.models import Produtos
 from decimal import Decimal
 
 #classe usada pelo import_export

@@ -1,7 +1,7 @@
 #-*- coding: UTF-8 -*-
 from django.contrib import admin
-from models import *
-from forms import *
+from configuracoes.models import *
+from configuracoes.forms import *
 from django.utils.translation import ugettext_lazy as _
 
 

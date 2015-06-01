@@ -1,0 +1,26 @@
+{% extends "admin/index.html" %}
+
+{% load i18n admin_static %}
+{% load thumbnail %}
+
+{% block extrastyle %}
+  {{ block.super }}
+
+{% endblock %}
+
+
+{% block content %}
+
+  <div id="detalhe_financeiro-cliente">
+      <div id="content-main">
+        {% thumbnail cliente.foto "150x150" crop="center" as ft %}
+            <img src="{{ ft.url }}" width="{{ ft.width }}" height="{{ ft.height }}" class="thumbnail">
+        {% endthumbnail %}
+      </div>
+  </div>
+
+{% endblock %}
+
+
+{% block sidebar %}
+{% endblock %}

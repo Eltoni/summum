@@ -1,0 +1,38 @@
+input[type="radio"] {
+    vertical-align: text-bottom;
+}
+
+input[type="radio"][value=""], li label[for="id_sexo_0"] {
+    display: none;
+}
+
+ul#id_tipo_pessoa, ul#id_sexo {
+    width: 50%;
+    display: flex;
+    position: relative;
+    float: left;
+    list-style-type: none;
+    margin-left: auto;
+}
+
+ul#id_tipo_pessoa li, ul#id_sexo li {
+    padding-right: 25px;
+}
+
+
+/* Begin ::Django Selectable::; */
+a.ui-combo-button .ui-button-text {
+  margin-top: 2px;
+}
+.ui-button-icon-only {
+    width: 2.2em;
+    height: 2em;
+    bottom: 1px;
+}
+.ui-widget {
+    font-family: "Helvetica Neue",Helvetica,Arial,sans-serif !important;
+}
+ul.ui-autocomplete.ui-menu.ui-widget.ui-widget-content.ui-corner-all {
+    z-index: 2 !important;
+}
+/* End ::Django Selectable::; */

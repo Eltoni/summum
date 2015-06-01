@@ -1,33 +1,41 @@
 #-*- coding: UTF-8 -*-
-from models import *
+from pessoal.models import *
 from django import forms
-from suit.widgets import LinkedSelect, NumberInput, AutosizedTextarea
+from suit.widgets import LinkedSelect, NumberInput, AutosizedTextarea, SuitDateWidget
 from localflavor.br.forms import BRStateChoiceField, BRPhoneNumberField, BRCPFField, BRZipCodeField, BRCNPJField
 from django.forms import ModelForm, TextInput
 from django.utils.safestring import mark_safe
 from django.utils.translation import ugettext_lazy as _
+from pessoal.lookups import CidadeChainedLookup
+from selectable.forms import AutoCompleteSelectField, AutoComboboxSelectWidget
 
 
 class BaseCadastroPessoaForm(forms.ModelForm):
-    u""" 
-    Classe BaseCadastroPessoaForm. 
-    Criada para aplicar as customizações dos formulários da página administrativa do sistema.
-    Serve de base para todas as outras classes da aplicação Pessoal.
-    
-    Criada em 15/06/2014. 
-    Última alteração em 20/08/2014.
-    """
+    cidade = AutoCompleteSelectField(
+        lookup_class=CidadeChainedLookup,
+        label='Cidade',
+        required=True,
+        widget=AutoComboboxSelectWidget
+    )
 
     class Media:
         js = (
             '/static/js/mascaras_campos.js',
+            '/static/js/consulta_cidades.js',
         )
+        # css personalizado
+        css = {
+            'all': ('/static/css/formata_pessoal.css',)
+        }
         
     class Meta:
         model = BaseCadastroPessoa
         exclude = []
         
         widgets = {
+            'tipo_pessoa': forms.RadioSelect(),
+            'sexo': forms.RadioSelect(),
+            'data_nasc': SuitDateWidget,
             'observacao': AutosizedTextarea(attrs={'rows': 5, 'class': 'input-xxlarge', 'placeholder': '...'}),
             'numero': TextInput(attrs={'class': 'input-mini'}),
             # 'nome': TextInput(attrs={'autocomplete':'off'}),     # 'autocomplete':'off' > Desabilita o Auto-complete do campo pelo navegador
@@ -48,13 +56,6 @@ class BaseCadastroPessoaForm(forms.ModelForm):
         cpf = cpf.replace('.', '')
         cpf = cpf.replace('-', '')
         return cpf or None
-        
-
-
-# Personaliza o widget do RadioButton para ser mostrado horizontalmente
-class HorizontalRadioRenderer(forms.RadioSelect.renderer):
-    def render(self):
-        return mark_safe(u'\n'.join([u'%s\n' % unicode(w).replace('<label ', '<label class="radio inline" ') for w in self])+'&#xa0;')
 
 
 
@@ -69,22 +70,21 @@ class FornecedorForm(BaseCadastroPessoaForm):
     """
 
     class Media:
-        # java script personalizado
         js = (
             '/static/js/controle_campos_pf_pj.js',
+            '/static/js/formata_campos.js',
+            '/static/js/footable.js',
+            '/static/js/footable.paginate.js',
         )
-
-        # css personalizado
-        css = {
-            'all': ('/static/css/main.css',)
-        }
 
     class Meta:
         model = Fornecedor
         exclude = []
 
         widgets = {
-            'tipo_pessoa': forms.RadioSelect(renderer=HorizontalRadioRenderer),
+            'tipo_pessoa': forms.RadioSelect(),
+            'sexo': forms.RadioSelect(),
+            'data_nasc': SuitDateWidget,
             'observacao': AutosizedTextarea(attrs={'rows': 5, 'class': 'input-xxlarge', 'placeholder': '...'}),
             'numero': TextInput(attrs={'class': 'input-mini'}),
         }
@@ -121,12 +121,36 @@ class FuncionarioForm(BaseCadastroPessoaForm):
 
 
 
+class ClienteForm(BaseCadastroPessoaForm):
+
+    class Media:
+        js = (
+            '/static/js/controle_campos_pf_pj.js',
+            '/static/js/formata_campos.js',
+            '/static/js/footable.js',
+            '/static/js/footable.paginate.js',
+        )
+
+
+
 class EnderecoEntregaClienteForm(forms.ModelForm):
+    cidade = AutoCompleteSelectField(
+        lookup_class=CidadeChainedLookup,
+        label='Cidade',
+        required=True,
+        widget=AutoComboboxSelectWidget
+    )
+
+    class Media:
+        js = (
+            '/static/js/consulta_cidades.js',
+        )
 
     class Meta:
         model = EnderecoEntregaCliente
         exclude = []
         widgets = {
+            'data_nasc': SuitDateWidget,
             'observacao': AutosizedTextarea(attrs={'rows': 1, 'class': 'input-xxlarge', 'placeholder': '...'}),
             'numero': TextInput(attrs={'class': 'input-mini'}),
             # 'nome': TextInput(attrs={'autocomplete':'off'}),     # 'autocomplete':'off' > Desabilita o Auto-complete do campo pelo navegador
@@ -136,5 +160,6 @@ class EnderecoEntregaClienteForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super(EnderecoEntregaClienteForm, self).__init__(*args, **kwargs)
         self.fields['estado'] = BRStateChoiceField(initial="PR")
+        self.fields['estado'].widget.attrs['class'] = 'campo-estado'
         self.fields['cpf'] = BRCPFField(required=False, label=_(u"CPF"))
         self.fields['cep'] = BRZipCodeField(required=False)

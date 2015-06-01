@@ -2,8 +2,10 @@
 from django.db import models
 from django.core.exceptions import ValidationError
 from django.utils.translation import ugettext_lazy as _
+from django.utils.encoding import python_2_unicode_compatible
 
 
+@python_2_unicode_compatible
 class FormaPagamento(models.Model):
     nome = models.CharField(max_length=100, verbose_name=_(u"Nome")) 
     descricao = models.CharField(max_length=250, blank=True, verbose_name=_(u"Descrição"))
@@ -36,7 +38,7 @@ class FormaPagamento(models.Model):
         verbose_name = _(u"Forma de Pagamento")
         verbose_name_plural = _(u"Formas de Pagamento")
 
-    def __unicode__(self):
+    def __str__(self):
         return u'%s' % (self.nome)
 
 
@@ -49,6 +51,7 @@ class FormaPagamento(models.Model):
 
 
 
+@python_2_unicode_compatible
 class GrupoEncargo(models.Model):
     u""" 
         Criar classe Grupo de Encargo. Esta classe será ForeignKey numa transação financeira. 
@@ -71,7 +74,7 @@ class GrupoEncargo(models.Model):
         verbose_name = _(u"Grupo de Encargo")
         verbose_name_plural = _(u"Grupo de Encargos")
 
-    def __unicode__(self):
+    def __str__(self):
         return u'%s' % (self.nome)
 
     def clean(self):

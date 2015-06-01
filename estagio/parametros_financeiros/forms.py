@@ -1,5 +1,5 @@
 #-*- coding: UTF-8 -*-
-from models import *
+from parametros_financeiros.models import *
 from django import forms
 from suit.widgets import NumberInput
 from django.forms import ModelForm

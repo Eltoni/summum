@@ -2,25 +2,29 @@
 from django.db import models
 from sorl.thumbnail import ImageField
 from django.utils.translation import ugettext_lazy as _
+from django.utils.encoding import python_2_unicode_compatible
 
 
+@python_2_unicode_compatible
 class Marca(models.Model):
     nome = models.CharField(max_length=255, unique=True, verbose_name=_(u"Nome"))
     logo = ImageField(upload_to='marcas', max_length=255, blank=True, verbose_name=_(u"Logo"))
     descricao = models.TextField(blank=True, verbose_name=_(u"Descrição")) 
 
-    def __unicode__(self):
+    def __str__(self):
         return u'%s' % (self.nome)
 
 
+@python_2_unicode_compatible
 class Categoria(models.Model):
     nome = models.CharField(max_length=255, unique=True, verbose_name=_(u"Nome"))
     descricao = models.TextField(blank=True, verbose_name=_(u"Descrição")) 
 
-    def __unicode__(self):
+    def __str__(self):
         return u'%s' % (self.nome)
 
 
+@python_2_unicode_compatible
 class Produtos(models.Model):
     nome = models.CharField(max_length=255, verbose_name=_(u"Nome")) 
     preco = models.DecimalField(max_digits=20, decimal_places=2, verbose_name=_(u"Preço de compra")) 
@@ -40,5 +44,5 @@ class Produtos(models.Model):
                        (u"visualizar_relatorios", _(u"Ver relatorios")),
                        (u"pode_exportar_produtos", _(u"Exportar Produtos")),)
 
-    def __unicode__(self):
+    def __str__(self):
         return u'%s' % (self.nome)

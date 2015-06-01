@@ -1,10 +1,10 @@
 #-*- coding: UTF-8 -*-
 from django.contrib import admin
-from models import *
+from caixa.models import *
 from django.core.mail import EmailMultiAlternatives
 from django.utils.translation import ugettext_lazy as _
 from import_export.admin import ExportMixin
-from export import CaixaResource, MovimentosCaixaResource
+from caixa.export import CaixaResource, MovimentosCaixaResource
 from decimal import Decimal
 from django.contrib.auth.models import Permission
 from django.contrib.auth.models import User
@@ -17,7 +17,7 @@ from configuracoes.models import Parametrizacao
 class CaixaAdmin(ExportMixin, admin.ModelAdmin):
     resource_class = CaixaResource
     model = Caixa
-    list_display = ('id', 'data_abertura', 'data_fechamento', 'diferenca', 'status')
+    list_display = ('id', 'data_abertura', 'formata_data_fechamento', 'diferenca', 'status')
     list_filter = (('data_fechamento', DateRangeFilter),)
     date_hierarchy = 'data_abertura'
     
@@ -98,7 +98,7 @@ class CaixaAdmin(ExportMixin, admin.ModelAdmin):
                                 'valor_inicial': Decimal(obj.valor_inicial).quantize(Decimal("0.00")),
                                 'url': request.META['HTTP_HOST'] + '/' + obj._meta.app_label + '/' + obj._meta.model_name,
                                 'caixa': obj.pk,
-                                'data_abertura': obj.data_abertura.strftime('%d/%m/%Y às %H:%M:%S').decode('utf-8'),
+                                'data_abertura': obj.data_abertura.strftime('%d/%m/%Y às %H:%M:%S'),
                                 'header': TextosEmail.headerEmailInterno,
                                 'footer': TextosEmail.footerEmailInterno,
                                 'texto_customizado': mensagem_customizada
@@ -116,7 +116,7 @@ class MovimentosCaixaAdmin(ExportMixin, admin.ModelAdmin):
     resource_class = MovimentosCaixaResource
     model = MovimentosCaixa
     list_display = ('id', 'caixa', 'pagamento_associado', 'recebimento_associado', 'tipo_mov', 'valor')
-    list_filter = (('data', DateRangeFilter),)
+    list_filter = (('data', DateRangeFilter), 'tipo_mov')
     date_hierarchy = 'data'
     readonly_fields = ('descricao', 'valor', 'data', 'tipo_mov', 'caixa', 'pagamento_associado', 'recebimento_associado')
     fields = ('descricao', 'valor', 'data', 'tipo_mov', 'caixa', 'pagamento_associado', 'recebimento_associado')

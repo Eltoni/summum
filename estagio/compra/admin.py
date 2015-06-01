@@ -1,14 +1,14 @@
 #-*- coding: UTF-8 -*-
 from django.contrib import admin
-from models import *
-from forms import *
+from compra.models import *
+from compra.forms import *
 from django.http import HttpResponseRedirect
 from configuracoes.models import Parametrizacao
 from salmonella.admin import SalmonellaMixin
 from app_global.widgets import NoAddingRelatedFieldWidgetWrapper
 from django.utils.translation import ugettext_lazy as _
 from import_export.admin import ExportMixin
-from export import CompraResource
+from compra.export import CompraResource
 from daterange_filter.filter import DateRangeFilter
 from selectable_filter.filter import SelectableFilter
 
@@ -20,7 +20,7 @@ class ItensCompraInline(SalmonellaMixin, admin.TabularInline):
     can_delete = False
     fields = ('produto', 'quantidade', 'valor_unitario', 'desconto', 'valor_total')
     salmonella_fields = ('produto',)
-    template = "admin/compra/edit_inline/tabular.html"  # Chama o template personalizado para realizar da inline para fazer todo o tratamento necessário para a tela de compras
+    template = "admin/edit_inline/tabular.html"  # Chama o template personalizado para realizar da inline para fazer todo o tratamento necessário para a tela de compras
 
 
     def get_formset(self, request, obj=None, **kwargs): 
@@ -69,6 +69,10 @@ class CompraAdmin(ExportMixin, SalmonellaMixin, admin.ModelAdmin):
     salmonella_fields = ('fornecedor', 'forma_pagamento', 'grupo_encargo',)
     # raw_id_fields = ('fornecedor',)
 
+    suit_js_includes = [
+            'js/inline_compra.js',
+    ]
+    
     def get_form(self, request, obj=None, **kwargs):
         self.suit_form_tabs = (
             ('geral', _(u"Geral")),

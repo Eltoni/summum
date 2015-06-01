@@ -1,6 +1,6 @@
 from django.contrib import admin
-from models import *
-from forms import *
+from parametros_financeiros.models import *
+from parametros_financeiros.forms import *
 from app_global.admin import GlobalAdmin
 from django.contrib.admin.views.main import IS_POPUP_VAR
 from django.utils.translation import ugettext_lazy as _

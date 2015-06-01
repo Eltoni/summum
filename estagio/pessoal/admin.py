@@ -1,10 +1,10 @@
 #-*- coding: UTF-8 -*-
 from django.contrib import admin
-from models import *
-from forms import *
+from pessoal.models import *
+from pessoal.forms import *
 from import_export.admin import ExportMixin
 from sorl.thumbnail.admin import AdminImageMixin
-from export import ClienteResource, FornecedorResource, FuncionarioResource, CargoResource
+from pessoal.export import ClienteResource, FornecedorResource, FuncionarioResource, CargoResource
 from contas_receber.models import ContasReceber, ParcelasContasReceber
 from contas_pagar.models import ContasPagar, ParcelasContasPagar
 from django.contrib.admin.views.main import IS_POPUP_VAR
@@ -12,6 +12,8 @@ from app_global.admin import GlobalAdmin
 from django.utils.translation import ugettext_lazy as _
 import xml.etree.ElementTree
 from selectable_filter.filter import SelectableFilter
+from django.conf.urls import patterns
+from pessoal.views import cliente_financeiro, cliente_detalhe_financeiro
 
 
 def remove_tags(text):
@@ -57,6 +59,10 @@ class BaseCadastroPessoaAdmin(AdminImageMixin, GlobalAdmin):
         ('detalhes', _(u"Detalhes")),
     )
 
+    suit_js_includes = [
+            'js/inline_endereco.js',
+    ]
+
     def suit_row_attributes(self, obj, request):
         rowclass = ''
         if not obj.status:
@@ -79,8 +85,8 @@ class ContasReceberInline(admin.TabularInline):
     ordering = ("status", "pk",)
     suit_classes = 'suit-tab suit-tab-financeiro'
     extra = 0
-    fields = ('link_conta', 'data', 'venda_associada', 'valor_total', 'descricao', 'status')
-    readonly_fields = ('link_conta', 'data', 'venda_associada', 'valor_total', 'descricao', 'status')
+    fields = ('link_conta', 'data', 'venda_associada', 'valor_total', 'formata_descricao', 'status')
+    readonly_fields = ('link_conta', 'data', 'venda_associada', 'valor_total', 'formata_descricao', 'status')
 
     def save_formset(self, request, form, formset, change):
         pass
@@ -92,7 +98,9 @@ class ContasReceberInline(admin.TabularInline):
         return False
 
     def link_conta(object, instance):
-        return "<a href=\"/%s/%s/%s\" target='_blank'>%s</a>" % (instance._meta.app_label, instance._meta.module_name, instance.id, instance.id,)
+        if instance.pk:
+            return "<a href=\"/%s/%s/%s\" target='_blank'>%s</a>" % (instance._meta.app_label, instance._meta.model_name, instance.pk, instance.pk,)
+        return '-'
     
     link_conta.allow_tags = True
     link_conta.short_description = _(u"ID")
@@ -118,6 +126,7 @@ class ContasReceberInline(admin.TabularInline):
 class EnderecoEntregaClienteInline(admin.StackedInline):
     model = EnderecoEntregaCliente
     form = EnderecoEntregaClienteForm
+    template = "admin/edit_inline/stacked.html"
     ordering = ("status", "pk",)
     suit_classes = 'suit-tab suit-tab-endereco'
     extra = 0
@@ -128,9 +137,18 @@ class EnderecoEntregaClienteInline(admin.StackedInline):
 class ClienteAdmin(ExportMixin, BaseCadastroPessoaAdmin):
     resource_class = ClienteResource
     model = Cliente
+    form = ClienteForm
     readonly_fields = ('status_financeiro', 'id', 'data', 'formata_data_nascimento')
     list_display = ('nome', 'email', 'data', 'status_financeiro',)
     list_filter = (('cidade', SelectableFilter), 'status', StatusFinanceiroFilter)
+
+    def get_urls(self):
+        urls = super(ClienteAdmin, self).get_urls()
+        my_urls = patterns('',
+            (r'financeiro/$', self.admin_site.admin_view(cliente_financeiro)),
+            (r'detalhes_financeiros/(?P<id_cliente>\w+)/', self.admin_site.admin_view(cliente_detalhe_financeiro)),
+        )
+        return my_urls + urls
 
     def get_form(self, request, obj=None, **kwargs):
         self.fieldsets = (
@@ -144,7 +162,7 @@ class ClienteAdmin(ExportMixin, BaseCadastroPessoaAdmin):
             }),
             (None, {
                 'classes': ('suit-tab suit-tab-identidade',),
-                'fields': ('cpf', 'rg', 'data_nasc', 'formata_data_nascimento')
+                'fields': ('tipo_pessoa', 'cnpj', 'razao_social', 'cpf', 'rg', 'data_nasc', 'formata_data_nascimento')
             }),
             ('Dados bancários', {
                 'classes': ('suit-tab suit-tab-identidade',),
@@ -179,6 +197,17 @@ class ClienteAdmin(ExportMixin, BaseCadastroPessoaAdmin):
         return super(ClienteAdmin, self).get_form(request, obj, **kwargs)
 
 
+    def save_model(self, request, obj, form, change):
+        # Trata o save no banco de dados para que o registro que seja de pessoa física não seja salvo com dados de pessoa jurídica e vice-versa
+        if obj.tipo_pessoa == 'PJ':
+            obj.cpf = None
+        else:
+            obj.cnpj = None
+            obj.razao_social = None
+
+        obj.save()
+
+
     # trata as inlines que aparecem no resumo financeiro dos clientes
     def get_inline_instances(self, request, obj=None):
         
@@ -202,8 +231,8 @@ class ContasPagarInline(admin.TabularInline):
     ordering = ("status", "pk",)
     suit_classes = 'suit-tab suit-tab-financeiro'
     extra = 0
-    fields = ('link_conta', 'data', 'compra_associada', 'valor_total', 'descricao', 'status')
-    readonly_fields = ('link_conta', 'data', 'compra_associada', 'valor_total', 'descricao', 'status')
+    fields = ('link_conta', 'data', 'compra_associada', 'valor_total', 'formata_descricao', 'status')
+    readonly_fields = ('link_conta', 'data', 'compra_associada', 'valor_total', 'formata_descricao', 'status')
 
     def save_formset(self, request, form, formset, change):
         pass
@@ -215,7 +244,9 @@ class ContasPagarInline(admin.TabularInline):
         return False
 
     def link_conta(object, instance):
-        return "<a href=\"/%s/%s/%s\" target='_blank'>%s</a>" % (instance._meta.app_label, instance._meta.module_name, instance.id, instance.id,)
+        if instance.pk:
+            return "<a href=\"/%s/%s/%s\" target='_blank'>%s</a>" % (instance._meta.app_label, instance._meta.model_name, instance.pk, instance.pk,)
+        return '-'
     
     link_conta.allow_tags = True
     link_conta.short_description = _(u"ID")

@@ -55,7 +55,6 @@ INSTALLED_APPS = (
     'utilitarios',
     # Bibliotecas em uso pelo projeto
     'import_export',
-    'smart_selects',
     'salmonella',
     'djangobower',
     'django_nvd3',
@@ -210,6 +209,7 @@ SUIT_CONFIG = {
         '-',
         '-',
         {'label': u'relatórios', 'icon':'icon-th-list', 'permissions': 'movimento.visualizar_relatorios', 'models': [
+            {'label': u'Clientes', 'url': '/pessoal/cliente/financeiro/'},
             {'label': u'Venda', 'url': '/#'},
         ]},
     )
@@ -219,6 +219,10 @@ SUIT_CONFIG = {
 # django Selectable
 # -----------
 SELECTABLE_MAX_LIMIT = 10
+
+# django daterange-filter
+# -----------
+DATE_RANGE_FILTER_USE_WIDGET_SUIT = True
 
 
 # Django Nvd3

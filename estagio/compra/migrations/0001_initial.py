@@ -9,43 +9,43 @@ class Migration(migrations.Migration):
 
     dependencies = [
         ('parametros_financeiros', '0001_initial'),
-        ('pessoal', '0001_initial'),
         ('movimento', '0001_initial'),
+        ('pessoal', '0001_initial'),
     ]
 
     operations = [
         migrations.CreateModel(
             name='Compra',
             fields=[
-                ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
-                ('total', models.DecimalField(help_text='Valor total da compra.', verbose_name='Total (R$)', max_digits=20, decimal_places=2)),
-                ('data', models.DateTimeField(auto_now_add=True, verbose_name='Data da compra')),
-                ('desconto', models.DecimalField(decimal_places=0, max_digits=20, blank=True, help_text='Desconto sob o valor total da compra.', null=True, verbose_name='Desconto (%)')),
-                ('status', models.BooleanField(default=False, help_text='Indica se o status da compra est\xe1 ativo ou cancelada.', verbose_name='Cancelada?')),
-                ('observacao', models.TextField(help_text='Descreva na \xe1rea as informa\xe7\xf5es relavantes da compra.', verbose_name='Observa\xe7\xf5es', blank=True)),
-                ('pedido', models.CharField(blank=True, max_length=1, verbose_name='Pedido?', choices=[('S', 'Sim'), ('N', 'N\xe3o')])),
-                ('status_pedido', models.BooleanField(default=False, help_text='Caso confirmado, os itens financeiros ser\xe3o gerados e o estoque movimentado.', verbose_name='Pedido confirmado?')),
-                ('forma_pagamento', models.ForeignKey(on_delete=django.db.models.deletion.PROTECT, verbose_name='Forma de pagamento', to='parametros_financeiros.FormaPagamento')),
-                ('fornecedor', models.ForeignKey(on_delete=django.db.models.deletion.PROTECT, verbose_name='Fornecedor', to='pessoal.Fornecedor')),
-                ('grupo_encargo', models.ForeignKey(on_delete=django.db.models.deletion.PROTECT, verbose_name='Grupo de encargo', to='parametros_financeiros.GrupoEncargo')),
+                ('id', models.AutoField(verbose_name='ID', primary_key=True, auto_created=True, serialize=False)),
+                ('total', models.DecimalField(verbose_name='Total (R$)', decimal_places=2, max_digits=20, help_text='Valor total da compra.')),
+                ('data', models.DateTimeField(verbose_name='Data da compra', auto_now_add=True)),
+                ('desconto', models.DecimalField(null=True, decimal_places=0, max_digits=20, verbose_name='Desconto (%)', blank=True, help_text='Desconto sob o valor total da compra.')),
+                ('status', models.BooleanField(default=False, verbose_name='Cancelada?', help_text='Indica se o status da compra está ativo ou cancelada.')),
+                ('observacao', models.TextField(verbose_name='Observações', blank=True, help_text='Descreva na área as informações relavantes da compra.')),
+                ('pedido', models.CharField(verbose_name='Pedido?', blank=True, max_length=1, choices=[('S', 'Sim'), ('N', 'Não')])),
+                ('status_pedido', models.BooleanField(default=False, verbose_name='Pedido confirmado?', help_text='Caso confirmado, os itens financeiros serão gerados e o estoque movimentado.')),
+                ('forma_pagamento', models.ForeignKey(to='parametros_financeiros.FormaPagamento', verbose_name='Forma de pagamento', on_delete=django.db.models.deletion.PROTECT)),
+                ('fornecedor', models.ForeignKey(to='pessoal.Fornecedor', verbose_name='Fornecedor', on_delete=django.db.models.deletion.PROTECT)),
+                ('grupo_encargo', models.ForeignKey(to='parametros_financeiros.GrupoEncargo', verbose_name='Grupo de encargo', on_delete=django.db.models.deletion.PROTECT)),
             ],
             options={
                 'verbose_name': 'Compra',
-                'verbose_name_plural': 'Compras',
                 'permissions': (('pode_exportar_compra', 'Exportar Compras'),),
+                'verbose_name_plural': 'Compras',
             },
         ),
         migrations.CreateModel(
             name='ItensCompra',
             fields=[
-                ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
+                ('id', models.AutoField(verbose_name='ID', primary_key=True, auto_created=True, serialize=False)),
                 ('quantidade', models.IntegerField()),
-                ('valor_unitario', models.DecimalField(verbose_name='Valor unit\xe1rio (R$)', max_digits=20, decimal_places=2)),
-                ('valor_total', models.DecimalField(verbose_name='Total (R$)', max_digits=20, decimal_places=2)),
-                ('desconto', models.DecimalField(null=True, verbose_name='Desconto (%)', max_digits=20, decimal_places=0, blank=True)),
+                ('valor_unitario', models.DecimalField(verbose_name='Valor unitário (R$)', decimal_places=2, max_digits=20)),
+                ('valor_total', models.DecimalField(verbose_name='Total (R$)', decimal_places=2, max_digits=20)),
+                ('desconto', models.DecimalField(verbose_name='Desconto (%)', null=True, decimal_places=0, max_digits=20, blank=True)),
                 ('add_estoque', models.BooleanField(default=False, verbose_name='Adicionado ao estoque?')),
-                ('compras', models.ForeignKey(on_delete=django.db.models.deletion.PROTECT, verbose_name='Compra', to='compra.Compra')),
-                ('produto', models.ForeignKey(on_delete=django.db.models.deletion.PROTECT, verbose_name='Produto', to='movimento.Produtos')),
+                ('compras', models.ForeignKey(to='compra.Compra', verbose_name='Compra', on_delete=django.db.models.deletion.PROTECT)),
+                ('produto', models.ForeignKey(to='movimento.Produtos', verbose_name='Produto', on_delete=django.db.models.deletion.PROTECT)),
             ],
             options={
                 'verbose_name': 'Item de Compra',

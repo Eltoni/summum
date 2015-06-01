@@ -1,13 +1,13 @@
 #-*- coding: UTF-8 -*-
 from django.contrib import admin
-from models import *
-from forms import *
+from venda.models import *
+from venda.forms import *
 from django.http import HttpResponseRedirect
 from configuracoes.models import Parametrizacao
 from salmonella.admin import SalmonellaMixin
 from django.utils.translation import ugettext_lazy as _
 from import_export.admin import ExportMixin
-from export import VendaResource, EntregaVendaResource
+from venda.export import VendaResource, EntregaVendaResource
 from daterange_filter.filter import DateRangeFilter
 from selectable_filter.filter import SelectableFilter
 
@@ -89,7 +89,7 @@ class ItensVendaInline(SalmonellaMixin, admin.TabularInline):
     suit_classes = 'suit-tab suit-tab-geral'
     fields = ('produto', 'quantidade', 'valor_unitario', 'desconto', 'valor_total')
     salmonella_fields = ('produto',)
-    template = "admin/venda/edit_inline/tabular.html"  # Chama o template personalizado para realizar da inline para fazer todo o tratamento necessário para a tela de vendas
+    template = "admin/edit_inline/tabular.html"  # Chama o template personalizado para realizar da inline para fazer todo o tratamento necessário para a tela de vendas
 
 
     def get_formset(self, request, obj=None, **kwargs): 
@@ -134,6 +134,9 @@ class VendaAdmin(ExportMixin, SalmonellaMixin, admin.ModelAdmin):
     readonly_fields = ('data', 'vendedor', 'vendedor_associado')
     salmonella_fields = ('cliente', 'forma_pagamento', 'grupo_encargo',)
     
+    suit_js_includes = [
+            'js/inline_venda.js',
+    ]
 
     def get_form(self, request, obj=None, **kwargs):
         self.inlines = [ 

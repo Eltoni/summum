@@ -2,13 +2,13 @@
 from django.db import models
 from localidade.models import Cidade
 from django.contrib.auth.models import User
-from smart_selects.db_fields import ChainedForeignKey 
 from django.core.exceptions import ValidationError
 import datetime
 from datetime import date
 from sorl.thumbnail import ImageField
 from django.utils.translation import ugettext_lazy as _
 from django.utils.html import format_html
+from django.utils.encoding import python_2_unicode_compatible
 
 
 # faz a validação da data de nascimento para que o usuário fique impedido de informar data maior ou igual a hoje, e seja maior de 18 anos
@@ -51,14 +51,14 @@ class BaseCadastroPessoa(models.Model):
     data_nasc = models.DateField(validators=[valida_data_nascimento], blank=True, null=True, verbose_name=_(u"Data de nascimento"))
     cpf = models.CharField(max_length=11, null=True, unique=True, verbose_name=_(u"CPF"))
     rg = models.CharField(max_length=20, blank=True, verbose_name=_(u"RG"))
-    sexo = models.CharField(max_length=1, blank=True, choices=SEXO_CHOICES, verbose_name=_(u"Sexo")) 
+    sexo = models.CharField(max_length=1, blank=True, null=True, choices=SEXO_CHOICES, verbose_name=_(u"Sexo")) 
     estado_civil = models.CharField(max_length=30, blank=True, choices=ESTADO_CIVIL_CHOICES, verbose_name=_(u"Estado Civil")) 
     endereco = models.CharField(max_length=50, verbose_name=_(u"Endereço"))
     numero = models.CharField(max_length=15, verbose_name=_(u"Número")) 
     bairro = models.CharField(max_length=50, verbose_name=_(u"Bairro"))
     complemento = models.CharField(max_length=50, blank=True, verbose_name=_(u"Complemento"))
     estado = models.CharField(max_length=2, blank=True, null=True, verbose_name=_(u"Estado"))
-    cidade = ChainedForeignKey(Cidade, on_delete=models.PROTECT, chained_field="estado", chained_model_field="estado", show_all=False, auto_choose=True, verbose_name=_(u"Cidade"))
+    cidade = models.ForeignKey(Cidade, on_delete=models.PROTECT, verbose_name=_(u"Cidade"))
     cep = models.CharField(max_length=9, verbose_name=_(u"CEP"))
     telefone = models.CharField(max_length=30, blank=True, verbose_name=_(u"Telefone"))
     celular = models.CharField(max_length=30, blank=True, verbose_name=_(u"Celular")) 
@@ -86,6 +86,7 @@ class BaseCadastroPessoa(models.Model):
 
 
 
+@python_2_unicode_compatible
 class Cliente(BaseCadastroPessoa):
     TIPO_PESSOA_CHOICES = (
         ('PF', _(u"Pessoa Física")),
@@ -100,7 +101,7 @@ class Cliente(BaseCadastroPessoa):
         verbose_name_plural = _(u"Clientes")
         permissions = ((u"pode_exportar_cliente", _(u"Exportar Clientes")),)
 
-    def __unicode__(self):
+    def __str__(self):
         return u'%s' % (self.nome)
 
 
@@ -144,6 +145,7 @@ class Cliente(BaseCadastroPessoa):
 
 
 
+@python_2_unicode_compatible
 class Fornecedor(BaseCadastroPessoa):
     TIPO_PESSOA_CHOICES = (
         ('PF', _(u"Pessoa Física")),
@@ -158,7 +160,7 @@ class Fornecedor(BaseCadastroPessoa):
         verbose_name_plural = _(u"Fornecedores")
         permissions = ((u"pode_exportar_fornecedor", _(u"Exportar Fornecedores")),)
 
-    def __unicode__(self):
+    def __str__(self):
         return u'%s' % (self.nome)
 
     def status_financeiro(obj):
@@ -181,6 +183,7 @@ class Fornecedor(BaseCadastroPessoa):
 
 
 
+@python_2_unicode_compatible
 class Cargo(models.Model):
     nome = models.CharField(max_length=100, verbose_name=_(u"Nome"))
     descricao = models.TextField(blank=True, verbose_name=_(u"Descrição"))
@@ -190,11 +193,12 @@ class Cargo(models.Model):
         verbose_name_plural = _(u"Cargos")
         permissions = ((u"pode_exportar_cargo", _(u"Exportar Cargos")),)
 
-    def __unicode__(self):
+    def __str__(self):
         return u'%s' % (self.nome)
 
 
 
+@python_2_unicode_compatible
 class Funcionario(BaseCadastroPessoa):
     salario = models.DecimalField(max_digits=20, decimal_places=2, blank=True, null=True, verbose_name=_(u"Salário")) 
     cargo = models.ForeignKey(Cargo, on_delete=models.PROTECT, verbose_name=_(u"Cargo"))
@@ -205,11 +209,12 @@ class Funcionario(BaseCadastroPessoa):
         verbose_name_plural = _(u"Funcionários")
         permissions = ((u"pode_exportar_funcionario", _(u"Exportar Funcionários")),)
 
-    def __unicode__(self):
+    def __str__(self):
         return u'%s' % (self.nome)
 
 
 
+@python_2_unicode_compatible
 class EnderecoEntregaCliente(models.Model):
     status = models.BooleanField(default=True, verbose_name=_(u"Status"))
     endereco = models.CharField(max_length=50, verbose_name=_(u"Endereço"))
@@ -217,7 +222,7 @@ class EnderecoEntregaCliente(models.Model):
     bairro = models.CharField(max_length=50, verbose_name=_(u"Bairro"))
     complemento = models.CharField(max_length=50, blank=True, verbose_name=_(u"Complemento"))
     estado = models.CharField(max_length=2, blank=True, null=True, verbose_name=_(u"Estado"))
-    cidade = ChainedForeignKey(Cidade, on_delete=models.PROTECT, chained_field="estado", chained_model_field="estado", show_all=False, auto_choose=True, verbose_name=_(u"Cidade"))
+    cidade = models.ForeignKey(Cidade, on_delete=models.PROTECT, verbose_name=_(u"Cidade"))
     cep = models.CharField(max_length=9, verbose_name=_(u"CEP"))
     observacao = models.TextField(blank=True, verbose_name=_(u"Observações"))
     cliente = models.ForeignKey(Cliente, on_delete=models.PROTECT, verbose_name=_(u"Cliente"))
@@ -226,5 +231,5 @@ class EnderecoEntregaCliente(models.Model):
         verbose_name = _(u"Endereço de Entrega")
         verbose_name_plural = _(u"Endereços de Entrega")
 
-    def __unicode__(self):
+    def __str__(self):
         return u'%s, %s, %s, %s - %s' % (self.endereco, self.numero, self.bairro, self.cidade, self.estado)

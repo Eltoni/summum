@@ -10,8 +10,10 @@ from geoposition.fields import GeopositionField
 from configuracoes.models import Parametrizacao
 from utilitarios.funcoes_data import datetime_settings_timezone
 from django.contrib.auth.models import User
+from django.utils.encoding import python_2_unicode_compatible
 
 
+@python_2_unicode_compatible
 class Venda(models.Model):
     u""" 
     Classe Venda. 
@@ -36,7 +38,7 @@ class Venda(models.Model):
         verbose_name_plural = _(u"Vendas")
         permissions = ((u"pode_exportar_venda", _(u"Exportar Vendas")),)
 
-    def __unicode__(self):
+    def __str__(self):
         return u'%s' % (self.id)
 
 
@@ -121,6 +123,7 @@ class Venda(models.Model):
 
 
 
+@python_2_unicode_compatible
 class ItensVenda(models.Model):
     u""" 
     Classe ItensVenda. 
@@ -143,7 +146,7 @@ class ItensVenda(models.Model):
         verbose_name_plural = _(u"Itens de Venda")
 
 
-    def __unicode__(self):
+    def __str__(self):
         return u'%s' % (self.id)
 
 
@@ -176,6 +179,7 @@ class ItensVenda(models.Model):
 
 
 
+@python_2_unicode_compatible
 class EntregaVenda(models.Model):
     status = models.BooleanField(default=False, verbose_name=_(u"Entrega agendada?"))
     endereco = models.ForeignKey(EnderecoEntregaCliente, null=True, blank=True, on_delete=models.PROTECT, verbose_name=_(u"Endereço"))
@@ -190,7 +194,7 @@ class EntregaVenda(models.Model):
         verbose_name_plural = _(u"Entregas")
         permissions = ((u"pode_exportar_entregavenda", _(u"Exportar Entregas")),)
 
-    def __unicode__(self):
+    def __str__(self):
         return u'%s' % (self.id)
 
 
@@ -202,7 +206,7 @@ class EntregaVenda(models.Model):
 
         # Data de entrega não pode ser menor que data de venda + quantidade de dias para entrega (configurada nas parametrizações do sistema)
         if self.data and self.data < data_minima_para_entrega:
-            raise ValidationError({'data': [_(u"Data de entrega inválida. Data mínima para entrega dos produtos: %(data_minima_entrega)s") % {'data_minima_entrega': data_minima_para_entrega.strftime('%d/%m/%Y às %H:%M:%S').decode('utf-8')},]})
+            raise ValidationError({'data': [_(u"Data de entrega inválida. Data mínima para entrega dos produtos: %(data_minima_entrega)s") % {'data_minima_entrega': data_minima_para_entrega.strftime('%d/%m/%Y às %H:%M:%S')},]})
 
 
 

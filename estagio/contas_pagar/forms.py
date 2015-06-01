@@ -1,8 +1,8 @@
 #-*- coding: UTF-8 -*-
 from django.forms import ModelForm, CheckboxInput
-from suit.widgets import NumberInput
+from suit.widgets import NumberInput, SuitDateWidget
 from django.forms import forms
-from models import *
+from contas_pagar.models import *
 
 
 class ContasPagarForm(ModelForm):
@@ -27,6 +27,12 @@ class ContasPagarForm(ModelForm):
             self.fields['grupo_encargo'].initial = grupo_encargo_padrao.pk
         except GrupoEncargo.DoesNotExist and KeyError:
             pass
+
+    class Meta:
+        widgets = {
+            'data': SuitDateWidget,
+        }
+
 
 
 class PagamentoForm(ModelForm):
@@ -60,4 +66,5 @@ class ParcelasContasPagarForm(ModelForm):
     class Meta:
         widgets = {
             'status': CheckboxInput(attrs={'class': 'status-parcela'}),
+            'vencimento': SuitDateWidget,
         }

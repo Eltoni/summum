@@ -12,7 +12,6 @@ urlpatterns = patterns('',
     url(r'', include(admin.site.urls)),
 
     # bibliotecas
-    url(r'^chaining/', include('smart_selects.urls')),      # url necessária para o funcionamento da biblioteca django-smart-selects
     url(r'^admin/salmonella/', include('salmonella.urls')), # url necessária para o funcionamento da biblioteca django-salmonella
     url(r'^selectable/', include('selectable.urls')),       # url necessária para o funcionamento da biblioteca django-selectable
 

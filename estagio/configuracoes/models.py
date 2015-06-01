@@ -1,8 +1,10 @@
 #-*- coding: UTF-8 -*-
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
+from django.utils.encoding import python_2_unicode_compatible
 
 
+@python_2_unicode_compatible
 class Parametrizacao(models.Model):
     u"""
         Tabela que conterá registro único que armazenará as configurações de todo o sistema.
@@ -62,5 +64,5 @@ class Parametrizacao(models.Model):
         verbose_name_plural = _(u"Parametrizações")
 
 
-    def __unicode__(self):
+    def __str__(self):
         return u'%s' % self.id

@@ -6,8 +6,10 @@ from movimento.models import Produtos
 from django.core.exceptions import ValidationError
 import datetime
 from django.utils.translation import ugettext_lazy as _
+from django.utils.encoding import python_2_unicode_compatible
 
 
+@python_2_unicode_compatible
 class Compra(models.Model):
     u""" 
     Classe Compra. 
@@ -31,7 +33,7 @@ class Compra(models.Model):
         verbose_name_plural = _(u"Compras")
         permissions = ((u"pode_exportar_compra", _(u"Exportar Compras")),)
 
-    def __unicode__(self):
+    def __str__(self):
         return u'%s' % (self.id)
 
 
@@ -102,6 +104,7 @@ class Compra(models.Model):
 
 
 
+@python_2_unicode_compatible
 class ItensCompra(models.Model):
     u""" 
     Classe ItensCompra. 
@@ -124,7 +127,7 @@ class ItensCompra(models.Model):
         verbose_name_plural = _(u"Itens de Compra")
 
 
-    def __unicode__(self):
+    def __str__(self):
         return u'%s' % (self.id)
 
 

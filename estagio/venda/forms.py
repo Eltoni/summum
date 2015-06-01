@@ -3,7 +3,7 @@ from django.forms import ModelForm, TextInput, CheckboxInput
 from suit.widgets import LinkedSelect, NumberInput, AutosizedTextarea
 from django.forms import forms
 from django.forms.models import BaseInlineFormSet
-from models import *
+from venda.models import *
 from django.utils.translation import ugettext_lazy as _
 
 

@@ -1,7 +1,7 @@
 #-*- coding: UTF-8 -*-
 from django.shortcuts import render, render_to_response, HttpResponseRedirect
 from django.template import RequestContext
-from models import Produtos
+from movimento.models import Produtos
 from configuracoes.models import Parametrizacao
 from caixa.models import *
 import time

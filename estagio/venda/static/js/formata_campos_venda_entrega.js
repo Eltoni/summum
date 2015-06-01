@@ -9,7 +9,7 @@ $(document).ready(function(){
         if( endereco.length > 0 ) {
             $.ajax({       
                 type: "GET",
-                url: "/get_endereco_entrega_cliente/"+endereco,
+                url: "/venda/venda/get_endereco_entrega_cliente/"+endereco,
                 dataType: "json",
                 success: function(retorno){
                     $.each(retorno, function(i, enderecos){ 

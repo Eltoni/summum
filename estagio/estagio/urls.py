@@ -19,9 +19,5 @@ urlpatterns = patterns('',
     url(r'^dashboard/$', 'movimento.views.index'),
     # urls das aplicações
     url(r'^admin/salmonella/(?P<app_name>[\w-]+)/(?P<model_name>[\w-]+)/(?P<id>\d+)/$', 'app_global.views.checa_foreignkey_habilitada'),
-    (r'^get_valor_unitario/(?P<id>\d+)/$', 'compra.views.get_valor_unitario'),
-    (r'^get_valor_unitario/(?P<id>\d+)/$', 'venda.views.get_valor_unitario'),
-    (r'^get_endereco_entrega_cliente/(?P<id>\d+)/$', 'venda.views.get_endereco_entrega_cliente'),
-    (r'^get_dados_usuario/(?P<id>\d+)/$', 'pessoal.views.get_dados_usuario'),
 
 ) + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

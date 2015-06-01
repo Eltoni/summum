@@ -2,6 +2,7 @@
 from django.contrib import admin
 from compra.models import *
 from compra.forms import *
+from compra.views import get_valor_unitario
 from django.http import HttpResponseRedirect
 from configuracoes.models import Parametrizacao
 from salmonella.admin import SalmonellaMixin
@@ -11,6 +12,7 @@ from import_export.admin import ExportMixin
 from compra.export import CompraResource
 from daterange_filter.filter import DateRangeFilter
 from selectable_filter.filter import SelectableFilter
+from django.conf.urls import patterns
 
 
 class ItensCompraInline(SalmonellaMixin, admin.TabularInline):
@@ -72,6 +74,14 @@ class CompraAdmin(ExportMixin, SalmonellaMixin, admin.ModelAdmin):
     suit_js_includes = [
             'js/inline_compra.js',
     ]
+
+    def get_urls(self):
+        urls = super(CompraAdmin, self).get_urls()
+        my_urls = patterns('',
+            (r'^get_valor_unitario/(?P<id>\d+)/$', self.admin_site.admin_view(get_valor_unitario)),
+        )
+        return my_urls + urls
+
     
     def get_form(self, request, obj=None, **kwargs):
         self.suit_form_tabs = (

@@ -15,7 +15,7 @@ $(document).ready(function(){
         if (id) {
             $.ajax({       
             type: "GET",
-            url: "/get_dados_usuario/"+id,
+            url: "/pessoal/funcionario/get_dados_usuario/"+id,
             dataType: "json",
             success: function(retorno){
                 $.each(retorno, function(i, usuario){

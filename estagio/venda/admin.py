@@ -2,6 +2,7 @@
 from django.contrib import admin
 from venda.models import *
 from venda.forms import *
+from venda.views import get_valor_unitario, get_endereco_entrega_cliente
 from django.http import HttpResponseRedirect
 from configuracoes.models import Parametrizacao
 from salmonella.admin import SalmonellaMixin
@@ -10,6 +11,7 @@ from import_export.admin import ExportMixin
 from venda.export import VendaResource, EntregaVendaResource
 from daterange_filter.filter import DateRangeFilter
 from selectable_filter.filter import SelectableFilter
+from django.conf.urls import patterns
 
 
 class EntregaVendaAdmin(ExportMixin, admin.ModelAdmin):
@@ -137,6 +139,15 @@ class VendaAdmin(ExportMixin, SalmonellaMixin, admin.ModelAdmin):
     suit_js_includes = [
             'js/inline_venda.js',
     ]
+
+    def get_urls(self):
+        urls = super(VendaAdmin, self).get_urls()
+        my_urls = patterns('',
+            (r'^get_valor_unitario/(?P<id>\d+)/$', self.admin_site.admin_view(get_valor_unitario)),
+            (r'^get_endereco_entrega_cliente/(?P<id>\d+)/$', self.admin_site.admin_view(get_endereco_entrega_cliente)),
+        )
+        return my_urls + urls
+
 
     def get_form(self, request, obj=None, **kwargs):
         self.inlines = [ 

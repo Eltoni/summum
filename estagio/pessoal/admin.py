@@ -13,7 +13,7 @@ from django.utils.translation import ugettext_lazy as _
 import xml.etree.ElementTree
 from selectable_filter.filter import SelectableFilter
 from django.conf.urls import patterns
-from pessoal.views import cliente_financeiro, cliente_detalhe_financeiro
+from pessoal.views import get_dados_usuario, cliente_financeiro, cliente_detalhe_financeiro
 
 
 def remove_tags(text):
@@ -349,6 +349,14 @@ class FuncionarioAdmin(ExportMixin, BaseCadastroPessoaAdmin):
     resource_class = FuncionarioResource
     model = Funcionario
     form = FuncionarioForm
+
+    def get_urls(self):
+        urls = super(FuncionarioAdmin, self).get_urls()
+        my_urls = patterns('',
+            (r'^get_dados_usuario/(?P<id>\d+)/$', self.admin_site.admin_view(get_dados_usuario)),
+        )
+        return my_urls + urls
+
 
     def get_form(self, request, obj=None, **kwargs):
         self.fieldsets = (

@@ -72,7 +72,7 @@
     function busca_valor_unitario(produto, inline){
       $.ajax({       
         type: "GET",
-        url: "/get_valor_unitario/"+produto,
+        url: "/venda/venda/get_valor_unitario/"+produto,
         dataType: "json",
         success: function(retorno){
             $.each(retorno, function(i, produtos){ 
@@ -99,7 +99,7 @@
     function valida_quantidade_produto_estoque(produto, inline){
       $.ajax({       
         type: "GET",
-        url: "/get_valor_unitario/"+produto,
+        url: "/venda/venda/get_valor_unitario/"+produto,
         dataType: "json",
         success: function(retorno){
             $.each(retorno, function(i, produtos){

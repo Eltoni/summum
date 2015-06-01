@@ -12,6 +12,8 @@ from app_global.admin import GlobalAdmin
 from django.utils.translation import ugettext_lazy as _
 import xml.etree.ElementTree
 from selectable_filter.filter import SelectableFilter
+from django.conf.urls import patterns
+from pessoal.views import cliente_financeiro, cliente_detalhe_financeiro
 
 
 def remove_tags(text):
@@ -57,7 +59,9 @@ class BaseCadastroPessoaAdmin(AdminImageMixin, GlobalAdmin):
         ('detalhes', _(u"Detalhes")),
     )
 
-    suit_js_include = 'js/inline_endereco.js'
+    suit_js_includes = [
+            'js/inline_endereco.js',
+    ]
 
     def suit_row_attributes(self, obj, request):
         rowclass = ''
@@ -81,8 +85,8 @@ class ContasReceberInline(admin.TabularInline):
     ordering = ("status", "pk",)
     suit_classes = 'suit-tab suit-tab-financeiro'
     extra = 0
-    fields = ('link_conta', 'data', 'venda_associada', 'valor_total', 'descricao', 'status')
-    readonly_fields = ('link_conta', 'data', 'venda_associada', 'valor_total', 'descricao', 'status')
+    fields = ('link_conta', 'data', 'venda_associada', 'valor_total', 'formata_descricao', 'status')
+    readonly_fields = ('link_conta', 'data', 'venda_associada', 'valor_total', 'formata_descricao', 'status')
 
     def save_formset(self, request, form, formset, change):
         pass
@@ -94,7 +98,9 @@ class ContasReceberInline(admin.TabularInline):
         return False
 
     def link_conta(object, instance):
-        return "<a href=\"/%s/%s/%s\" target='_blank'>%s</a>" % (instance._meta.app_label, instance._meta.module_name, instance.id, instance.id,)
+        if instance.pk:
+            return "<a href=\"/%s/%s/%s\" target='_blank'>%s</a>" % (instance._meta.app_label, instance._meta.model_name, instance.pk, instance.pk,)
+        return '-'
     
     link_conta.allow_tags = True
     link_conta.short_description = _(u"ID")
@@ -135,6 +141,14 @@ class ClienteAdmin(ExportMixin, BaseCadastroPessoaAdmin):
     readonly_fields = ('status_financeiro', 'id', 'data', 'formata_data_nascimento')
     list_display = ('nome', 'email', 'data', 'status_financeiro',)
     list_filter = (('cidade', SelectableFilter), 'status', StatusFinanceiroFilter)
+
+    def get_urls(self):
+        urls = super(ClienteAdmin, self).get_urls()
+        my_urls = patterns('',
+            (r'financeiro/$', self.admin_site.admin_view(cliente_financeiro)),
+            (r'detalhes_financeiros/(?P<id_cliente>\w+)/', self.admin_site.admin_view(cliente_detalhe_financeiro)),
+        )
+        return my_urls + urls
 
     def get_form(self, request, obj=None, **kwargs):
         self.fieldsets = (
@@ -217,8 +231,8 @@ class ContasPagarInline(admin.TabularInline):
     ordering = ("status", "pk",)
     suit_classes = 'suit-tab suit-tab-financeiro'
     extra = 0
-    fields = ('link_conta', 'data', 'compra_associada', 'valor_total', 'descricao', 'status')
-    readonly_fields = ('link_conta', 'data', 'compra_associada', 'valor_total', 'descricao', 'status')
+    fields = ('link_conta', 'data', 'compra_associada', 'valor_total', 'formata_descricao', 'status')
+    readonly_fields = ('link_conta', 'data', 'compra_associada', 'valor_total', 'formata_descricao', 'status')
 
     def save_formset(self, request, form, formset, change):
         pass
@@ -230,7 +244,9 @@ class ContasPagarInline(admin.TabularInline):
         return False
 
     def link_conta(object, instance):
-        return "<a href=\"/%s/%s/%s\" target='_blank'>%s</a>" % (instance._meta.app_label, instance._meta.module_name, instance.id, instance.id,)
+        if instance.pk:
+            return "<a href=\"/%s/%s/%s\" target='_blank'>%s</a>" % (instance._meta.app_label, instance._meta.model_name, instance.pk, instance.pk,)
+        return '-'
     
     link_conta.allow_tags = True
     link_conta.short_description = _(u"ID")

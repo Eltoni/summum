@@ -209,6 +209,7 @@ SUIT_CONFIG = {
         '-',
         '-',
         {'label': u'relatórios', 'icon':'icon-th-list', 'permissions': 'movimento.visualizar_relatorios', 'models': [
+            {'label': u'Clientes', 'url': '/pessoal/cliente/financeiro/'},
             {'label': u'Venda', 'url': '/#'},
         ]},
     )

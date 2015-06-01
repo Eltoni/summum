@@ -116,7 +116,7 @@ class MovimentosCaixaAdmin(ExportMixin, admin.ModelAdmin):
     resource_class = MovimentosCaixaResource
     model = MovimentosCaixa
     list_display = ('id', 'caixa', 'pagamento_associado', 'recebimento_associado', 'tipo_mov', 'valor')
-    list_filter = (('data', DateRangeFilter),)
+    list_filter = (('data', DateRangeFilter), 'tipo_mov')
     date_hierarchy = 'data'
     readonly_fields = ('descricao', 'valor', 'data', 'tipo_mov', 'caixa', 'pagamento_associado', 'recebimento_associado')
     fields = ('descricao', 'valor', 'data', 'tipo_mov', 'caixa', 'pagamento_associado', 'recebimento_associado')

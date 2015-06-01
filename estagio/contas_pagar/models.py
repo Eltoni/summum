@@ -64,6 +64,14 @@ class ContasPagar(models.Model):
     compra_associada.short_description = _(u"Compra")
 
 
+    def formata_descricao(self):
+        if self.descricao:
+            return u"<p title='%s'>%s...</p>" % (self.descricao, self.descricao[:35])
+        return '-'
+    formata_descricao.allow_tags = True
+    formata_descricao.short_description = _(u"Descrição")
+
+
     def valor_total_juros(self):
 
         valor_total_juros = 0

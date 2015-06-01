@@ -23,9 +23,11 @@
      <tbody>
      {% for inline_admin_form in inline_admin_formset %}
 
-        {% if adminform.model_admin.suit_js_include %}
-          <script type="text/javascript" src="{% static '' %}{{ adminform.model_admin.suit_js_include }}"></script>
-        {% endif %}
+        {% for static_js in adminform.model_admin.suit_js_includes %}
+          {% if static_js %}
+            <script type="text/javascript" src="{% static '' %}{{ static_js }}"></script>
+          {% endif %}
+        {% endfor %}
 
         {% if inline_admin_form.form.non_field_errors %}
         <tr><td colspan="{{ inline_admin_form|cell_count }}"><div class="control-group error"><div class="help-block">{{ inline_admin_form.form.non_field_errors }}</div></div></td></tr>
@@ -123,8 +125,21 @@
                 }
             });
         }
+        var getMultiScripts = function(arr, path) {
+            var _arr = $.map(arr, function(scr) {
+                return $.getScript( (path||"") + scr );
+            });
+
+            _arr.push($.Deferred(function( deferred ){
+                $( deferred.resolve );
+            }));
+
+            return $.when.apply($, _arr);
+        };
         var insertSuitJSInclude = function() {
-            $.getScript("{% if adminform.model_admin.suit_js_include %}{% static "" %}{{ adminform.model_admin.suit_js_include }}{% endif %}", function(){});
+            list_array = eval("{{ adminform.model_admin.suit_js_includes|safe|escape }}");
+
+            getMultiScripts(list_array, "{% static '' %}").done(function() {});
         }
         $(rows).formset({
             prefix: "{{ inline_admin_formset.formset.prefix }}",

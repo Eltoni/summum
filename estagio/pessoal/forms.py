@@ -72,6 +72,9 @@ class FornecedorForm(BaseCadastroPessoaForm):
     class Media:
         js = (
             '/static/js/controle_campos_pf_pj.js',
+            '/static/js/formata_campos.js',
+            '/static/js/footable.js',
+            '/static/js/footable.paginate.js',
         )
 
     class Meta:
@@ -123,6 +126,9 @@ class ClienteForm(BaseCadastroPessoaForm):
     class Media:
         js = (
             '/static/js/controle_campos_pf_pj.js',
+            '/static/js/formata_campos.js',
+            '/static/js/footable.js',
+            '/static/js/footable.paginate.js',
         )
 
 

@@ -8,6 +8,7 @@ $(".campo-estado").change(function(){
 
 
 $(document).ready(function(){
+    $.getScript( '/static/selectable/js/jquery.dj.selectable.js' );
 
     $('input[id*="id_enderecoentregacliente_set"]').keyup(function(){
         cidade_id = '#' + $(this).attr( "id" );

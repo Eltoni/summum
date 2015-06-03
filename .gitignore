@@ -52,3 +52,7 @@ coverage.xml
 # Sphinx documentation
 docs/_build/
 
+
+estagio/estagio/media
+estagio/estagio/static
+

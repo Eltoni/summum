@@ -97,12 +97,32 @@ class ParcelasContasReceberInline(admin.TabularInline):
 
 
 
+class VendaAssociadaListFilter(admin.SimpleListFilter):
+    title = ('Oriundo de venda')
+    parameter_name = 'vendas'
+
+    def lookups(self, request, model_admin):
+        return (
+            ('sim', ('Sim')),
+            ('nao', ('Não')),
+            )
+
+    def queryset(self, request, queryset):
+        if self.value() == 'sim':
+            return queryset.filter(vendas__isnull=False) 
+        
+        if self.value() == 'nao':
+            return queryset.filter(vendas__isnull=True)
+
+
+
 class ContasReceberAdmin(ExportMixin, SalmonellaMixin, admin.ModelAdmin):
     resource_class = ContasReceberResource
     model = ContasReceber
     form = ContasReceberForm
+    search_fields = ['id',]
     list_display = ('id', 'venda_associada', 'data', 'descricao', 'status')
-    list_filter = (('data', DateRangeFilter), 'status', 'vendas',)
+    list_filter = (('data', DateRangeFilter), 'status', VendaAssociadaListFilter,)
     date_hierarchy = 'data'
     salmonella_fields = ('cliente', 'forma_pagamento', 'grupo_encargo',)
 

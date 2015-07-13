@@ -54,6 +54,7 @@ class Caixa(models.Model):
         return '-'
     formata_data_fechamento.allow_tags = True
     formata_data_fechamento.short_description = _(u"Data de fechamento")
+    formata_data_fechamento.admin_order_field = 'data_fechamento'
         
 
     def save(self, *args, **kwargs):
@@ -120,6 +121,7 @@ class MovimentosCaixa(models.Model):
             return self.pagamento
         return '-'
     pagamento_associado.short_description = _(u"Pagamento")
+    pagamento_associado.admin_order_field = 'pagamento'
 
 
     def recebimento_associado(self):
@@ -127,6 +129,7 @@ class MovimentosCaixa(models.Model):
             return self.recebimento
         return '-'
     recebimento_associado.short_description = _(u"Recebimento")
+    recebimento_associado.admin_order_field = 'recebimento'
 
 
     def save(self, *args, **kwargs):

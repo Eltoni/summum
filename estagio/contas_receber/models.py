@@ -62,6 +62,7 @@ class ContasReceber(models.Model):
         return '-'
     venda_associada.allow_tags = True
     venda_associada.short_description = _(u"Venda")
+    venda_associada.admin_order_field = 'vendas'
 
 
     def formata_descricao(self):
@@ -107,6 +108,29 @@ class ContasReceber(models.Model):
             valor_encargos += ParcelasContasReceber.objects.get(pk=retorna_id_parcelas).encargos_calculados()
         return valor_encargos or Decimal(0.00).quantize(Decimal("0.00"))
     valor_total_encargos.short_description = _(u"Valor total de encargos")
+
+
+
+    def valor_total_encargos_pagos(self):
+
+        valor_encargos = 0
+        quant_parcelas = ParcelasContasReceber.objects.filter(contas_receber=self.pk).count()
+        for i in range(quant_parcelas):
+            retorna_id_parcelas = ParcelasContasReceber.objects.filter(contas_receber=self.pk).values_list('pk')[i][0]
+            valor_encargos += ParcelasContasReceber.objects.get(pk=retorna_id_parcelas).encargos_pagos()
+        return valor_encargos or Decimal(0.00).quantize(Decimal("0.00"))
+    valor_total_encargos_pagos.short_description = _(u"Valor total de encargos pagos")
+
+
+    def valor_total_encargos_a_pagar(self):
+
+        valor_encargos = 0
+        quant_parcelas = ParcelasContasReceber.objects.filter(contas_receber=self.pk).count()
+        for i in range(quant_parcelas):
+            retorna_id_parcelas = ParcelasContasReceber.objects.filter(contas_receber=self.pk).values_list('pk')[i][0]
+            valor_encargos += ParcelasContasReceber.objects.get(pk=retorna_id_parcelas).encargos_a_pagar()
+        return valor_encargos or Decimal(0.00).quantize(Decimal("0.00"))
+    valor_total_encargos_a_pagar.short_description = _(u"Valor total de encargos pagos")
 
 
     def valor_total_cobrado(self):
@@ -367,6 +391,34 @@ class ParcelasContasReceber(models.Model):
         valor_total_encargos = Decimal(self.calculo_juros() + self.calculo_multa()).quantize(Decimal("0.00"))
         return valor_total_encargos
     encargos_calculados.short_description = _(u"Encargos")
+
+
+    def encargos_pagos(self):
+        u""" 
+        Retorna o valor pago dos encargos cobrados da parcela
+        """
+        if self.pk:
+            encargos_pagos = Decimal(self.valor_pago() - self.valor).quantize(Decimal("0.00"))
+            if encargos_pagos < 0.00:
+                return Decimal(0.00).quantize(Decimal("0.00"))
+            else:
+                return encargos_pagos
+        return 0.00
+    encargos_pagos.short_description = _(u"Encargos Pagos")
+
+
+    def encargos_a_pagar(self):
+        u""" 
+        Retorna o valor a pagar dos encargos cobrados da parcela
+        """
+        if self.pk:
+            encargos_a_pagar = Decimal(self.valor_total() - self.valor - self.encargos_pagos()).quantize(Decimal("0.00"))
+            if encargos_a_pagar < 0.00:
+                return Decimal(0.00).quantize(Decimal("0.00"))
+            else:
+                return encargos_a_pagar
+        return 0.00
+    encargos_a_pagar.short_description = _(u"Encargos a Pagar")
 
 
     def valor_total(self):

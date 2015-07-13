@@ -34,7 +34,7 @@
     list-style: none; 
 }
 .legenda-parcelas li { 
-    float: left; margin-right: 10px; 
+    float: left; margin-right: 10px; padding: 10px;
 }
 .legenda-parcelas span { 
     float: left;
@@ -60,23 +60,33 @@
 .cor-vencida, .cor-paga-parcialmente, .cor-paga, .cor-aberto {
     border-radius: 50%;
 }
+
+#box-legenda-cores-parcelas {
+    background-color: #f6f7f8;
+    border: 1px solid #dddddd;
+    width: 100%;
+    display: table;
+}
+
 </style>
 
-<ul class="legenda-parcelas">
-  <li class="item-legenda">
-    <span class="cor-paga"></span>
-    <font class="fonte-legenda-paga">{% trans 'Paga' %}</font>
-  </li>
-  <li class="item-legenda">
-    <span class="cor-paga-parcialmente"></span>
-    <font class="fonte-legenda-paga-parcialmente">{% trans 'Paga parcialmente' %}</font>
-  </li>
-  <li class="item-legenda">
-    <span class="cor-aberto"></span> 
-    <font class="fonte-legenda-aberto">{% trans 'Em aberto' %}</font>
-  </li>
-  <li>
-    <span class="cor-vencida"></span> 
-    <font class="fonte-legenda-vencida">{% trans 'Vencida' %}</font>
-  </li>
-</ul>
+<div id="box-legenda-cores-parcelas">
+  <ul class="legenda-parcelas">
+    <li class="item-legenda">
+      <span class="cor-paga"></span>
+      <font class="fonte-legenda-paga">{% trans 'Paga' %}</font>
+    </li>
+    <li class="item-legenda">
+      <span class="cor-paga-parcialmente"></span>
+      <font class="fonte-legenda-paga-parcialmente">{% trans 'Paga parcialmente' %}</font>
+    </li>
+    <li class="item-legenda">
+      <span class="cor-aberto"></span> 
+      <font class="fonte-legenda-aberto">{% trans 'Em aberto' %}</font>
+    </li>
+    <li>
+      <span class="cor-vencida"></span> 
+      <font class="fonte-legenda-vencida">{% trans 'Vencida' %}</font>
+    </li>
+  </ul>
+</div>

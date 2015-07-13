@@ -8,6 +8,28 @@ from django import template
 register = template.Library()
 
 
+@register.filter(name='format_value_null')
+def format_value_null(value):
+    """ 
+        Formata texto que é exido como NULL no campo  
+    """
+    if value:
+        return value
+    if not value:
+        return '-'
+
+
+
+@register.filter(name='formata_booleano')
+def formata_booleano(value):
+
+    if value:
+        return 'admin/img/icon-yes.gif'
+    else:
+        return 'admin/img/icon-no.gif'
+
+
+
 @register.filter(name='formata_quantidade_produtos')
 def formata_quantidade_produtos(value, quantidade_minima):
     """

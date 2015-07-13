@@ -77,18 +77,6 @@ class FornecedorForm(BaseCadastroPessoaForm):
             '/static/js/footable.paginate.js',
         )
 
-    class Meta:
-        model = Fornecedor
-        exclude = []
-
-        widgets = {
-            'tipo_pessoa': forms.RadioSelect(),
-            'sexo': forms.RadioSelect(),
-            'data_nasc': SuitDateWidget,
-            'observacao': AutosizedTextarea(attrs={'rows': 5, 'class': 'input-xxlarge', 'placeholder': '...'}),
-            'numero': TextInput(attrs={'class': 'input-mini'}),
-        }
-
     def __init__(self, *args, **kwargs):
         super (FornecedorForm, self).__init__(*args,**kwargs)
         self.fields['cnpj'] = BRCNPJField(required=False, label=_(u"CNPJ"))
@@ -130,6 +118,20 @@ class ClienteForm(BaseCadastroPessoaForm):
             '/static/js/footable.js',
             '/static/js/footable.paginate.js',
         )
+
+    def __init__(self, *args, **kwargs):
+        super (ClienteForm, self).__init__(*args,**kwargs)
+        self.fields['cnpj'] = BRCNPJField(required=False, label=_(u"CNPJ"))
+        self.fields['razao_social'] = BRCNPJField(required=False, label=_(u"Razão Social"))
+
+    # Método que permite salvar valores nulos para o campo CNPJ, já que o mesmo está setado como Unique=True mas não é de preenchimento obrigatório
+    # Também trata o valor para que seja salvo no banco
+    def clean_cnpj(self):
+        cnpj = self.cleaned_data['cnpj']
+        cnpj = cnpj.replace('.', '')
+        cnpj = cnpj.replace('-', '')
+        cnpj = cnpj.replace('/', '')
+        return cnpj or None
 
 
 

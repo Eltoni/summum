@@ -62,6 +62,7 @@ class ContasPagar(models.Model):
         return '-'
     compra_associada.allow_tags = True
     compra_associada.short_description = _(u"Compra")
+    compra_associada.admin_order_field = 'compras'
 
 
     def formata_descricao(self):

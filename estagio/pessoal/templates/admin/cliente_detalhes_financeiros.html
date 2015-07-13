@@ -1,7 +1,8 @@
-{% extends "admin/index.html" %}
+{% extends "admin/base_site.html" %}
 
 {% load i18n admin_static %}
 {% load thumbnail %}
+{% load geral_filters %}
 
 {% block extrastyle %}
   {{ block.super }}
@@ -10,14 +11,205 @@
 
 
 {% block content %}
+    <style>
+    .titulo-th {
+        font-weight: bold !important;
+    }
+    </style>
 
-  <div id="detalhe_financeiro-cliente">
-      <div id="content-main">
-        {% thumbnail cliente.foto "150x150" crop="center" as ft %}
-            <img src="{{ ft.url }}" width="{{ ft.width }}" height="{{ ft.height }}" class="thumbnail">
-        {% endthumbnail %}
-      </div>
-  </div>
+    <div id="detalhe_financeiro-cliente">
+        <div id="content-main">
+            {% if cliente.foto %}
+                {% thumbnail cliente.foto "150x150" crop="center" as ft %}
+                    <img src="{{ ft.url }}" width="{{ ft.width }}" height="{{ ft.height }}" class="thumbnail">
+                {% endthumbnail %}
+            {% else %}
+                <img src="{% static 'img/user_perfil.png' %}" width="150" height="150" class="thumbnail">
+            {% endif %}
+            <br>
+            <fieldset class="module">
+                <h2>{% trans 'Itens financeiros do cliente' %}</h2>
+
+                <table class="table table-bordered table-condensed table-striped pa-dynamic-table">
+                    <!-- CONTAS -->
+                    <thead>
+                        <tr>
+                            <th></th>
+                            <th colspan="1">{% trans 'ID' %}</th>
+                            <th>{% trans 'Data' %}</th>
+                            <th>{% trans 'Venda' %}</th>
+                            <th>{% trans 'Valor total' %}</th>
+                            <th>{% trans 'Descrição' %}</th>
+                            <th>{% trans 'Status' %}</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for cc in contas_cliente %}
+                            <tr id="conta-{{ forloop.counter }}">
+                                <td><a class="pa-dt-toggle"><span class="icon-plus pa-dt-account-details"></span></a></td>
+                                
+                                <td class="field-id">
+                                    <p><a href="{% url 'admin:contas_receber_contasreceber_change' cc.0 %}">{{ cc.0 }}</a></p>
+                                </td>
+                                <td class="field-num_parcelas"><p>{{ cc.1 }}</p></td>
+                                <td class="field-num_parcelas"><p>
+                                    {% if cc.2 %}
+                                        <a href="{% url 'admin:venda_venda_change' cc.2 %}">{{ cc.2 }}</a>
+                                    {% else %}
+                                        {{ cc.2|format_value_null }}
+                                    {% endif %}
+                                </p></td>
+                                <td class="field-formata_data"><p>{{ cc.3 }}</p></td>
+                                <td class="field-formata_data"><p>{{ cc.4|format_value_null }}</p></td>
+                                <td class="field-formata_data">
+                                    <p><img src="{% static cc.5|formata_booleano %}"/></p>
+                                </td>
+                            </tr>
+
+                            <!-- PARCELAS -->
+                            <!-- <thead data-owner="conta-{{ forloop.counter }}"> -->
+                                <tr class="pa-dt-group-account-level" data-owner="conta-{{ forloop.counter }}" data-account-level="conta">
+                                    <th colspan="2"></th>
+                                    <th class="titulo-th" colspan="1">{% trans 'Parcelas da conta' %} {{ cc.0 }}</th>
+                                    <th class="titulo-th">{% trans 'ID' %}</th>
+                                    <th class="titulo-th">{% trans 'Data de vencimento' %}</th>
+                                    <th class="titulo-th">{% trans 'Valor' %}</th>
+                                    <th class="titulo-th">{% trans 'Status' %}</th>
+                                </tr>
+                            <!-- </thead> -->
+                            <tbody data-owner="conta-{{ forloop.counter }}">
+                                {% for pc in parcelas_cliente %}
+                                    {% if pc.4 == cc.0 %}
+                                        <tr id="parcela-{{ forloop.counter }}" class="pa-dt-group-account-level" data-owner="conta-{{ forloop.parentloop.counter }}" data-account-level="parcela">
+                                            <td></td>
+                                            <td><a class="pa-dt-toggle"><span class="icon-plus pa-dt-account-details"></span></a></td>
+                                            <td></td>
+                                            <td><p>{{ pc.0 }}</p></td>
+                                            <td><p>{{ pc.1 }}</p></td>
+                                            <td><p>{{ pc.2 }}</p></td>
+                                            <td class="field-formata_data"><p><img src="{% static pc.3|formata_booleano %}"/></p></td>
+                                        </tr>
+
+                                        <!-- PAGAMENTOS -->
+                                        <!-- <thead data-owner="parcela-{{ forloop.counter }}"> -->
+                                            <tr class="pa-dt-group-account-level" data-owner="parcela-{{ forloop.counter }}" data-account-level="pagamento">
+                                                <th colspan="3"></th>
+                                                <th class="titulo-th" colspan="1">{% trans 'Pagamentos da parcela' %} {{ pc.0 }}</th>
+                                                <th class="titulo-th">{% trans 'ID' %}</th>
+                                                <th class="titulo-th">{% trans 'Data de pagamento' %}</th>
+                                                <th class="titulo-th">{% trans 'Valor' %}</th>
+                                            </tr>
+                                        <!-- </thead> -->
+                                        <!-- <tbody data-owner="parcela-{{ forloop.counter }}"> -->
+                                            {% for rc in recebimentos_cliente %}
+                                                {% if pc.0 == rc.3 %}
+                                                    <tr id="test1-1-1" class="pa-dt-account-level" data-owner="parcela-{{ forloop.parentloop.counter }}"  data-account-level="pagamento">
+                                                        <td class="pa-dt-account-details"></td>
+                                                        <td class="pa-dt-account-details"></td>
+                                                        <td class="pa-dt-account-details"></td>
+                                                        <td class="pa-dt-account-details"></td>
+                                                        <td class="pa-dt-account-details"><p>{{ rc.0 }}</p></td>
+                                                        <td class="pa-dt-account-details"><p>{{ rc.1 }}</p></td>
+                                                        <td class="pa-dt-account-details"><p>{{ rc.2 }}</p></td>
+                                                    </tr>
+                                                {% endif %}
+                                            {% endfor %}
+                                        <!-- </tbody> -->
+                                    {% endif %}
+                                {% endfor %}
+                            </tbody>
+                        {% endfor %}     
+                    </tbody>
+                </table>
+            </fieldset>
+
+
+            <fieldset class="module">
+                <h2>Totais</h2>
+                <table class="table table-bordered table-condensed table-striped">
+                    <thead>
+                        <tr>
+                            <th colspan="1">Status
+                            </th>
+                            <th>Valor
+                            </th>
+                            <th>Encargos
+                            </th>
+                            <th>Total
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="form-row row1 has_original" id="totais_recebidos">
+                            <td class="field-status">
+                                <p>Pago</p>
+                            </td>
+                            <td class="field-valor">
+                                <p>{{ totais_recebidos_sem_encargos }}</p>
+                            </td>
+                            <td class="field-encargos">
+                                <p>{{ encargos_recebidos }}</p>
+                            </td>
+                            <td class="field-total">
+                                <p>{{ totais_recebidos }}</p>
+                            </td>
+                        </tr>
+                        <tr class="form-row row2 has_original" id="totais_a_receber">
+                            <td class="field-status">
+                                <p>À Pagar</p>
+                            </td>
+                            <td class="field-valor">
+                                <p>{{ totais_a_pagar_sem_encargos }}</p>
+                            </td>
+                            <td class="field-encargos">
+                                <p>{{ encargos_a_receber }}</p>
+                            </td>
+                            <td class="field-total">
+                                <p>{{ totais_a_receber }}</p>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </fieldset>
+
+
+        </div>
+    </div>
+
+    <script>
+        // Hide all group and account level
+        $('.pa-dt-group-account-level').hide();
+        $('.pa-dt-account-level').hide();
+
+        // Define our button for toggling
+        var button = $( "table.pa-dynamic-table a.pa-dt-toggle" );
+
+        button.click(function() {
+            // get the parent ID
+            var parentId = $(this).parents('tr').attr("id");
+            // get the parent account level
+            var accountType = $(this).parents('tr').attr("data-account-level");
+            
+            console.log(parentId);
+            console.log(accountType);
+            
+            if ($(this).hasClass("pa-dt-toggle-active")) {
+                $(this).removeClass('pa-dt-toggle-active');
+                $('[data-owner="' + parentId +'"]').hide();
+                $(this).closest('tr').find('.icon-minus').removeClass('icon-minus').addClass('icon-plus');
+                
+            } else {
+                $(this).addClass('pa-dt-toggle-active');
+                $('[data-owner="' + parentId +'"]').show();
+                $(this).closest('tr').find('.icon-plus').removeClass('icon-plus').addClass('icon-minus');
+            }
+        });
+
+        button.click(function(e){
+            e.stopPropagation();
+        });
+
+    </script>
 
 {% endblock %}
 

@@ -9,7 +9,7 @@ from sorl.thumbnail import ImageField
 from django.utils.translation import ugettext_lazy as _
 from django.utils.html import format_html
 from django.utils.encoding import python_2_unicode_compatible
-
+from django.core.urlresolvers import reverse
 
 # faz a validação da data de nascimento para que o usuário fique impedido de informar data maior ou igual a hoje, e seja maior de 18 anos
 def valida_data_nascimento(value):
@@ -114,11 +114,11 @@ class Cliente(BaseCadastroPessoa):
 
         hoje = date.today()
         status = ParcelasContasReceber.objects.filter(vencimento__lt=hoje, status=False, contas_receber__cliente=obj.pk).select_related('contas_receber__contasreceber').exists()
-        
+        url = reverse('admin:pessoal_cliente_changelist')
         if status:
-            return '<span style="color: #FF0000;"><b>Inadimplente</b></span>'
+            return format_html('<a href="{0}detalhes_financeiros/{1}"><span style="color: #FF0000;"><b>{2}</b></span></a>', url, obj.pk, _(u"Inadimplente"))
         else:
-            return '<span style="color: #3E3CBF;"><b>Adimplente</b></span>'
+            return format_html('<a href="{0}detalhes_financeiros/{1}"><span style="color: #3E3CBF;"><b>{2}</b></span></a>', url, obj.pk, _(u"Adimplente"))
 
     status_financeiro.allow_tags = True
     status_financeiro.short_description = _(u"Status financeiro")
@@ -172,11 +172,11 @@ class Fornecedor(BaseCadastroPessoa):
 
         hoje = date.today()
         status = ParcelasContasPagar.objects.filter(vencimento__lt=hoje, status=False, contas_pagar__fornecedores=obj.pk).select_related('contas_pagar__contaspagar').exists()
-        
+        url = reverse('admin:pessoal_cliente_changelist')
         if status:
-            return '<span style="color: #FF0000;"><b>Inadimplente</b></span>'
+            return format_html('<span style="color: #FF0000;"><b>{0}</b></span>',  _(u"Inadimplente"))
         else:
-            return '<span style="color: #3E3CBF;"><b>Adimplente</b></span>'
+            return format_html('<span style="color: #3E3CBF;"><b>{0}</b></span>',  _(u"Adimplente"))
 
     status_financeiro.allow_tags = True
     status_financeiro.short_description = _(u"Status financeiro")

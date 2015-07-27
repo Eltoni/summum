@@ -1,11 +1,11 @@
 #-*- coding: UTF-8 -*-
 from pessoal.models import Cliente, Fornecedor, Funcionario, Cargo
-from import_export import resources
-from import_export import fields
-
+from import_export import resources, fields
+from utilitarios.funcoes import remove_tags
 
 #classes usadas pelo import_export
 class ClienteResource(resources.ModelResource):
+    status_financeiro = fields.Field()
 
     class Meta:
         model = Cliente
@@ -21,11 +21,20 @@ class ClienteResource(resources.ModelResource):
         return '%s' % (cliente.data.strftime('%d/%m/%Y'))
 
     def dehydrate_data_nasc(self, cliente):
-        return '%s' % (cliente.data_nasc.strftime('%d/%m/%Y'))
+        try:
+            return '%s' % (cliente.data_nasc.strftime('%d/%m/%Y'))
+        except:
+            return None
 
+    def dehydrate_status_financeiro(self, cliente):
+        return remove_tags(cliente.status_financeiro())
+
+    def dehydrate_cidade(self, cliente):
+        return '%s' % (cliente.cidade.nome)
 
 
 class FornecedorResource(resources.ModelResource):
+    status_financeiro = fields.Field()
 
     class Meta:
         model = Fornecedor
@@ -41,7 +50,16 @@ class FornecedorResource(resources.ModelResource):
         return '%s' % (fornecedor.data.strftime('%d/%m/%Y'))
 
     def dehydrate_data_nasc(self, fornecedor):
-        return '%s' % (fornecedor.data_nasc.strftime('%d/%m/%Y'))
+        try:
+            return '%s' % (fornecedor.data_nasc.strftime('%d/%m/%Y'))
+        except:
+            return None
+
+    def dehydrate_status_financeiro(self, fornecedor):
+        return remove_tags(fornecedor.status_financeiro())
+
+    def dehydrate_cidade(self, fornecedor):
+        return '%s' % (fornecedor.cidade.nome)
 
 
 
@@ -61,14 +79,20 @@ class FuncionarioResource(resources.ModelResource):
         return '%s' % (funcionario.data.strftime('%d/%m/%Y'))
 
     def dehydrate_data_nasc(self, funcionario):
-        return '%s' % (funcionario.data_nasc.strftime('%d/%m/%Y'))
-
+        try:
+            return '%s' % (funcionario.data_nasc.strftime('%d/%m/%Y'))
+        except:
+            return None
+            
     def dehydrate_cargo(self, funcionario):
         # trata os indicados que não tem vinculo com aluno
         try:
             return '%s' % (funcionario.cargo.nome)
         except:
             pass
+
+    def dehydrate_cidade(self, funcionario):
+        return '%s' % (funcionario.cidade.nome)
 
 
 

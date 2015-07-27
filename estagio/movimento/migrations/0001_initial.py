@@ -2,8 +2,8 @@
 from __future__ import unicode_literals
 
 from django.db import models, migrations
-import sorl.thumbnail.fields
 import django.db.models.deletion
+import sorl.thumbnail.fields
 
 
 class Migration(migrations.Migration):
@@ -15,33 +15,33 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='Categoria',
             fields=[
-                ('id', models.AutoField(verbose_name='ID', primary_key=True, auto_created=True, serialize=False)),
-                ('nome', models.CharField(unique=True, verbose_name='Nome', max_length=255)),
-                ('descricao', models.TextField(verbose_name='Descrição', blank=True)),
+                ('id', models.AutoField(primary_key=True, auto_created=True, verbose_name='ID', serialize=False)),
+                ('nome', models.CharField(verbose_name='Nome', max_length=255, unique=True)),
+                ('descricao', models.TextField(blank=True, verbose_name='Descrição')),
             ],
         ),
         migrations.CreateModel(
             name='Marca',
             fields=[
-                ('id', models.AutoField(verbose_name='ID', primary_key=True, auto_created=True, serialize=False)),
-                ('nome', models.CharField(unique=True, verbose_name='Nome', max_length=255)),
-                ('logo', sorl.thumbnail.fields.ImageField(verbose_name='Logo', blank=True, max_length=255, upload_to='marcas')),
-                ('descricao', models.TextField(verbose_name='Descrição', blank=True)),
+                ('id', models.AutoField(primary_key=True, auto_created=True, verbose_name='ID', serialize=False)),
+                ('nome', models.CharField(verbose_name='Nome', max_length=255, unique=True)),
+                ('logo', sorl.thumbnail.fields.ImageField(blank=True, max_length=255, upload_to='marcas', verbose_name='Logo')),
+                ('descricao', models.TextField(blank=True, verbose_name='Descrição')),
             ],
         ),
         migrations.CreateModel(
             name='Produtos',
             fields=[
-                ('id', models.AutoField(verbose_name='ID', primary_key=True, auto_created=True, serialize=False)),
+                ('id', models.AutoField(primary_key=True, auto_created=True, verbose_name='ID', serialize=False)),
                 ('nome', models.CharField(verbose_name='Nome', max_length=255)),
-                ('preco', models.DecimalField(verbose_name='Preço de compra', decimal_places=2, max_digits=20)),
-                ('preco_venda', models.DecimalField(verbose_name='Preço de venda', decimal_places=2, max_digits=20)),
-                ('quantidade', models.IntegerField(default=0, verbose_name='Quantidade')),
-                ('descricao', models.TextField(verbose_name='Descrição', blank=True)),
-                ('status', models.BooleanField(default=True, verbose_name='Status', help_text='Indica se o produto está ativo para atividades de compra e venda.')),
-                ('imagem', sorl.thumbnail.fields.ImageField(verbose_name='Imagem', blank=True, max_length=255, upload_to='produtos')),
-                ('categorias', models.ManyToManyField(verbose_name='Categoria', blank=True, to='movimento.Categoria')),
-                ('marca', models.ForeignKey(to='movimento.Marca', null=True, verbose_name='Marca', blank=True, on_delete=django.db.models.deletion.PROTECT)),
+                ('preco', models.DecimalField(verbose_name='Preço de compra', max_digits=20, decimal_places=2)),
+                ('preco_venda', models.DecimalField(verbose_name='Preço de venda', max_digits=20, decimal_places=2)),
+                ('quantidade', models.IntegerField(verbose_name='Quantidade', default=0)),
+                ('descricao', models.TextField(blank=True, verbose_name='Descrição')),
+                ('status', models.BooleanField(verbose_name='Status', help_text='Indica se o produto está ativo para atividades de compra e venda.', default=True)),
+                ('imagem', sorl.thumbnail.fields.ImageField(blank=True, max_length=255, upload_to='produtos', verbose_name='Imagem')),
+                ('categorias', models.ManyToManyField(blank=True, verbose_name='Categoria', to='movimento.Categoria')),
+                ('marca', models.ForeignKey(blank=True, null=True, to='movimento.Marca', verbose_name='Marca', on_delete=django.db.models.deletion.PROTECT)),
             ],
             options={
                 'verbose_name': 'Produto',

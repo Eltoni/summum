@@ -5,20 +5,14 @@ from pessoal.forms import *
 from import_export.admin import ExportMixin
 from sorl.thumbnail.admin import AdminImageMixin
 from pessoal.export import ClienteResource, FornecedorResource, FuncionarioResource, CargoResource
-from contas_receber.models import ContasReceber, ParcelasContasReceber
 from contas_pagar.models import ContasPagar, ParcelasContasPagar
 from django.contrib.admin.views.main import IS_POPUP_VAR
 from app_global.admin import GlobalAdmin
 from django.utils.translation import ugettext_lazy as _
-import xml.etree.ElementTree
 from selectable_filter.filter import SelectableFilter
 from django.conf.urls import patterns
 from pessoal.views import get_dados_usuario, cliente_financeiro, cliente_detalhe_financeiro
-
-
-def remove_tags(text):
-    """Remove elementos html de uma string e retorna o resultado"""
-    return ''.join(xml.etree.ElementTree.fromstring(text).itertext())
+from utilitarios.funcoes import remove_tags
 
 
 class StatusFinanceiroFilter(admin.SimpleListFilter):
@@ -78,49 +72,6 @@ class BaseCadastroPessoaAdmin(AdminImageMixin, GlobalAdmin):
             return qs.filter(status=True)
         return qs
 
-
-
-class ContasReceberInline(admin.TabularInline):
-    model = ContasReceber
-    ordering = ("status", "pk",)
-    suit_classes = 'suit-tab suit-tab-financeiro'
-    extra = 0
-    fields = ('link_conta', 'data', 'venda_associada', 'valor_total', 'formata_descricao', 'status')
-    readonly_fields = ('link_conta', 'data', 'venda_associada', 'valor_total', 'formata_descricao', 'status')
-
-    def save_formset(self, request, form, formset, change):
-        pass
-
-    def has_add_permission(self, request):
-        return False
-
-    def has_delete_permission(self, request, obj=None):
-        return False
-
-    def link_conta(object, instance):
-        if instance.pk:
-            return "<a href=\"/%s/%s/%s\" target='_blank'>%s</a>" % (instance._meta.app_label, instance._meta.model_name, instance.pk, instance.pk,)
-        return '-'
-    
-    link_conta.allow_tags = True
-    link_conta.short_description = _(u"ID")
-
-# class ParcelasContasReceberInline(admin.TabularInline):
-#     model = ParcelasContasReceber
-#     #fk_name = cliente_associado()
-#     suit_classes = 'suit-tab suit-tab-financeiro'
-#     extra = 0
-#     fields = ('id', 'vencimento', 'valor',)
-#     readonly_fields = ('id', 'vencimento', 'valor',)
-
-#     def save_formset(self, request, form, formset, change):
-#         pass
-
-#     def has_add_permission(self, request):
-#         return False
-
-#     def has_delete_permission(self, request, obj=None):
-#         return False
 
 
 class EnderecoEntregaClienteInline(admin.StackedInline):
@@ -190,10 +141,6 @@ class ClienteAdmin(ExportMixin, BaseCadastroPessoaAdmin):
             self.fieldsets[0][1]['fields'] = tuple(x for x in self.fieldsets[0][1]['fields'] if (x!='status_financeiro'))
             self.fieldsets[2][1]['fields'] = tuple(x for x in self.fieldsets[2][1]['fields'] if (x!='formata_data_nascimento'))
 
-        else:
-            insert_into_suit_form_tabs = tuple([('financeiro', _(u"Financeiro"))])
-            self.suit_form_tabs += insert_into_suit_form_tabs
-
         return super(ClienteAdmin, self).get_form(request, obj, **kwargs)
 
 
@@ -206,23 +153,6 @@ class ClienteAdmin(ExportMixin, BaseCadastroPessoaAdmin):
             obj.razao_social = None
 
         obj.save()
-
-
-    # trata as inlines que aparecem no resumo financeiro dos clientes
-    def get_inline_instances(self, request, obj=None):
-        
-        self.inlines = [EnderecoEntregaClienteInline,]
-
-        #self.inlines.insert(1, ParcelasContasReceberInline)
-        try:
-            tem_contas = ContasReceber.objects.filter(cliente=obj.pk).exists()
-            if tem_contas:
-                self.inlines.insert(1, ContasReceberInline)
-
-        except:
-            pass
-
-        return super(ClienteAdmin, self).get_inline_instances(request, obj)
 
 
 

@@ -131,7 +131,7 @@ class ContasPagar(models.Model):
 
     def link_pagamentos_conta(self):
         url = reverse('admin:app_list', kwargs={'app_label': 'contas_pagar'})
-        return format_html('<a href="{0}pagamento/pagamentos_conta/{1}" target="_blank">{2}<span class="icon-share icon-alpha5" style="vertical-align: text-bottom; margin-left: 10px;" rel="tooltip" title="Visualize todos os pagamentos efetuados da conta {1}"</span></a>', url, self.pk, self.valor_total_pago())
+        return format_html('<a href="{0}pagamento/pagamentos_conta/{1}" target="_blank">{2}<span class="icon-share icon-alpha5 hint--bottom hint--bounce" style="vertical-align: text-bottom; margin-left: 10px;" rel="tooltip" data-hint="{3} {1}"</span></a>', url, self.pk, self.valor_total_pago(), _(u"Visualize todos os pagamentos efetuados da conta"))
         # return u"<a href='%spagamento/pagamentos_conta/%s' target='_blank'>%s</a>" % (url, self.pk, self.valor_total_pago())
     link_pagamentos_conta.allow_tags = True
     link_pagamentos_conta.short_description = _(u"Valor total pago")
@@ -285,15 +285,26 @@ class ParcelasContasPagar(models.Model):
     valor = models.DecimalField(max_digits=20, decimal_places=2, verbose_name=_(u"Valor")) 
     status = models.BooleanField(default=False, verbose_name=_(u"Status"))
     num_parcelas = models.IntegerField(verbose_name=_(u"Nº Parcela"))
-    contas_pagar = models.ForeignKey(ContasPagar, on_delete=models.PROTECT, verbose_name=_(u"Conta à pagar"))
+    contas_pagar = models.ForeignKey(ContasPagar, on_delete=models.PROTECT, verbose_name=_(u"Conta a pagar"))
 
     class Meta:
-        verbose_name = _(u"Parcela de Conta à Pagar")
-        verbose_name_plural = _(u"Parcelas de Contas à Pagar")
+        verbose_name = _(u"Parcela de Conta a Pagar")
+        verbose_name_plural = _(u"Parcelas de Contas a Pagar")
+        permissions = ((u"pode_exportar_parcelascontaspagar", _(u"Exportar Parcelas de Contas a Pagar")),)
 
 
     def __str__(self):
         return u'%s' % (self.id)
+
+
+    def conta_associada(self):
+        if self.contas_pagar:
+            url = reverse("admin:contas_pagar_contaspagar_change", args=[self.contas_pagar])
+            return u"<a href='%s' target='_blank'>%s</a>" % (url, self.contas_pagar)
+        return '-'
+    conta_associada.allow_tags = True
+    conta_associada.short_description = _(u"Conta a pagar")
+    conta_associada.admin_order_field = 'contas_pagar'
 
 
     def calculo_juros(self):
@@ -400,26 +411,26 @@ class ParcelasContasPagar(models.Model):
     valor_a_pagar.short_description = _(u"Valor a Pagar")
 
 
-    def link_pagamentos_parcela_cores(self):
+    def status_parcela(self):
         data = datetime.date.today()
         if self.valor_pago() >= self.valor_total():
-            return '#2DB218 !important' #Pago
+            return ('#2DB218', _(u'Pago')) #Pago
 
         if self.valor_total() > self.valor_pago() and self.valor_pago() > 0.00:
-            return '#355EED !important' #Pago Parcial
+            return ('#355EED', _(u'Pago Parcialmente')) #Pago Parcial
 
         if self.vencimento < data:
-            return '#E8262A !important' #Vencido
+            return ('#E8262A', _(u'Vencido')) #Vencido
 
         else: 
-            return '#333333 !important' #Em aberto
+            return ('#333333', _(u'Em aberto')) #Em aberto
 
 
     def link_pagamentos_parcela(self):
         #return u"<a href='../../pagamento/add' target='_blank'>Pagar</a>"
         url = reverse('admin:app_list', kwargs={'app_label': 'contas_pagar'})
         # return u"<a href='%spagamento/pagamentos_parcela/%s' target='_blank' name='_return_id_parcela'>%s</a>" % (url, self.pk, self.valor_pago())
-        return format_html('<a href="{0}pagamento/pagamentos_parcela/{1}" target="_blank" style="color: {2};">{3}<span class="icon-share icon-alpha5" style="position: relative; float: right; right: 20%;" rel="tooltip" title="Visualize todos os pagamentos efetuados da parcela {1}"</span></a>', url, self.pk, self.link_pagamentos_parcela_cores(), self.valor_pago())
+        return format_html('<a href="{0}pagamento/pagamentos_parcela/{1}" target="_blank" style="color: {2};">{3}<span class="icon-share icon-alpha5 hint--bottom hint--bounce" style="position: relative; float: right; right: 20%;" rel="tooltip" data-hint="{4} {1}"</span></a>', url, self.pk, self.status_parcela()[0], self.valor_pago(), _(u"Visualize todos os pagamentos efetuados da parcela"))
     link_pagamentos_parcela.allow_tags = True
     link_pagamentos_parcela.short_description = _(u"Valor Pago")
 

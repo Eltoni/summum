@@ -7,6 +7,7 @@ from caixa.models import *
 import time
 from itertools import groupby
 from utilitarios.funcoes_data import date_settings_timezone
+from django.utils.translation import gettext as _g
 
 
 def index(request):
@@ -42,7 +43,7 @@ def index(request):
 			cred = 0
 			for d2 in data:
 				if d == date_settings_timezone(d2[0]):
-					if d2[2] == u'Crédito':
+					if d2[2] == _g('Crédito'):
 						cred += Decimal(d2[1].strip(' "'))
 						deb += Decimal('0.00'.strip(' "'))
 					else:
@@ -66,8 +67,8 @@ def index(request):
 		}
 
 		chartdata = {'x': data_mov,
-					 'name1': u'Crédito (R$)', 'y1': credito, 'extra1': extra_serie,
-					 'name2': u'Débito (R$)', 'y2': debito, 'extra2': extra_serie
+					 'name1': _g('Crédito (R$)'), 'y1': credito, 'extra1': extra_serie,
+					 'name2': _g('Débito (R$)'), 'y2': debito, 'extra2': extra_serie
 		}
 
 		charttype = "lineChart"

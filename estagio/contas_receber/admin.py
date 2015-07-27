@@ -8,8 +8,9 @@ from contas_receber.views import retorna_recebimentos_parcela, retorna_recebimen
 from salmonella.admin import SalmonellaMixin
 from django.utils.translation import ugettext_lazy as _
 from import_export.admin import ExportMixin
-from contas_receber.export import ContasReceberResource
+from contas_receber.export import ContasReceberResource, ParcelasContasReceberResource
 from daterange_filter.filter import DateRangeFilter
+from selectable_filter.filter import SelectableFilter
 
 
 class RecebimentoAdmin(admin.ModelAdmin):
@@ -122,7 +123,7 @@ class ContasReceberAdmin(ExportMixin, SalmonellaMixin, admin.ModelAdmin):
     form = ContasReceberForm
     search_fields = ['id',]
     list_display = ('id', 'venda_associada', 'data', 'descricao', 'status')
-    list_filter = (('data', DateRangeFilter), 'status', VendaAssociadaListFilter,)
+    list_filter = (('cliente', SelectableFilter), ('data', DateRangeFilter), 'status', VendaAssociadaListFilter,)
     date_hierarchy = 'data'
     salmonella_fields = ('cliente', 'forma_pagamento', 'grupo_encargo',)
 
@@ -191,11 +192,15 @@ class ContasReceberAdmin(ExportMixin, SalmonellaMixin, admin.ModelAdmin):
 
 
 
-class ParcelasContasReceberAdmin(admin.ModelAdmin):
+class ParcelasContasReceberAdmin(ExportMixin, admin.ModelAdmin):
+    resource_class = ParcelasContasReceberResource
     model = ParcelasContasReceber
-    list_display = ('id', 'contas_receber', 'vencimento', 'valor', 'num_parcelas', 'status')
-    #readonly_fields = ('id', 'contas_receber', 'vencimento', 'valor', 'num_parcelas',)
+    list_display = ('id', 'conta_associada', 'vencimento', 'valor', 'num_parcelas', 'status')
+    list_filter = (('contas_receber__cliente', SelectableFilter), 'status')
+    readonly_fields = ('id', 'conta_associada', 'vencimento', 'valor', 'num_parcelas', 'status')
 
+    def has_add_permission(self, request, obj=None):
+        return False
 
 
 admin.site.register(ContasReceber, ContasReceberAdmin)

@@ -82,9 +82,9 @@ class CaixaAdmin(ExportMixin, admin.ModelAdmin):
             #to = 'gustavo.sdo@gmail.com'
             mensagem_customizada = Parametrizacao.objects.get().email_abertura_caixa
 
-            assunto = u'Notificação (Abertura de Caixa)'
+            assunto = _(u'Notificação (Abertura de Caixa)')
             from_email = 'gustavo.sdo@gmail.com'
-            text_content = u'Essa é uma mensagem importante.'
+            text_content = _(u'Essa é uma mensagem importante.')
             html_content = u'%(header)s \
                              <p>Há um novo Caixa criado no sistema, aberto por: %(nome)s %(sobrenome)s.</p> \
                              <br> \

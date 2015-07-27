@@ -1,6 +1,6 @@
 #-*- coding: UTF-8 -*-
 from django.forms import ModelForm, TextInput, CheckboxInput
-from suit.widgets import LinkedSelect, NumberInput, AutosizedTextarea
+from suit.widgets import LinkedSelect, NumberInput, AutosizedTextarea, SuitSplitDateTimeWidget
 from django.forms import forms
 from django.forms.models import BaseInlineFormSet
 from venda.models import *
@@ -123,6 +123,7 @@ class EntregaVendaForm(ModelForm):
         widgets = {
             'observacao': AutosizedTextarea(attrs={'rows': 5, 'class': 'input-xxlarge', 'placeholder': '...'}),
             'endereco': LinkedSelect(attrs={'class': 'input-xxlarge endereco-entrega-field'}),
+            'data': SuitSplitDateTimeWidget,
         }
 
     def __init__(self, *args, **kwargs):

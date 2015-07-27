@@ -3,505 +3,609 @@
 # This file is distributed under the same license as the PACKAGE package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 #
-#, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: PACKAGE VERSION\n"
+"Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-04-11 17:06-0300\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
-"Language-Team: LANGUAGE <LL@li.org>\n"
-"Language: \n"
+"POT-Creation-Date: 2015-07-26 14:40-0300\n"
+"PO-Revision-Date: 2015-07-26 14:37-0300\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: en\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: Poedit 1.7.6\n"
 
-#: .\caixa\admin.py:20 .\compra\admin.py:72 .\configuracoes\admin.py:25
-#: .\contas_pagar\admin.py:122 .\contas_receber\admin.py:122
-#: .\movimento\admin.py:50 .\parametros_financeiros\admin.py:24
-#: .\parametros_financeiros\admin.py:70 .\pessoal\admin.py:27
-#: .\pessoal\admin.py:123 .\pessoal\admin.py:217 .\venda\admin.py:71
+#: .\caixa\admin.py:36 .\compra\admin.py:88 .\configuracoes\admin.py:53
+#: .\contas_pagar\admin.py:144 .\contas_receber\admin.py:144
+#: .\movimento\admin.py:51 .\parametros_financeiros\admin.py:24
+#: .\parametros_financeiros\admin.py:70 .\pessoal\admin.py:50
+#: .\pessoal\admin.py:133 .\pessoal\admin.py:225 .\venda\admin.py:159
 msgid "Geral"
 msgstr ""
 
-#: .\caixa\models.py:28 .\contas_pagar\models.py:271
-#: .\contas_receber\models.py:270 .\movimento\models.py:30
-#: .\parametros_financeiros\models.py:33 .\pessoal\models.py:36
+#: .\caixa\admin.py:85
+msgid "Notificação (Abertura de Caixa)"
+msgstr ""
+
+#: .\caixa\admin.py:87
+msgid "Essa é uma mensagem importante."
+msgstr ""
+
+#: .\caixa\models.py:30 .\contas_pagar\models.py:286
+#: .\contas_receber\models.py:301 .\movimento\models.py:34
+#: .\parametros_financeiros\models.py:35 .\parametros_financeiros\models.py:70
+#: .\pessoal\models.py:70 .\pessoal\models.py:219
+#: .\pessoal\templates\admin\cliente_detalhes_financeiros.html:46
+#: .\pessoal\templates\admin\cliente_detalhes_financeiros.html:122
 msgid "Status"
 msgstr ""
 
-#: .\caixa\models.py:28
+#: .\caixa\models.py:30
 msgid "Desmarque o Checkbox para indicar que o caixa está fechado."
 msgstr ""
 
-#: .\caixa\models.py:29
+#: .\caixa\models.py:31
 msgid "Data de abertura"
 msgstr ""
 
-#: .\caixa\models.py:30
+#: .\caixa\models.py:32 .\caixa\models.py:56
 msgid "Data de fechamento"
 msgstr ""
 
-#: .\caixa\models.py:31
+#: .\caixa\models.py:33
 msgid "Valor de entrada"
 msgstr ""
 
-#: .\caixa\models.py:32
+#: .\caixa\models.py:34
 msgid "Valor de saída"
 msgstr ""
 
-#: .\caixa\models.py:33 .\contas_pagar\models.py:25
-#: .\contas_receber\models.py:25
+#: .\caixa\models.py:35 .\contas_pagar\models.py:28
+#: .\contas_receber\models.py:28
 msgid "Valor total"
 msgstr ""
 
-#: .\caixa\models.py:35
+#: .\caixa\models.py:37
 msgid "Valor de fechamento"
 msgstr ""
 
-#: .\caixa\models.py:36
+#: .\caixa\models.py:38
 msgid "Diferença"
 msgstr ""
 
-#: .\caixa\models.py:78
+#: .\caixa\models.py:41 .\caixa\models.py:107
+msgid "Caixa"
+msgstr ""
+
+#: .\caixa\models.py:42
+msgid "Caixas"
+msgstr ""
+
+#: .\caixa\models.py:43
+#, fuzzy
+#| msgid "Exportar"
+msgid "Exportar Caixas"
+msgstr "Export"
+
+#: .\caixa\models.py:44
+msgid "Receber notificações de caixa."
+msgstr ""
+
+#: .\caixa\models.py:97
 #, python-format
 msgid ""
 "Já há um caixa aberto. Para abrir este, é necessário fechar o caixa "
 "atualmente aberto (Caixa: %(caixa_aberto)s)."
 msgstr ""
 
-#: .\caixa\models.py:83 .\contas_pagar\models.py:27
-#: .\contas_receber\models.py:27 .\movimento\models.py:10
-#: .\movimento\models.py:18 .\movimento\models.py:29
-#: .\parametros_financeiros\models.py:9 .\pessoal\models.py:121
+#: .\caixa\models.py:103 .\contas_pagar\models.py:30
+#: .\contas_pagar\models.py:73 .\contas_receber\models.py:30
+#: .\contas_receber\models.py:73 .\movimento\models.py:12
+#: .\movimento\models.py:21 .\movimento\models.py:33
+#: .\parametros_financeiros\models.py:11 .\pessoal\models.py:189
 msgid "Descrição"
 msgstr ""
 
-#: .\caixa\models.py:84 .\contas_pagar\models.py:270
-#: .\contas_pagar\models.py:462
+#: .\caixa\models.py:104 .\contas_pagar\models.py:285
+#: .\contas_pagar\models.py:491
 #: .\contas_pagar\templates\admin\pagamentos_conta.html:26
 #: .\contas_pagar\templates\admin\pagamentos_parcela.html:26
-#: .\contas_receber\models.py:269 .\contas_receber\models.py:470
+#: .\contas_receber\models.py:300 .\contas_receber\models.py:562
 #: .\contas_receber\templates\admin\recebimentos_conta.html:26
 #: .\contas_receber\templates\admin\recebimentos_parcela.html:26
 msgid "Valor"
 msgstr ""
 
-#: .\caixa\models.py:85 .\contas_pagar\models.py:24
-#: .\contas_pagar\models.py:461 .\contas_receber\models.py:24
-#: .\contas_receber\models.py:469 .\pessoal\models.py:47
+#: .\caixa\models.py:105 .\contas_pagar\models.py:27
+#: .\contas_pagar\models.py:490 .\contas_receber\models.py:27
+#: .\contas_receber\models.py:561 .\pessoal\models.py:69
 msgid "Data"
 msgstr ""
 
-#: .\caixa\models.py:86
+#: .\caixa\models.py:106
 msgid "Tipo de movimento"
 msgstr ""
 
-#: .\caixa\models.py:87
-msgid "Caixa"
-msgstr ""
-
-#: .\caixa\models.py:88 .\caixa\models.py:99
+#: .\caixa\models.py:108 .\caixa\models.py:123
 msgid "Pagamento"
 msgstr ""
 
-#: .\caixa\models.py:89 .\caixa\models.py:106 .\contas_receber\models.py:477
+#: .\caixa\models.py:109 .\caixa\models.py:131 .\contas_receber\models.py:569
 msgid "Recebimento"
 msgstr ""
 
-#: .\caixa\models.py:141
+#: .\caixa\models.py:112
+msgid "Movimento de Caixa"
+msgstr ""
+
+#: .\caixa\models.py:113
+msgid "Movimentos de Caixas"
+msgstr ""
+
+#: .\caixa\models.py:114
+msgid "Exportar Movimentos de Caixas"
+msgstr ""
+
+#: .\caixa\models.py:167
 #, python-format
 msgid ""
 "Pagamento: %(pagamento)s, proveniente da parcela: %(parcela)s, da conta a "
 "pagar: %(conta_pagar)s, da compra: %(compra)s."
 msgstr ""
 
-#: .\caixa\models.py:145
+#: .\caixa\models.py:171
 #, python-format
 msgid "Pagamento avulso. %(pagamento)s"
 msgstr ""
 
-#: .\caixa\models.py:179
+#: .\caixa\models.py:205
 #, python-format
 msgid ""
 "Recebimento: %(recebimento)s, proveniente da parcela: %(parcela)s, da conta "
 "a receber: %(conta_receber)s, da venda: %(venda)s."
 msgstr ""
 
-#: .\caixa\models.py:183
+#: .\caixa\models.py:209
 #, python-format
 msgid "Recebimento avulso. %(recebimento)s"
 msgstr ""
 
-#: .\compra\admin.py:73 .\venda\admin.py:72
+#: .\compra\admin.py:89 .\venda\admin.py:160
 msgid "Informações adicionais"
 msgstr ""
 
-#: .\compra\forms.py:110
+#: .\compra\forms.py:115
 msgid "Pelo menos um item de compra deve ser cadastrado."
 msgstr ""
 
-#: .\compra\models.py:18 .\compra\models.py:114 .\venda\models.py:18
-#: .\venda\models.py:120
+#: .\compra\models.py:20 .\compra\models.py:119
+#: .\pessoal\templates\admin\cliente_detalhes_financeiros.html:49
+#: .\venda\models.py:24 .\venda\models.py:138
 msgid "Total (R$)"
 msgstr ""
 
-#: .\compra\models.py:18
+#: .\compra\models.py:20
 msgid "Valor total da compra."
 msgstr ""
 
-#: .\compra\models.py:19
+#: .\compra\models.py:21
 msgid "Data da compra"
 msgstr ""
 
-#: .\compra\models.py:20 .\compra\models.py:115 .\venda\models.py:20
-#: .\venda\models.py:121
+#: .\compra\models.py:22 .\compra\models.py:120 .\venda\models.py:26
+#: .\venda\models.py:139
 msgid "Desconto (%)"
 msgstr ""
 
-#: .\compra\models.py:20
+#: .\compra\models.py:22
 msgid "Desconto sob o valor total da compra."
 msgstr ""
 
-#: .\compra\models.py:21 .\venda\models.py:21
+#: .\compra\models.py:23 .\venda\models.py:27
 msgid "Cancelada?"
 msgstr ""
 
-#: .\compra\models.py:21
-msgid "Marcando o Checkbox, a compra será cancelada e o financeiro acertado."
+#: .\compra\models.py:23
+msgid "Indica se o status da compra está ativo ou cancelada."
 msgstr ""
 
-#: .\compra\models.py:22 .\contas_pagar\models.py:29 .\pessoal\models.py:93
+#: .\compra\models.py:24 .\contas_pagar\models.py:32 .\pessoal\models.py:159
 msgid "Fornecedor"
 msgstr ""
 
-#: .\compra\models.py:23 .\contas_pagar\models.py:30
-#: .\contas_receber\models.py:30 .\venda\models.py:23
+#: .\compra\models.py:25 .\contas_pagar\models.py:33
+#: .\contas_receber\models.py:33 .\venda\models.py:29
 msgid "Forma de pagamento"
 msgstr ""
 
-#: .\compra\models.py:24 .\contas_pagar\models.py:31
-#: .\contas_receber\models.py:31 .\venda\models.py:24
+#: .\compra\models.py:26 .\contas_pagar\models.py:34
+#: .\contas_receber\models.py:34 .\venda\models.py:30
 msgid "Grupo de encargo"
 msgstr ""
 
-#: .\compra\models.py:25 .\pessoal\models.py:48 .\venda\models.py:25
+#: .\compra\models.py:27 .\pessoal\models.py:71 .\pessoal\models.py:227
+#: .\venda\models.py:31 .\venda\models.py:187
 msgid "Observações"
 msgstr ""
 
-#: .\compra\models.py:25
+#: .\compra\models.py:27
 msgid "Descreva na área as informações relavantes da compra."
 msgstr ""
 
-#: .\compra\models.py:26 .\venda\models.py:26
+#: .\compra\models.py:28 .\venda\models.py:32
 msgid "Sim"
 msgstr ""
 
-#: .\compra\models.py:26 .\venda\models.py:26
+#: .\compra\models.py:28 .\venda\models.py:32
 msgid "Não"
 msgstr ""
 
-#: .\compra\models.py:26 .\venda\models.py:26
+#: .\compra\models.py:28 .\venda\models.py:32
 msgid "Pedido?"
 msgstr ""
 
-#: .\compra\models.py:27 .\venda\models.py:27
+#: .\compra\models.py:29 .\venda\models.py:33
 msgid "Pedido confirmado?"
 msgstr ""
 
-#: .\compra\models.py:27 .\venda\models.py:27
+#: .\compra\models.py:29
 msgid ""
-"Marcando o Checkbox, os itens financeiros serão gerados e o estoque "
-"movimentado."
+"Caso confirmado, os itens financeiros serão gerados e o estoque movimentado."
 msgstr ""
 
-#: .\compra\models.py:39
+#: .\compra\models.py:32 .\compra\models.py:122 .\configuracoes\admin.py:54
+#: .\contas_pagar\models.py:31 .\contas_pagar\models.py:64
+msgid "Compra"
+msgstr ""
+
+#: .\compra\models.py:33
+msgid "Compras"
+msgstr ""
+
+#: .\compra\models.py:34
+#, fuzzy
+#| msgid "Exportar"
+msgid "Exportar Compras"
+msgstr "Export"
+
+#: .\compra\models.py:46
 msgid ""
 "Não há caixa aberto. Para efetivar uma compra é necessário ter o caixa "
 "aberto."
 msgstr ""
 
-#: .\compra\models.py:50
-#, python-format
-msgid ""
-"Compra não pode ser cancelada. Já há pagamento feito para esta compra. "
-"[Conta a Pagar: %(conta_pagar)s]"
-msgstr ""
-
-#: .\compra\models.py:69
+#: .\compra\models.py:64
 #, python-format
 msgid "Conta aberta proveniente de compra %(compra)s"
 msgstr ""
 
-#: .\compra\models.py:113 .\venda\models.py:119
+#: .\compra\models.py:118 .\venda\models.py:137
 msgid "Valor unitário (R$)"
 msgstr ""
 
-#: .\compra\models.py:116 .\movimento\models.py:36
-#: .\templates\admin\index.html:125 .\venda\models.py:122
+#: .\compra\models.py:121 .\movimento\models.py:40
+#: .\templates\admin\dashboard.html:80 .\venda\models.py:140
 msgid "Produto"
 msgstr ""
 
-#: .\compra\models.py:117 .\contas_pagar\models.py:28
-#: .\contas_pagar\models.py:60
-msgid "Compra"
-msgstr ""
-
-#: .\compra\models.py:118
+#: .\compra\models.py:123
 msgid "Adicionado ao estoque?"
 msgstr ""
 
-#: .\compra\models.py:121
+#: .\compra\models.py:126
 msgid "Item de Compra"
 msgstr ""
 
-#: .\compra\models.py:122
+#: .\compra\models.py:127
 msgid "Itens de Compra"
 msgstr ""
 
 #: .\compra\templates\admin\compra\edit_inline\tabular.html:20
-#: .\compra\templates\admin\compra\tabular.html:17
+#: .\templates\admin\edit_inline\tabular.html:20
 #: .\venda\templates\admin\venda\edit_inline\tabular.html:20
 msgid "Delete?"
 msgstr ""
 
 #: .\compra\templates\admin\compra\edit_inline\tabular.html:136
-#: .\compra\templates\admin\compra\tabular.html:120
+#: .\templates\admin\edit_inline\stacked.html:94
+#: .\templates\admin\edit_inline\tabular.html:146
 #: .\venda\templates\admin\venda\edit_inline\tabular.html:136
 #, python-format
 msgid "Add another %(verbose_name)s"
 msgstr ""
 
 #: .\compra\templates\admin\compra\edit_inline\tabular.html:139
-#: .\compra\templates\admin\compra\tabular.html:123
+#: .\templates\admin\edit_inline\stacked.html:97
+#: .\templates\admin\edit_inline\tabular.html:149
 #: .\venda\templates\admin\venda\edit_inline\tabular.html:139
 msgid "Remove"
 msgstr ""
 
-#: .\configuracoes\models.py:16
+#: .\configuracoes\admin.py:55 .\contas_receber\models.py:31
+#: .\contas_receber\models.py:64 .\venda\admin.py:53 .\venda\models.py:37
+#: .\venda\models.py:141 .\venda\models.py:189
+msgid "Venda"
+msgstr ""
+
+#: .\configuracoes\admin.py:56
+msgid "Relatórios"
+msgstr ""
+
+#: .\configuracoes\models.py:18
 msgid "Qtde itens de compra"
 msgstr ""
 
-#: .\configuracoes\models.py:17
+#: .\configuracoes\models.py:19
 msgid "Quantidade de inlines prévios na compra"
 msgstr ""
 
-#: .\configuracoes\models.py:22
+#: .\configuracoes\models.py:24
 msgid "Qtde itens de venda"
 msgstr ""
 
-#: .\configuracoes\models.py:23
+#: .\configuracoes\models.py:25
 msgid "Quantidade de inlines prévios na venda"
 msgstr ""
 
-#: .\configuracoes\models.py:27
+#: .\configuracoes\models.py:29
 msgid "Habilita pedido de compra?"
 msgstr ""
 
-#: .\configuracoes\models.py:28
+#: .\configuracoes\models.py:30
 msgid ""
 "Marcando o Checkbox, o botão para adicionar um pedido de compra será exibido "
 "no cadastro da compra."
 msgstr ""
 
-#: .\configuracoes\models.py:32
+#: .\configuracoes\models.py:34
 msgid "Habilita pedido de venda?"
 msgstr ""
 
-#: .\configuracoes\models.py:33
+#: .\configuracoes\models.py:35
 msgid ""
 "Marcando o Checkbox, o botão para adicionar um pedido de venda será exibido "
 "no cadastro da venda."
 msgstr ""
 
-#: .\configuracoes\models.py:38
+#: .\configuracoes\models.py:40
 msgid "Qtde mínima em estoque"
 msgstr ""
 
-#: .\configuracoes\models.py:39
+#: .\configuracoes\models.py:41
 msgid "Indique a quantidade mínima de itens de produto no estoque."
 msgstr ""
 
-#: .\configuracoes\models.py:46
+#: .\configuracoes\models.py:48
 msgid "Perc. Valor do 1º pagamento"
 msgstr ""
 
-#: .\configuracoes\models.py:47
+#: .\configuracoes\models.py:49
 msgid "Percentual mínimo do valor do primeiro pagamento de uma parcela."
 msgstr ""
 
-#: .\configuracoes\models.py:51
+#: .\configuracoes\models.py:52
+msgid "Intervalo para entrega"
+msgstr ""
+
+#: .\configuracoes\models.py:53
+msgid "Intervalo mínimo entre a data de venda e a data de entrega (dias)."
+msgstr ""
+
+#: .\configuracoes\models.py:58
+msgid "Email de abertura de caixa"
+msgstr ""
+
+#: .\configuracoes\models.py:59
+msgid ""
+"Insira uma mensagem customizada. Esta será exibida acima do rodapé no email "
+"de abertura do caixa."
+msgstr ""
+
+#: .\configuracoes\models.py:63
 msgid "Parametrização"
 msgstr ""
 
-#: .\configuracoes\models.py:52
+#: .\configuracoes\models.py:64
 msgid "Parametrizações"
 msgstr ""
 
-#: .\contas_pagar\admin.py:131 .\contas_receber\admin.py:131
+#: .\contas_pagar\admin.py:153 .\contas_receber\admin.py:153
 msgid "Detalhes da Conta"
 msgstr ""
 
-#: .\contas_pagar\models.py:26 .\contas_receber\models.py:26
+#: .\contas_pagar\models.py:29 .\contas_receber\models.py:29
 msgid "Conta fechada"
 msgstr ""
 
-#: .\contas_pagar\models.py:26 .\contas_receber\models.py:26
+#: .\contas_pagar\models.py:29 .\contas_receber\models.py:29
 msgid ""
 "Se desmarcado, indica que há parcelas em aberto, caso contrário, a conta foi "
 "fechada."
 msgstr ""
 
-#: .\contas_pagar\models.py:34
+#: .\contas_pagar\models.py:37
 msgid "Conta a Pagar"
 msgstr ""
 
-#: .\contas_pagar\models.py:35
+#: .\contas_pagar\models.py:38
 msgid "Contas a Pagar"
 msgstr ""
 
-#: .\contas_pagar\models.py:44
+#: .\contas_pagar\models.py:39
+msgid "Exportar Contas a Pagar"
+msgstr ""
+
+#: .\contas_pagar\models.py:48
 msgid ""
 "Não há caixa aberto. Para efetivar um cadastro de uma conta a pagar avulsa, "
 "é necessário ter o caixa aberto."
 msgstr ""
 
-#: .\contas_pagar\models.py:47
+#: .\contas_pagar\models.py:51
 msgid ""
 "Não há caixa aberto. Alterações numa conta a pagar só podem ser efetivadas "
 "após a abertura do caixa."
 msgstr ""
 
-#: .\contas_pagar\models.py:73 .\contas_receber\models.py:73
+#: .\contas_pagar\models.py:86 .\contas_receber\models.py:85
 msgid "Valor total de juros"
 msgstr ""
 
-#: .\contas_pagar\models.py:86 .\contas_receber\models.py:86
+#: .\contas_pagar\models.py:99 .\contas_receber\models.py:97
 msgid "Valor total de multa"
 msgstr ""
 
-#: .\contas_pagar\models.py:97 .\contas_receber\models.py:97
+#: .\contas_pagar\models.py:110 .\contas_receber\models.py:107
 msgid "Valor total de encargos"
 msgstr ""
 
-#: .\contas_pagar\models.py:108 .\contas_receber\models.py:108
+#: .\contas_pagar\models.py:121 .\contas_receber\models.py:138
 msgid "Valor total cobrado"
 msgstr ""
 
-#: .\contas_pagar\models.py:115 .\contas_pagar\models.py:123
+#: .\contas_pagar\models.py:129 .\contas_pagar\models.py:137
 msgid "Valor total pago"
 msgstr ""
 
 #: .\contas_pagar\models.py:134
+msgid "Visualize todos os pagamentos efetuados da conta"
+msgstr ""
+
+#: .\contas_pagar\models.py:148
 msgid "Valor total a pagar"
 msgstr ""
 
-#: .\contas_pagar\models.py:269 .\contas_pagar\models.py:420
-#: .\contas_receber\models.py:268 .\contas_receber\models.py:417
+#: .\contas_pagar\models.py:284 .\contas_pagar\models.py:448
+#: .\contas_receber\models.py:299 .\contas_receber\models.py:508
 msgid "Vencimento"
 msgstr ""
 
-#: .\contas_pagar\models.py:272 .\contas_receber\models.py:271
+#: .\contas_pagar\models.py:287 .\contas_receber\models.py:302
 msgid "Nº Parcela"
 msgstr ""
 
-#: .\contas_pagar\models.py:273
-msgid "Conta à pagar"
+#: .\contas_pagar\models.py:288 .\contas_pagar\models.py:306
+msgid "Conta a pagar"
 msgstr ""
 
-#: .\contas_pagar\models.py:276
-msgid "Parcela de Conta à Pagar"
+#: .\contas_pagar\models.py:291
+msgid "Parcela de Conta a Pagar"
 msgstr ""
 
-#: .\contas_pagar\models.py:277
-msgid "Parcelas de Contas à Pagar"
+#: .\contas_pagar\models.py:292
+msgid "Parcelas de Contas a Pagar"
 msgstr ""
 
-#: .\contas_pagar\models.py:315 .\contas_pagar\models.py:463
+#: .\contas_pagar\models.py:293
+msgid "Exportar Parcelas de Contas a Pagar"
+msgstr ""
+
+#: .\contas_pagar\models.py:341 .\contas_pagar\models.py:492
 #: .\contas_pagar\templates\admin\pagamentos_conta.html:27
 #: .\contas_pagar\templates\admin\pagamentos_parcela.html:27
-#: .\contas_receber\models.py:314 .\contas_receber\models.py:471
+#: .\contas_receber\models.py:375 .\contas_receber\models.py:563
 #: .\contas_receber\templates\admin\recebimentos_conta.html:27
 #: .\contas_receber\templates\admin\recebimentos_parcela.html:27
 msgid "Juros"
 msgstr ""
 
-#: .\contas_pagar\models.py:346 .\contas_pagar\models.py:464
+#: .\contas_pagar\models.py:372 .\contas_pagar\models.py:493
 #: .\contas_pagar\templates\admin\pagamentos_conta.html:28
 #: .\contas_pagar\templates\admin\pagamentos_parcela.html:28
-#: .\contas_receber\models.py:345 .\contas_receber\models.py:472
+#: .\contas_receber\models.py:406 .\contas_receber\models.py:564
 #: .\contas_receber\templates\admin\recebimentos_conta.html:28
 #: .\contas_receber\templates\admin\recebimentos_parcela.html:28
 msgid "Multa"
 msgstr ""
 
-#: .\contas_pagar\models.py:356 .\contas_receber\models.py:355
+#: .\contas_pagar\models.py:382 .\contas_receber\models.py:416
 msgid "Encargos"
 msgstr ""
 
-#: .\contas_pagar\models.py:369 .\contas_receber\models.py:368
+#: .\contas_pagar\models.py:395 .\contas_receber\models.py:457
 msgid "Valot Total"
 msgstr ""
 
-#: .\contas_pagar\models.py:376 .\contas_pagar\models.py:407
-#: .\contas_receber\models.py:375 .\contas_receber\models.py:404
+#: .\contas_pagar\models.py:403 .\contas_pagar\models.py:435
+#: .\contas_receber\models.py:465 .\contas_receber\models.py:495
 msgid "Valor Pago"
 msgstr ""
 
-#: .\contas_pagar\models.py:383
+#: .\contas_pagar\models.py:411
 msgid "Valor a Pagar"
 msgstr ""
 
-#: .\contas_pagar\models.py:465
+#: .\contas_pagar\models.py:417 .\contas_receber\models.py:479
+#: .\pessoal\templates\admin\cliente_detalhes_financeiros.html:55
+msgid "Pago"
+msgstr ""
+
+#: .\contas_pagar\models.py:420 .\contas_receber\models.py:482
+msgid "Pago Parcialmente"
+msgstr ""
+
+#: .\contas_pagar\models.py:423 .\contas_receber\models.py:485
+msgid "Vencido"
+msgstr ""
+
+#: .\contas_pagar\models.py:426
+#: .\contas_pagar\templates\admin\legenda_parcelas_contas_pagar.html:85
+#: .\contas_receber\models.py:488
+#: .\contas_receber\templates\admin\legenda_parcelas_contas_receber.html:85
+msgid "Em aberto"
+msgstr ""
+
+#: .\contas_pagar\models.py:433
+msgid "Visualize todos os pagamentos efetuados da parcela"
+msgstr ""
+
+#: .\contas_pagar\models.py:494
 #: .\contas_pagar\templates\admin\pagamentos_conta.html:29
 #: .\contas_pagar\templates\admin\pagamentos_parcela.html:29
-#: .\contas_receber\models.py:473
+#: .\contas_receber\models.py:565
 #: .\contas_receber\templates\admin\recebimentos_conta.html:29
 #: .\contas_receber\templates\admin\recebimentos_parcela.html:29
 msgid "Desconto"
 msgstr ""
 
-#: .\contas_pagar\models.py:466
+#: .\contas_pagar\models.py:495
 msgid "Pagamento de parcela"
 msgstr ""
 
-#: .\contas_pagar\models.py:483
+#: .\contas_pagar\models.py:512
 msgid ""
 "Não há caixa aberto. Para efetivar um pagamento é necessário ter o caixa "
 "aberto."
 msgstr ""
 
-#: .\contas_pagar\models.py:486
+#: .\contas_pagar\models.py:515
 msgid ""
 "Não há caixa aberto. Alterações num pagamento só podem ser efetivados após a "
 "abertura do caixa."
 msgstr ""
 
-#: .\contas_pagar\models.py:496
+#: .\contas_pagar\models.py:524
 #, python-format
 msgid ""
 "Primeiro pagamento deve ser de no mínimo %(perc_valor_minimo)s%% do valor da "
 "parcela. Valor mínimo: %(valor_minimo)s."
 msgstr ""
 
-#: .\contas_pagar\templates\admin\legenda_parcelas_contas_pagar.html:68
-#: .\contas_receber\templates\admin\legenda_parcelas_contas_receber.html:68
+#: .\contas_pagar\templates\admin\legenda_parcelas_contas_pagar.html:77
+#: .\contas_receber\templates\admin\legenda_parcelas_contas_receber.html:77
 msgid "Paga"
 msgstr ""
 
-#: .\contas_pagar\templates\admin\legenda_parcelas_contas_pagar.html:72
-#: .\contas_receber\templates\admin\legenda_parcelas_contas_receber.html:72
+#: .\contas_pagar\templates\admin\legenda_parcelas_contas_pagar.html:81
+#: .\contas_receber\templates\admin\legenda_parcelas_contas_receber.html:81
 msgid "Paga parcialmente"
 msgstr ""
 
-#: .\contas_pagar\templates\admin\legenda_parcelas_contas_pagar.html:76
-#: .\contas_receber\templates\admin\legenda_parcelas_contas_receber.html:76
-msgid "Em aberto"
-msgstr ""
-
-#: .\contas_pagar\templates\admin\legenda_parcelas_contas_pagar.html:80
-#: .\contas_receber\templates\admin\legenda_parcelas_contas_receber.html:80
+#: .\contas_pagar\templates\admin\legenda_parcelas_contas_pagar.html:89
+#: .\contas_receber\templates\admin\legenda_parcelas_contas_receber.html:89
 msgid "Vencida"
 msgstr ""
 
@@ -520,8 +624,8 @@ msgstr ""
 #: .\contas_pagar\templates\admin\pagamentos_parcela.html:24
 #: .\contas_receber\templates\admin\recebimentos_conta.html:24
 #: .\contas_receber\templates\admin\recebimentos_parcela.html:24
-#: .\pessoal\admin.py:71 .\pessoal\admin.py:179
-#: .\templates\admin\index.html:124
+#: .\pessoal\admin.py:182 .\templates\admin\dashboard.html:79
+#: .\venda\admin.py:46
 msgid "ID"
 msgstr ""
 
@@ -542,80 +646,108 @@ msgstr ""
 msgid "Pagamentos da conta"
 msgstr ""
 
-#: .\contas_receber\models.py:28 .\contas_receber\models.py:60
-#: .\venda\models.py:123
-msgid "Venda"
-msgstr ""
-
-#: .\contas_receber\models.py:29
+#: .\contas_receber\models.py:32 .\pessoal\models.py:100
+#: .\pessoal\models.py:228 .\venda\models.py:28
 msgid "Cliente"
 msgstr ""
 
-#: .\contas_receber\models.py:34
+#: .\contas_receber\models.py:37
 msgid "Conta a Receber"
 msgstr ""
 
-#: .\contas_receber\models.py:35
+#: .\contas_receber\models.py:38
 msgid "Contas a Receber"
 msgstr ""
 
-#: .\contas_receber\models.py:44
+#: .\contas_receber\models.py:39
+msgid "Exportar Contas a Receber"
+msgstr ""
+
+#: .\contas_receber\models.py:48
 msgid ""
 "Não há caixa aberto. Para efetivar um cadastro de uma conta a receber "
 "avulsa, é necessário ter o caixa aberto."
 msgstr ""
 
-#: .\contas_receber\models.py:47
+#: .\contas_receber\models.py:51
 msgid ""
 "Não há caixa aberto. Alterações numa conta a receber só podem ser efetivadas "
 "após a abertura do caixa."
 msgstr ""
 
-#: .\contas_receber\models.py:115 .\contas_receber\models.py:122
+#: .\contas_receber\models.py:118 .\contas_receber\models.py:128
+msgid "Valor total de encargos pagos"
+msgstr ""
+
+#: .\contas_receber\models.py:146 .\contas_receber\models.py:153
 msgid "Valor total recebido"
 msgstr ""
 
-#: .\contas_receber\models.py:133
+#: .\contas_receber\models.py:151
+msgid "Visualize todos os recebimentos da conta"
+msgstr ""
+
+#: .\contas_receber\models.py:163
 msgid "Valor total a receber"
 msgstr ""
 
-#: .\contas_receber\models.py:272
-msgid "Conta à receber"
+#: .\contas_receber\models.py:303 .\contas_receber\models.py:321
+msgid "Conta a receber"
 msgstr ""
 
-#: .\contas_receber\models.py:275
-msgid "Parcela de Conta à Receber"
+#: .\contas_receber\models.py:306
+msgid "Parcela de Conta a Receber"
 msgstr ""
 
-#: .\contas_receber\models.py:276
-msgid "Parcelas de Contas à Receber"
+#: .\contas_receber\models.py:307
+msgid "Parcelas de Contas a Receber"
 msgstr ""
 
-#: .\contas_receber\models.py:382
+#: .\contas_receber\models.py:308
+msgid "Exportar Parcelas de Contas a Receber"
+msgstr ""
+
+#: .\contas_receber\models.py:341
+msgid "Quantidade de dias vencidos"
+msgstr ""
+
+#: .\contas_receber\models.py:430
+msgid "Encargos Pagos"
+msgstr ""
+
+#: .\contas_receber\models.py:444
+msgid "Encargos a Pagar"
+msgstr ""
+
+#: .\contas_receber\models.py:473
 msgid "Valor a Receber"
 msgstr ""
 
-#: .\contas_receber\models.py:474
+#: .\contas_receber\models.py:493
+msgid "Visualize todos os recebimentos da parcela"
+msgstr ""
+
+#: .\contas_receber\models.py:566
 msgid "Recebimento de parcela"
 msgstr ""
 
-#: .\contas_receber\models.py:478
+#: .\contas_receber\models.py:570
 msgid "Recebimentos"
 msgstr ""
 
-#: .\contas_receber\models.py:496
+#: .\contas_receber\models.py:588
 msgid ""
 "Não há caixa aberto. Para efetivar um recebimento é necessário ter o caixa "
 "aberto."
 msgstr ""
 
-#: .\contas_receber\models.py:499
+#: .\contas_receber\models.py:591
 msgid ""
 "Não há caixa aberto. Alterações num recebimento só podem ser efetivados após "
 "a abertura do caixa."
 msgstr ""
 
-#: .\contas_receber\models.py:509
+#: .\contas_receber\models.py:600
 #, python-format
 msgid ""
 "Primeiro recebimento deve ser de no mínimo %(perc_valor_minimo)s%% do valor "
@@ -643,470 +775,683 @@ msgstr ""
 msgid "Recebimentos da conta"
 msgstr ""
 
-#: .\estagio\settings.py:121
+#: .\estagio\settings.py:123
 msgid "Português"
 msgstr ""
 
-#: .\estagio\settings.py:122
+#: .\estagio\settings.py:124
 msgid "Inglês"
 msgstr ""
 
-#: .\localidade\models.py:7 .\movimento\models.py:8 .\movimento\models.py:17
-#: .\movimento\models.py:25 .\parametros_financeiros\models.py:8
-#: .\parametros_financeiros\models.py:63 .\pessoal\models.py:33
-#: .\pessoal\models.py:120
+#: .\localidade\models.py:9 .\movimento\models.py:10 .\movimento\models.py:20
+#: .\movimento\models.py:29 .\parametros_financeiros\models.py:10
+#: .\parametros_financeiros\models.py:66 .\pessoal\models.py:50
+#: .\pessoal\models.py:188
 msgid "Nome"
 msgstr "Name"
 
-#: .\localidade\models.py:8 .\pessoal\models.py:41
+#: .\localidade\models.py:10 .\pessoal\models.py:60 .\pessoal\models.py:224
 msgid "Estado"
 msgstr ""
 
-#: .\localidade\models.py:9
-msgid "Última alteração"
-msgstr ""
-
-#: .\localidade\models.py:15 .\pessoal\models.py:42
+#: .\localidade\models.py:16 .\pessoal\models.py:61 .\pessoal\models.py:225
 msgid "Cidade"
 msgstr ""
 
-#: .\localidade\models.py:16
+#: .\localidade\models.py:17
 msgid "Cidades"
 msgstr ""
 
-#: .\movimento\admin.py:51 .\pessoal\admin.py:30 .\pessoal\admin.py:126
-#: .\pessoal\admin.py:220
+#: .\movimento\admin.py:52 .\pessoal\admin.py:53 .\pessoal\admin.py:136
+#: .\pessoal\admin.py:228
 msgid "Detalhes"
 msgstr ""
 
-#: .\movimento\models.py:9
+#: .\movimento\models.py:11
 msgid "Logo"
 msgstr ""
 
-#: .\movimento\models.py:26
+#: .\movimento\models.py:30
 msgid "Preço de compra"
 msgstr ""
 
-#: .\movimento\models.py:27
+#: .\movimento\models.py:31
 msgid "Preço de venda"
 msgstr ""
 
-#: .\movimento\models.py:28 .\venda\models.py:118
+#: .\movimento\models.py:32
+#: .\pessoal\templates\admin\cliente_detalhes_financeiros.html:129
+#: .\venda\models.py:136
 msgid "Quantidade"
 msgstr ""
 
-#: .\movimento\models.py:30
+#: .\movimento\models.py:34
 msgid "Indica se o produto está ativo para atividades de compra e venda."
 msgstr ""
 
-#: .\movimento\models.py:31
+#: .\movimento\models.py:35
 msgid "Marca"
 msgstr ""
 
-#: .\movimento\models.py:32
+#: .\movimento\models.py:36
 msgid "Categoria"
 msgstr ""
 
-#: .\movimento\models.py:33
+#: .\movimento\models.py:37
 msgid "Imagem"
 msgstr ""
 
-#: .\movimento\models.py:37
+#: .\movimento\models.py:41
 msgid "Produtos"
 msgstr ""
 
-#: .\movimento\models.py:38
+#: .\movimento\models.py:42
 msgid "Ver relatorio de produtos esgotando em estoque"
 msgstr ""
 
-#: .\movimento\models.py:39
+#: .\movimento\models.py:43
 msgid "Ver relatorio de debitos e creditos diarios"
 msgstr ""
 
-#: .\movimento\models.py:40
+#: .\movimento\models.py:44
 msgid "Ver relatorios"
 msgstr ""
 
-#: .\parametros_financeiros\models.py:10
+#: .\movimento\models.py:45
+#, fuzzy
+#| msgid "Exportar"
+msgid "Exportar Produtos"
+msgstr "Export"
+
+#: .\parametros_financeiros\models.py:12
 msgid "Quantidade de parcelas"
 msgstr ""
 
-#: .\parametros_financeiros\models.py:11
+#: .\parametros_financeiros\models.py:13
 msgid "Prazo entre parcelas"
 msgstr ""
 
-#: .\parametros_financeiros\models.py:16 .\parametros_financeiros\models.py:28
+#: .\parametros_financeiros\models.py:18 .\parametros_financeiros\models.py:30
 msgid "Diário"
 msgstr ""
 
-#: .\parametros_financeiros\models.py:17 .\parametros_financeiros\models.py:29
+#: .\parametros_financeiros\models.py:19 .\parametros_financeiros\models.py:31
 msgid "Semanal"
 msgstr ""
 
-#: .\parametros_financeiros\models.py:18 .\parametros_financeiros\models.py:30
+#: .\parametros_financeiros\models.py:20 .\parametros_financeiros\models.py:32
 msgid "Mensal"
 msgstr ""
 
-#: .\parametros_financeiros\models.py:20
+#: .\parametros_financeiros\models.py:22
 msgid "Tipo de prazo"
 msgstr ""
 
-#: .\parametros_financeiros\models.py:22
+#: .\parametros_financeiros\models.py:24
 msgid "Carência"
 msgstr ""
 
-#: .\parametros_financeiros\models.py:26
+#: .\parametros_financeiros\models.py:28
 msgid "Tipo de carência"
 msgstr ""
 
-#: .\parametros_financeiros\models.py:33
+#: .\parametros_financeiros\models.py:35
 msgid "Indica se a forma de pagamento está ativa para uso."
 msgstr ""
 
-#: .\parametros_financeiros\models.py:36
+#: .\parametros_financeiros\models.py:38
 msgid "Forma de Pagamento"
 msgstr ""
 
-#: .\parametros_financeiros\models.py:37
+#: .\parametros_financeiros\models.py:39
 msgid "Formas de Pagamento"
 msgstr ""
 
-#: .\parametros_financeiros\models.py:48
+#: .\parametros_financeiros\models.py:50
 msgid ""
 "Prazo entre parcelas não pode ser 0(zero), quando a quantidade de parcelas é "
 "maior que 1(uma)."
 msgstr ""
 
-#: .\parametros_financeiros\models.py:59
+#: .\parametros_financeiros\models.py:62
 msgid "Juros Simples"
 msgstr ""
 
-#: .\parametros_financeiros\models.py:60
+#: .\parametros_financeiros\models.py:63
 msgid "Juros Compostos"
 msgstr ""
 
-#: .\parametros_financeiros\models.py:64
+#: .\parametros_financeiros\models.py:67
 msgid "Taxa de multa (%)"
 msgstr ""
 
-#: .\parametros_financeiros\models.py:65
+#: .\parametros_financeiros\models.py:68
 msgid "Taxa de juros (%)"
 msgstr ""
 
-#: .\parametros_financeiros\models.py:66
+#: .\parametros_financeiros\models.py:69
 msgid "Tipo de juros"
 msgstr ""
 
-#: .\parametros_financeiros\models.py:67
-msgid "Ativo?"
-msgstr ""
-
-#: .\parametros_financeiros\models.py:68
+#: .\parametros_financeiros\models.py:71
 msgid "Padrão"
 msgstr ""
 
-#: .\parametros_financeiros\models.py:68
+#: .\parametros_financeiros\models.py:71
 msgid "Defini o Grupo de Encargo padrão"
 msgstr ""
 
-#: .\parametros_financeiros\models.py:71
+#: .\parametros_financeiros\models.py:74
 msgid "Grupo de Encargo"
 msgstr ""
 
-#: .\parametros_financeiros\models.py:72
+#: .\parametros_financeiros\models.py:75
 msgid "Grupo de Encargos"
 msgstr ""
 
-#: .\parametros_financeiros\models.py:87
+#: .\parametros_financeiros\models.py:90
 msgid "Já existe um grupo de encargos padrão no sistema."
 msgstr ""
 
-#: .\parametros_financeiros\models.py:90
+#: .\parametros_financeiros\models.py:93
 msgid "Grupo de encargos padrão deve ser definido como ativo."
 msgstr ""
 
-#: .\pessoal\admin.py:28 .\pessoal\admin.py:124 .\pessoal\admin.py:218
-#: .\pessoal\models.py:37
+#: .\pessoal\admin.py:51 .\pessoal\admin.py:134 .\pessoal\admin.py:226
+#: .\pessoal\models.py:56 .\pessoal\models.py:220 .\venda\models.py:185
 msgid "Endereço"
 msgstr ""
 
-#: .\pessoal\admin.py:29 .\pessoal\admin.py:125 .\pessoal\admin.py:219
+#: .\pessoal\admin.py:52 .\pessoal\admin.py:135 .\pessoal\admin.py:227
 msgid "Identidade"
 msgstr ""
 
-#: .\pessoal\admin.py:134 .\pessoal\admin.py:228
+#: .\pessoal\admin.py:237
 msgid "Financeiro"
 msgstr ""
 
-#: .\pessoal\forms.py:39 .\pessoal\models.py:35
+#: .\pessoal\forms.py:47 .\pessoal\forms.py:166 .\pessoal\models.py:52
 msgid "CPF"
 msgstr ""
 
-#: .\pessoal\forms.py:92 .\pessoal\models.py:89
+#: .\pessoal\forms.py:82 .\pessoal\forms.py:124 .\pessoal\models.py:96
+#: .\pessoal\models.py:155
 msgid "CNPJ"
 msgstr ""
 
-#: .\pessoal\forms.py:93
+#: .\pessoal\forms.py:83 .\pessoal\forms.py:125
 msgid "Razão Social"
 msgstr ""
 
-#: .\pessoal\models.py:17
+#: .\pessoal\models.py:18
 msgid "Data de nascimento deve ser menor que hoje!"
 msgstr ""
 
-#: .\pessoal\models.py:21
+#: .\pessoal\models.py:22
 msgid "Cliente deve ser maior de 18 anos!"
 msgstr ""
 
-#: .\pessoal\models.py:34
-msgid "Data de nascimento"
+#: .\pessoal\models.py:35
+msgid "Solteiro"
+msgstr ""
+
+#: .\pessoal\models.py:36
+msgid "Casado"
+msgstr ""
+
+#: .\pessoal\models.py:37
+msgid "Separado"
 msgstr ""
 
 #: .\pessoal\models.py:38
-msgid "Número"
+msgid "Viuvo"
 msgstr ""
 
 #: .\pessoal\models.py:39
-msgid "Bairro"
+msgid "Divorciado"
 msgstr ""
 
 #: .\pessoal\models.py:40
-msgid "Complemento"
+msgid "Marital"
+msgstr ""
+
+#: .\pessoal\models.py:41
+msgid "Separado Judicialmente"
+msgstr ""
+
+#: .\pessoal\models.py:42
+msgid "Separado Concensualmente"
 msgstr ""
 
 #: .\pessoal\models.py:43
-msgid "CEP"
-msgstr ""
-
-#: .\pessoal\models.py:44
-msgid "Telefone"
-msgstr ""
-
-#: .\pessoal\models.py:45
-msgid "Celular"
+msgid "União Estável"
 msgstr ""
 
 #: .\pessoal\models.py:46
-msgid "E-mail"
+msgid "Masculino"
 msgstr ""
 
-#: .\pessoal\models.py:49
-msgid "Foto"
+#: .\pessoal\models.py:47
+msgid "Feminino"
 msgstr ""
 
-#: .\pessoal\models.py:57 .\pessoal\models.py:133
+#: .\pessoal\models.py:51
+msgid "Data de nascimento"
+msgstr ""
+
+#: .\pessoal\models.py:53
 msgid "RG"
 msgstr ""
 
-#: .\pessoal\models.py:79 .\pessoal\models.py:115
-msgid "Status financeiro"
+#: .\pessoal\models.py:54
+msgid "Sexo"
 msgstr ""
 
-#: .\pessoal\models.py:85
+#: .\pessoal\models.py:55
+msgid "Estado Civil"
+msgstr ""
+
+#: .\pessoal\models.py:57 .\pessoal\models.py:221
+msgid "Número"
+msgstr ""
+
+#: .\pessoal\models.py:58 .\pessoal\models.py:222
+msgid "Bairro"
+msgstr ""
+
+#: .\pessoal\models.py:59 .\pessoal\models.py:223
+msgid "Complemento"
+msgstr ""
+
+#: .\pessoal\models.py:62 .\pessoal\models.py:226
+msgid "CEP"
+msgstr ""
+
+#: .\pessoal\models.py:63
+msgid "Telefone"
+msgstr ""
+
+#: .\pessoal\models.py:64
+msgid "Celular"
+msgstr ""
+
+#: .\pessoal\models.py:65
+msgid "E-mail"
+msgstr ""
+
+#: .\pessoal\models.py:66
+msgid "Banco"
+msgstr ""
+
+#: .\pessoal\models.py:67
+msgid "Agência"
+msgstr ""
+
+#: .\pessoal\models.py:68
+msgid "Conta Corrente"
+msgstr ""
+
+#: .\pessoal\models.py:72
+msgid "Foto"
+msgstr ""
+
+#: .\pessoal\models.py:92 .\pessoal\models.py:151
 msgid "Pessoa Física"
 msgstr ""
 
-#: .\pessoal\models.py:86
+#: .\pessoal\models.py:93 .\pessoal\models.py:152
 msgid "Pessoa Jurídica"
 msgstr ""
 
-#: .\pessoal\models.py:88
+#: .\pessoal\models.py:95 .\pessoal\models.py:154
 msgid "Tipo pessoa"
 msgstr ""
 
-#: .\pessoal\models.py:90
+#: .\pessoal\models.py:97 .\pessoal\models.py:156
 msgid "Razão social"
 msgstr ""
 
-#: .\pessoal\models.py:94
+#: .\pessoal\models.py:101
+msgid "Clientes"
+msgstr ""
+
+#: .\pessoal\models.py:102
+#, fuzzy
+#| msgid "Exportar"
+msgid "Exportar Clientes"
+msgstr "Export"
+
+#: .\pessoal\models.py:119 .\pessoal\models.py:177
+msgid "Inadimplente"
+msgstr ""
+
+#: .\pessoal\models.py:121 .\pessoal\models.py:179
+msgid "Adimplente"
+msgstr ""
+
+#: .\pessoal\models.py:124 .\pessoal\models.py:182
+msgid "Status financeiro"
+msgstr ""
+
+#: .\pessoal\models.py:160
 msgid "Fornecedores"
 msgstr ""
 
-#: .\pessoal\models.py:124 .\pessoal\models.py:135
+#: .\pessoal\models.py:161
+msgid "Exportar Fornecedores"
+msgstr ""
+
+#: .\pessoal\models.py:192 .\pessoal\models.py:204
 msgid "Cargo"
 msgstr ""
 
-#: .\pessoal\models.py:125
+#: .\pessoal\models.py:193
 msgid "Cargos"
 msgstr ""
 
-#: .\pessoal\models.py:134
+#: .\pessoal\models.py:194
+#, fuzzy
+#| msgid "Exportar"
+msgid "Exportar Cargos"
+msgstr "Export"
+
+#: .\pessoal\models.py:203
 msgid "Salário"
 msgstr ""
 
-#: .\pessoal\models.py:136
+#: .\pessoal\models.py:205
 msgid "Usuário"
 msgstr ""
 
-#: .\pessoal\models.py:139
+#: .\pessoal\models.py:208
 msgid "Funcionário"
 msgstr ""
 
-#: .\pessoal\models.py:140
+#: .\pessoal\models.py:209
 msgid "Funcionários"
 msgstr ""
 
-#: .\templates\admin\base_site.html:36
+#: .\pessoal\models.py:210
+msgid "Exportar Funcionários"
+msgstr ""
+
+#: .\pessoal\models.py:231
+msgid "Endereço de Entrega"
+msgstr ""
+
+#: .\pessoal\models.py:232
+msgid "Endereços de Entrega"
+msgstr ""
+
+#: .\pessoal\templates\admin\cliente_detalhes_financeiros.html:28
+msgid "Ano"
+msgstr ""
+
+#: .\pessoal\templates\admin\cliente_detalhes_financeiros.html:34
+msgid "Pesquisar"
+msgstr ""
+
+#: .\pessoal\templates\admin\cliente_detalhes_financeiros.html:42
+msgid "Totalidade dos itens financeiros gerados para o cliente"
+msgstr ""
+
+#: .\pessoal\templates\admin\cliente_detalhes_financeiros.html:47
+#: .\pessoal\templates\admin\cliente_detalhes_financeiros.html:180
+msgid "Valor (R$)"
+msgstr ""
+
+#: .\pessoal\templates\admin\cliente_detalhes_financeiros.html:48
+msgid "Encargos (R$)"
+msgstr ""
+
+#: .\pessoal\templates\admin\cliente_detalhes_financeiros.html:69
+msgid "A Pagar"
+msgstr ""
+
+#: .\pessoal\templates\admin\cliente_detalhes_financeiros.html:83
+#: .\pessoal\templates\admin\cliente_detalhes_financeiros.html:126
+msgid "Total"
+msgstr ""
+
+#: .\pessoal\templates\admin\cliente_detalhes_financeiros.html:106
+msgid "Status atual das parcelas"
+msgstr ""
+
+#: .\pessoal\templates\admin\cliente_detalhes_financeiros.html:107
+msgid ""
+"Demonstrativo dos percentuais quanto as pendências financeiras junto ao "
+"estabelecimento"
+msgstr ""
+
+#: .\pessoal\templates\admin\cliente_detalhes_financeiros.html:118
+msgid "Valores atuais (geral)"
+msgstr ""
+
+#: .\pessoal\templates\admin\cliente_detalhes_financeiros.html:136
+msgid "Percentuais"
+msgstr ""
+
+#: .\pessoal\templates\admin\cliente_detalhes_financeiros.html:146
+msgid "Valores históricos (inadimplência)"
+msgstr ""
+
+#: .\pessoal\templates\admin\cliente_detalhes_financeiros.html:150
+msgid "Quantidade de parcelas vencidas:"
+msgstr ""
+
+#: .\pessoal\templates\admin\cliente_detalhes_financeiros.html:154
+msgid "Percentual de parcelas atradas:"
+msgstr ""
+
+#: .\pessoal\templates\admin\cliente_detalhes_financeiros.html:158
+msgid "Média de dias atrasados:"
+msgstr ""
+
+#: .\pessoal\templates\admin\cliente_detalhes_financeiros.html:171
+msgid "Recebimentos mensais"
+msgstr ""
+
+#: .\pessoal\templates\admin\cliente_detalhes_financeiros.html:172
+msgid "Demonstrativo dos valores monetários recebidos por mês"
+msgstr ""
+
+#: .\pessoal\templates\admin\cliente_detalhes_financeiros.html:179
+msgid "Mês"
+msgstr ""
+
+#: .\pessoal\templates\admin\cliente_detalhes_financeiros.html:181
+msgid "Qtde"
+msgstr ""
+
+#: .\pessoal\views.py:40
+msgid "Financeiro - Cliente"
+msgstr ""
+
+#: .\pessoal\views.py:144
+msgid "Detalhes financeiros - Cliente"
+msgstr ""
+
+#: .\templates\admin\base_site.html:51
 msgid "Documentação"
 msgstr ""
 
-#: .\templates\admin\base_site.html:69
+#: .\templates\admin\base_site.html:75
 msgid "Versão"
 msgstr ""
 
-#: .\templates\admin\base_site.html:69
+#: .\templates\admin\base_site.html:76
 msgid "Desenvolvido por "
 msgstr ""
 
-#: .\templates\admin\import_export\change_list_export.html:6
-#: .\templates\admin\import_export\export.html:8
-#: .\templates\admin\import_export\export.html:12
-msgid "Export"
-msgstr ""
-
-#: .\templates\admin\import_export\export.html:6
-msgid "Exportar"
-msgstr "Export"
-
-#: .\templates\admin\import_export\export.html:6
-msgid "Sistema de Controle"
-msgstr ""
-
-#: .\templates\admin\import_export\export.html:32
-msgid "Submit"
-msgstr ""
-
-#: .\templates\admin\index.html:80
-#, python-format
-msgid "Models available in the %(name)s application."
-msgstr ""
-
-#: .\templates\admin\index.html:87
-msgid "Change"
-msgstr ""
-
-#: .\templates\admin\index.html:95
-msgid "Add"
-msgstr ""
-
-#: .\templates\admin\index.html:106
-msgid "You don't have permission to edit anything."
-msgstr ""
-
-#: .\templates\admin\index.html:117 .\templates\admin\index.html.py:155
+#: .\templates\admin\dashboard.html:72 .\templates\admin\dashboard.html:110
 msgid "Estoque"
 msgstr "Stock"
 
-#: .\templates\admin\index.html:118
+#: .\templates\admin\dashboard.html:73
 msgid "Indicativo de Produtos esgotando em estoque"
 msgstr ""
 
-#: .\templates\admin\index.html:126
+#: .\templates\admin\dashboard.html:81
 msgid "Quantidade em estoque"
 msgstr ""
 
-#: .\templates\admin\index.html:140
+#: .\templates\admin\dashboard.html:95
 #, python-format
 msgid "Produtos com menos de %(quantidade_minima)s itens em estoque."
 msgstr ""
 
-#: .\templates\admin\index.html:144
+#: .\templates\admin\dashboard.html:99
 #, python-format
 msgid "Abaixo de 50%% da quantidade."
 msgstr ""
 
-#: .\templates\admin\index.html:149
+#: .\templates\admin\dashboard.html:104
 #, python-format
 msgid "Entre 50%% e 100%% da quantidade."
 msgstr ""
 
-#: .\templates\admin\index.html:156
+#: .\templates\admin\dashboard.html:111
 msgid "Não há produtos esgotando em estoque."
 msgstr ""
 
-#: .\templates\admin\index.html:167
+#: .\templates\admin\dashboard.html:122
 msgid "Movimentação Financeira Diária"
 msgstr ""
 
-#: .\templates\admin\index.html:168
+#: .\templates\admin\dashboard.html:123
 msgid "Demonstrativo diário de Débitos e Créditos movimentados em caixa"
 msgstr ""
 
-#: .\templates\admin\index.html:188
-msgid "My Actions"
+#: .\templates\admin\edit_inline\stacked.html:20
+msgid "View on site"
 msgstr ""
 
-#: .\templates\admin\index.html:193
-msgid "None available"
+#: .\templates\admin\import_export\change_list_export.html:8
+#: .\templates\admin\import_export\export.html:9
+#: .\templates\admin\import_export\export.html:15
+msgid "Export"
 msgstr ""
 
-#: .\templates\admin\index.html:202
-msgid "added"
+#: .\templates\admin\import_export\export.html:7
+msgid "Exportar"
+msgstr "Export"
+
+#: .\templates\admin\import_export\export.html:7
+msgid "Sistema de Controle"
 msgstr ""
 
-#: .\templates\admin\index.html:203
-msgid "changed"
+#: .\templates\admin\import_export\export.html:35
+msgid "Submit"
 msgstr ""
 
-#: .\templates\admin\index.html:204
-msgid "deleted"
+#: .\venda\admin.py:39
+msgid "Posição no mapa"
 msgstr ""
 
-#: .\templates\admin\index.html:210
-msgid "Unknown content"
+#: .\venda\admin.py:185
+msgid "Informações de entrega"
 msgstr ""
 
-#: .\venda\forms.py:110
+#: .\venda\forms.py:116
 msgid "Pelo menos um item de venda deve ser cadastrado."
 msgstr ""
 
-#: .\venda\models.py:19
+#: .\venda\models.py:25
 msgid "Data da venda"
 msgstr ""
 
-#: .\venda\models.py:20
+#: .\venda\models.py:26
 msgid "Desconto sob o valor total da venda."
 msgstr ""
 
-#: .\venda\models.py:21
+#: .\venda\models.py:27
 msgid ""
 "Marcando o Checkbox, a venda será cancelada e os itens financeiros "
 "estornados."
 msgstr ""
 
-#: .\venda\models.py:22
-msgid "Cliente?"
-msgstr ""
-
-#: .\venda\models.py:25
+#: .\venda\models.py:31
 msgid "Descreva na área as informações relavantes da venda."
 msgstr ""
 
+#: .\venda\models.py:33
+msgid ""
+"Marcando o Checkbox, os itens financeiros serão gerados e o estoque "
+"movimentado."
+msgstr ""
+
+#: .\venda\models.py:34 .\venda\models.py:50
+msgid "Vendedor"
+msgstr ""
+
+#: .\venda\models.py:38
+msgid "Vendas"
+msgstr ""
+
 #: .\venda\models.py:39
+#, fuzzy
+#| msgid "Exportar"
+msgid "Exportar Vendas"
+msgstr "Export"
+
+#: .\venda\models.py:59
 msgid ""
 "Não há caixa aberto. Para efetivar uma venda é necessário ter o caixa aberto."
 msgstr ""
 
-#: .\venda\models.py:50
-#, python-format
-msgid ""
-"Venda não pode ser cancelada. Já há pagamento feito para esta venda. [Conta "
-"a Receber: %(conta_receber)s]"
-msgstr ""
-
-#: .\venda\models.py:69
+#: .\venda\models.py:77
 #, python-format
 msgid "Conta aberta proveniente de venda %(venda)s"
 msgstr ""
 
-#: .\venda\models.py:124
+#: .\venda\models.py:142
 msgid "Removido do estoque?"
 msgstr ""
 
-#: .\venda\models.py:127
+#: .\venda\models.py:145
 msgid "Item de Venda"
 msgstr ""
 
-#: .\venda\models.py:128
+#: .\venda\models.py:146
 msgid "Itens de Venda"
 msgstr ""
+
+#: .\venda\models.py:184
+msgid "Entrega agendada?"
+msgstr ""
+
+#: .\venda\models.py:186
+msgid "Data de entrega"
+msgstr ""
+
+#: .\venda\models.py:187
+msgid "Descreva na área as informações relavantes da entrega."
+msgstr ""
+
+#: .\venda\models.py:188
+msgid "Posição"
+msgstr ""
+
+#: .\venda\models.py:193
+msgid "Entrega"
+msgstr ""
+
+#: .\venda\models.py:194
+msgid "Entregas"
+msgstr ""
+
+#: .\venda\models.py:195
+#, fuzzy
+#| msgid "Exportar"
+msgid "Exportar Entregas"
+msgstr "Export"
+
+#: .\venda\models.py:209
+#, python-format
+msgid ""
+"Data de entrega inválida. Data mínima para entrega dos produtos: "
+"%(data_minima_entrega)s"
+msgstr ""
+
+#~ msgid "Please correct the error below."
+#~ msgstr "Por favor, corrija o erro abaixo."

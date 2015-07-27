@@ -2,30 +2,30 @@
 from __future__ import unicode_literals
 
 from django.db import models, migrations
-import geoposition.fields
-import django.db.models.deletion
 from django.conf import settings
+import django.db.models.deletion
+import geoposition.fields
 
 
 class Migration(migrations.Migration):
 
     dependencies = [
+        ('pessoal', '0001_initial'),
+        ('movimento', '0001_initial'),
         migrations.swappable_dependency(settings.AUTH_USER_MODEL),
         ('parametros_financeiros', '0001_initial'),
-        ('movimento', '0001_initial'),
-        ('pessoal', '0001_initial'),
     ]
 
     operations = [
         migrations.CreateModel(
             name='EntregaVenda',
             fields=[
-                ('id', models.AutoField(verbose_name='ID', primary_key=True, auto_created=True, serialize=False)),
-                ('status', models.BooleanField(default=False, verbose_name='Entrega agendada?')),
-                ('data', models.DateTimeField(verbose_name='Data de entrega', null=True, blank=True)),
-                ('observacao', models.TextField(verbose_name='Observações', blank=True, help_text='Descreva na área as informações relavantes da entrega.')),
-                ('posicao', geoposition.fields.GeopositionField(verbose_name='Posição', blank=True, max_length=42)),
-                ('endereco', models.ForeignKey(to='pessoal.EnderecoEntregaCliente', null=True, verbose_name='Endereço', blank=True, on_delete=django.db.models.deletion.PROTECT)),
+                ('id', models.AutoField(primary_key=True, auto_created=True, verbose_name='ID', serialize=False)),
+                ('status', models.BooleanField(verbose_name='Entrega agendada?', default=False)),
+                ('data', models.DateTimeField(blank=True, null=True, verbose_name='Data de entrega')),
+                ('observacao', models.TextField(blank=True, verbose_name='Observações', help_text='Descreva na área as informações relavantes da entrega.')),
+                ('posicao', geoposition.fields.GeopositionField(blank=True, max_length=42, verbose_name='Posição')),
+                ('endereco', models.ForeignKey(blank=True, null=True, to='pessoal.EnderecoEntregaCliente', verbose_name='Endereço', on_delete=django.db.models.deletion.PROTECT)),
             ],
             options={
                 'verbose_name': 'Entrega',
@@ -36,12 +36,12 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='ItensVenda',
             fields=[
-                ('id', models.AutoField(verbose_name='ID', primary_key=True, auto_created=True, serialize=False)),
+                ('id', models.AutoField(primary_key=True, auto_created=True, verbose_name='ID', serialize=False)),
                 ('quantidade', models.IntegerField(verbose_name='Quantidade')),
-                ('valor_unitario', models.DecimalField(verbose_name='Valor unitário (R$)', decimal_places=2, max_digits=20)),
-                ('valor_total', models.DecimalField(verbose_name='Total (R$)', decimal_places=2, max_digits=20)),
-                ('desconto', models.DecimalField(verbose_name='Desconto (%)', null=True, decimal_places=0, max_digits=20, blank=True)),
-                ('remove_estoque', models.BooleanField(default=False, verbose_name='Removido do estoque?')),
+                ('valor_unitario', models.DecimalField(verbose_name='Valor unitário (R$)', max_digits=20, decimal_places=2)),
+                ('valor_total', models.DecimalField(verbose_name='Total (R$)', max_digits=20, decimal_places=2)),
+                ('desconto', models.DecimalField(blank=True, null=True, max_digits=20, decimal_places=0, verbose_name='Desconto (%)')),
+                ('remove_estoque', models.BooleanField(verbose_name='Removido do estoque?', default=False)),
                 ('produto', models.ForeignKey(to='movimento.Produtos', verbose_name='Produto', on_delete=django.db.models.deletion.PROTECT)),
             ],
             options={
@@ -52,18 +52,18 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='Venda',
             fields=[
-                ('id', models.AutoField(verbose_name='ID', primary_key=True, auto_created=True, serialize=False)),
-                ('total', models.DecimalField(verbose_name='Total (R$)', decimal_places=2, max_digits=20, help_text='Valor total da venda.')),
+                ('id', models.AutoField(primary_key=True, auto_created=True, verbose_name='ID', serialize=False)),
+                ('total', models.DecimalField(verbose_name='Total (R$)', help_text='Valor total da venda.', max_digits=20, decimal_places=2)),
                 ('data', models.DateTimeField(verbose_name='Data da venda', auto_now_add=True)),
-                ('desconto', models.DecimalField(null=True, decimal_places=0, max_digits=20, verbose_name='Desconto (%)', blank=True, help_text='Desconto sob o valor total da venda.')),
-                ('status', models.BooleanField(default=False, verbose_name='Cancelada?', help_text='Marcando o Checkbox, a venda será cancelada e os itens financeiros estornados.')),
-                ('observacao', models.TextField(verbose_name='Observações', blank=True, help_text='Descreva na área as informações relavantes da venda.')),
-                ('pedido', models.CharField(verbose_name='Pedido?', blank=True, max_length=1, choices=[('S', 'Sim'), ('N', 'Não')])),
-                ('status_pedido', models.BooleanField(default=False, verbose_name='Pedido confirmado?', help_text='Marcando o Checkbox, os itens financeiros serão gerados e o estoque movimentado.')),
+                ('desconto', models.DecimalField(blank=True, null=True, max_digits=20, verbose_name='Desconto (%)', help_text='Desconto sob o valor total da venda.', decimal_places=0)),
+                ('status', models.BooleanField(verbose_name='Cancelada?', help_text='Marcando o Checkbox, a venda será cancelada e os itens financeiros estornados.', default=False)),
+                ('observacao', models.TextField(blank=True, verbose_name='Observações', help_text='Descreva na área as informações relavantes da venda.')),
+                ('pedido', models.CharField(blank=True, max_length=1, choices=[('S', 'Sim'), ('N', 'Não')], verbose_name='Pedido?')),
+                ('status_pedido', models.BooleanField(verbose_name='Pedido confirmado?', help_text='Marcando o Checkbox, os itens financeiros serão gerados e o estoque movimentado.', default=False)),
                 ('cliente', models.ForeignKey(to='pessoal.Cliente', verbose_name='Cliente', on_delete=django.db.models.deletion.PROTECT)),
                 ('forma_pagamento', models.ForeignKey(to='parametros_financeiros.FormaPagamento', verbose_name='Forma de pagamento', on_delete=django.db.models.deletion.PROTECT)),
                 ('grupo_encargo', models.ForeignKey(to='parametros_financeiros.GrupoEncargo', verbose_name='Grupo de encargo', on_delete=django.db.models.deletion.PROTECT)),
-                ('vendedor', models.ForeignKey(to=settings.AUTH_USER_MODEL, null=True, verbose_name='Vendedor', blank=True, on_delete=django.db.models.deletion.DO_NOTHING)),
+                ('vendedor', models.ForeignKey(blank=True, null=True, to=settings.AUTH_USER_MODEL, verbose_name='Vendedor', on_delete=django.db.models.deletion.DO_NOTHING)),
             ],
             options={
                 'verbose_name': 'Venda',
@@ -79,6 +79,6 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='entregavenda',
             name='venda',
-            field=models.OneToOneField(null=True, verbose_name='Venda', blank=True, to='venda.Venda'),
+            field=models.OneToOneField(blank=True, null=True, verbose_name='Venda', to='venda.Venda'),
         ),
     ]

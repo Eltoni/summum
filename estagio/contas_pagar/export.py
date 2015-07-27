@@ -1,8 +1,8 @@
 #-*- coding: UTF-8 -*-
-from import_export import resources
-from contas_pagar.models import ContasPagar
+from import_export import fields, resources
+from contas_pagar.models import ContasPagar, ParcelasContasPagar
 from decimal import Decimal
-
+from django.utils.translation import gettext
 #classe usada pelo import_export
 class ContasPagarResource(resources.ModelResource):
 
@@ -24,3 +24,42 @@ class ContasPagarResource(resources.ModelResource):
 
     def dehydrate_valor_total(self, contaspagar):
         return '%s' % (Decimal(contaspagar.valor_total).quantize(Decimal("0.00")))
+
+
+
+class ParcelasContasPagarResource(resources.ModelResource):
+    status_parcela = fields.Field()
+    encargos_calculados = fields.Field()
+    valor_total = fields.Field()
+    valor_pago = fields.Field()
+    valor_a_pagar = fields.Field()
+    fornecedores = fields.Field()
+
+    class Meta:
+        model = ParcelasContasPagar
+        fields = ('id', 'num_parcelas', 'vencimento', 'valor', 'encargos_calculados', 'valor_total', 'valor_pago', 'valor_a_pagar', 'status_parcela', 'contas_pagar', 'fornecedores')
+        export_order = fields
+
+    def dehydrate_vencimento(self, parcelascontaspagar):
+        return '%s' % (parcelascontaspagar.vencimento.strftime('%d/%m/%Y'))
+
+    def dehydrate_valor(self, parcelascontaspagar):
+        return '%s' % (Decimal(parcelascontaspagar.valor).quantize(Decimal("0.00")))
+
+    def dehydrate_encargos_calculados(self, parcelascontaspagar):
+        return Decimal(parcelascontaspagar.encargos_calculados()).quantize(Decimal("0.00"))
+
+    def dehydrate_valor_total(self, parcelascontaspagar):
+        return Decimal(parcelascontaspagar.valor_total()).quantize(Decimal("0.00"))
+
+    def dehydrate_valor_pago(self, parcelascontaspagar):
+        return Decimal(parcelascontaspagar.valor_pago()).quantize(Decimal("0.00"))
+
+    def dehydrate_valor_a_receber(self, parcelascontaspagar):
+        return Decimal(parcelascontaspagar.valor_a_pagar()).quantize(Decimal("0.00"))
+
+    def dehydrate_status_parcela(self, parcelascontaspagar):
+        return gettext(parcelascontaspagar.status_parcela()[1])
+
+    def dehydrate_fornecedores(self, parcelascontaspagar):
+        return '%s' % (parcelascontaspagar.contas_pagar.fornecedores.nome)

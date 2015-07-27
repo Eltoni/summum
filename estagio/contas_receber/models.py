@@ -76,10 +76,9 @@ class ContasReceber(models.Model):
     def valor_total_juros(self):
 
         valor_total_juros = 0
-        quant_parcelas = ParcelasContasReceber.objects.filter(contas_receber=self.pk).count()
-        for i in range(quant_parcelas):
-            retorna_id_parcelas = ParcelasContasReceber.objects.filter(contas_receber=self.pk).values_list('pk')[i][0]
-            valor = ParcelasContasReceber.objects.get(pk=retorna_id_parcelas).calculo_juros()
+        parcelas = ParcelasContasReceber.objects.filter(contas_receber=self.pk).values_list('pk')
+        for i in range(len(parcelas)):
+            valor = ParcelasContasReceber.objects.get(pk=parcelas[i][0]).calculo_juros()
             valor_juros = 0 if not valor else valor
             valor_total_juros += valor_juros
         return Decimal(valor_total_juros).quantize(Decimal("0.00")) or Decimal(0.00).quantize(Decimal("0.00"))
@@ -89,10 +88,9 @@ class ContasReceber(models.Model):
     def valor_total_multa(self):
 
         valor_total_multa = 0
-        quant_parcelas = ParcelasContasReceber.objects.filter(contas_receber=self.pk).count()
-        for i in range(quant_parcelas):
-            retorna_id_parcelas = ParcelasContasReceber.objects.filter(contas_receber=self.pk).values_list('pk')[i][0]
-            valor = ParcelasContasReceber.objects.get(pk=retorna_id_parcelas).calculo_multa()
+        parcelas = ParcelasContasReceber.objects.filter(contas_receber=self.pk).values_list('pk')
+        for i in range(len(parcelas)):
+            valor = ParcelasContasReceber.objects.get(pk=parcelas[i][0]).calculo_multa()
             valor_multa = 0 if not valor else valor
             valor_total_multa += valor_multa
         return Decimal(valor_total_multa).quantize(Decimal("0.00")) or Decimal(0.00).quantize(Decimal("0.00"))
@@ -102,10 +100,9 @@ class ContasReceber(models.Model):
     def valor_total_encargos(self):
 
         valor_encargos = 0
-        quant_parcelas = ParcelasContasReceber.objects.filter(contas_receber=self.pk).count()
-        for i in range(quant_parcelas):
-            retorna_id_parcelas = ParcelasContasReceber.objects.filter(contas_receber=self.pk).values_list('pk')[i][0]
-            valor_encargos += ParcelasContasReceber.objects.get(pk=retorna_id_parcelas).encargos_calculados()
+        parcelas = ParcelasContasReceber.objects.filter(contas_receber=self.pk).values_list('pk')
+        for i in range(len(parcelas)):
+            valor_encargos += ParcelasContasReceber.objects.get(pk=parcelas[i][0]).encargos_calculados()
         return valor_encargos or Decimal(0.00).quantize(Decimal("0.00"))
     valor_total_encargos.short_description = _(u"Valor total de encargos")
 
@@ -114,10 +111,9 @@ class ContasReceber(models.Model):
     def valor_total_encargos_pagos(self):
 
         valor_encargos = 0
-        quant_parcelas = ParcelasContasReceber.objects.filter(contas_receber=self.pk).count()
-        for i in range(quant_parcelas):
-            retorna_id_parcelas = ParcelasContasReceber.objects.filter(contas_receber=self.pk).values_list('pk')[i][0]
-            valor_encargos += ParcelasContasReceber.objects.get(pk=retorna_id_parcelas).encargos_pagos()
+        parcelas = ParcelasContasReceber.objects.filter(contas_receber=self.pk).values_list('pk')
+        for i in range(len(parcelas)):
+            valor_encargos += ParcelasContasReceber.objects.get(pk=parcelas[i][0]).encargos_pagos()
         return valor_encargos or Decimal(0.00).quantize(Decimal("0.00"))
     valor_total_encargos_pagos.short_description = _(u"Valor total de encargos pagos")
 
@@ -125,10 +121,9 @@ class ContasReceber(models.Model):
     def valor_total_encargos_a_pagar(self):
 
         valor_encargos = 0
-        quant_parcelas = ParcelasContasReceber.objects.filter(contas_receber=self.pk).count()
-        for i in range(quant_parcelas):
-            retorna_id_parcelas = ParcelasContasReceber.objects.filter(contas_receber=self.pk).values_list('pk')[i][0]
-            valor_encargos += ParcelasContasReceber.objects.get(pk=retorna_id_parcelas).encargos_a_pagar()
+        parcelas = ParcelasContasReceber.objects.filter(contas_receber=self.pk).values_list('pk')
+        for i in range(len(parcelas)):
+            valor_encargos += ParcelasContasReceber.objects.get(pk=parcelas[i][0]).encargos_a_pagar()
         return valor_encargos or Decimal(0.00).quantize(Decimal("0.00"))
     valor_total_encargos_a_pagar.short_description = _(u"Valor total de encargos pagos")
 
@@ -136,10 +131,9 @@ class ContasReceber(models.Model):
     def valor_total_cobrado(self):
 
         valor_cobrado = 0
-        quant_parcelas = ParcelasContasReceber.objects.filter(contas_receber=self.pk).count()
-        for i in range(quant_parcelas):
-            retorna_id_parcelas = ParcelasContasReceber.objects.filter(contas_receber=self.pk).values_list('pk')[i][0]
-            valor_cobrado += ParcelasContasReceber.objects.get(pk=retorna_id_parcelas).valor_total()
+        parcelas = ParcelasContasReceber.objects.filter(contas_receber=self.pk).values_list('pk')
+        for i in range(len(parcelas)):
+            valor_cobrado += ParcelasContasReceber.objects.get(pk=parcelas[i][0]).valor_total()
         return valor_cobrado or Decimal(0.00).quantize(Decimal("0.00"))
     valor_total_cobrado.short_description = _(u"Valor total cobrado")
 
@@ -154,7 +148,7 @@ class ContasReceber(models.Model):
 
     def link_recebimentos_conta(self):
         url = reverse('admin:app_list', kwargs={'app_label': 'contas_receber'})
-        return format_html('<a href="{0}recebimento/recebimentos_conta/{1}" target="_blank">{2}<span class="icon-share icon-alpha5" style="vertical-align: text-bottom; margin-left: 10px;" rel="tooltip" title="Visualize todos os recebimentos da conta {1}"</span></a>', url, self.pk, self.valor_total_recebido())
+        return format_html('<a href="{0}recebimento/recebimentos_conta/{1}" target="_blank">{2}<span class="icon-share icon-alpha5 hint--bottom hint--bounce" style="vertical-align: text-bottom; margin-left: 10px;" rel="tooltip" data-hint="{3} {1}"</span></a>', url, self.pk, self.valor_total_recebido(), _(u"Visualize todos os recebimentos da conta"))
     link_recebimentos_conta.allow_tags = True
     link_recebimentos_conta.short_description = _(u"Valor total recebido")
 
@@ -162,10 +156,9 @@ class ContasReceber(models.Model):
     def valor_total_a_receber(self):
 
         valor_a_receber = 0
-        quant_parcelas = ParcelasContasReceber.objects.filter(contas_receber=self.pk).count()
-        for i in range(quant_parcelas):
-            retorna_id_parcelas = ParcelasContasReceber.objects.filter(contas_receber=self.pk).values_list('pk')[i][0]
-            valor_a_receber += ParcelasContasReceber.objects.get(pk=retorna_id_parcelas).valor_a_receber()
+        parcelas = ParcelasContasReceber.objects.filter(contas_receber=self.pk).values_list('pk')
+        for i in range(len(parcelas)):
+            valor_a_receber += ParcelasContasReceber.objects.get(pk=parcelas[i][0]).valor_a_receber()
         return valor_a_receber or Decimal(0.00).quantize(Decimal("0.00"))
     valor_total_a_receber.short_description = _(u"Valor total a receber")
 
@@ -307,15 +300,45 @@ class ParcelasContasReceber(models.Model):
     valor = models.DecimalField(max_digits=20, decimal_places=2, verbose_name=_(u"Valor")) 
     status = models.BooleanField(default=False, verbose_name=_(u"Status"))
     num_parcelas = models.IntegerField(verbose_name=_(u"Nº Parcela"))
-    contas_receber = models.ForeignKey(ContasReceber, on_delete=models.PROTECT, verbose_name=_(u"Conta à receber"))
+    contas_receber = models.ForeignKey(ContasReceber, on_delete=models.PROTECT, verbose_name=_(u"Conta a receber"))
 
     class Meta:
-        verbose_name = _(u"Parcela de Conta à Receber")
-        verbose_name_plural = _(u"Parcelas de Contas à Receber")
+        verbose_name = _(u"Parcela de Conta a Receber")
+        verbose_name_plural = _(u"Parcelas de Contas a Receber")
+        permissions = ((u"pode_exportar_parcelascontasreceber", _(u"Exportar Parcelas de Contas a Receber")),)
 
 
     def __str__(self):
         return u'%s' % (self.id)
+
+
+    def conta_associada(self):
+        if self.contas_receber:
+            url = reverse("admin:contas_receber_contasreceber_change", args=[self.contas_receber])
+            return u"<a href='%s' target='_blank'>%s</a>" % (url, self.contas_receber)
+        return '-'
+    conta_associada.allow_tags = True
+    conta_associada.short_description = _(u"Conta a receber")
+    conta_associada.admin_order_field = 'contas_receber'
+
+
+    def quant_dias_vencidos(self):
+
+        data = datetime.date.today()
+
+        if self.pk and self.vencimento < data:
+            existe_recebimento = Recebimento.objects.filter(parcelas_contas_receber=self.pk).exists()
+            if not existe_recebimento:
+                dias_vencidos = data - self.vencimento
+                dias_vencidos = dias_vencidos.days
+            else: 
+                data_primeiro_recebimento = Recebimento.objects.filter(parcelas_contas_receber=self.pk).values_list('data')[0][0]
+                dias_vencidos = date_settings_timezone(data_primeiro_recebimento) - self.vencimento
+                dias_vencidos = dias_vencidos.days
+
+            return dias_vencidos
+        return 0
+    quant_dias_vencidos.short_description = _(u"Quantidade de dias vencidos")
 
 
     def calculo_juros(self):
@@ -450,24 +473,24 @@ class ParcelasContasReceber(models.Model):
     valor_a_receber.short_description = _(u"Valor a Receber")
 
 
-    def link_recebimentos_parcela_cores(self):
+    def status_parcela(self):
         data = datetime.date.today()
         if self.valor_pago() >= self.valor_total():
-            return '#2DB218 !important' #Pago
+            return ('#2DB218', _(u'Pago')) #Pago
 
         if self.valor_total() > self.valor_pago() and self.valor_pago() > 0.00:
-            return '#355EED !important' #Pago Parcial
+            return ('#355EED', _(u'Pago Parcialmente')) #Pago Parcial
 
         if self.vencimento < data:
-            return '#E8262A !important' #Vencido
+            return ('#E8262A', _(u'Vencido')) #Vencido
 
         else: 
-            return '#333333 !important' #Em aberto
+            return ('#333333', _(u'Em aberto')) #Em aberto
 
 
     def link_recebimentos_parcela(self):
         url = reverse('admin:app_list', kwargs={'app_label': 'contas_receber'})
-        return format_html('<a href="{0}recebimento/recebimentos_parcela/{1}" target="_blank" style="color: {2};">{3}<span class="icon-share icon-alpha5" style="position: relative; float: right; right: 20%;" rel="tooltip" title="Visualize todos os recebimentos da parcela {1}"</span></a>', url, self.pk, self.link_recebimentos_parcela_cores(), self.valor_pago())
+        return format_html('<a href="{0}recebimento/recebimentos_parcela/{1}" target="_blank" style="color: {2};">{3}<span class="icon-share icon-alpha5 hint--bottom hint--bounce" style="position: relative; float: right; right: 20%;" rel="tooltip" data-hint="{4} {1}"</span></a>', url, self.pk, self.status_parcela()[0], self.valor_pago(), _(u"Visualize todos os recebimentos da parcela"))
     link_recebimentos_parcela.allow_tags = True
     link_recebimentos_parcela.short_description = _(u"Valor Pago")
 

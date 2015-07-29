@@ -102,6 +102,7 @@ class ClienteAdmin(ExportMixin, BaseCadastroPessoaAdmin):
         return my_urls + urls
 
     def get_form(self, request, obj=None, **kwargs):
+        self.inlines = [EnderecoEntregaClienteInline,]
         self.fieldsets = (
             (None, {
                 'classes': ('suit-tab suit-tab-geral',),

@@ -1,0 +1,4 @@
+/* Hack para possibilitar a quebra de linha na utilização da biblioteca HINT.CSS */
+.hint:before, .hint:after, [data-hint]:before, [data-hint]:after {
+    white-space: pre !important;
+}

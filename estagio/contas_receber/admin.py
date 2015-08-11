@@ -132,7 +132,7 @@ class ContasReceberAdmin(ExportMixin, SalmonellaMixin, admin.ModelAdmin):
         self.fieldsets = (
             (None, {
                 'classes': ('suit-tab suit-tab-geral',),
-                'fields': ('status', 'id', 'venda_associada', 'valor_total', 'data', 'descricao', 'cliente', 'forma_pagamento', 'grupo_encargo')
+                'fields': ('status', 'id', 'venda_associada', 'valor_total', 'data', 'descricao', 'cliente', 'cliente_associado', 'forma_pagamento', 'forma_pagamento_associada', 'grupo_encargo', 'grupo_encargo_associado')
             }),
             (None, {
                 'classes': ('suit-tab suit-tab-detalhe',),
@@ -146,10 +146,13 @@ class ContasReceberAdmin(ExportMixin, SalmonellaMixin, admin.ModelAdmin):
 
         self.suit_form_includes = []
         if obj is None:
-            self.fieldsets[0][1]['fields'] = tuple(x for x in self.fieldsets[0][1]['fields'] if (x!='venda_associada' and x!='id' and x!='status'))
+            self.fieldsets[0][1]['fields'] = tuple(x for x in self.fieldsets[0][1]['fields'] if (x!='venda_associada' and x!='id' and x!='status' and x!='cliente_associado' and x!='forma_pagamento_associada' and x!='grupo_encargo_associado'))
             self.fieldsets[1][1]['fields'] = tuple(x for x in self.fieldsets[1][1]['fields'] if (x!='link_recebimentos_conta' and x!='valor_total_cobrado' and x!='valor_total_a_receber' and x!='valor_total_encargos' and x!='valor_total_juros' and x!='valor_total_multa'))
         
         else:
+            self.fieldsets[0][1]['fields'] = tuple(x for x in self.fieldsets[0][1]['fields'] if (x!='cliente' and x!='forma_pagamento' and x!='grupo_encargo'))
+            obj.usuario_sessao = request.user
+            
             insert_into_suit_form_tabs = tuple([('detalhe', _(u"Detalhes da Conta"))])
             self.suit_form_tabs += insert_into_suit_form_tabs
 
@@ -164,9 +167,9 @@ class ContasReceberAdmin(ExportMixin, SalmonellaMixin, admin.ModelAdmin):
         """ Define todos os campos da inline como somente leitura caso o registro seja salvo no BD """
 
         if obj:
-            return ['status', 'id', 'venda_associada', 'valor_total', 'data', 'descricao', 'cliente', 'forma_pagamento', 'grupo_encargo', 'valor_total_recebido', 'valor_total_juros', 'valor_total_multa', 'valor_total_encargos', 'valor_total_cobrado', 'valor_total_a_receber', 'link_recebimentos_conta',]
+            return ['status', 'id', 'venda_associada', 'cliente_associado', 'forma_pagamento_associada', 'grupo_encargo_associado', 'valor_total', 'data', 'descricao', 'cliente', 'forma_pagamento', 'grupo_encargo', 'valor_total_recebido', 'valor_total_juros', 'valor_total_multa', 'valor_total_encargos', 'valor_total_cobrado', 'valor_total_a_receber', 'link_recebimentos_conta',]
         else:
-            return ['status', 'id', 'venda_associada', ]
+            return ['status', 'id', 'venda_associada', 'cliente_associado', 'forma_pagamento_associada', 'grupo_encargo_associado',]
 
 
     # trata as inlines que aparecem na página de conta a pagar

@@ -5,6 +5,7 @@ from pessoal.models import Fornecedor
 from parametros_financeiros.models import FormaPagamento, GrupoEncargo
 from utilitarios.funcoes_data import date_add_months, date_add_week, date_add_days, date_settings_timezone
 from utilitarios.calculos_encargos import calculo_composto, calculo_simples
+from utilitarios.funcoes import pode_ver_link
 from django.core.exceptions import ValidationError
 import datetime
 from decimal import Decimal
@@ -57,12 +58,67 @@ class ContasPagar(models.Model):
 
     def compra_associada(self):
         if self.compras:
-            url = reverse("admin:compra_compra_change", args=[self.compras])
-            return u"<a href='%s' target='_blank'>%s</a>" % (url, self.compras)
+            try:
+                url = pode_ver_link(self.usuario_sessao, 'compra', 'compra', self.compras.pk)
+            except:
+                url = '#'
+            return u"<a href='%s'>%s</a>" % (url, self.compras)
         return '-'
     compra_associada.allow_tags = True
     compra_associada.short_description = _(u"Compra")
     compra_associada.admin_order_field = 'compras'
+
+
+    def fornecedor_associado(self):
+        if self.fornecedores:
+            url = pode_ver_link(self.usuario_sessao, 'pessoal', 'fornecedor', self.fornecedores.pk)
+            return u"<a href='%s'>%s</a>" % (url, self.fornecedores)
+        return '-'
+    fornecedor_associado.allow_tags = True
+    fornecedor_associado.short_description = _(u"Fornecedor")
+    fornecedor_associado.admin_order_field = 'fornecedores'
+
+
+    def forma_pagamento_associada(self):
+        choices_tp = self.forma_pagamento._meta.get_field_by_name('tipo_prazo')[0].flatchoices
+        tp = dict(choices_tp).get(self.forma_pagamento.tipo_prazo)
+        choices_tp = self.forma_pagamento._meta.get_field_by_name('tipo_carencia')[0].flatchoices
+        tc = dict(choices_tp).get(self.forma_pagamento.tipo_prazo)
+        if self.forma_pagamento:
+            url = pode_ver_link(self.usuario_sessao, 'parametros_financeiros', 'formapagamento', self.forma_pagamento.pk)
+            return u"<a href='%s' rel='tooltip' data-hint='%s: %s&#10;&#10;%s: %s (%s)&#10;&#10;%s: %s (%s)' class='hint--right hint--bounce' target='_blank'>%s</a>" % ( url, 
+                                                                                                                                                                          self.forma_pagamento._meta.get_field_by_name('quant_parcelas')[0].verbose_name,
+                                                                                                                                                                          self.forma_pagamento.quant_parcelas,  
+                                                                                                                                                                          self.forma_pagamento._meta.get_field_by_name('prazo_entre_parcelas')[0].verbose_name,                                                                                                                                                                                             
+                                                                                                                                                                          self.forma_pagamento.prazo_entre_parcelas, 
+                                                                                                                                                                          tp,
+                                                                                                                                                                          self.forma_pagamento._meta.get_field_by_name('carencia')[0].verbose_name,
+                                                                                                                                                                          self.forma_pagamento.carencia, 
+                                                                                                                                                                          tc, 
+                                                                                                                                                                          self.forma_pagamento )
+        return '-'
+    forma_pagamento_associada.allow_tags = True
+    forma_pagamento_associada.short_description = _(u"Forma de pagamento")
+    forma_pagamento_associada.admin_order_field = 'forma_pagamento'
+
+
+    def grupo_encargo_associado(self):
+        choices_tj = self.grupo_encargo._meta.get_field_by_name('tipo_juros')[0].flatchoices
+        tj = dict(choices_tj).get(self.grupo_encargo.tipo_juros)
+        if self.grupo_encargo:
+            url = pode_ver_link(self.usuario_sessao, 'parametros_financeiros', 'grupoencargo', self.grupo_encargo.pk)
+            return u"<a href='%s' rel='tooltip' data-hint='%s: %s&#10;&#10;%s: %s&#10;&#10;%s: %s' class='hint--right hint--bounce' target='_blank'>%s</a>" % ( url, 
+                                                                                                                                                                self.grupo_encargo._meta.get_field_by_name('juros')[0].verbose_name,
+                                                                                                                                                                self.grupo_encargo.juros,  
+                                                                                                                                                                self.grupo_encargo._meta.get_field_by_name('multa')[0].verbose_name,                                                                                                                                                                                             
+                                                                                                                                                                self.grupo_encargo.multa,
+                                                                                                                                                                self.grupo_encargo._meta.get_field_by_name('tipo_juros')[0].verbose_name,
+                                                                                                                                                                tj, 
+                                                                                                                                                                self.grupo_encargo )
+        return '-'
+    grupo_encargo_associado.allow_tags = True
+    grupo_encargo_associado.short_description = _(u"Grupo de encargo")
+    grupo_encargo_associado.admin_order_field = 'grupo_encargo'
 
 
     def formata_descricao(self):

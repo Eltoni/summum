@@ -1,9 +1,9 @@
 #-*- coding: UTF-8 -*-
 from django.http import HttpResponse
-from django.db.models import get_model
+from django.apps import apps
 
 def checa_foreignkey_habilitada(request, app_name, model_name, id):
-    model = get_model(app_name, model_name)
+    model = apps.get_model(app_name, model_name)
     try:
         status = model.objects.get(id=id)
         try:

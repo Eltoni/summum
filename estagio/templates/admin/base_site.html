@@ -15,6 +15,7 @@
     <link rel="stylesheet" type="text/css" href="{% static 'css/hint.css' %}" media="all">
 	<link rel="stylesheet" type="text/css" href="{% static 'css/hopscotch.css' %}" media="all">
     <link rel="stylesheet" type="text/css" href="{% static 'css/salmonella.css' %}" media="all">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/main.css' %}" media="all">
     <!-- <link rel="icon" type="image/png" sizes="any" href="{{STATIC_URL}}img/favicon.svg"> -->
     <link rel="shortcut icon" href="{{STATIC_URL}}img/favicon.ico" />
 {% endblock %}
@@ -48,7 +49,9 @@
 
 {# Footer links (left side) #}
 {% block footer_links %}
-  <a href="/doc/" class="icon"><i class="icon-question-sign"></i>{% trans 'Documentação' %}</a>
+  <a href="/doc/" class="icon"><i class="icon-book"></i>{% trans 'Documentação' %}</a>
+  <a href="http://gustavosdo.github.io/" target="_blank" id="link-suport" class="icon"><i class="icon-question-sign"></i>{% trans 'Suporte' %}</a>
+  <a href="https://github.com/Gustavosdo/private/issues" id="link-issue" target="_blank" class="icon"><i class="icon-comment"></i>{% trans 'Reporte um bug' %}</a>
 {% endblock %}
 
 {# Additional header content like notifications or language switcher #}
@@ -57,10 +60,12 @@
     <div class="header-content">
         <!-- First icon column -->
         <div class="header-column icon">
-            <i class="icon-eye-open"></i>
+            <i class="icon-eye-open"></i><br>
+            <i class="icon-eye-open"></i><br>
         </div>
         <div class="header-column" style="margin-right: 20px">
-            <a id="up-tour-link" href="/" class="grey">{% trans 'Tour Guiado' %}</a><br>
+            <a id="up-tour-1-link" href="/" class="grey">{% trans 'Tour Guiado (aspectos)' %}</a><br>
+            <a id="up-tour-2-link" href="/" class="grey">{% trans 'Tour Guiado (aplicação)' %}</a><br>
         </div>
     </div>
 {% endblock %}

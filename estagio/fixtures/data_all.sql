@@ -2,13 +2,13 @@ INSERT INTO auth_user (id, password, last_login, is_superuser, username, first_n
 (1, 'pbkdf2_sha256$15000$ZDbgcz8xUd5x$eVFOVXKl6gG1yMp+TmkT/1MNhm6i1hNPJdVvBzV/dUw=', '2015-05-11 23:36:51', 1, 'admin', 'Gustavo', 'Santana de Oliveira', 'gustavo.sdo@gmail.com', 1, 1, '2014-12-31 01:18:00'),
 (2, 'pbkdf2_sha256$12000$UjxpI6EkJXg2$GoYKHvFp9n+wGJV3ZiaDwBDqiMISOvHANHbAV27qVjE=', '2015-01-01 01:18:00', 0, 'spossato', 'Stephanie', 'Possato de Oliveira', 'spossato@unipar.br', 1, 1, '2015-01-01 01:18:00');
 
-
+-- Define a data de abertura do caixa há 7 dias atrás
 INSERT INTO caixa_caixa (id, status, data_abertura, data_fechamento, valor_entrada, valor_saida, valor_total, valor_inicial, valor_fechamento, diferenca) VALUES 
-(1, 1, '2015-02-11 01:18:00', NULL, 3404.30, 0.00, 0.00, 1000.00, 0.00, 0.00);
+(1, 1, DATE_ADD(NOW(), INTERVAL -7 DAY), NULL, 3404.30, 0.00, 0.00, 1000.00, 0.00, 0.00);
 
 
-INSERT INTO configuracoes_parametrizacao (id, quantidade_inlines_compra, quantidade_inlines_venda, habilita_pedido_compra, habilita_pedido_venda, qtde_minima_produtos_em_estoque, perc_valor_minimo_pagamento, intervalo_dias_entrega_venda, email_abertura_caixa) VALUES 
-(1, 8, 4, 1, 1, 15, 50, 1, '');
+INSERT INTO configuracoes_parametrizacao (id, quantidade_inlines_compra, quantidade_inlines_venda, habilita_pedido_compra, habilita_pedido_venda, qtde_minima_produtos_em_estoque, perc_valor_minimo_pagamento, intervalo_dias_entrega_venda, email_abertura_caixa, evento_calendario) VALUES 
+(1, 8, 4, 1, 1, 15, 50, 1, '', 'eventos');
 
 
 
@@ -5748,4 +5748,19 @@ INSERT INTO parametros_financeiros_grupoencargo (id, nome, multa, juros, tipo_ju
 (1, 'Grupo de encargos Padrão', 4, 3, 'S', 1, 1);
 
 
+INSERT INTO schedule_calendar (id, name, slug) VALUES
+(1, 'Eventos', 'eventos');
 
+
+INSERT INTO schedule_rule (id, name, description, frequency, params) VALUES
+(1, 'Aniversário', 'Evento realizado anualmente.', 'YEARLY', ''),
+(2, 'Feriado', 'Evento realizado anualmente', 'YEARLY', '');
+
+
+INSERT INTO schedule_event (id, start, end, title, description, created_on, updated_on, end_recurring_period, color_event, calendar_id, creator_id, rule_id) VALUES
+(1, '1993-11-06 02:00:00.000000', '1993-11-07 01:59:59.000000', 'Aniversário do Gustavo', 'Comprar presentes para o chefe!!', '2015-08-24 02:07:35.684113', '2015-08-24 02:28:23.939942', NULL, '#f1c232', 1, NULL, 1),
+(2, '2000-01-01 02:00:00.000000', '2000-01-01 02:00:00.000000', 'Feriado “Confraternização Universal”', 'Recesso Administrativo', '2015-08-24 02:48:39.352469', '2015-08-24 02:50:06.415693', NULL, '', 1, NULL, 2),
+(3, '2000-02-16 02:00:00.000000', '2000-02-18 02:00:00.000000', 'Feriado “Carnaval”', 'Recesso Administrativo', '2015-08-24 02:50:13.508466', '2015-08-24 02:50:13.508466', NULL, '', 1, NULL, 2),
+(4, '2000-04-21 03:00:00.000000', '2000-04-21 03:00:00.000000', 'Feriado “Tiradentes” ', 'Recesso Administrativo', '2015-08-24 02:52:26.440734', '2015-08-24 02:52:26.440734', NULL, '', 1, NULL, 2),
+(5, '2000-04-02 03:00:00.000000', '2000-04-04 03:00:00.000000', 'Feriado “Paixão de Cristo” ', 'Recesso Administrativo', '2015-08-24 02:53:12.523636', '2015-08-24 02:53:12.523636', NULL, '', 1, NULL, 2),
+(6, '2000-10-04 03:00:00.000000', '2000-10-04 03:00:00.000000', 'Feriado Municipal de Umuarama', 'Recesso Administrativo', '2015-08-24 02:59:59.028659', '2015-08-24 02:59:59.028659', NULL, '', 1, NULL, 2);

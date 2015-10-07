@@ -2,7 +2,7 @@
 from django.contrib import admin
 from venda.models import *
 from venda.forms import *
-from venda.views import get_valor_unitario, get_endereco_entrega_cliente
+from venda.views import get_valor_unitario, get_endereco_entrega_cliente, overview_vendas
 from django.http import HttpResponseRedirect
 from configuracoes.models import Parametrizacao
 from salmonella.admin import SalmonellaMixin
@@ -145,6 +145,7 @@ class VendaAdmin(ExportMixin, SalmonellaMixin, admin.ModelAdmin):
         my_urls = patterns('',
             (r'^get_valor_unitario/(?P<id>\d+)/$', self.admin_site.admin_view(get_valor_unitario)),
             (r'^get_endereco_entrega_cliente/(?P<id>\d+)/$', self.admin_site.admin_view(get_endereco_entrega_cliente)),
+            (r'^overview/$', self.admin_site.admin_view(overview_vendas)),
         )
         return my_urls + urls
 

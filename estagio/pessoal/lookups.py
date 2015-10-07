@@ -27,7 +27,6 @@ class CidadeChainedLookup(ModelLookup):
         estado = request.GET.get('estado', '')
         if estado:
             results = results.filter(estado=estado)
-            print (results)
         return results
 
     # def get_item_label(self, item):

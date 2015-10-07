@@ -1,11 +1,15 @@
 #-*- coding: UTF-8 -*-
 from datetime import date
-        
+from django.conf import settings
+
+
+ADMIN_NAME = settings.ADMIN_NAME.encode('utf-8').decode("utf-8")
+
 class TextosEmail(object):
     ano_atual = date.today().year
     
     headerEmailInterno = u'<div style="color:#fff; font-size: 18px; text-shadow: 0 -1px #121414;\
-                            background-color: #373b3d; padding: 10px;">Sistema de Controle</div><hr>'
+                            background-color: #373b3d; padding: 10px;">%(ADMIN_NAME)s</div><hr>' % {'ADMIN_NAME': ADMIN_NAME,}
                     
     footerEmailInterno = u'<hr>\
                             <div style="color: #666; background-color: #d5d7d8;\
@@ -16,7 +20,7 @@ class TextosEmail(object):
                                 Copyright © %(ano_atual)s Versão - Estágio\
                             </div>\
                             <div style="padding: 15px 0 0 0; margin: 0 auto; width: 200px;text-align: center;">\
-                                Sistema de Controle\
+                                %(ADMIN_NAME)s\
                             </div>\
                             </div>\
-                            </div>' % {'ano_atual': ano_atual}
+                            </div>' % {'ano_atual': ano_atual, 'ADMIN_NAME': ADMIN_NAME,}

@@ -11,6 +11,7 @@ from import_export.admin import ExportMixin
 from contas_receber.export import ContasReceberResource, ParcelasContasReceberResource
 from daterange_filter.filter import DateRangeFilter
 from selectable_filter.filter import SelectableFilter
+from decimal import Decimal
 
 
 class RecebimentoAdmin(admin.ModelAdmin):

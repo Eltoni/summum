@@ -1,0 +1,114 @@
+{% load i18n admin_static %}
+
+<!DOCTYPE html>
+<html lang="pt-br" >
+<head>
+  <link rel="stylesheet" type="text/css" href="{{STATIC_URL}}suit/bootstrap/css/bootstrap.min.css" media="all"/>
+  <link rel="stylesheet" type="text/css" href="{{STATIC_URL}}suit/css/suit.css" media="all">
+</head>
+<body>
+
+<style>
+
+div#modal-pagamento-form {
+    background-color: #edeff1;
+    padding: inherit;
+}
+
+#img-success {
+    width: 200px;
+    margin: 0 auto;
+    display: block;
+}
+
+#modal-pagamento-form .alert.alert-success {
+    text-align: center;
+}
+</style>
+
+<script>
+
+  var pagamento_confirmado = false;
+
+  $('#confirma-pagamento').click(function() {
+      id_parcela = $('#id_parcelas_contas_pagar').val();
+      $.ajax({
+              type: 'POST',
+              url: "/contas_pagar/pagamento/efetiva_pagamento_parcela/" + id_parcela + '/',
+              dataType: 'json',
+              data : {
+                  'valor' : $('#id_valor').val(),
+                  'juros' : $('#id_juros').val(),
+                  'multa' : $('#id_multa').val(),
+                  'desconto' : $('#id_desconto').val(),
+                  'parcelas_contas_pagar': id_parcela,
+                  'observacao' : $('#id_observacao').val(),
+              },
+              success : function(result) {
+                  console.log(result);
+                  pagamento_confirmado = result['pagamento_confirmado'] == 1 ? true : false;
+
+                  if (pagamento_confirmado) {
+                    $('#modal-pagamento-form').html('<img id="img-success" src="{{STATIC_URL}}img/icon-success.svg" alt="Pagamento efetuado com successo.">');
+                    $('#img-success').after('<div class="alert alert-success">' + result['message'] + '</div>');
+                  } 
+                  else {
+                    // Atualiza as mensagens de erro
+                    if ($('#erro-pagamento')[0]) {
+                      $( "#erro-pagamento" ).remove();
+                    }
+                    if (!$('#erro-pagamento')[0]) {
+                      $('#efetiva_pagamento_form').before('<div id="erro-pagamento" class="alert alert-error">' + result['message'] + '</div>');
+                    }
+                  }
+              },
+              error : function(req, status, error) {
+                  console.log("Erro ao efetivar o pagamento.");
+              }
+          });
+   });
+
+  function log_modal_event(event, modal) {
+    if (pagamento_confirmado) {
+      console.log("Reload na página após a confirmação do pagamento.");
+      location.reload();
+    }
+  };
+
+  $(document).on($.modal.BEFORE_CLOSE, log_modal_event);
+
+</script>
+  <!--   
+  <form id="efetiva_pagamento_form" class="form-horizontal" action="." method="post">{% csrf_token %}
+      {{ form.as_p }}
+  </form> 
+  -->
+  <div id="modal-pagamento-form">
+    <form id="efetiva_pagamento_form" class="form-horizontal" action="." method="post">{% csrf_token %}
+      <div class="inner-center-column">
+        <div class="tab-content tab-content-main">
+          <fieldset class="module aligned first suit-tab show">
+            {% for field in form %}
+              <div class="control-group form-row field-{{ field.id_for_label }}">
+                <div>
+                  <div class="control-label">
+                    <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+                  </div>
+                  <div class="controls">
+                    {{ field }}
+                  </div>
+                </div>
+              </div>
+            {% endfor %}
+          </fieldset>
+        </div>
+      </div>
+    </form>
+    <div class="box save-box">
+      <div class="submit-row clearfix">
+        <button id="confirma-pagamento" class="btn btn-high btn-info" style="float: left;">Confirmar pagamento</button><br> 
+      </div>
+    </div>
+  </div>
+</body>
+</html>

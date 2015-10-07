@@ -1,0 +1,51 @@
+.alert-info {
+  color: #31708f;
+  background-color: #d9edf7;
+  border-color: #bce8f1;
+}
+.alert-success {
+    color: #3c763d;
+    background-color: #dff0d8;
+    border-color: #d6e9c6;
+}
+.alert {
+    padding: 15px;
+    margin-bottom: 20px;
+    border: 1px solid transparent;
+    border-radius: 4px;
+}
+
+.fonte-legenda {
+    font-weight: normal;
+    font-size: 12px;
+    display: inline-block;
+    line-height: normal;
+    color: #999;
+}
+
+.module.blocks-content-main {
+  margin: 0px 0px 10% 0px;
+}
+
+/* basic positioning */
+.legenda-produtos-esgotando { 
+    list-style: none; 
+}
+.legenda-produtos-esgotando li { 
+    float: left; margin-right: 10px; 
+}
+.legenda-produtos-esgotando span { 
+    float: left; width: 12px; height: 12px; margin: 2px; 
+}
+
+/* colors */
+.legenda-produtos-esgotando .cinquenta-porcento { 
+    background-color: #f2dede; border: 1px solid #f2dede;
+}
+.legenda-produtos-esgotando .cem-porcento { 
+    background-color: #fcf8e3; border: 1px solid #fcf8e3;
+}
+
+#calendar {
+    margin-bottom: 50px;
+}

@@ -1,8 +1,9 @@
 #-*- coding: UTF-8 -*-
 from django.forms import ModelForm, CheckboxInput
-from suit.widgets import NumberInput, SuitDateWidget
+from suit.widgets import NumberInput, SuitSplitDateTimeWidget
 from django.forms import forms
 from contas_receber.models import *
+from parametros_financeiros.models import GrupoEncargo
 
 
 class ContasReceberForm(ModelForm):
@@ -23,7 +24,7 @@ class ContasReceberForm(ModelForm):
 
     class Meta:
         widgets = {
-            'data': SuitDateWidget,
+            'data': SuitSplitDateTimeWidget,
         }
 
         

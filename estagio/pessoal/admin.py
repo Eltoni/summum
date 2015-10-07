@@ -5,7 +5,6 @@ from pessoal.forms import *
 from import_export.admin import ExportMixin
 from sorl.thumbnail.admin import AdminImageMixin
 from pessoal.export import ClienteResource, FornecedorResource, FuncionarioResource, CargoResource
-from contas_pagar.models import ContasPagar, ParcelasContasPagar
 from django.contrib.admin.views.main import IS_POPUP_VAR
 from app_global.admin import GlobalAdmin
 from django.utils.translation import ugettext_lazy as _
@@ -157,33 +156,6 @@ class ClienteAdmin(ExportMixin, BaseCadastroPessoaAdmin):
 
 
 
-class ContasPagarInline(admin.TabularInline):
-    model = ContasPagar
-    ordering = ("status", "pk",)
-    suit_classes = 'suit-tab suit-tab-financeiro'
-    extra = 0
-    fields = ('link_conta', 'data', 'compra_associada', 'valor_total', 'formata_descricao', 'status')
-    readonly_fields = ('link_conta', 'data', 'compra_associada', 'valor_total', 'formata_descricao', 'status')
-
-    def save_formset(self, request, form, formset, change):
-        pass
-
-    def has_add_permission(self, request):
-        return False
-
-    def has_delete_permission(self, request, obj=None):
-        return False
-
-    def link_conta(object, instance):
-        if instance.pk:
-            return "<a href=\"/%s/%s/%s\" target='_blank'>%s</a>" % (instance._meta.app_label, instance._meta.model_name, instance.pk, instance.pk,)
-        return '-'
-    
-    link_conta.allow_tags = True
-    link_conta.short_description = _(u"ID")
-
-
-
 class FornecedorAdmin(ExportMixin, BaseCadastroPessoaAdmin):
     resource_class = FornecedorResource
     model = Fornecedor
@@ -233,10 +205,6 @@ class FornecedorAdmin(ExportMixin, BaseCadastroPessoaAdmin):
             self.fieldsets[1][1]['fields'] = tuple(x for x in self.fieldsets[1][1]['fields'] if (x!='id' and x!='data'))
             self.fieldsets[0][1]['fields'] = tuple(x for x in self.fieldsets[0][1]['fields'] if (x!='status_financeiro'))
             self.fieldsets[2][1]['fields'] = tuple(x for x in self.fieldsets[2][1]['fields'] if (x!='formata_data_nascimento'))
-        
-        else:
-            insert_into_suit_form_tabs = tuple([('financeiro', _(u"Financeiro"))])
-            self.suit_form_tabs += insert_into_suit_form_tabs
 
         return super(FornecedorAdmin, self).get_form(request, obj, **kwargs)
 
@@ -250,22 +218,6 @@ class FornecedorAdmin(ExportMixin, BaseCadastroPessoaAdmin):
             obj.razao_social = None
 
         obj.save()
-
-
-    # trata as inlines que aparecem no resumo financeiro dos fornecedores
-    def get_inline_instances(self, request, obj=None):
-        
-        self.inlines = []
-
-        try:
-            tem_contas = ContasPagar.objects.filter(fornecedores=obj.pk).exists()
-            if tem_contas:
-                self.inlines.insert(0, ContasPagarInline)
-
-        except:
-            pass
-
-        return super(FornecedorAdmin, self).get_inline_instances(request, obj)
 
 
 

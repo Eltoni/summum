@@ -16,6 +16,8 @@ class CidadeAdmin(admin.ModelAdmin):
     model = Cidade
     form = CidadeForm
     list_display = ('nome', 'estado')
+    search_fields = ['nome',]
+    list_filter = ('estado',)
 
 
 

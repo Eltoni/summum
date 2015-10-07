@@ -15,6 +15,13 @@ BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 HOME_PATH = os.path.expanduser('~')
 
 
+# Caminhos para os fixtures. Arquivos que populam os dados iniciais das tabelas da base de dados
+FIXTURES = (
+    os.path.join(BASE_DIR, 'fixtures\data_all.sql'),
+)
+# Caminho único para os fixtures criados em py.
+FIXTURES_PY = os.path.join(BASE_DIR, 'fixtures\py')
+
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.6/howto/deployment/checklist/
 
@@ -66,6 +73,8 @@ INSTALLED_APPS = (
     'debug_toolbar',
     'geoposition',
     'suit_redactor',
+    'django_extensions',
+    'schedule',
 )
 
 
@@ -182,10 +191,13 @@ TEMPLATE_CONTEXT_PROCESSORS = TCP + (
     'django.core.context_processors.request',
 )
 
+from django.utils.translation import ugettext_lazy as _
+ADMIN_NAME = _(u'Sistema de Controle')
+
 SUIT_CONFIG = {
     'SEARCH_URL': '/auth/user/',
     # header
-    'ADMIN_NAME': 'Sistema de Controle',
+    'ADMIN_NAME': ADMIN_NAME,
     'HEADER_DATE_FORMAT': 'l, j \d\e F \d\e Y',
     # 'HEADER_TIME_FORMAT': 'H:i',
 
@@ -206,12 +218,13 @@ SUIT_CONFIG = {
         {'label': u'Contas à receber', 'icon':'icon-folder-open', 'app':'contas_receber', 'models': ('contasreceber', 'parcelascontasreceber', 'recebimento')},
         {'app':'caixa', 'icon':'icon-inbox'},
         {'label': u'Configurações', 'icon':'icon-wrench', 'app':'configuracoes'},
+        {'label': u'Eventos', 'icon': 'icon-calendar', 'app': 'schedule'},
         # Separator
         '-',
         '-',
         {'label': u'relatórios', 'icon':'icon-th-list', 'permissions': 'movimento.visualizar_relatorios', 'models': [
             {'label': u'Clientes', 'url': '/pessoal/cliente/financeiro/'},
-            {'label': u'Venda', 'url': '/#'},
+            {'label': u'Venda', 'url': '/venda/venda/overview/'},
         ]},
     )
 }

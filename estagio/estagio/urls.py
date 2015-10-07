@@ -14,6 +14,7 @@ urlpatterns = patterns('',
     # bibliotecas
     url(r'^admin/salmonella/', include('salmonella.urls')), # url necessária para o funcionamento da biblioteca django-salmonella
     url(r'^selectable/', include('selectable.urls')),       # url necessária para o funcionamento da biblioteca django-selectable
+    url(r'^schedule/', include('schedule.urls')),           # url necessária para o funcionamento da biblioteca django-scheduler
 
     # dashboard
     url(r'^dashboard/$', 'movimento.views.index'),

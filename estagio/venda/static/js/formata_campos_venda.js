@@ -18,14 +18,14 @@ $(document).ready(function(){
     $(".valor-total-ic").numeric({ negative: false });
 
 
-    // Esconde mensagem de validação do Django após alguns segundos após a exibição da mesma 
-    var mensagem_motivo = document.getElementsByClassName('errorlist')[0]
-    setTimeout(function () { mensagem_motivo.className = 'hidden-message' }, 5000);
-    setTimeout(function () { mensagem_motivo.className = 'hidden-element' }, 6500);
+    // // Esconde mensagem de validação do Django após alguns segundos após a exibição da mesma 
+    // var mensagem_motivo = document.getElementsByClassName('errorlist')[0]
+    // setTimeout(function () { mensagem_motivo.className = 'hidden-message' }, 5000);
+    // setTimeout(function () { mensagem_motivo.className = 'hidden-element' }, 6500);
 
-    var mensagem_erro = document.getElementsByClassName('alert-error')[0]
-    setTimeout(function () { mensagem_erro.className = 'hidden-message' }, 5000);
-    setTimeout(function () { mensagem_erro.className = 'hidden-element' }, 6500);
+    // var mensagem_erro = document.getElementsByClassName('alert-error')[0]
+    // setTimeout(function () { mensagem_erro.className = 'hidden-message' }, 5000);
+    // setTimeout(function () { mensagem_erro.className = 'hidden-element' }, 6500);
 
 
     // Definição das validações do formulário

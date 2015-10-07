@@ -15,6 +15,12 @@ class ParametrizacaoAdmin(admin.ModelAdmin):
                 'perc_valor_minimo_pagamento',
             )
         }),
+        ('Eventos', {
+            'classes': ('suit-tab suit-tab-geral',),
+            'fields': (
+                'evento_calendario',
+            )
+        }),
         ('Caixa', {
             'classes': ('suit-tab suit-tab-geral',),
             'fields': (

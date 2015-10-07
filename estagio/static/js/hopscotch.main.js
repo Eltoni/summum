@@ -32,7 +32,7 @@
         },
         {
           title: "Listagens",
-          content: "Acessando.",
+          content: "Todos os cadastros do sistema contam com uma página de listagem que relacionam a totalidade dos registros existentes.<br>Nesta listagem são exibidas as principais colunas para a fácil identificação de cada um deles.",
           target: "#suit-center .breadcrumb .active",
           placement: "bottom"
         },
@@ -44,13 +44,13 @@
         },
         {
           title: "Ordenação dos registros",
-          content: "Alterando a ordem dos resultados na listagem (É possível aplicar a ordenação com multiplas campos).",
+          content: "Alterando a ordem dos resultados na listagem (É possível aplicar a ordenação com multiplos campos).",
           target: "#result_list .column-nome a",
           placement: "top"
         },
         {
           title: "Exportar os dados",
-          content: "Há possibilidade de exportar pelos dados nas listagens em que o botão 'Exportar' é exibido na página.<br>Os dados a serem exportados poderão ser filtrados como explicado anteriormente. Diante disso, surgirão somente os registros selecionados de acordo com o desejo do usuário.",
+          content: "Há a possibilidade de exportar os dados nas listagens em que o botão 'Exportar' é exibido na página.<br>Os dados a serem exportados poderão ser filtrados como explicado anteriormente. Diante disso, surgirão somente os registros selecionados de acordo com o desejo do usuário.",
           target: "#changelist .object-tools #export-data",
           placement: "left",
           yOffset: -17,
@@ -61,7 +61,7 @@
         },
         {
           title: "Opções de exportação",
-          content: "Lista de opções.<br>Por fim, basta clicar no botão 'Enviar', ao lado, para iniciar o download do arquivo.",
+          content: "Lista de opções com os formatos nos quais é possível exportar os dados.<br>Por fim, basta clicar no botão 'Enviar', ao lado, para iniciar o download do arquivo.",
           target: "#id_file_format",
           placement: "bottom",
           multipage: true,

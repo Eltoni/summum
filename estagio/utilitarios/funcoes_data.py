@@ -1,7 +1,21 @@
 #-*- coding: UTF-8 -*-
+from datetime import timedelta
 import datetime
 from pytz import timezone
 from estagio import settings
+
+def dia_util(data):
+    """ Valida dia útil. 
+        Caso dia da semana retornado na data enviada no parâmetro seja sábado ou domingo, é retornado a data para o próximo dia útil da semana
+    """
+    dia_semana = data.isoweekday()
+    if dia_semana == 6:
+        return data + timedelta(days=2)
+    if dia_semana == 7:
+        return data + timedelta(days=1)
+    else:
+        return data
+
 
 def datetime_settings_timezone(d):
     """

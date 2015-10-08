@@ -28,6 +28,7 @@ def retorna_pagamentos_parcela(request, id_parcela):
         'has_change_permission': False,
         'original': parcela,
         'pagamentos': pagamentos,
+        'parcela': id_parcela,
     }
     return render_to_response('admin/pagamentos_parcela.html', data, context_instance=RequestContext(request))
 

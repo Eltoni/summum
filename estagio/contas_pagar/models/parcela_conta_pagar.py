@@ -168,14 +168,14 @@ class ParcelasContasPagar(models.Model):
 
     def link_pagamentos_parcela(self):
         url = reverse('admin:app_list', kwargs={'app_label': 'contas_pagar'})
-        return format_html('<a href="{0}pagamento/pagamentos_parcela/{1}" target="_blank" style="color: {2};">{3}<span class="icon-share icon-alpha5 hint--bottom hint--bounce" style="position: relative; float: right; right: 20%;" rel="tooltip" data-hint="{4} {1}"</span></a>', url, self.pk, self.status_parcela()[0], self.valor_pago(), _(u"Visualize todos os pagamentos efetuados da parcela"))
+        return u"<a href='%(url)spagamento/pagamentos_parcela/%(pk)s' target='_blank' style='color:%(cor_p)s;' class='modal-rel-pagamentos modal-main-custom' rel='modal:open'>%(valor)s<span class='icon-share icon-alpha5 hint--bottom hint--bounce' style='position: relative; float: right; right: 20%%;' rel='tooltip' data-hint='%(desc)s %(pk)s'></span></a>" % {'url': url, 'pk': self.pk, 'cor_p': self.status_parcela()[0], 'valor': self.valor_pago(), 'desc': _(u"Visualize todos os pagamentos efetuados da parcela")}
     link_pagamentos_parcela.allow_tags = True
     link_pagamentos_parcela.short_description = _(u"Valor Pago")
 
 
     def link_pagamento(self):
         url = reverse("admin:contas_pagar_pagamento_changelist")
-        return u"<a href='%(url)sefetiva_pagamento_parcela/%(pk)s' class='modal-pagamento' name='_return_id_parcela' rel='modal:open'>%(p)s</a>" % {'url': url, 'pk': self.pk, 'p': _(u"Pagar")}
+        return u"<a href='%(url)sefetiva_pagamento_parcela/%(pk)s' class='modal-pagamento modal-main-custom' name='_return_id_parcela' rel='modal:open'>%(p)s</a>" % {'url': url, 'pk': self.pk, 'p': _(u"Pagar")}
     link_pagamento.allow_tags = True
     link_pagamento.short_description = u''
 

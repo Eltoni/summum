@@ -1,70 +1,44 @@
-{% extends "admin/base_site.html" %}
-{% load i18n admin_urls admin_static %}
-{% block bodyclass %}dashboard{% endblock %}
+{% load i18n admin_static %}
 
-{% if not is_popup %}
-  {% block breadcrumbs %}
-    <ul class="breadcrumb">
-      <li>
-        <a href="{% url 'admin:index' %}">{% trans 'Home' %}</a>
-        <span class="divider">&raquo;</span>
-      </li>
-      <li>
-        <a href="{% url 'admin:app_list' app_label=opts.app_label %}">{% firstof opts.app_config.verbose_name app_label|capfirst|escape %}</a>
-        <span class="divider">&raquo;</span>
-      </li>
-      <li>
-        {% if has_change_permission %}
-            <a href="{% url opts|admin_urlname:'changelist' %}">{{ opts.verbose_name_plural|capfirst }}</a>
+<!DOCTYPE html>
+<html lang="pt-br" >
+<head>
+  <link rel="stylesheet" type="text/css" href="{{STATIC_URL}}suit/bootstrap/css/bootstrap.min.css" media="all"/>
+  <link rel="stylesheet" type="text/css" href="{{STATIC_URL}}suit/css/suit.css" media="all">
+</head>
+<body>
+
+    <div id="modal-pagamentos-parcela">
+        {% if pagamentos %}
+           <h2>{% trans 'Pagamentos já realizados da parcela' %} {{ pagamentos.0.6 }}</h2>
+
+           <table class="table table-bordered table-condensed table-striped">
+             <thead><tr>
+                 <th colspan="1">{% trans 'ID' %}</th>
+                 <th>{% trans 'Data do Pagamento' %}</th>
+                 <th>{% trans 'Valor' %}</th>
+                 <th>{% trans 'Juros' %}</th>
+                 <th>{% trans 'Multa' %}</th>
+                 <th>{% trans 'Desconto' %}</th>
+             </tr></thead>
+             <tbody>
+                {% for pagamento in pagamentos %}
+                    <tr class="form-row row1 has_original dynamic-parcelascontaspagar_set" id="parcelascontaspagar_set-0" style="color: rgb(45, 178, 24);">
+                          <td class="field-id"><p>{{ pagamento.0 }}</p></td>
+                          <td class="field-num_parcelas"><p>{{ pagamento.1 }}</p></td>
+                          <td class="field-num_parcelas"><p>{{ pagamento.2 }}</p></td>
+                          <td class="field-formata_data"><p>{{ pagamento.3 }}</p></td>
+                          <td class="field-valor"><p>{{ pagamento.4 }}</p></td>
+                          <td class="field-encargos_calculados"><p>{{ pagamento.5 }}</p></td>
+                    </tr>
+                {% endfor %}     
+             </tbody>
+           </table>
         {% else %}
-            {{ opts.verbose_name_plural|capfirst }}
+            <div class="alert alert-info">
+                <h2 class="text-center">{% trans 'Não há pagamento realizado da parcela' %} {{ parcela }}.</h2>
+            </div>
         {% endif %}
-        <span class="divider">&raquo;</span>
-      </li>
-      <li>
-        {% if has_change_permission %} 
-            <a href="{% url opts|admin_urlname:'changelist' %}{{ original.pk }}">{{ original|truncatewords:"18" }}</a>
-        {% else %}
-            {{ original|truncatewords:"18" }}
-        {% endif %}
-        <span class="divider">&raquo;</span>
-      </li>
-      <li class="active">
-        {{ title|truncatewords:"18" }}
-      </li>
-    </ul>
-  {% endblock %}
-{% endif %}
-
-{% block coltype %}flex{% endblock %}
-
-{% block content %}
-
-    {% if pagamentos %}
-       <h2>{% trans 'Pagamentos já realizados da parcela' %} {{ pagamentos.0.6 }}</h2>
-
-       <table class="table table-bordered table-condensed table-striped">
-         <thead><tr>
-             <th colspan="1">{% trans 'ID' %}</th>
-             <th>{% trans 'Data do Pagamento' %}</th>
-             <th>{% trans 'Valor' %}</th>
-             <th>{% trans 'Juros' %}</th>
-             <th>{% trans 'Multa' %}</th>
-             <th>{% trans 'Desconto' %}</th>
-         </tr></thead>
-         <tbody>
-            {% for pagamento in pagamentos %}
-                <tr class="form-row row1 has_original dynamic-parcelascontaspagar_set" id="parcelascontaspagar_set-0" style="color: rgb(45, 178, 24);">
-                      <td class="field-id"><p>{{ pagamento.0 }}</p></td>
-                      <td class="field-num_parcelas"><p>{{ pagamento.1 }}</p></td>
-                      <td class="field-num_parcelas"><p>{{ pagamento.2 }}</p></td>
-                      <td class="field-formata_data"><p>{{ pagamento.3 }}</p></td>
-                      <td class="field-valor"><p>{{ pagamento.4 }}</p></td>
-                      <td class="field-encargos_calculados"><p>{{ pagamento.5 }}</p></td>
-                </tr>
-            {% endfor %}     
-         </tbody>
-       </table>
-    {% endif %}
-
-{% endblock %}
+    </div>
+</body>
+</html>

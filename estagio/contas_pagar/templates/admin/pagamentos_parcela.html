@@ -5,40 +5,55 @@
 <head>
   <link rel="stylesheet" type="text/css" href="{{STATIC_URL}}suit/bootstrap/css/bootstrap.min.css" media="all"/>
   <link rel="stylesheet" type="text/css" href="{{STATIC_URL}}suit/css/suit.css" media="all">
+  <style>
+    #modal-pagamentos-parcela{
+      height: 300px; 
+      background-color: #edeff1;
+      padding: inherit;
+    }
+    #tabela-pagamentos-parcela{
+      height: 260px; 
+      overflow-y: auto; 
+      display: inherit;
+    }
+  </style>
 </head>
 <body>
 
-    <div id="modal-pagamentos-parcela">
-        {% if pagamentos %}
-           <h2>{% trans 'Pagamentos já realizados da parcela' %} {{ pagamentos.0.6 }}</h2>
-
-           <table class="table table-bordered table-condensed table-striped">
-             <thead><tr>
-                 <th colspan="1">{% trans 'ID' %}</th>
-                 <th>{% trans 'Data do Pagamento' %}</th>
-                 <th>{% trans 'Valor' %}</th>
-                 <th>{% trans 'Juros' %}</th>
-                 <th>{% trans 'Multa' %}</th>
-                 <th>{% trans 'Desconto' %}</th>
-             </tr></thead>
-             <tbody>
-                {% for pagamento in pagamentos %}
-                    <tr class="form-row row1 has_original dynamic-parcelascontaspagar_set" id="parcelascontaspagar_set-0" style="color: rgb(45, 178, 24);">
-                          <td class="field-id"><p>{{ pagamento.0 }}</p></td>
-                          <td class="field-num_parcelas"><p>{{ pagamento.1 }}</p></td>
-                          <td class="field-num_parcelas"><p>{{ pagamento.2 }}</p></td>
-                          <td class="field-formata_data"><p>{{ pagamento.3 }}</p></td>
-                          <td class="field-valor"><p>{{ pagamento.4 }}</p></td>
-                          <td class="field-encargos_calculados"><p>{{ pagamento.5 }}</p></td>
-                    </tr>
-                {% endfor %}     
-             </tbody>
-           </table>
-        {% else %}
-            <div class="alert alert-info">
-                <h2 class="text-center">{% trans 'Não há pagamento realizado da parcela' %} {{ parcela }}.</h2>
-            </div>
-        {% endif %}
-    </div>
+  <div id="modal-pagamentos-parcela">
+    {% if pagamentos %}
+      <h2>{% trans 'Pagamentos realizados da parcela' %} {{ pagamentos.0.6 }}</h2>
+      <div id="tabela-pagamentos-parcela">
+        <table class="table table-bordered table-condensed table-striped">
+          <thead>
+            <tr>
+              <th colspan="1">{% trans 'ID' %}</th>
+              <th>{% trans 'Data do Pagamento' %}</th>
+              <th>{% trans 'Valor' %}</th>
+              <th>{% trans 'Juros' %}</th>
+              <th>{% trans 'Multa' %}</th>
+              <th>{% trans 'Desconto' %}</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for pagamento in pagamentos %}
+              <tr>
+                <td class="field-id"><p>{{ pagamento.0 }}</p></td>
+                <td class="field-data-pagamento"><p>{{ pagamento.1 }}</p></td>
+                <td class="field-valor"><p>{{ pagamento.2 }}</p></td>
+                <td class="field-juros"><p>{{ pagamento.3 }}</p></td>
+                <td class="field-multa"><p>{{ pagamento.4 }}</p></td>
+                <td class="field-desconto"><p>{{ pagamento.5 }}</p></td>
+              </tr>
+            {% endfor %}     
+          </tbody>
+        </table>
+      </div>
+    {% else %}
+      <div class="alert alert-info">
+        <h2 class="text-center">{% trans 'Não há pagamento realizado da parcela' %} {{ parcela }}.</h2>
+      </div>
+    {% endif %}
+  </div>
 </body>
 </html>

@@ -164,6 +164,17 @@ class ContasPagar(models.Model):
     valor_total_encargos.short_description = _(u"Valor total de encargos")
 
 
+    def valor_total_descontos(self):
+
+        valor_descontos = 0
+        quant_parcelas = ParcelasContasPagar.objects.filter(contas_pagar=self.pk).count()
+        for i in range(quant_parcelas):
+            retorna_id_parcelas = ParcelasContasPagar.objects.filter(contas_pagar=self.pk).values_list('pk')[i][0]
+            valor_descontos += ParcelasContasPagar.objects.get(pk=retorna_id_parcelas).valor_desconto()
+        return valor_descontos or Decimal(0.00).quantize(Decimal("0.00"))
+    valor_total_descontos.short_description = _(u"Valor total de descontos")
+
+
     def valor_total_cobrado(self):
 
         valor_cobrado = 0
@@ -185,8 +196,7 @@ class ContasPagar(models.Model):
 
     def link_pagamentos_conta(self):
         url = reverse('admin:app_list', kwargs={'app_label': 'contas_pagar'})
-        return format_html('<a href="{0}pagamento/pagamentos_conta/{1}" target="_blank">{2}<span class="icon-share icon-alpha5 hint--bottom hint--bounce" style="vertical-align: text-bottom; margin-left: 10px;" rel="tooltip" data-hint="{3} {1}"</span></a>', url, self.pk, self.valor_total_pago(), _(u"Visualize todos os pagamentos efetuados da conta"))
-        # return u"<a href='%spagamento/pagamentos_conta/%s' target='_blank'>%s</a>" % (url, self.pk, self.valor_total_pago())
+        return u"<a href='%(url)spagamento/pagamentos_conta/%(pk)s' class='modal-rel-pagamentos modal-main-custom' rel='modal:open'>%(valor)s<span class='icon-share icon-alpha5 hint--bottom hint--bounce' style='vertical-align: text-bottom; margin-left: 10px;' rel='tooltip' data-hint='%(desc)s %(pk)s'></span></a>" % {'url': url, 'pk': self.pk, 'valor': self.valor_total_pago(), 'desc': _(u"Visualize todos os pagamentos efetuados da conta")}
     link_pagamentos_conta.allow_tags = True
     link_pagamentos_conta.short_description = _(u"Valor total pago")
 

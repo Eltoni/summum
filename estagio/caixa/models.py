@@ -159,6 +159,10 @@ def update_movimento_caixa_pagamento(sender, instance, **kwargs):
     Criada em 01/10/2014. 
     """
 
+    # Não prossegue com o processamento caso não saia valor do caixa.
+    if instance.valor <= 0:
+        return
+
     # Busca o id da conta à pagar e da compra vinculado ao pagamento instanciado
     conta = ParcelasContasPagar.objects.filter(pk=instance.parcelas_contas_pagar.pk).select_related('contas_pagar__contaspagar').values_list('contas_pagar__pk', 'contas_pagar__compras')[0]
     
@@ -196,6 +200,10 @@ def update_movimento_caixa_recebimento(sender, instance, **kwargs):
 
     Criada em 09/10/2014. 
     """
+
+    # Não prossegue com o processamento caso não entre valor no caixa.
+    if instance.valor <= 0:
+        return
 
     # Busca o id da conta à receber e da compra vinculado ao recebimento instanciado
     conta = ParcelasContasReceber.objects.filter(pk=instance.parcelas_contas_receber.pk).select_related('contas_receber__contasreceber').values_list('contas_receber__pk', 'contas_receber__vendas')[0]

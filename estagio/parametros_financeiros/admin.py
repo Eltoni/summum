@@ -10,7 +10,8 @@ class FormaPagamentoAdmin(GlobalAdmin):
 
     model = FormaPagamento
     list_display = ('nome', 'quant_parcelas', 'prazo_entre_parcelas', 'status')
-    list_filter = ('status',)
+    list_filter = ('status', 'quant_parcelas', 'prazo_entre_parcelas', 'tipo_prazo', 'carencia', 'tipo_carencia',)
+    popup_list_filter = ('quant_parcelas', 'prazo_entre_parcelas', 'tipo_prazo', 'carencia', 'tipo_carencia',)
     search_fields = ['nome', 'descricao',]
 
     fieldsets = (

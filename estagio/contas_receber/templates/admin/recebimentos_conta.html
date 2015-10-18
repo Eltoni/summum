@@ -1,70 +1,58 @@
-{% extends "admin/base_site.html" %}
-{% load i18n admin_urls admin_static %}
-{% block bodyclass %}dashboard{% endblock %}
+{% load i18n admin_static %}
 
-{% if not is_popup %}
-  {% block breadcrumbs %}
-    <ul class="breadcrumb">
-      <li>
-        <a href="{% url 'admin:index' %}">{% trans 'Home' %}</a>
-        <span class="divider">&raquo;</span>
-      </li>
-      <li>
-        <a href="{% url 'admin:app_list' app_label=opts.app_label %}">{% firstof opts.app_config.verbose_name app_label|capfirst|escape %}</a>
-        <span class="divider">&raquo;</span>
-      </li>
-      <li>
-        {% if has_change_permission %}
-            <a href="{% url opts|admin_urlname:'changelist' %}">{{ opts.verbose_name_plural|capfirst }}</a>
-        {% else %}
-            {{ opts.verbose_name_plural|capfirst }}
-        {% endif %}
-        <span class="divider">&raquo;</span>
-      </li>
-      <li>
-        {% if has_change_permission %} 
-            <a href="{% url opts|admin_urlname:'changelist' %}{{ original.pk }}">{{ original|truncatewords:"18" }}</a>
-        {% else %}
-            {{ original|truncatewords:"18" }}
-        {% endif %}
-        <span class="divider">&raquo;</span>
-      </li>
-      <li class="active">
-        {{ title|truncatewords:"18" }}
-      </li>
-    </ul>
-  {% endblock %}
-{% endif %}
-
-{% block coltype %}flex{% endblock %}
-
-{% block content %}
-
+<!DOCTYPE html>
+<html lang="pt-br" >
+<head>
+  <link rel="stylesheet" type="text/css" href="{{STATIC_URL}}suit/bootstrap/css/bootstrap.min.css" media="all"/>
+  <link rel="stylesheet" type="text/css" href="{{STATIC_URL}}suit/css/suit.css" media="all">
+  <style>
+    #modal-recebimentos-conta{
+      height: 300px; 
+      background-color: #edeff1;
+      padding: inherit;
+    }
+    #tabela-recebimentos-conta{
+      height: 260px; 
+      overflow-y: auto; 
+      display: inherit;
+    }
+  </style>
+</head>
+<body>
+  <div id="modal-recebimentos-conta">
     {% if recebimentos %}
-       <h2>{% trans 'Recebimentos já realizados da conta' %} {{ recebimentos.0.6 }}</h2>
-
-       <table class="table table-bordered table-condensed table-striped">
-         <thead><tr>
-             <th colspan="1">{% trans 'ID' %}</th>
-             <th>{% trans 'Data do Recebimento' %}</th>
-             <th>{% trans 'Valor' %}</th>
-             <th>{% trans 'Juros' %}</th>
-             <th>{% trans 'Multa' %}</th>
-             <th>{% trans 'Desconto' %}</th>
-         </tr></thead>
-         <tbody>
+      <h2>{% trans 'Recebimentos realizados da conta' %} {{ recebimentos.0.6 }}</h2>
+      <div id="tabela-recebimentos-conta">
+        <table class="table table-bordered table-condensed table-striped">
+          <thead>
+            <tr>
+              <th colspan="1">{% trans 'ID' %}</th>
+              <th>{% trans 'Data do Recebimento' %}</th>
+              <th>{% trans 'Valor' %}</th>
+              <th>{% trans 'Juros' %}</th>
+              <th>{% trans 'Multa' %}</th>
+              <th>{% trans 'Desconto' %}</th>
+            </tr>
+          </thead>
+          <tbody>
             {% for recebimento in recebimentos %}
-                <tr class="form-row row1 has_original dynamic-parcelascontaspagar_set" id="parcelascontaspagar_set-0" style="color: rgb(45, 178, 24);">
-                      <td><p>{{ recebimento.0 }}</p></td>
-                      <td><p>{{ recebimento.1 }}</p></td>
-                      <td><p>{{ recebimento.2 }}</p></td>
-                      <td><p>{{ recebimento.3 }}</p></td>
-                      <td><p>{{ recebimento.4 }}</p></td>
-                      <td><p>{{ recebimento.5 }}</p></td>
-                </tr>
+              <tr>
+                <td><p>{{ recebimento.0 }}</p></td>
+                <td><p>{{ recebimento.1 }}</p></td>
+                <td><p>{{ recebimento.2 }}</p></td>
+                <td><p>{{ recebimento.3 }}</p></td>
+                <td><p>{{ recebimento.4 }}</p></td>
+                <td><p>{{ recebimento.5 }}</p></td>
+              </tr>
             {% endfor %}     
-         </tbody>
-       </table>
+          </tbody>
+        </table>
+      </div>
+    {% else %}
+      <div class="alert alert-info">
+        <h2 class="text-center">{% trans 'Não há recebimentos realizado da conta' %} {{ conta }}.</h2>
+      </div>
     {% endif %}
-
-{% endblock %}
+  </div>
+</body>
+</html>

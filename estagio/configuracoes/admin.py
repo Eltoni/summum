@@ -12,7 +12,7 @@ class ParametrizacaoAdmin(admin.ModelAdmin):
         (None, {
             'classes': ('suit-tab suit-tab-geral',),
             'fields': (
-                'perc_valor_minimo_pagamento',
+                'perc_valor_minimo_recebimento',
             )
         }),
         ('Eventos', {
@@ -71,8 +71,8 @@ class ParametrizacaoAdmin(admin.ModelAdmin):
         return False
 
     def save_model(self, request, obj, form, change):
-        if not obj.perc_valor_minimo_pagamento:
-            obj.perc_valor_minimo_pagamento = 0
+        if not obj.perc_valor_minimo_recebimento:
+            obj.perc_valor_minimo_recebimento = 0
 
         obj.save()
 

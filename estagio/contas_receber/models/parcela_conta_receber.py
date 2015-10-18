@@ -27,6 +27,8 @@ class ParcelasContasReceber(models.Model):
     num_parcelas = models.IntegerField(verbose_name=_(u"Nº Parcela"))
     contas_receber = models.ForeignKey(ContasReceber, on_delete=models.PROTECT, verbose_name=_(u"Conta a receber"))
 
+    zero  = Decimal(0.00).quantize(Decimal("0.00"))
+
     class Meta:
         verbose_name = _(u"Parcela de Conta a Receber")
         verbose_name_plural = _(u"Parcelas de Contas a Receber")
@@ -148,7 +150,7 @@ class ParcelasContasReceber(models.Model):
         if self.pk:
             encargos_pagos = Decimal(self.valor_pago() - self.valor).quantize(Decimal("0.00"))
             if encargos_pagos < 0.00:
-                return Decimal(0.00).quantize(Decimal("0.00"))
+                return self.zero
             else:
                 return encargos_pagos
         return 0.00
@@ -162,12 +164,23 @@ class ParcelasContasReceber(models.Model):
         if self.pk:
             encargos_a_pagar = Decimal(self.valor_total() - self.valor - self.encargos_pagos()).quantize(Decimal("0.00"))
             if encargos_a_pagar < 0.00:
-                return Decimal(0.00).quantize(Decimal("0.00"))
+                return self.zero
             else:
                 return encargos_a_pagar
         return 0.00
     encargos_a_pagar.short_description = _(u"Encargos a Pagar")
 
+
+    def valor_desconto(self):
+        u""" 
+        Retorna o valor total dos descontos aplicados a parcela
+        """
+
+        valor_desconto = Recebimento.objects.filter(parcelas_contas_receber=self.pk).aggregate(Sum('desconto'))
+        valor_desconto = valor_desconto["desconto__sum"]
+        return valor_desconto or self.zero
+    valor_desconto.short_description = _(u"Descontos")
+    
 
     def valor_total(self):
         u""" 
@@ -176,7 +189,7 @@ class ParcelasContasReceber(models.Model):
 
         # Após a atualização para o Django 1.7.7, é preciso checar se está o objeto está instanciado (if self.pk) 
         if self.pk:
-            valor_total = Decimal(self.valor + self.encargos_calculados()).quantize(Decimal("0.00"))
+            valor_total = Decimal(self.valor + self.encargos_calculados() - self.valor_desconto()).quantize(Decimal("0.00"))
             return valor_total or 0.00
         return 0.00
     valor_total.short_description = _(u"Valot Total")
@@ -186,14 +199,14 @@ class ParcelasContasReceber(models.Model):
 
         valor_pago = Recebimento.objects.filter(parcelas_contas_receber=self.pk).aggregate(Sum('valor'))
         valor_pago = valor_pago["valor__sum"]
-        return valor_pago or Decimal(0.00).quantize(Decimal("0.00"))
+        return valor_pago or self.zero
     valor_pago.short_description = _(u"Valor Pago")
 
 
     def valor_a_receber(self):
         parcela_recebimentos = Recebimento.objects.filter(parcelas_contas_receber=self.pk).aggregate(Sum('valor'))
         parcela_recebimentos = parcela_recebimentos["valor__sum"]
-        valor_a_receber = Decimal(self.valor_total()).quantize(Decimal("0.00")) - (Decimal(0.00).quantize(Decimal("0.00")) if not parcela_recebimentos else parcela_recebimentos)
+        valor_a_receber = Decimal(self.valor_total()).quantize(Decimal("0.00")) - (self.zero if not parcela_recebimentos else parcela_recebimentos)
         return valor_a_receber
     valor_a_receber.short_description = _(u"Valor a Receber")
 
@@ -213,19 +226,29 @@ class ParcelasContasReceber(models.Model):
             return ('#333333', _(u'Em aberto')) #Em aberto
 
 
-    def link_recebimentos_parcela(self):
-        url = reverse('admin:app_list', kwargs={'app_label': 'contas_receber'})
-        return format_html('<a href="{0}recebimento/recebimentos_parcela/{1}" target="_blank" style="color: {2};">{3}<span class="icon-share icon-alpha5 hint--bottom hint--bounce" style="position: relative; float: right; right: 20%;" rel="tooltip" data-hint="{4} {1}"</span></a>', url, self.pk, self.status_parcela()[0], self.valor_pago(), _(u"Visualize todos os recebimentos da parcela"))
-    link_recebimentos_parcela.allow_tags = True
-    link_recebimentos_parcela.short_description = _(u"Valor Pago")
+    def cor_valor_pago(self):
+        return u"<p style='color:%(cor_p)s;'>%(valor)s</p>" % {'cor_p': self.status_parcela()[0], 'valor': self.valor_pago()}
+    cor_valor_pago.allow_tags = True
+    cor_valor_pago.short_description = _(u"Valor Recebido")
 
 
-    def link_recebimento(self):
-        #return u"<a href='../../recebimento/add' target='_blank'>Receber</a>"
-        url = reverse("admin:contas_receber_recebimento_add")
-        return u"<a href='%s?id_parcela=%s' target='_blank' name='_return_id_parcela'>Receber</a>" % (url, self.pk)
-    link_recebimento.allow_tags = True
-    link_recebimento.short_description = u''
+    def acoes_parcela(self):
+        url = reverse("admin:contas_receber_recebimento_changelist")
+        return u"<div class='btn-group'>                                                         \
+                    <button class='btn btn-small dropdown-toggle' data-toggle='dropdown'>        \
+                        Ações   <span class='caret'></span>                                      \
+                    </button>                                                                    \
+                    <ul class='dropdown-menu'>                                                   \
+                        <li>                                                                     \
+                            <a href='%(url)sefetiva_recebimento_parcela/%(pk)s' class='modal-recebimento modal-main-custom' name='_return_id_parcela' rel='modal:open'><i class='icon-tag'></i>&nbsp;&nbsp;%(desc_p)s</a> \
+                        </li>                                                                    \
+                        <li>                                                                     \
+                            <a href='%(url)srecebimentos_parcela/%(pk)s' class='modal-rel-recebimentos modal-main-custom' rel='modal:open'><i class='icon-tags'></i>&nbsp;&nbsp;%(desc_al)s</a> \
+                        </li>                                                                    \
+                    </ul>                                                                        \
+                </div>" % {'url': url, 'pk': self.pk, 'desc_p': _(u"Receber"), 'desc_al': _(u"Recebimentos Realizados"),}
+    acoes_parcela.allow_tags = True
+    acoes_parcela.short_description = u''
 
 
     def formata_data(obj):

@@ -48,13 +48,13 @@ class Parametrizacao(models.Model):
         verbose_name=_(u"Qtde mínima em estoque"),
         help_text=_(u"Indique a quantidade mínima de itens de produto no estoque.")
     )
-    perc_valor_minimo_pagamento = models.DecimalField(
+    perc_valor_minimo_recebimento = models.DecimalField(
         max_digits=20, 
         decimal_places=0, 
         blank=True, 
         null=True,
-        verbose_name=_(u"Perc. Valor do 1º pagamento"),
-        help_text=_(u"Percentual mínimo do valor do primeiro pagamento de uma parcela.")
+        verbose_name=_(u"Perc. Valor do 1º recebimento"),
+        help_text=_(u"Percentual mínimo do valor do primeiro recebimento de uma parcela.")
     )
     intervalo_dias_entrega_venda = models.IntegerField(
         verbose_name=_(u"Intervalo para entrega"),

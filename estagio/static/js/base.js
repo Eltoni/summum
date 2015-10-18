@@ -2,8 +2,10 @@
 $("input, select, textarea").attr("autocomplete", "off");
 
 
-// Defina o formato padrão de datas
+// Define o formato padrão de datas
 $('.vDateField').mask('00/00/0000');
+// Define o formato padrão monetário
+//$('.field-money').mask('000.000.000,00', {reverse: true});
 
 
 // defini todos os links apontados para a página inicial do sistema para redirecionar para o dashboard customizado 
@@ -49,10 +51,22 @@ $('.modal-main-custom').click(function(event) {
       modalClass: "modal",    // CSS class added to the element being displayed in the modal.
       spinnerHtml: null,      // HTML appended to the default spinner during AJAX requests.
       showSpinner: true,      // Enable/disable the default spinner during AJAX requests.
-      fadeDuration: 250,     // Number of milliseconds the fade transition takes (null means no transition)
-      fadeDelay: 1.50          // Point during the overlay's fade-in that the modal begins to fade in (.5 = 50%, 1.5 = 150%, etc.)
+      fadeDuration: 250,      // Number of milliseconds the fade transition takes (null means no transition)
+      fadeDelay: 1.50         // Point during the overlay's fade-in that the modal begins to fade in (.5 = 50%, 1.5 = 150%, etc.)
   });
-  // $.get(this.href, function(html) {
-  //   $(html).appendTo('body').modal();
-  // });
 });
+
+var len = $('script').filter(function () {
+    return($(this).attr('src') == '/static/js/jquery.modal.min.js');
+}).length;
+
+if (len != 0) {
+    function modal_open_event(event, modal) {
+      $('body').css('overflow', 'hidden');
+    };
+    function modal_close_event(event, modal) {
+      $('body').css('overflow', 'auto');
+    };
+    $(document).on($.modal.BLOCK, modal_open_event);
+    $(document).on($.modal.CLOSE, modal_close_event);
+}

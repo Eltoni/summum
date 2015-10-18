@@ -27,6 +27,8 @@ class ParcelasContasPagar(models.Model):
     num_parcelas = models.IntegerField(verbose_name=_(u"Nº Parcela"))
     contas_pagar = models.ForeignKey(ContasPagar, on_delete=models.PROTECT, verbose_name=_(u"Conta a pagar"))
 
+    zero  = Decimal(0.00).quantize(Decimal("0.00"))
+
     class Meta:
         verbose_name = _(u"Parcela de Conta a Pagar")
         verbose_name_plural = _(u"Parcelas de Contas a Pagar")
@@ -77,7 +79,7 @@ class ParcelasContasPagar(models.Model):
             if parametros_grupo_encargo[1] == 'C':
                 return calculo_composto(self.valor, dias_vencidos, percentual_juros)
             
-        return 0.00
+        return self.zero
     calculo_juros.short_description = _(u"Juros")
 
 
@@ -108,7 +110,7 @@ class ParcelasContasPagar(models.Model):
 
             return calculo_simples(self.valor, dias_vencidos, percentual_multa)
 
-        return 0.00
+        return self.zero
     calculo_multa.short_description = _(u"Multa")
 
 
@@ -122,6 +124,17 @@ class ParcelasContasPagar(models.Model):
     encargos_calculados.short_description = _(u"Encargos")
 
 
+    def valor_desconto(self):
+        u""" 
+        Retorna o valor total dos descontos aplicados a parcela
+        """
+
+        valor_desconto = Pagamento.objects.filter(parcelas_contas_pagar=self.pk).aggregate(Sum('desconto'))
+        valor_desconto = valor_desconto["desconto__sum"]
+        return valor_desconto or self.zero
+    valor_desconto.short_description = _(u"Descontos")
+
+
     def valor_total(self):
         u""" 
         Retorna o valor total da parcela com os encargos cálculados (valor juro + valor multa + valor mensalidade) 
@@ -129,9 +142,9 @@ class ParcelasContasPagar(models.Model):
         
         # Após a atualização para o Django 1.7.7, é preciso checar se está o objeto está instanciado (if self.pk) 
         if self.pk:
-            valor_total = Decimal(self.valor + self.encargos_calculados()).quantize(Decimal("0.00"))
-            return valor_total or 0.00
-        return 0.00
+            valor_total = Decimal(self.valor + self.encargos_calculados() - self.valor_desconto()).quantize(Decimal("0.00"))
+            return valor_total or self.zero
+        return self.zero
     valor_total.short_description = _(u"Valot Total")
 
 
@@ -139,14 +152,14 @@ class ParcelasContasPagar(models.Model):
 
         valor_pago = Pagamento.objects.filter(parcelas_contas_pagar=self.pk).aggregate(Sum('valor'))
         valor_pago = valor_pago["valor__sum"]
-        return valor_pago or Decimal(0.00).quantize(Decimal("0.00"))
+        return valor_pago or self.zero
     valor_pago.short_description = _(u"Valor Pago")
 
 
     def valor_a_pagar(self):
         parcela_pagamentos = Pagamento.objects.filter(parcelas_contas_pagar=self.pk).aggregate(Sum('valor'))
         parcela_pagamentos = parcela_pagamentos["valor__sum"]
-        valor_a_pagar = Decimal(self.valor_total()).quantize(Decimal("0.00")) - (Decimal(0.00).quantize(Decimal("0.00")) if not parcela_pagamentos else parcela_pagamentos)
+        valor_a_pagar = Decimal(self.valor_total()).quantize(Decimal("0.00")) - (self.zero if not parcela_pagamentos else parcela_pagamentos)
         return valor_a_pagar
     valor_a_pagar.short_description = _(u"Valor a Pagar")
 
@@ -166,18 +179,32 @@ class ParcelasContasPagar(models.Model):
             return ('#333333', _(u'Em aberto')) #Em aberto
 
 
-    def link_pagamentos_parcela(self):
-        url = reverse('admin:app_list', kwargs={'app_label': 'contas_pagar'})
-        return u"<a href='%(url)spagamento/pagamentos_parcela/%(pk)s' target='_blank' style='color:%(cor_p)s;' class='modal-rel-pagamentos modal-main-custom' rel='modal:open'>%(valor)s<span class='icon-share icon-alpha5 hint--bottom hint--bounce' style='position: relative; float: right; right: 20%%;' rel='tooltip' data-hint='%(desc)s %(pk)s'></span></a>" % {'url': url, 'pk': self.pk, 'cor_p': self.status_parcela()[0], 'valor': self.valor_pago(), 'desc': _(u"Visualize todos os pagamentos efetuados da parcela")}
-    link_pagamentos_parcela.allow_tags = True
-    link_pagamentos_parcela.short_description = _(u"Valor Pago")
+    def cor_valor_pago(self):
+        return u"<p style='color:%(cor_p)s;'>%(valor)s</p>" % {'cor_p': self.status_parcela()[0], 'valor': self.valor_pago()}
+    cor_valor_pago.allow_tags = True
+    cor_valor_pago.short_description = _(u"Valor Pago")
 
 
-    def link_pagamento(self):
+    def acoes_parcela(self):
         url = reverse("admin:contas_pagar_pagamento_changelist")
-        return u"<a href='%(url)sefetiva_pagamento_parcela/%(pk)s' class='modal-pagamento modal-main-custom' name='_return_id_parcela' rel='modal:open'>%(p)s</a>" % {'url': url, 'pk': self.pk, 'p': _(u"Pagar")}
-    link_pagamento.allow_tags = True
-    link_pagamento.short_description = u''
+        return u"<div class='btn-group'>                                                         \
+                    <button class='btn btn-small dropdown-toggle' data-toggle='dropdown'>        \
+                        Ações   <span class='caret'></span>                                      \
+                    </button>                                                                    \
+                    <ul class='dropdown-menu'>                                                   \
+                        <li>                                                                     \
+                            <a href='%(url)sefetiva_pagamento_parcela/%(pk)s' class='modal-pagamento modal-main-custom' name='_return_id_parcela' rel='modal:open'><i class='icon-tag'></i>&nbsp;&nbsp;%(desc_p)s</a> \
+                        </li>                                                                    \
+                        <li>                                                                     \
+                            <a href='%(url)spagamentos_parcela/%(pk)s' class='modal-rel-pagamentos modal-main-custom' rel='modal:open'><i class='icon-tags'></i>&nbsp;&nbsp;%(desc_al)s</a> \
+                        </li>                                                                    \
+                        <!--<li>                                                                     \
+                            <a href='%(url)sestorno_parcela/%(pk)s'><i class='icon-minus-sign'></i>&nbsp;&nbsp;%(desc_est)s</a> \
+                        </li>-->                                                                    \
+                    </ul>                                                                        \
+                </div>" % {'url': url, 'pk': self.pk, 'desc_p': _(u"Pagar"), 'desc_al': _(u"Pagamentos Realizados"), 'desc_est': _(u"Estornar Parcela"),}
+    acoes_parcela.allow_tags = True
+    acoes_parcela.short_description = u''
 
 
     def formata_data(obj):

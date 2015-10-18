@@ -97,22 +97,24 @@
     }
 
     function valida_quantidade_produto_estoque(produto, inline){
-      $.ajax({       
-        type: "GET",
-        url: "/venda/venda/get_valor_unitario/"+produto,
-        dataType: "json",
-        success: function(retorno){
-            $.each(retorno, function(i, produtos){
-                var quantidadeProduto = produtos.fields['quantidade'];
-                jQuery(inline.find('.quantidade-ic')).attr({
-                    "max": quantidadeProduto,
-                    "title": "Há somente " + quantidadeProduto + " unidades no estoque.", 
-                    oninvalid: "this.setCustomValidity('Quantidade limite ultrapassada.')", 
-                    oninput:"this.setCustomValidity('')" 
+        if(!isNaN(produto) && produto.length!=0) {
+          $.ajax({       
+            type: "GET",
+            url: "/venda/venda/get_valor_unitario/"+produto,
+            dataType: "json",
+            success: function(retorno){
+                $.each(retorno, function(i, produtos){
+                    var quantidadeProduto = produtos.fields['quantidade'];
+                    jQuery(inline.find('.quantidade-ic')).attr({
+                        "max": quantidadeProduto,
+                        "title": "Há somente " + quantidadeProduto + " unidades no estoque.", 
+                        oninvalid: "this.setCustomValidity('Quantidade limite ultrapassada.')", 
+                        oninput:"this.setCustomValidity('')" 
+                    });
                 });
-            });
+            }
+          }); 
         }
-      }); 
     }
 
     $(".quantidade-ic, .desconto, .vForeignKeyRawIdAdminField").blur(function(){
@@ -161,4 +163,24 @@
       $(this).keyup(function(){
           calcula_valor_total();
       });
+    });
+
+
+    // Corrige os campos do formulário após o reload da página
+    $(document).ready(function(){
+        $(".field-produto .vForeignKeyRawIdAdminField").each(function() {
+            var obj = $(this);
+            var row = obj.closest('tr');
+
+            if( obj.val() != "") {
+                jQuery(row.find('.quantidade-ic')).attr({"required": "required"});
+                jQuery(row.find('.quantidade-ic')).removeAttr('readonly');
+                jQuery(row.find('.desconto')).removeAttr('readonly'); 
+            }
+        });
+
+        // Teste para ignorar a validação do HTML ao clicar no botão "Salvar Pedido"
+        // $('button[type=submit][name=_addpedido]').click(function(){
+        //     $('form').attr('novalidate','novalidate');
+        // });
     });

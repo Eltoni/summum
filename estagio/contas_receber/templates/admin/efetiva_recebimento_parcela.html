@@ -10,7 +10,7 @@
 
 <style>
 
-div#modal-pagamento-form {
+div#modal-recebimento-form {
     background-color: #edeff1;
     padding: inherit;
 }
@@ -21,56 +21,56 @@ div#modal-pagamento-form {
     display: block;
 }
 
-#modal-pagamento-form .alert.alert-success {
+#modal-recebimento-form .alert.alert-success {
     text-align: center;
 }
 </style>
 
 <script>
 
-  var pagamento_confirmado = false;
+  var recebimento_confirmado = false;
 
-  $('#confirma-pagamento').click(function() {
-      id_parcela = $('#id_parcelas_contas_pagar').val();
+  $('#confirma-recebimento').click(function() {
+      id_parcela = $('#id_parcelas_contas_receber').val();
       $.ajax({
               type: 'POST',
-              url: "/contas_pagar/pagamento/efetiva_pagamento_parcela/" + id_parcela + '/',
+              url: "/contas_receber/recebimento/efetiva_recebimento_parcela/" + id_parcela + '/',
               dataType: 'json',
               data : {
                   'valor' : $('#id_valor').val() || 0.00,
                   'juros' : $('#id_juros').val(),
                   'multa' : $('#id_multa').val(),
                   'desconto' : $('#id_desconto').val(),
-                  'parcelas_contas_pagar': id_parcela,
+                  'parcelas_contas_receber': id_parcela,
                   'observacao' : $('#id_observacao').val(),
               },
               success : function(result) {
                   console.log(result);
-                  pagamento_confirmado = result['pagamento_confirmado'] == 1 ? true : false;
+                  recebimento_confirmado = result['recebimento_confirmado'] == 1 ? true : false;
 
-                  if (pagamento_confirmado) {
-                    $('#modal-pagamento-form').html('<img id="img-success" src="{{STATIC_URL}}img/icon-success.svg" alt="Pagamento efetuado com successo.">');
+                  if (recebimento_confirmado) {
+                    $('#modal-recebimento-form').html('<img id="img-success" src="{{STATIC_URL}}img/icon-success.svg" alt="Recebimento efetuado com successo.">');
                     $('#img-success').after('<div class="alert alert-success">' + result['message'] + '</div>');
                   } 
                   else {
                     // Atualiza as mensagens de erro
-                    if ($('#erro-pagamento')[0]) {
-                      $( "#erro-pagamento" ).remove();
+                    if ($('#erro-recebimento')[0]) {
+                      $( "#erro-recebimento" ).remove();
                     }
-                    if (!$('#erro-pagamento')[0]) {
-                      $('#efetiva_pagamento_form').before('<div id="erro-pagamento" class="alert alert-error">' + result['message'] + '</div>');
+                    if (!$('#erro-recebimento')[0]) {
+                      $('#efetiva_recebimento_form').before('<div id="erro-recebimento" class="alert alert-error">' + result['message'] + '</div>');
                     }
                   }
               },
               error : function(req, status, error) {
-                  console.log("Erro ao efetivar o pagamento.");
+                  console.log("Erro ao efetivar o recebimento.");
               }
           });
    });
 
   function log_modal_event(event, modal) {
-    if (pagamento_confirmado) {
-      console.log("Reload na página após a confirmação do pagamento.");
+    if (recebimento_confirmado) {
+      console.log("Reload na página após a confirmação do recebimento.");
       location.reload();
     }
   };
@@ -78,13 +78,9 @@ div#modal-pagamento-form {
   $(document).on($.modal.BEFORE_CLOSE, log_modal_event);
 
 </script>
-  <!--   
-  <form id="efetiva_pagamento_form" class="form-horizontal" action="." method="post">{% csrf_token %}
-      {{ form.as_p }}
-  </form> 
-  -->
-  <div id="modal-pagamento-form">
-    <form id="efetiva_pagamento_form" class="form-horizontal" action="." method="post">{% csrf_token %}
+
+  <div id="modal-recebimento-form">
+    <form id="efetiva_recebimento_form" class="form-horizontal" action="." method="post">{% csrf_token %}
       <div class="inner-center-column">
         <div class="tab-content tab-content-main">
           <fieldset class="module aligned first suit-tab show">
@@ -106,7 +102,7 @@ div#modal-pagamento-form {
     </form>
     <div class="box save-box">
       <div class="submit-row clearfix">
-        <button id="confirma-pagamento" class="btn btn-high btn-info" style="float: left;">Confirmar pagamento</button><br> 
+        <button id="confirma-recebimento" class="btn btn-high btn-info" style="float: left;">Confirmar recebimento</button><br> 
       </div>
     </div>
   </div>

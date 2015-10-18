@@ -22,7 +22,7 @@
         },
         {
           title: "Menu de navegação",
-          content: "Ao lado esquerdo da página, haverá sempre o menu de navegação do sistema. O mesmo exibirá todas as páginas na qual o usuário autenticado possui permissão para acesso.",
+          content: "Ao lado esquerdo da página, haverá sempre o menu de navegação do sistema. O mesmo exibirá todas as páginas dos módulos nos quais o usuário autenticado possui permissão para acesso.",
           target: "left-nav",
           placement: "right",
           multipage: true,
@@ -38,13 +38,13 @@
         },
         {
           title: "Filtros",
-          content: "Filtros de pesquisa",
+          content: "Utilize os filtros de pesquisa para buscar rapidamente pelo(s) registro(s) desejado(s).",
           target: "#changelist .xfull",
           placement: "bottom"
         },
         {
           title: "Ordenação dos registros",
-          content: "Alterando a ordem dos resultados na listagem (É possível aplicar a ordenação com multiplos campos).",
+          content: "Altere a ordem dos resultados na listagem (É possível aplicar a ordenação com multiplos campos).",
           target: "#result_list .column-nome a",
           placement: "top"
         },
@@ -70,8 +70,15 @@
           }
         },
         {
+          title: "Adicionar novos registros",
+          content: "Ao clique deste botão será aberto um formulário para realização de novo cadastro.",
+          target: document.querySelector("#changelist .object-tools a:nth-child(2)"),
+          placement: "left",
+          yOffset: -17,
+        },
+        {
           title: "Ver/Editar registros",
-          content: "De volta a listagem.",
+          content: "A primeira coluna nas listagens sempre contará com os links que redirecionam para os seus respectivos registros.",
           target: "#changelist-form #result_list tbody tr:nth-child(1) th",
           placement: "right",
           xOffset: -40,
@@ -88,6 +95,25 @@
           placement: "right",
           xOffset: 10,
           yOffset: -26
+        },
+        {
+          title: "Navegue pelas abas",
+          content: "Clique nas abas dentro do formulário para visualizar todos os detalhes do registro.",
+          target: "#suit_form_tabs li:nth-child(2)",
+          placement: "bottom",
+        },
+        {
+          title: "Confirme a adição/alteração do registro.",
+          content: "Após finalizar o preenchimento de um formulário, salve os dados clicando em um dos botões para que um novo registrado seja criado.<br>Em caso de atulização dos dados de um registro já efetuado, salve as alterações clicando também em algum dos mesmos botões.<br><br>Clicando em:<ul><li><b>Salvar</b>. O registro é salvo/atualizado e você será redirecionado para a listagem principal do módulo.</li><li><b>Salvar e continuar editando</b>. O registro é salvo/atualizado e você permanece na mesma página.</li><li><b>Salvar e adicionar outro(a)</b>. O registro é salvo/atualizado e você será redirecionado a um novo formulário para inserção de novo cadastro.</li></ul>",
+          target: ".save-box",
+          placement: "left",
+        },
+        {
+          title: "Exclua o registro",
+          content: "Clicando no link <b>Apagar</b> é possível excluir o registro do sistema.<br><br><ul><li><i>Esta ação somente ficará disponível ao usuário autenticado caso o mesmo possua a devida permissão concedida.</i><li><i>A exclusão do registro será realizada somente caso atenda a todas as validações pré-definidas do sistema.</i></li></ul>",
+          target: ".save-box .deletelink",
+          placement: "left",
+          yOffset: -25
         },
         {
           title: "Log de alterações",
@@ -111,7 +137,7 @@
         },
         {
           title: "Fim do Tour",
-          content: "Parabéns! Você concluiu o tour guiado. Fique a vontade para explorar as outras telas e recursos, e lembre-se que sempre que precisar de ajuda você será bem-vindo e estaremos a sua disposição.",
+          content: "Parabéns! Você concluiu o tour guiado. Fique a vontade para explorar as outras telas e recursos, e lembre-se: sempre que precisar de ajuda você será bem-vindo e estaremos a sua disposição.",
           target: document.querySelector("#up-tour-1-link"),
           placement: "bottom"
         }
@@ -119,7 +145,7 @@
     };
 
     // Executa automaticamente o tour se a página tiver sido chamada pelo tour da página anterior
-    if (hopscotch.getState() === "tour-guiado:1" || hopscotch.getState() === "tour-guiado:2" || hopscotch.getState() === "tour-guiado:6" || hopscotch.getState() === "tour-guiado:7" || hopscotch.getState() === "tour-guiado:8") {
+    if (hopscotch.getState() === "tour-guiado:1" || hopscotch.getState() === "tour-guiado:2" || hopscotch.getState() === "tour-guiado:6" || hopscotch.getState() === "tour-guiado:7" || hopscotch.getState() === "tour-guiado:9") {
       hopscotch.startTour(tour);
     }
 

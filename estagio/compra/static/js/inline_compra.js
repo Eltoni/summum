@@ -132,3 +132,23 @@
             calcula_valor_total();
         });
     });
+
+
+    // Corrige os campos do formulário após o reload da página
+    $(document).ready(function(){
+        $(".field-produto .vForeignKeyRawIdAdminField").each(function() {
+            var obj = $(this);
+            var row = obj.closest('tr');
+
+            if( obj.val() != "") {
+                jQuery(row.find('.quantidade-ic')).attr({"required": "required"});
+                jQuery(row.find('.quantidade-ic')).removeAttr('readonly');
+                jQuery(row.find('.desconto')).removeAttr('readonly'); 
+            }
+        });
+        
+        // Teste para ignorar a validação do HTML ao clicar no botão "Salvar Pedido"
+        // $('button[type=submit][name=_addpedido]').click(function(){
+        //     $('form').attr('novalidate','novalidate');
+        // });
+    });

@@ -60,7 +60,7 @@ def cliente_detalhe_financeiro(request, id_cliente):
     else:
         f_ano = None
 
-    opcoes = Opcoes(request.GET)
+    opcoes = Opcoes(initial=request.GET)
 
     receb_group_mes = []
     receb_mes = [(1, _g('janeiro')), (2, _g('fevereiro')), (3, _g('março')), (4, _g('abril')), (5, _g('maio')), (6, _g('junho')), (7, _g('julho')), (8, _g('agosto')), (9, _g('setembro')), (10, _g('outubro')), (11, _g('novembro')), (12, _g('dezembro'))]

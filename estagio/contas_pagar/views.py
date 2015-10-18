@@ -45,6 +45,7 @@ def retorna_pagamentos_conta(request, id_conta):
         'has_change_permission': False,
         'original': conta,
         'pagamentos': pagamentos,
+        'conta': id_conta,
     }
     return render_to_response('admin/pagamentos_conta.html', data, context_instance=RequestContext(request))
 
@@ -59,17 +60,6 @@ def efetiva_pagamento_parcela(request, id_parcela):
             pagamento_confirmado = 0
             message = force_text(_(u"Não há caixa aberto. Para efetivar um pagamento é necessário ter o caixa aberto."))
             return HttpResponse(json.dumps({"message": message, 'pagamento_confirmado': pagamento_confirmado,}))
-
-        # Checa a situação do valor do pagamento
-        perc_valor_minimo_pagamento = Parametrizacao.objects.all().values_list('perc_valor_minimo_pagamento')[0][0]
-        parcela = ParcelasContasPagar.objects.get(pk=id_parcela)
-        valor_minimo_pagamento = round((parcela.valor_total() * perc_valor_minimo_pagamento) / 100, 2)
-        primeiro_pagamento = Pagamento.objects.filter(parcelas_contas_pagar=id_parcela).exists()
-        if Decimal(request.POST['valor']).quantize(Decimal("0.00")) < valor_minimo_pagamento and not primeiro_pagamento:
-            pagamento_confirmado = 0
-            message = force_text(_(u"Primeiro pagamento deve ser de no mínimo %(perc_valor_minimo)s%% do valor da parcela. Valor mínimo: R$ %(valor_minimo)s.") % {'perc_valor_minimo': perc_valor_minimo_pagamento, 'valor_minimo': valor_minimo_pagamento})
-            return HttpResponse(json.dumps({"message": message, 'pagamento_confirmado': pagamento_confirmado,}))
-
 
         if form.is_valid():
             pagamento_obj = form.save()

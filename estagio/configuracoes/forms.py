@@ -14,7 +14,7 @@ class ParametrizacaoForm(ModelForm):
 
     class Meta:
         widgets = {
-            'perc_valor_minimo_pagamento': NumberInput(attrs={'placeholder': '0%'}),
+            'perc_valor_minimo_recebimento': NumberInput(attrs={'placeholder': '0%'}),
             'email_abertura_caixa': RedactorWidget(editor_options={
                 'lang': 'pt_br',
                 'buttons': ['html', '|', 'formatting', '|', 'bold', 'italic']

@@ -1,13 +1,11 @@
 #-*- coding: UTF-8 -*-
 from django.forms import ModelForm, CheckboxInput
-from suit.widgets import NumberInput, SuitSplitDateTimeWidget
-from django.forms import forms
+from suit.widgets import NumberInput, SuitSplitDateTimeWidget, AutosizedTextarea
+from django.forms import forms, TextInput
 from contas_pagar.models import *
 from parametros_financeiros.models import GrupoEncargo
 from decimal import Decimal
-from django.core.exceptions import ValidationError
 from django.utils.translation import ugettext_lazy as _
-from caixa.models import Caixa
 
 
 class ContasPagarForm(ModelForm):
@@ -29,6 +27,13 @@ class ContasPagarForm(ModelForm):
     class Meta:
         widgets = {
             'data': SuitSplitDateTimeWidget,
+            'valor_total': NumberInput(
+                attrs={ 'class': 'input-small text-right', 
+                        'placeholder': '0,00', 
+                        'step': '0.01',
+                        'min': '0.01',
+            }),
+            'descricao': AutosizedTextarea(attrs={'rows': 5, 'class': 'input-xxlarge', 'placeholder': '...'}),
         }
 
     class Media:

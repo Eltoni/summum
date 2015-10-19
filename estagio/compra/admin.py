@@ -63,10 +63,10 @@ class CompraAdmin(ExportMixin, SalmonellaMixin, admin.ModelAdmin):
     model = Compra
     actions = None
 
-    list_display = ('id', 'data', 'total', 'status')
+    list_display = ('id', 'data', 'fornecedor', 'forma_pagamento', 'total', 'pedido', 'status_pedido', 'status')
     search_fields = ['id', 'fornecedor__nome']
     date_hierarchy = 'data'
-    list_filter = (('fornecedor', SelectableFilter), ('data', DateRangeFilter), 'status', 'forma_pagamento')
+    list_filter = (('fornecedor', SelectableFilter), ('data', DateRangeFilter), 'forma_pagamento', 'status', 'pedido', 'status_pedido')
     readonly_fields = ('data',)
     salmonella_fields = ('fornecedor', 'forma_pagamento', 'grupo_encargo',)
     # raw_id_fields = ('fornecedor',)

@@ -1,4 +1,4 @@
-private
+Summum
 =======
 
-Repositório que guardo os projetos pessoais
+Sistema online para controle de comércio.

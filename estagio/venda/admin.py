@@ -129,10 +129,10 @@ class VendaAdmin(ExportMixin, SalmonellaMixin, admin.ModelAdmin):
     model = Venda
     actions = None
 
-    list_display = ('id', 'data', 'total', 'status')
+    list_display = ('id', 'data', 'cliente', 'forma_pagamento', 'total', 'pedido', 'status_pedido', 'status')
     search_fields = ['id', 'cliente']
     date_hierarchy = 'data'
-    list_filter = (('cliente', SelectableFilter), ('data', DateRangeFilter), 'status', 'forma_pagamento')
+    list_filter = (('cliente', SelectableFilter), ('data', DateRangeFilter), 'forma_pagamento', 'status', 'pedido', 'status_pedido')
     readonly_fields = ('data', 'vendedor', 'vendedor_associado')
     salmonella_fields = ('cliente', 'forma_pagamento', 'grupo_encargo',)
     

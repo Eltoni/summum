@@ -20,7 +20,7 @@ class Compra(models.Model):
     total = models.DecimalField(max_digits=20, decimal_places=2, verbose_name=_(u"Total (R$)"), help_text=_(u"Valor total da compra."))
     data = models.DateTimeField(auto_now_add=True, verbose_name=_(u"Data da compra"))
     desconto = models.DecimalField(max_digits=20, decimal_places=0, blank=True, null=True, verbose_name=_(u"Desconto (%)"), help_text=_(u"Desconto sob o valor total da compra."))
-    status = models.BooleanField(default=False, verbose_name=_(u"Cancelada?"), help_text=_(u"Indica se o status da compra está ativo ou cancelada."))
+    status = models.BooleanField(default=False, verbose_name=_(u"Cancelado?"), help_text=_(u"Indica se o status da compra está ativo ou cancelada."))
     fornecedor = models.ForeignKey(Fornecedor, on_delete=models.PROTECT, verbose_name=_(u"Fornecedor"))
     forma_pagamento = models.ForeignKey(FormaPagamento, verbose_name=_(u"Forma de pagamento"), on_delete=models.PROTECT)
     grupo_encargo = models.ForeignKey(GrupoEncargo, blank=False, null=False, verbose_name=_(u"Grupo de encargo"), on_delete=models.PROTECT)

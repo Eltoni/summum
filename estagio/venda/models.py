@@ -24,7 +24,7 @@ class Venda(models.Model):
     total = models.DecimalField(max_digits=20, decimal_places=2, verbose_name=_(u"Total (R$)"), help_text=u'Valor total da venda.')
     data = models.DateTimeField(auto_now_add=True, verbose_name=_(u"Data da venda"))
     desconto = models.DecimalField(max_digits=20, decimal_places=0, blank=True, null=True, verbose_name=_(u"Desconto (%)"), help_text=_(u"Desconto sob o valor total da venda."))
-    status = models.BooleanField(default=False, verbose_name=_(u"Cancelada?"), help_text=_(u"Marcando o Checkbox, a venda será cancelada e os itens financeiros estornados."))
+    status = models.BooleanField(default=False, verbose_name=_(u"Cancelado?"), help_text=_(u"Marcando o Checkbox, a venda será cancelada e os itens financeiros estornados."))
     cliente = models.ForeignKey(Cliente, on_delete=models.PROTECT, verbose_name=_(u"Cliente"))
     forma_pagamento = models.ForeignKey(FormaPagamento, on_delete=models.PROTECT, verbose_name=_(u"Forma de pagamento"))
     grupo_encargo = models.ForeignKey(GrupoEncargo, blank=False, null=False, verbose_name=_(u"Grupo de encargo"), on_delete=models.PROTECT)

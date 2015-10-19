@@ -192,7 +192,7 @@ TEMPLATE_CONTEXT_PROCESSORS = TCP + (
 )
 
 from django.utils.translation import ugettext_lazy as _
-ADMIN_NAME = _(u'Sistema de Controle')
+ADMIN_NAME = _(u'SUMMUM')
 
 SUIT_CONFIG = {
     'SEARCH_URL': '/auth/user/',

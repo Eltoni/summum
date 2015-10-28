@@ -35,11 +35,11 @@
     }
 
     function novo_registro_inline(inline){
-        inline.find('.quantidade-ic, .desconto, .valor-total-ic').val("");
+        inline.find('.quantidade-ic, .valor-unitario-ic, .desconto, .valor-total-ic').val("");
     }
 
     function limpa_campos_inline(inline){
-        inline.find('input').val("");
+        novo_registro_inline(inline);
         inline.find(".salmonella_label").empty();
 
         inline.find('.desconto').attr({"readonly": "readonly"});
@@ -120,6 +120,9 @@
         var row = $(this).closest('tr');
         limpa_campos_inline(row);
         calcula_valor_total();
+
+        // Desabilita o link para remoção do item caso o mesmo seja um registro já salvo.
+        // row.closest('.has_original').find('.inline-deletelink').addClass('disabled');
     });
 
     $(".inline-deletelink").click(function(e){

@@ -12,9 +12,10 @@ urlpatterns = patterns('',
     url(r'', include(admin.site.urls)),
 
     # bibliotecas
-    url(r'^admin/salmonella/', include('salmonella.urls')), # url necessária para o funcionamento da biblioteca django-salmonella
-    url(r'^selectable/', include('selectable.urls')),       # url necessária para o funcionamento da biblioteca django-selectable
-    url(r'^schedule/', include('schedule.urls')),           # url necessária para o funcionamento da biblioteca django-scheduler
+    url(r'^admin/salmonella/', include('salmonella.urls')),         # url necessária para o funcionamento da biblioteca django-salmonella
+    url(r'^selectable/', include('selectable.urls')),               # url necessária para o funcionamento da biblioteca django-selectable
+    url(r'^schedule/', include('schedule.urls')),                   # url necessária para o funcionamento da biblioteca django-scheduler
+    url(r'^diagrama_sistema/', include('django_spaghetti.urls')),    # url necessária para o funcionamento da biblioteca django-spaghetti-and-meatballs
 
     # dashboard
     url(r'^dashboard/$', 'movimento.views.index'),

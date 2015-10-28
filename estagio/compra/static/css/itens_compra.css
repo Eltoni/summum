@@ -11,8 +11,3 @@ input::-webkit-inner-spin-button {
   opacity: 0;
   transition: visibility 0s 2s, opacity 2s linear;
 }
-
-/* remove elemento */
-.hidden-element {
-    display: none;
-}

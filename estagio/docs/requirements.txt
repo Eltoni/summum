@@ -16,6 +16,7 @@ django-salmonella==0.6.1
 django-selectable==0.9.0
 django-selectable-filter==0.1.1
 django-smart-selects==1.1.1
+django-spaghetti-and-meatballs==0.1.1
 django-suit==0.2.15
 django-suit-redactor==0.0.2
 docutils==0.12

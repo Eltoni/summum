@@ -5,6 +5,7 @@ from parametros_financeiros.models import FormaPagamento, GrupoEncargo
 from movimento.models import Produtos
 from django.core.exceptions import ValidationError
 import datetime
+from django.utils.timezone import utc
 from django.utils.translation import ugettext_lazy as _
 from geoposition.fields import GeopositionField
 from configuracoes.models import Parametrizacao
@@ -63,7 +64,7 @@ class Venda(models.Model):
         """
         Método que trata a geração e cálculo da parte financeira de uma venda.
         """
-        data = datetime.date.today()
+        data = datetime.datetime.utcnow().replace(tzinfo=utc)
         
         if self.pk:
 
@@ -169,13 +170,13 @@ class ItensVenda(models.Model):
             super(ItensVenda, self).save(*args, **kwargs)
 
 
-    def clean_fields(self, *args, **kwargs):
-        """
-        Método que trata o movimento no estoque.
-        """
-        quant_produto_estoque = Produtos.objects.filter(pk=self.produto.pk).values_list('quantidade')[0][0]
-        if self.pk is None and self.quantidade > quant_produto_estoque:
-            raise ValidationError({'quantidade': ["Há somente %(quantidade)s unidade(s) deste produto em estoque." % {'quantidade': quant_produto_estoque},]})
+    # def clean_fields(self, *args, **kwargs):
+    #     """
+    #     Método que trata o movimento no estoque.
+    #     """
+    #     quant_produto_estoque = Produtos.objects.filter(pk=self.produto.pk).values_list('quantidade')[0][0]
+    #     if self.pk is None and self.quantidade > quant_produto_estoque:
+    #         raise ValidationError({'quantidade': ["Há somente %(quantidade)s unidade(s) deste produto em estoque." % {'quantidade': quant_produto_estoque},]})
 
 
 

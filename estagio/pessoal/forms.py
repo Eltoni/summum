@@ -102,10 +102,30 @@ class FuncionarioForm(BaseCadastroPessoaForm):
     Criada em 22/08/2014. 
     """
 
+    class Meta:
+        model = Funcionario
+        exclude = []
+        widgets = {
+            'salario': NumberInput(
+                attrs={ 'class': 'input-small text-right', 
+                        'placeholder': '0,00', 
+                        'step': '0.01',
+                        'min': '0.01',
+            }),
+            'sexo': forms.RadioSelect(),
+            'data_nasc': SuitDateWidget,
+            'observacao': AutosizedTextarea(attrs={'rows': 5, 'class': 'input-xxlarge', 'placeholder': '...'}),
+            'numero': TextInput(attrs={'class': 'input-mini'}),
+        }
+
     class Media:
         js = (
             '/static/js/get_dados_usuario.js',
         )
+
+    def __init__(self, *args, **kwargs):
+        super(FuncionarioForm, self).__init__(*args, **kwargs)
+        self.fields['cpf'] = BRCPFField(required=True, label=_(u"CPF"))
 
 
 

@@ -19,7 +19,7 @@ class ItensCompraInline(SalmonellaMixin, admin.TabularInline):
     form = ItensCompraForm
     formset = ItensCompraFormSet
     model = ItensCompra
-    can_delete = False
+    #can_delete = False
     fields = ('produto', 'quantidade', 'valor_unitario', 'desconto', 'valor_total')
     salmonella_fields = ('produto',)
     template = "admin/edit_inline/tabular.html"  # Chama o template personalizado para realizar da inline para fazer todo o tratamento necessário para a tela de compras
@@ -48,7 +48,9 @@ class ItensCompraInline(SalmonellaMixin, admin.TabularInline):
         u""" Define todos os campos da inline como somente leitura caso o registro seja salvo no BD """
 
         if obj:
-            return ['produto', 'quantidade', 'valor_unitario', 'desconto', 'valor_total',]
+            if obj.pedido == 'N' or (obj.pedido == 'S' and obj.status_pedido):
+                return ['produto', 'quantidade', 'valor_unitario', 'desconto', 'valor_total',]
+            return []
         else:
             return []
 
@@ -100,7 +102,7 @@ class CompraAdmin(ExportMixin, SalmonellaMixin, admin.ModelAdmin):
             }),
             (None, {
                 'classes': ('suit-tab suit-tab-info_adicionais',),
-                'fields': ('observacao', 'pedido', 'status_pedido',)
+                'fields': ('observacao', 'pedido', 'status_pedido', 'status_apoio',)
             }),
         )
 
@@ -112,6 +114,10 @@ class CompraAdmin(ExportMixin, SalmonellaMixin, admin.ModelAdmin):
         else:
             if obj.pedido == 'N':
                 self.fieldsets[2][1]['fields'] = tuple(x for x in self.fieldsets[2][1]['fields'] if (x!='status_pedido'))
+
+            if obj.pedido == 'S' and not obj.status_pedido:
+                self.fieldsets[0][1]['fields'] = tuple(x for x in self.fieldsets[0][1]['fields'] if (x!='status'))
+                self.fieldsets[1][1]['fields'] = tuple(x for x in self.fieldsets[1][1]['fields'] if (x!='data'))
 
         return super(CompraAdmin, self).get_form(request, obj, **kwargs)
 
@@ -129,9 +135,11 @@ class CompraAdmin(ExportMixin, SalmonellaMixin, admin.ModelAdmin):
         u""" Define todos os campos da compra como somente leitura caso o registro seja salvo no BD """
 
         if obj:
-            return ['total', 'data', 'desconto', 'fornecedor', 'forma_pagamento', 'pedido', 'status_pedido', 'grupo_encargo', 'status',]
+            if obj.pedido == 'N' or (obj.pedido == 'S' and obj.status_pedido):
+                return ['total', 'data', 'desconto', 'fornecedor', 'forma_pagamento', 'pedido', 'status_pedido', 'grupo_encargo', 'status',]
+            return ['data', 'status', 'pedido', 'status_pedido']
         else:
-            return ['data', 'pedido', 'status_pedido']
+            return ['data', 'status', 'pedido', 'status_pedido']
 
 
     def save_itens_compra(self, obj):

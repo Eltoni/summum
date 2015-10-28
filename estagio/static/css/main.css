@@ -2,3 +2,20 @@
 .hint:before, .hint:after, [data-hint]:before, [data-hint]:after {
     white-space: pre !important;
 }
+
+/* remove elemento */
+.hidden-element {
+    display: none !important;
+}
+
+/* Desabilita o clique de um link */
+.disabled {
+    pointer-events: none;
+    cursor: default;
+    opacity: 0.6;
+}
+
+div.help-block ul.errorlist {
+    list-style-type: none;
+    margin-left: 0px;
+}

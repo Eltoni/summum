@@ -7,6 +7,7 @@ from django.contrib.admin.views.main import IS_POPUP_VAR
 from sorl.thumbnail.admin import AdminImageMixin
 from salmonella.admin import SalmonellaMixin
 from movimento.models import *
+from movimento.forms import *
 from django.utils.translation import ugettext_lazy as _
 from selectable_filter.filter import SelectableFilter
 
@@ -14,16 +15,19 @@ from selectable_filter.filter import SelectableFilter
 class MarcaAdmin(AdminImageMixin, admin.ModelAdmin):
     model = Marca
     fields = ('nome', 'logo', 'descricao')
+    search_fields = ['nome',]
 
 
 class CategoriaAdmin(admin.ModelAdmin):
     model = Categoria
     fields = ('nome', 'descricao')
+    search_fields = ['nome',]
 
 
 class ProdutosAdmin(ExportMixin, SalmonellaMixin, AdminImageMixin, GlobalAdmin):
     resource_class = ProdutosResource
     model = Produtos
+    form = ProdutosForm
     filter_horizontal = ('categorias',)
     salmonella_fields = ('marca',)
     popup_list_display = ('nome', 'marca', 'quantidade', 'descricao')

@@ -3,6 +3,7 @@ import random, decimal
 from datetime import timedelta
 from datetime import datetime
 import time
+from django.utils.timezone import utc
 from pessoal.models import Cliente
 from parametros_financeiros.models import FormaPagamento, GrupoEncargo
 from contas_receber.models import ContasReceber, Recebimento
@@ -17,9 +18,9 @@ lista_grupos_encargo = GrupoEncargo.objects.filter(status=1)
 caixa_aberto = Caixa.objects.filter(status=1).values()[0]
 
 if caixa_aberto["status"]:
-    caixa_data_abertura = datetime.strptime(caixa_aberto["data_abertura"].strftime(format_date), format_date)
-    data_atual = datetime.strptime(datetime.now().strftime(format_date), format_date)
-    
+    caixa_data_abertura = caixa_aberto["data_abertura"].replace(tzinfo=utc)
+    data_atual = datetime.utcnow().replace(tzinfo=utc)
+
     quant_dias = caixa_data_abertura.date() - data_atual.date()
     qt_a_gerar = abs(quant_dias.days)
     
@@ -27,7 +28,7 @@ if caixa_aberto["status"]:
     while not data >= data_atual:
         
         data = data + timedelta(days=random.randint(0,3))
-        data = dia_util(data)
+        data = dia_util(data).replace(tzinfo=utc)
         
         for i in range(random.randint(0,10)):
             cliente = random.choice(lista_clientes)

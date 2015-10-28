@@ -66,7 +66,7 @@ class BaseCadastroPessoa(models.Model):
     banco = models.DecimalField(max_digits=3, decimal_places=0, null=True, blank=True, verbose_name=_(u"Banco"))
     agencia = models.CharField(max_length=7, null=True, blank=True, verbose_name=_(u"Agência"))
     conta_banco = models.CharField(max_length=15, null=True, blank=True, verbose_name=_(u"Conta Corrente")) 
-    data = models.DateTimeField(auto_now_add=True, verbose_name=_(u"Data"))
+    data = models.DateTimeField(auto_now_add=True, verbose_name=_(u"Data do Cadastro"))
     status = models.BooleanField(default=True, verbose_name=_(u"Status"))
     observacao = models.TextField(blank=True, verbose_name=_(u"Observações"))
     foto = ImageField(upload_to='fotos_pessoas', max_length=255, blank=True, verbose_name=_(u"Foto"))
@@ -92,7 +92,7 @@ class Cliente(BaseCadastroPessoa):
         ('PF', _(u"Pessoa Física")),
         ('PJ', _(u"Pessoa Jurídica")),
     )
-    tipo_pessoa = models.CharField(choices=TIPO_PESSOA_CHOICES, max_length=2, blank=False, null=False, default='PF', verbose_name=_(u"Tipo pessoa"))
+    tipo_pessoa = models.CharField(choices=TIPO_PESSOA_CHOICES, max_length=2, blank=False, null=False, default='PF', verbose_name=_(u"Tipo de Pessoa"))
     cnpj = models.CharField(max_length=14, null=True, unique=True, verbose_name=_(u"CNPJ")) 
     razao_social = models.CharField(max_length=255, blank=True, null=True, verbose_name=_(u"Razão social")) 
     
@@ -151,7 +151,7 @@ class Fornecedor(BaseCadastroPessoa):
         ('PF', _(u"Pessoa Física")),
         ('PJ', _(u"Pessoa Jurídica")),
     )
-    tipo_pessoa = models.CharField(choices=TIPO_PESSOA_CHOICES, max_length=2, blank=False, null=False, default='PF', verbose_name=_(u"Tipo pessoa"))
+    tipo_pessoa = models.CharField(choices=TIPO_PESSOA_CHOICES, max_length=2, blank=False, null=False, default='PF', verbose_name=_(u"Tipo de Pessoa"))
     cnpj = models.CharField(max_length=14, null=True, unique=True, verbose_name=_(u"CNPJ")) 
     razao_social = models.CharField(max_length=255, blank=True, null=True, verbose_name=_(u"Razão social")) 
 
@@ -185,7 +185,7 @@ class Fornecedor(BaseCadastroPessoa):
 
 @python_2_unicode_compatible
 class Cargo(models.Model):
-    nome = models.CharField(max_length=100, verbose_name=_(u"Nome"))
+    nome = models.CharField(max_length=100, unique=True, verbose_name=_(u"Nome"))
     descricao = models.TextField(blank=True, verbose_name=_(u"Descrição"))
 
     class Meta:

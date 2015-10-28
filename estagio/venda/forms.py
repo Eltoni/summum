@@ -106,6 +106,43 @@ class ItensVendaForm(ModelForm):
 class ItensVendaFormSet(BaseInlineFormSet):
 
     def clean(self):
+
+        list_p = []
+        for form in self.forms:
+            try:
+                if form.cleaned_data:
+                    delete = form.cleaned_data.get('DELETE')
+                    if not delete:
+                        list_p.append((form.instance.produto.pk, form.instance.quantidade))
+            except AttributeError:
+                pass
+
+        list_p_totais = {}
+        for x in list_p:
+            list_p_totais.setdefault(x[0],0)
+            list_p_totais[x[0]]+=x[1]
+
+        list_p_totais = sorted(list_p_totais.items())
+        list_p_limite = []
+        for l in list_p_totais:
+            q = Produtos.objects.filter(pk=l[0]).values_list('quantidade')[0][0]
+            if l[1] > q:
+                list_p_limite.append((l[0], l[1], q))
+
+        if list_p_limite:
+            for form in self.forms:
+                try:
+                    if form.cleaned_data:
+                        delete = form.cleaned_data.get('DELETE')
+                        if not delete:
+                            if form.instance.produto.pk in [ i[0] for i in list_p_limite ]:
+                                form.add_error('quantidade', 'Total de itens em estoque: %s' % [ i[2] for i in list_p_limite if i[0] == form.instance.produto.pk ][0])
+                except AttributeError:
+                    pass
+
+            raise forms.ValidationError(_(u"Quantidade de produtos informada ultrapassa limite de unidades em estoque."))
+
+
         """Verifica se pelo menos um item de venda foi inserido."""
         super(ItensVendaFormSet, self).clean()
         if any(self.errors):

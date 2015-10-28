@@ -75,6 +75,7 @@ INSTALLED_APPS = (
     'suit_redactor',
     'django_extensions',
     'schedule',
+    'django_spaghetti',
 )
 
 
@@ -192,7 +193,7 @@ TEMPLATE_CONTEXT_PROCESSORS = TCP + (
 )
 
 from django.utils.translation import ugettext_lazy as _
-ADMIN_NAME = _(u'SUMMUM')
+ADMIN_NAME = _(u'Summum')
 
 SUIT_CONFIG = {
     'SEARCH_URL': '/auth/user/',
@@ -234,6 +235,7 @@ SUIT_CONFIG = {
 # -----------
 SELECTABLE_MAX_LIMIT = 10
 
+
 # django daterange-filter
 # -----------
 DATE_RANGE_FILTER_USE_WIDGET_SUIT = True
@@ -249,6 +251,16 @@ BOWER_INSTALLED_APPS = (
     'd3#3.3.13',
     'nvd3#1.7.1',
 )
+
+
+# django-spaghetti-and-meatballs
+# -----------
+SPAGHETTI_SAUCE = {
+  'apps': INSTALLED_APPS,
+  'show_fields': False,
+  #'exclude':{'auth':['user']}
+}
+
 
 # Email configuration
 DEFAULT_FROM_EMAIL = 'gustavo.sdo@gmail.com'

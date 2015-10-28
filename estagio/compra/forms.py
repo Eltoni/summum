@@ -1,7 +1,6 @@
 #-*- coding: UTF-8 -*-
-from django.forms import ModelForm, TextInput, CheckboxInput
+from django.forms import forms, ModelForm, TextInput, CheckboxInput, HiddenInput, CharField
 from suit.widgets import LinkedSelect, NumberInput, AutosizedTextarea
-from django.forms import forms
 from django.forms.models import BaseInlineFormSet
 from compra.models import *
 from django.utils.translation import ugettext_lazy as _
@@ -15,6 +14,7 @@ class CompraForm(ModelForm):
     Criada em 15/06/2014. 
     Última alteração em 16/06/2014.
     """
+    status_apoio = CharField(widget=HiddenInput(attrs={'class' : 'hidden-form-row'}), required=False)
 
     class Media:
         js = (
@@ -43,6 +43,9 @@ class CompraForm(ModelForm):
 
     def __init__(self, *args, **kwargs):
         super(CompraForm, self).__init__(*args, **kwargs)
+        
+        if self.instance.pedido == 'N' or (self.instance.pedido == 'S' and self.instance.status_pedido):
+            self.fields['status_apoio'].initial = 1
 
         try:
             grupo_encargo_padrao = GrupoEncargo.objects.get(padrao=1)
@@ -104,7 +107,16 @@ class ItensCompraForm(ModelForm):
 
 class ItensCompraFormSet(BaseInlineFormSet):
 
+    def __init__(self, *args, **kwargs):
+        super(ItensCompraFormSet, self).__init__(*args, **kwargs)
+
+        # checa se deve ser habilitado a possibilidade de deletar uma inline
+        if not self.instance.pk or self.instance.pedido == 'N' or (self.instance.pedido == 'S' and self.instance.status_pedido):
+            self.can_delete = False
+
+
     def clean(self):
+
         """Verifica se pelo menos um item de compra foi inserido."""
         super(ItensCompraFormSet, self).clean()
         if any(self.errors):

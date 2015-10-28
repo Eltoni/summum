@@ -8,14 +8,29 @@ $('.vDateField').mask('00/00/0000');
 //$('.field-money').mask('000.000.000,00', {reverse: true});
 
 
-// defini todos os links apontados para a página inicial do sistema para redirecionar para o dashboard customizado 
+// defini todos os links apontados para a página inicial do sistema para redirecionar para o dashboard customizado
+// checa se a url aponta para a página inicial e se a página não é de logout da conta
 $("a").each(function() { 
      var href = $(this).attr('href');
 
-     if (href == "/" && !location.href.match("logout")) {   // checa se a url aponta para a página inicial e se a página não é de logout da conta
+     if (href == "/" && !location.href.match("logout")) {
          $(this).attr('href', '/dashboard/');               
      }
  });
+
+
+// Esconde mensagem de erro dos campos obrigatórios das inlines.
+$('div.help-block').delay(4000).fadeOut(1000, function() {
+    var $this = $(this);
+    $this.has( "ul.errorlist" ).addClass('hidden-element');
+});
+
+
+// esconde a linha referente ao campo que possui a classe css .hidden-form-row
+// utilizado por exemplo para esconder o campo de status_apoio renderizado no formulário de compra.
+$(".hidden-form-row").each(function() { 
+    $(this).parent( ".controls" ).parent( "div" ).parent( ".form-row" ).addClass( "hidden-element" );
+});
 
 
 // Bloqueia entradas de valores diferentes de números, bloqueando também ponto e traço
@@ -25,7 +40,7 @@ $(".vForeignKeyRawIdAdminField").numeric({ decimal: false, negative: false });
 $(".vForeignKeyRawIdAdminField").change(function(){
     var valorID = $(this).val();
     if (valorID == 0 || valorID == ""){
-        $(this).parent().find('input').val("");
+        $(this).parent().find('.vForeignKeyRawIdAdminField').val("");
         $(this).parent().find(".salmonella_label").empty();
     }
 });

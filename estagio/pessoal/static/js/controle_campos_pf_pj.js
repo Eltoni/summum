@@ -11,7 +11,7 @@ $(document).ready(function(){
     if ( $('#id_tipo_pessoa_0').attr('checked')) {
         $(".field-cnpj, .field-razao_social").hide();
     } else {
-        $(".field-cpf, .field-rg, .field-sexo, .field-estado_civil").hide();
+        $(".field-cpf, .field-rg, .field-sexo, .field-estado_civil, .field-data_nasc, .field-formata_data_nascimento").hide();
     }
 
 
@@ -25,7 +25,7 @@ $(document).ready(function(){
                     // esconde os campos no contexto
                     $(this).hide();
                     // e mostra os campos das classes abaixo
-                    $(".field-cpf, .field-rg, .field-sexo, .field-estado_civil").show();
+                    $(".field-cpf, .field-rg, .field-sexo, .field-estado_civil, .field-data_nasc, .field-formata_data_nascimento").show();
 
                     // checa se campo cnpj tem valor
                     if ( $("#id_cnpj").val()!='') {
@@ -43,7 +43,7 @@ $(document).ready(function(){
         $(this).click(function(){
             // checa se a opção 'Pessoa Jurídica' está selecionado 
             if ( $(this).is(':checked')) {
-                $(".field-cpf, .field-rg, .field-sexo, .field-estado_civil").each(function(){
+                $(".field-cpf, .field-rg, .field-sexo, .field-estado_civil, .field-data_nasc, .field-formata_data_nascimento").each(function(){
                     // esconde os campos no contexto
                     $(this).hide();
                     // e mostra os campos das classes abaixo

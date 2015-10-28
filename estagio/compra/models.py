@@ -5,6 +5,7 @@ from parametros_financeiros.models import FormaPagamento, GrupoEncargo
 from movimento.models import Produtos
 from django.core.exceptions import ValidationError
 import datetime
+from django.utils.timezone import utc
 from django.utils.translation import ugettext_lazy as _
 from django.utils.encoding import python_2_unicode_compatible
 
@@ -50,7 +51,7 @@ class Compra(models.Model):
         """
         Método que trata a geração e cálculo da parte financeira de uma compra.
         """
-        data = datetime.date.today()
+        data = datetime.datetime.utcnow().replace(tzinfo=utc)
 
         if self.pk:
 
@@ -114,7 +115,7 @@ class ItensCompra(models.Model):
     Criada em 15/06/2014. 
     """
 
-    quantidade = models.IntegerField()
+    quantidade = models.IntegerField(verbose_name=_(u"Quantidade"))
     valor_unitario = models.DecimalField(max_digits=20, decimal_places=2, verbose_name=_(u"Valor unitário (R$)"))
     valor_total = models.DecimalField(max_digits=20, decimal_places=2, verbose_name=_(u"Total (R$)"))
     desconto = models.DecimalField(max_digits=20, decimal_places=0, blank=True, null=True, verbose_name=_(u"Desconto (%)"))

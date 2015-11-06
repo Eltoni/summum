@@ -2,14 +2,6 @@
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
 from django.utils.encoding import python_2_unicode_compatible
-from schedule.models import Calendar
-
-def calendarios_choices():
-    calendarios = []
-    for cal in Calendar.objects.all():
-        calendarios.append((cal.slug, cal.name))
-        
-    return calendarios
 
 
 @python_2_unicode_compatible
@@ -71,7 +63,7 @@ class Parametrizacao(models.Model):
         max_length=200,
         help_text=_(u"Defina o calendário de eventos que aparecerão no dashboard do sistema.",),
         null=True,
-        choices=calendarios_choices()
+        blank=True
     )
     
     class Meta:

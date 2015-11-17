@@ -4,10 +4,9 @@ from pessoal.models import Fornecedor
 from parametros_financeiros.models import FormaPagamento, GrupoEncargo
 from movimento.models import Produtos
 from django.core.exceptions import ValidationError
-import datetime
-from django.utils.timezone import utc
 from django.utils.translation import ugettext_lazy as _
 from django.utils.encoding import python_2_unicode_compatible
+from django.core.urlresolvers import reverse
 
 
 @python_2_unicode_compatible
@@ -19,7 +18,9 @@ class Compra(models.Model):
     Criada em 15/06/2014. 
     """
     total = models.DecimalField(max_digits=20, decimal_places=2, verbose_name=_(u"Total (R$)"), help_text=_(u"Valor total da compra."))
-    data = models.DateTimeField(auto_now_add=True, verbose_name=_(u"Data da compra"))
+    data_compra = models.DateTimeField(null=True, verbose_name=_(u"Data da compra"))
+    data_pedido = models.DateTimeField(null=True, verbose_name=_(u"Data do pedido"))
+    data_cancelamento = models.DateTimeField(null=True, verbose_name=_(u"Data do cancelamento"))
     desconto = models.DecimalField(max_digits=20, decimal_places=0, blank=True, null=True, verbose_name=_(u"Desconto (%)"), help_text=_(u"Desconto sob o valor total da compra."))
     status = models.BooleanField(default=False, verbose_name=_(u"Cancelado?"), help_text=_(u"Indica se o status da compra está ativo ou cancelada."))
     fornecedor = models.ForeignKey(Fornecedor, on_delete=models.PROTECT, verbose_name=_(u"Fornecedor"))
@@ -38,6 +39,30 @@ class Compra(models.Model):
         return u'%s' % (self.id)
 
 
+    def formata_data_compra(self):
+        if self.data_compra:
+            return self.data_compra
+        return '-'
+    formata_data_compra.allow_tags = True
+    formata_data_compra.short_description = _(u"Data da compra")
+    formata_data_compra.admin_order_field = 'data_compra'
+
+
+    def conta_associada(self):
+        try:
+            conta = ContasPagar.objects.get(compras__pk=self.pk).pk
+        except: 
+            conta = None
+
+        if conta:
+            url = reverse("admin:contas_pagar_contaspagar_change", args=[conta])
+            return u"<a href='%s'>%s</a>" % (url, conta)
+        return '-'
+    conta_associada.allow_tags = True
+    conta_associada.short_description = _(u"Conta a pagar")
+    conta_associada.admin_order_field = 'contas_pagar'
+
+
     def clean(self):
         """ 
         Bloqueia o registro de uma compra quando não há caixa aberto.
@@ -51,7 +76,6 @@ class Compra(models.Model):
         """
         Método que trata a geração e cálculo da parte financeira de uma compra.
         """
-        data = datetime.datetime.utcnow().replace(tzinfo=utc)
 
         if self.pk:
 
@@ -59,13 +83,13 @@ class Compra(models.Model):
             super(Compra, self).save(*args, **kwargs)
 
             # Gera financeiro somente se compra for confirmada
-            if self.pedido == 'N' and not conta_gerada or (self.status_pedido and not conta_gerada):
+            if self.pedido == 'N' and self.data_compra and not conta_gerada or (self.status_pedido and not conta_gerada):
 
                 # Descrição informada no contas à pagar
                 descricao = _(u"Conta aberta proveniente de compra %(compra)s") % {'compra': self}
 
                 # Insere o contas à pagar
-                conta = ContasPagar(data=data, 
+                conta = ContasPagar(data=self.data_compra, 
                                     valor_total=self.total, 
                                     descricao=descricao,
                                     compras=self, 

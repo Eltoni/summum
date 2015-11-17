@@ -142,14 +142,20 @@
         $(".field-produto .vForeignKeyRawIdAdminField").each(function() {
             var obj = $(this);
             var row = obj.closest('tr');
+            var valor = row.find('input[id*="id_itenscompra_set"][type="hidden"]').val();
 
             if( obj.val() != "") {
                 jQuery(row.find('.quantidade-ic')).attr({"required": "required"});
                 jQuery(row.find('.quantidade-ic')).removeAttr('readonly');
                 jQuery(row.find('.desconto')).removeAttr('readonly'); 
             }
+
+            if (valor.length != 0) {
+                row.find('.salmonella-related-lookup, .salmonella-clear-field').addClass('disabled');
+                row.find('.vForeignKeyRawIdAdminField, .quantidade-ic, .desconto').attr({"readonly": "readonly"});
+            }
         });
-        
+
         // Teste para ignorar a validação do HTML ao clicar no botão "Salvar Pedido"
         // $('button[type=submit][name=_addpedido]').click(function(){
         //     $('form').attr('novalidate','novalidate');

@@ -10,8 +10,29 @@ class VendaResource(resources.ModelResource):
         model = Venda
         #exclude = ('nome', 'estado')
 
-    def dehydrate_data(self, venda):
-        return '%s' % (venda.data.strftime('%d/%m/%Y'))
+    def dehydrate_data_venda(self, venda):
+        try:
+            return '%s' % (venda.data_venda.strftime('%d/%m/%Y às %H:%M'))
+        except:
+            pass
+
+    def dehydrate_data_pedido(self, venda):
+        try:
+            return '%s' % (venda.data_pedido.strftime('%d/%m/%Y às %H:%M'))
+        except:
+            pass
+
+    def dehydrate_data_cancelamento(self, venda):
+        try:
+            return '%s' % (venda.data_cancelamento.strftime('%d/%m/%Y às %H:%M'))
+        except:
+            pass
+
+    def dehydrate_status_pedido(self, venda):
+        if venda.status_pedido:
+            return 'Sim'
+        else:
+            return 'Não'
 
     def dehydrate_cliente(self, venda):
         return '%s' % (venda.cliente.nome)

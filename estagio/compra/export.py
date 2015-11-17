@@ -10,8 +10,29 @@ class CompraResource(resources.ModelResource):
         model = Compra
         #exclude = ('nome', 'estado')
 
-    def dehydrate_data(self, compra):
-        return '%s' % (compra.data.strftime('%d/%m/%Y'))
+    def dehydrate_data_compra(self, compra):
+        try:
+            return '%s' % (compra.data_compra.strftime('%d/%m/%Y às %H:%M'))
+        except:
+            pass
+
+    def dehydrate_data_pedido(self, compra):
+        try:
+            return '%s' % (compra.data_pedido.strftime('%d/%m/%Y às %H:%M'))
+        except:
+            pass
+
+    def dehydrate_data_cancelamento(self, compra):
+        try:
+            return '%s' % (compra.data_cancelamento.strftime('%d/%m/%Y às %H:%M'))
+        except:
+            pass
+
+    def dehydrate_status_pedido(self, compra):
+        if compra.status_pedido:
+            return 'Sim'
+        else:
+            return 'Não'
 
     def dehydrate_fornecedor(self, compra):
         return '%s' % (compra.fornecedor.nome)

@@ -313,7 +313,8 @@ class ContasReceber(models.Model):
         """
         Método que trata a geração e cálculo de contas à receber.
         """
-        data = datetime.date.today()
+        # data = datetime.date.today()
+        data = self.data.date()
 
         forma_pagamento_conta = FormaPagamento.objects.get(pk=self.forma_pagamento.pk)
         quantidade_parcelada = forma_pagamento_conta.quant_parcelas

@@ -62,6 +62,7 @@ INSTALLED_APPS = (
     'configuracoes',
     'utilitarios',
     # Bibliotecas em uso pelo projeto
+    'suitlocale',
     'import_export',
     'salmonella',
     'djangobower',
@@ -76,6 +77,7 @@ INSTALLED_APPS = (
     'django_extensions',
     'schedule',
     'django_spaghetti',
+    'celery',
 )
 
 
@@ -259,6 +261,29 @@ SPAGHETTI_SAUCE = {
   'apps': INSTALLED_APPS,
   'show_fields': False,
   #'exclude':{'auth':['user']}
+}
+
+
+# CELERY
+# -----------
+BROKER_URL = 'redis://localhost:6379'
+CELERY_RESULT_BACKEND = 'redis://localhost:6379'
+CELERY_ACCEPT_CONTENT = ['application/json']
+CELERY_TASK_SERIALIZER = 'json'
+CELERY_RESULT_SERIALIZER = 'json'
+CELERY_TIMEZONE = 'America/Sao_Paulo'
+
+from datetime import timedelta
+CELERYBEAT_SCHEDULE = {
+    'cancela_pedido_compra_vencido_a_cada_60_seconds': {
+        'task': 'compra.tasks.cancela_pedido_compra_vencido',
+        'schedule': timedelta(seconds=60),
+        #'args': (16, 16)
+    },
+    'cancela_pedido_venda_vencido_a_cada_60_seconds': {
+        'task': 'venda.tasks.cancela_pedido_venda_vencido',
+        'schedule': timedelta(seconds=60),
+    },
 }
 
 

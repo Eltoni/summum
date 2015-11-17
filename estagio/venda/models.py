@@ -12,6 +12,7 @@ from configuracoes.models import Parametrizacao
 from utilitarios.funcoes_data import datetime_settings_timezone
 from django.contrib.auth.models import User
 from django.utils.encoding import python_2_unicode_compatible
+from django.core.urlresolvers import reverse
 
 
 @python_2_unicode_compatible
@@ -23,7 +24,9 @@ class Venda(models.Model):
     Criada em 05/10/2014. 
     """
     total = models.DecimalField(max_digits=20, decimal_places=2, verbose_name=_(u"Total (R$)"), help_text=u'Valor total da venda.')
-    data = models.DateTimeField(auto_now_add=True, verbose_name=_(u"Data da venda"))
+    data_venda = models.DateTimeField(null=True, verbose_name=_(u"Data da venda"))
+    data_pedido = models.DateTimeField(null=True, verbose_name=_(u"Data do pedido"))
+    data_cancelamento = models.DateTimeField(null=True, verbose_name=_(u"Data do cancelamento"))
     desconto = models.DecimalField(max_digits=20, decimal_places=0, blank=True, null=True, verbose_name=_(u"Desconto (%)"), help_text=_(u"Desconto sob o valor total da venda."))
     status = models.BooleanField(default=False, verbose_name=_(u"Cancelado?"), help_text=_(u"Marcando o Checkbox, a venda será cancelada e os itens financeiros estornados."))
     cliente = models.ForeignKey(Cliente, on_delete=models.PROTECT, verbose_name=_(u"Cliente"))
@@ -43,12 +46,36 @@ class Venda(models.Model):
         return u'%s' % (self.id)
 
 
+    def formata_data_venda(self):
+        if self.data_venda:
+            return self.data_venda
+        return '-'
+    formata_data_venda.allow_tags = True
+    formata_data_venda.short_description = _(u"Data da venda")
+    formata_data_venda.admin_order_field = 'data_venda'
+
+
     def vendedor_associado(self):
         if self.vendedor:
             return u"<b>%s (%s %s)</b>" % (self.vendedor, self.vendedor.first_name, self.vendedor.last_name)
         return '-'
     vendedor_associado.allow_tags = True
     vendedor_associado.short_description = _(u"Vendedor")
+
+
+    def conta_associada(self):
+        try:
+            conta = ContasReceber.objects.get(vendas__pk=self.pk).pk
+        except: 
+            conta = None
+
+        if conta:
+            url = reverse("admin:contas_receber_contasreceber_change", args=[conta])
+            return u"<a href='%s'>%s</a>" % (url, conta)
+        return '-'
+    conta_associada.allow_tags = True
+    conta_associada.short_description = _(u"Conta a receber")
+    conta_associada.admin_order_field = 'contas_receber'
 
 
     def clean(self):
@@ -64,7 +91,6 @@ class Venda(models.Model):
         """
         Método que trata a geração e cálculo da parte financeira de uma venda.
         """
-        data = datetime.datetime.utcnow().replace(tzinfo=utc)
         
         if self.pk:
 
@@ -72,13 +98,13 @@ class Venda(models.Model):
             super(Venda, self).save(*args, **kwargs)
 
             # Gera financeiro somente se venda for confirmada
-            if self.pedido == 'N' and not conta_gerada or (self.status_pedido and not conta_gerada):
+            if self.pedido == 'N' and self.data_venda and not conta_gerada or (self.status_pedido and not conta_gerada):
 
                 # Descrição informada no contas à receber
                 descricao = _(u"Conta aberta proveniente de venda %(venda)s") % {'venda': self}
 
                 # Insere o contas à receber
-                venda = ContasReceber(data=data, 
+                venda = ContasReceber(data=self.data_venda, 
                                     valor_total=self.total, 
                                     descricao=descricao,
                                     vendas=self, 
@@ -149,6 +175,16 @@ class ItensVenda(models.Model):
 
     def __str__(self):
         return u'%s' % (self.id)
+
+    
+    def delete(self, *args, **kwargs):
+        # Quando item de venda é removido, as quantidades em estoque são acrescidas
+        item = ItensVenda.objects.get(pk=self.pk)
+        produto = Produtos.objects.get(pk=item.produto.pk)
+        produto.quantidade = produto.quantidade + item.quantidade
+
+        super(ItensVenda, self).delete(*args, **kwargs)
+        produto.save()
 
 
     def save(self, *args, **kwargs):

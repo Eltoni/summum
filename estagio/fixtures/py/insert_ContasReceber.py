@@ -18,8 +18,8 @@ lista_grupos_encargo = GrupoEncargo.objects.filter(status=1)
 caixa_aberto = Caixa.objects.filter(status=1).values()[0]
 
 if caixa_aberto["status"]:
-    caixa_data_abertura = caixa_aberto["data_abertura"].replace(tzinfo=utc)
-    data_atual = datetime.utcnow().replace(tzinfo=utc)
+    caixa_data_abertura = caixa_aberto["data_abertura"]
+    data_atual = datetime.utcnow().replace(microsecond=0).replace(tzinfo=utc)
 
     quant_dias = caixa_data_abertura.date() - data_atual.date()
     qt_a_gerar = abs(quant_dias.days)
@@ -28,7 +28,7 @@ if caixa_aberto["status"]:
     while not data >= data_atual:
         
         data = data + timedelta(days=random.randint(0,3))
-        data = dia_util(data).replace(tzinfo=utc)
+        data = dia_util(data)
         
         for i in range(random.randint(0,10)):
             cliente = random.choice(lista_clientes)

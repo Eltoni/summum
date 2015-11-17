@@ -2,7 +2,7 @@
 $(document).ready(function(){
 
     // Definição de alguns comportamentos específicos das inlines na página de compra.
-    $("td.delete input[type=checkbox]").after("<div><a class='inline-deletelink' href='javascript:void(0);'>Remover</a></div>");
+    $("td.delete input[type=checkbox]").after("<div><a class='inline-deletelink' href='javascript:void(0);'>" + gettext('Remover') + "</a></div>");
     $("td.delete input[type=checkbox]").addClass( "hidden-element" );
 
     $("td.delete .inline-deletelink").each(function() {

@@ -44,7 +44,7 @@ class CompraForm(ModelForm):
     def __init__(self, *args, **kwargs):
         super(CompraForm, self).__init__(*args, **kwargs)
         
-        if self.instance.pedido == 'N' or (self.instance.pedido == 'S' and self.instance.status_pedido):
+        if self.instance.pedido == 'N' or self.instance.status or (self.instance.pedido == 'S' and self.instance.status_pedido):
             self.fields['status_apoio'].initial = 1
 
         try:
@@ -111,7 +111,7 @@ class ItensCompraFormSet(BaseInlineFormSet):
         super(ItensCompraFormSet, self).__init__(*args, **kwargs)
 
         # checa se deve ser habilitado a possibilidade de deletar uma inline
-        if not self.instance.pk or self.instance.pedido == 'N' or (self.instance.pedido == 'S' and self.instance.status_pedido):
+        if not self.instance.pk or self.instance.pedido == 'N' or self.instance.status or (self.instance.pedido == 'S' and self.instance.status_pedido):
             self.can_delete = False
 
 

@@ -3,6 +3,12 @@ from django.conf.urls import patterns, include, url
 from django.contrib import admin
 from django.conf import settings
 from django.conf.urls.static import static
+from django.views.i18n import javascript_catalog
+
+js_info_dict = {
+    'domain': 'djangojs',
+    'packages': ('estagio',),
+}
 
 admin.autodiscover()
 
@@ -10,6 +16,7 @@ urlpatterns = patterns('',
     # django
     url(r'^doc/', include('django.contrib.admindocs.urls')),
     url(r'', include(admin.site.urls)),
+    url(r'^jsi18n/$', 'django.views.i18n.javascript_catalog', js_info_dict),
 
     # bibliotecas
     url(r'^admin/salmonella/', include('salmonella.urls')),         # url necessária para o funcionamento da biblioteca django-salmonella

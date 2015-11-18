@@ -31,6 +31,7 @@ div#modal-recebimento-form {
   var recebimento_confirmado = false;
 
   $('#confirma-recebimento').click(function() {
+      $(this).addClass('disabled');
       id_parcela = $('#id_parcelas_contas_receber').val();
       $.ajax({
               type: 'POST',

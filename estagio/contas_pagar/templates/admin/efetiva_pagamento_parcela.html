@@ -31,6 +31,7 @@ div#modal-pagamento-form {
   var pagamento_confirmado = false;
 
   $('#confirma-pagamento').click(function() {
+      $(this).addClass('disabled');
       id_parcela = $('#id_parcelas_contas_pagar').val();
       $.ajax({
               type: 'POST',

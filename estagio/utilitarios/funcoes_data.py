@@ -61,7 +61,7 @@ def date_add_months(t, p):
                 break
         t = one_month_later
     if one_month_later == None:
-        return datetime.date.today()
+        return t
     return one_month_later
 
 

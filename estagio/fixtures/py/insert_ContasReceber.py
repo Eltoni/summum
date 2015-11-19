@@ -27,14 +27,14 @@ if caixa_aberto["status"]:
     data = caixa_data_abertura
     while not data >= data_atual:
         
-        data = data + timedelta(days=random.randint(0,3))
+        data = data + timedelta(days=random.randint(0,10))
         data = dia_util(data)
         
         for i in range(random.randint(0,10)):
             cliente = random.choice(lista_clientes)
             forma_pagamento = random.choice(lista_formas_pagamento)
             grupo_encargo = random.choice(lista_grupos_encargo)
-            valor_total = decimal.Decimal(random.random() * 3000).quantize(decimal.Decimal('.01'))
+            valor_total = decimal.Decimal(random.random() * 1000).quantize(decimal.Decimal('.01'))
             
             conta = ContasReceber(data=data, 
                                   valor_total=valor_total, 

@@ -5745,7 +5745,7 @@ INSERT INTO parametros_financeiros_formapagamento (id, nome, descricao, quant_pa
 
 
 INSERT INTO parametros_financeiros_grupoencargo (id, nome, multa, juros, tipo_juros, status, padrao) VALUES 
-(1, 'Grupo de encargos Padrão', 4, 3, 'S', 1, 1);
+(1, 'Grupo de encargos Padrão', 2, 1, 'S', 1, 1);
 
 
 INSERT INTO schedule_calendar (id, name, slug) VALUES

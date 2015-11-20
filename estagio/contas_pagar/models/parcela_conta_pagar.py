@@ -2,7 +2,7 @@
 from django.db import models
 from parametros_financeiros.models import GrupoEncargo
 from utilitarios.funcoes_data import date_settings_timezone
-from utilitarios.calculos_encargos import calculo_composto, calculo_simples
+from utilitarios.calculos_encargos import calculo_composto, calculo_simples, EncargoSimples
 import datetime
 from decimal import Decimal
 from django.db.models import Sum
@@ -89,23 +89,21 @@ class ParcelasContasPagar(models.Model):
         O valor da multa é único. Sendo assim, independe a quantidade de dias que a parcela está vencida, isto é, 1, 10, 100 dias de vencimento, o valor da multa será o mesmo.  
         """
 
-        # Após a atualização para o Django 1.7.7, é preciso checar se está o objeto está instanciado (if self.pk) 
         if self.pk and self.vencimento < self.data:
             
-            percentual_multa = GrupoEncargo.objects.filter(pk=self.contas_pagar.grupo_encargo.pk).values_list('multa')[0][0]
-            percentual_multa = percentual_multa / 100
-
-            # quantidade de dias em atraso
-            existe_pagamento = Pagamento.objects.filter(parcelas_contas_pagar=self.pk).exists()
-            if not existe_pagamento:
+            percentual_multa = self.contas_pagar.grupo_encargo.multa
+            data_primeiro_pagamento = Pagamento.objects.filter(parcelas_contas_pagar=self.pk).values_list('data')
+            if not data_primeiro_pagamento:
                 dias_vencidos = self.data - self.vencimento
                 dias_vencidos = dias_vencidos.days
-            else: 
-                data_primeiro_pagamento = Pagamento.objects.filter(parcelas_contas_pagar=self.pk).values_list('data')[0][0]
-                dias_vencidos = date_settings_timezone(data_primeiro_pagamento) - self.vencimento
+            else:
+                dias_vencidos = data_primeiro_pagamento[0][0].date() - self.vencimento
                 dias_vencidos = dias_vencidos.days
+                # Se pagamento foi realizado até o vencimento da parcela, não cobra multa
+                if dias_vencidos <= 0:
+                    return self.zero
 
-            return calculo_simples(self.valor, dias_vencidos, percentual_multa)
+            return EncargoSimples(self.valor, percentual_multa, dias_vencidos).calcular_multa()
 
         return self.zero
     calculo_multa.short_description = _(u"Multa")

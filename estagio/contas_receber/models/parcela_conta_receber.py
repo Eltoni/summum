@@ -28,6 +28,7 @@ class ParcelasContasReceber(models.Model):
     contas_receber = models.ForeignKey(ContasReceber, on_delete=models.PROTECT, verbose_name=_(u"Conta a receber"))
 
     zero  = Decimal(0.00).quantize(Decimal("0.00"))
+    data = datetime.date.today()
 
     class Meta:
         verbose_name = _(u"Parcela de Conta a Receber")
@@ -51,12 +52,10 @@ class ParcelasContasReceber(models.Model):
 
     def quant_dias_vencidos(self):
 
-        data = datetime.date.today()
-
-        if self.pk and self.vencimento < data:
+        if self.pk and self.vencimento < self.data:
             existe_recebimento = Recebimento.objects.filter(parcelas_contas_receber=self.pk).exists()
             if not existe_recebimento:
-                dias_vencidos = data - self.vencimento
+                dias_vencidos = self.data - self.vencimento
                 dias_vencidos = dias_vencidos.days
             else: 
                 data_primeiro_recebimento = Recebimento.objects.filter(parcelas_contas_receber=self.pk).values_list('data')[0][0]
@@ -73,10 +72,8 @@ class ParcelasContasReceber(models.Model):
         Retorna o valor cálculado dos juros de acordo com a parametrização feita no grupo de encargos selecionado para a conta a pagar 
         """
 
-        data = datetime.date.today()
-
         # Após a atualização para o Django 1.7.7, é preciso checar se está o objeto está instanciado (if self.pk) 
-        if self.pk and self.vencimento < data:
+        if self.pk and self.vencimento < self.data:
             
             parametros_grupo_encargo = GrupoEncargo.objects.filter(pk=self.contas_receber.grupo_encargo.pk).values_list('juros', 'tipo_juros')[0]
             # Percentual de multa
@@ -85,7 +82,7 @@ class ParcelasContasReceber(models.Model):
             # quantidade de dias em atraso
             existe_recebimento = Recebimento.objects.filter(parcelas_contas_receber=self.pk).exists()
             if not existe_recebimento:
-                dias_vencidos = data - self.vencimento
+                dias_vencidos = self.data - self.vencimento
                 dias_vencidos = dias_vencidos.days
             else: 
                 data_primeiro_recebimento = Recebimento.objects.filter(parcelas_contas_receber=self.pk).values_list('data')[0][0]
@@ -109,10 +106,8 @@ class ParcelasContasReceber(models.Model):
         O valor da multa é único. Sendo assim, independe a quantidade de dias que a parcela está vencida, isto é, 1, 10, 100 dias de vencimento, o valor da multa será o mesmo.  
         """
 
-        data = datetime.date.today()
-
         # Após a atualização para o Django 1.7.7, é preciso checar se está o objeto está instanciado (if self.pk) 
-        if self.pk and self.vencimento < data:
+        if self.pk and self.vencimento < self.data:
             
             percentual_multa = GrupoEncargo.objects.filter(pk=self.contas_receber.grupo_encargo.pk).values_list('multa')[0][0]
             percentual_multa = percentual_multa / 100
@@ -120,7 +115,7 @@ class ParcelasContasReceber(models.Model):
             # quantidade de dias em atraso
             existe_recebimento = Recebimento.objects.filter(parcelas_contas_receber=self.pk).exists()
             if not existe_recebimento:
-                dias_vencidos = data - self.vencimento
+                dias_vencidos = self.data - self.vencimento
                 dias_vencidos = dias_vencidos.days
             else: 
                 data_primeiro_recebimento = Recebimento.objects.filter(parcelas_contas_receber=self.pk).values_list('data')[0][0]
@@ -212,14 +207,13 @@ class ParcelasContasReceber(models.Model):
 
 
     def status_parcela(self):
-        data = datetime.date.today()
         if self.valor_pago() >= self.valor_total():
             return ('#2DB218', _(u'Pago')) #Pago
 
         if self.valor_total() > self.valor_pago() and self.valor_pago() > 0.00:
             return ('#355EED', _(u'Pago Parcialmente')) #Pago Parcial
 
-        if self.vencimento < data:
+        if self.vencimento < self.data:
             return ('#E8262A', _(u'Vencido')) #Vencido
 
         else: 

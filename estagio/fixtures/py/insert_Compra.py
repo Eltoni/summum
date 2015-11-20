@@ -9,7 +9,8 @@ from compra.models import Compra, ItensCompra
 from movimento.models import Produtos
 from pessoal.models import Fornecedor
 from parametros_financeiros.models import FormaPagamento, GrupoEncargo
-from caixa.models import Caixa, MovimentosCaixa
+from contas_pagar.models import Pagamento
+from caixa.models import Caixa
 from utilitarios.funcoes_data import dia_util
 from numpy import random as np
 
@@ -31,10 +32,10 @@ lista_grupos_encargo = GrupoEncargo.objects.filter(status=1)
 lista_produtos = Produtos.objects.filter(status=1)
 
 caixa_aberto = Caixa.objects.filter(status=1).values()[0]
+data_atual = datetime.utcnow().replace(microsecond=0).replace(tzinfo=utc)
 
 if caixa_aberto["status"]:
     data = caixa_data_abertura = caixa_aberto["data_abertura"]
-    data_atual = datetime.utcnow().replace(microsecond=0).replace(tzinfo=utc)
 
     # Equanto a data de abertura do caixa não for igual a data atual...
     while not data >= data_atual:
@@ -50,11 +51,11 @@ if caixa_aberto["status"]:
             
             lista_itens_compra = []
             valor_compra = 0
-            for ic in range(random.randint(0,15)):
+            for ic in range(random.randint(1,15)):
                 produto = random.choice(lista_produtos)
                 quantidade = random.randint(1,10)
                 valor_unitario = Produtos.objects.get(pk=produto.pk).preco
-                percentual_desconto = define_percentual_desconto()
+                percentual_desconto = int(define_percentual_desconto())
 
                 valor_total = calcula_valor_total_item_compra(quantidade, valor_unitario, percentual_desconto)
                 valor_compra += valor_total
@@ -71,17 +72,19 @@ if caixa_aberto["status"]:
                 lista_itens_compra.append(itens_compra)
 
             # cálculo do valor total da compra
-            percentual_desconto = define_percentual_desconto()
+            percentual_desconto = int(define_percentual_desconto())
             valor_a_descontar = (valor_compra * percentual_desconto) / 100
             valor_compra = valor_compra - valor_a_descontar
 
             # Determina se é pedido ou não, com probabilidade de 70% para que não seja.
-            pedido = np.choice(['S', 'N'], p=[0.7, 0.3])
+            pedido = str(np.choice(['S', 'N'], p=[0.7, 0.3]))
             if pedido == 'S':
-                status_pedido = np.choice([True, False], p=[0.2, 0.8])
                 data_pedido = data
-                data_compra = None
-                
+                status_pedido = bool(np.choice([True, False], p=[0.2, 0.8]))
+                if status_pedido:
+                    data_compra = data
+                else:
+                    data_compra = None
             else:
                 status_pedido = False
                 data_pedido = None
@@ -109,3 +112,21 @@ if caixa_aberto["status"]:
                 # Suplo save para que seja acrescido ao estoque, atendendo as condições declaradas no método save()
                 [ ic.save() for _ in range(2) ]
 
+
+
+
+# Cancela alguns registros de compra/pedido de compra
+compras = Compra.objects.filter(status=False)
+for i in compras:
+    conta_gerada = Pagamento.objects.filter(parcelas_contas_pagar__contas_pagar__compras=i.pk).exists()
+    if not conta_gerada:
+        cancela = bool(np.choice([True, False], p=[0.3, 0.7]))
+        if cancela:
+            c = Compra.objects.get(pk=i.pk)
+            # Se não tiver confirmado a compra, define de antemão o status do registro para cancelado. 
+            # Do contrário, a lógica do método save() garantirá a correta movimentação do cancelamento de um compra confirmada...
+            # Caso registro não seja confirmada, o pedido é apenas definido como cancelado. Senão, a compra/pedido é definido como cancelado, e o itens de compra são alterados.
+            c.status = False if (c.pedido == 'N' or (c.pedido == 'S' and c.status_pedido)) else True
+            c.data_cancelamento = (c.data_compra or c.data_pedido) + timedelta(days=random.randint(0,10))
+            c.botao_acionado = '_addcancelacompra'
+            c.save()

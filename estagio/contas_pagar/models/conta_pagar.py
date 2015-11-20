@@ -269,7 +269,7 @@ class ContasPagar(models.Model):
 
         if (num_parcela + 1) == quant_parc:
             soma_parcelas = valor_parcela * num_parcela
-            valor_parcela = Decimal(total).quantize(Decimal("0.00")) - soma_parcelas
+            valor_parcela = Decimal(total).quantize(Decimal("0.00")) - Decimal(soma_parcelas).quantize(Decimal("0.00"))
             return valor_parcela
         else:
             return valor_parcela

@@ -116,6 +116,10 @@ class Compra(models.Model):
                     produto = Produtos.objects.get(pk=i[1])
                     produto.quantidade = produto.quantidade - i[2]
                     produto.save()
+
+                    itens_compra = ItensCompra.objects.get(pk=i[0])
+                    itens_compra.add_estoque = False
+                    itens_compra.save()
                 
                 # Fecha a conta à pagar
                 conta = ContasPagar.objects.get(compras=self.pk)
@@ -160,13 +164,12 @@ class ItensCompra(models.Model):
         """
         Método que trata a adição da quantidade de produtos ao estoque.
         """
-        if self.pk and not self.add_estoque:
+        if self.pk and not self.add_estoque and not self.compras.status:
             
             # Soma a quantidade de produtos comprados com a que já existe no estoque
-            compra = Compra.objects.get(pk=self.compras.pk)
             super(ItensCompra, self).save(*args, **kwargs)
 
-            if compra.pedido == 'N' or (compra.pedido == 'S' and compra.status_pedido):
+            if self.compras.pedido == 'N' or (self.compras.pedido == 'S' and self.compras.status_pedido):
                 self.add_estoque = True
                 self.save()
 

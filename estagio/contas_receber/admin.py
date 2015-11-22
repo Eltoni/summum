@@ -17,7 +17,7 @@ from decimal import Decimal
 class RecebimentoAdmin(admin.ModelAdmin):
     form = RecebimentoForm
     model = Recebimento
-    list_display = ('id', 'parcelas_contas_receber', 'data', 'valor', 'juros', 'multa', 'desconto')
+    list_display = ('id', 'parcelas_contas_receber', 'conta_associada', 'data', 'valor', 'juros', 'multa', 'desconto')
     date_hierarchy = 'data'
 
     def get_urls(self):
@@ -34,7 +34,7 @@ class RecebimentoAdmin(admin.ModelAdmin):
         """ Define todos os campos da inline como somente leitura caso o registro seja salvo no BD """
 
         if obj:
-            return ['data', 'valor', 'juros', 'multa', 'desconto', 'parcelas_contas_receber', 'observacao']
+            return ['data', 'valor', 'juros', 'multa', 'desconto', 'parcelas_contas_receber', 'conta_associada', 'observacao']
         else:
             return []
 

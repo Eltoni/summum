@@ -64,11 +64,11 @@ class GrupoEncargo(models.Model):
     )
 
     nome = models.CharField(max_length=100, unique=True, verbose_name=_(u"Nome")) 
-    multa = models.DecimalField(max_digits=20, decimal_places=0, blank=True, null=True, verbose_name=_(u"Taxa de multa (%)"))
-    juros = models.DecimalField(max_digits=20, decimal_places=0, blank=True, null=True, verbose_name=_(u"Taxa de juros (%)"))
+    multa = models.DecimalField(max_digits=7, decimal_places=4, blank=True, null=True, verbose_name=_(u"Taxa de multa (%)"))
+    juros = models.DecimalField(max_digits=7, decimal_places=4, blank=True, null=True, verbose_name=_(u"Taxa de juros (%)"), help_text=_(u"Juros que serão calculados diariamente."))
     tipo_juros = models.CharField(choices=TIPO_JUROS_CHOICES, max_length=1, blank=False, null=False, default='S', verbose_name=_(u"Tipo de juros"))
     status = models.BooleanField(default=True, verbose_name=_(u"Status"))
-    padrao = models.BooleanField(default=False, verbose_name=_(u"Padrão"), help_text=_(u"Defini o Grupo de Encargo padrão"))
+    padrao = models.BooleanField(default=False, verbose_name=_(u"Padrão"), help_text=_(u"Define o Grupo de Encargo padrão"))
 
     class Meta:
         verbose_name = _(u"Grupo de Encargo")

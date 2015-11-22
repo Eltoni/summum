@@ -6,6 +6,7 @@ from django.utils.encoding import python_2_unicode_compatible
 from configuracoes.models import *
 from contas_pagar.models.parcela_conta_pagar import ParcelasContasPagar
 from contas_pagar.models.conta_pagar import ContasPagar
+from django.core.urlresolvers import reverse
 
 
 @python_2_unicode_compatible
@@ -19,7 +20,7 @@ class Pagamento(models.Model):
     Criada em 16/06/2014. 
     """
     
-    data = models.DateTimeField(auto_now_add=True, verbose_name=_(u"Data do pagamento"))
+    data = models.DateTimeField(verbose_name=_(u"Data do pagamento"))
     valor = models.DecimalField(max_digits=20, decimal_places=2, verbose_name=_(u"Valor"))
     juros = models.DecimalField(max_digits=20, decimal_places=2, blank=True, null=True, verbose_name=_(u"Juros"))
     multa = models.DecimalField(max_digits=20, decimal_places=2, blank=True, null=True, verbose_name=_(u"Multa"))
@@ -29,6 +30,16 @@ class Pagamento(models.Model):
     
     def __str__(self):
         return u'%s' % (self.id)
+
+
+    def conta_associada(self):
+        if self.parcelas_contas_pagar:
+            url = reverse("admin:contas_pagar_contaspagar_change", args=[self.parcelas_contas_pagar.contas_pagar])
+            return u"<a href='%s'>%s</a>" % (url, self.parcelas_contas_pagar.contas_pagar)
+        return '-'
+    conta_associada.allow_tags = True
+    conta_associada.short_description = _(u"Conta a pagar")
+    conta_associada.admin_order_field = 'parcelas_contas_pagar__contas_pagar'
 
     # # O pagamento não é mais realizado no formulário original do Django, deste modo, o tratamento abaixo foi transferido para a view "efetiva_pagamento_parcela" que processa a efetivação do pagamento
     # def clean(self):

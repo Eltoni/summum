@@ -14,6 +14,8 @@ from django.utils.encoding import force_text
 from django.contrib.contenttypes.models import ContentType
 from caixa.models import Caixa
 from configuracoes.models import *
+import pytz
+from datetime import datetime
 
 
 def retorna_recebimentos_parcela(request, id_parcela):
@@ -92,8 +94,9 @@ def efetiva_recebimento_parcela(request, id_parcela):
     juros = Decimal(dados_recebimento.calculo_juros()).quantize(Decimal("0.00"))
     multa = Decimal(dados_recebimento.calculo_multa()).quantize(Decimal("0.00"))
     valor = Decimal(dados_recebimento.valor_a_receber()).quantize(Decimal("0.00"))
-    data = {'form':RecebimentoForm(initial={ 'parcelas_contas_receber': id_parcela,
-                                           'juros': juros,
-                                           'multa': multa,
-                                           'valor': valor,})}
+    data = {'form':RecebimentoForm(initial={'parcelas_contas_receber': id_parcela,
+                                            'juros': juros,
+                                            'multa': multa,
+                                            'valor': valor,
+                                            'data': datetime.utcnow().replace(tzinfo=pytz.utc)})}
     return render_to_response('admin/efetiva_recebimento_parcela.html', data, RequestContext(request))

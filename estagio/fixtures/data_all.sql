@@ -7,8 +7,8 @@ INSERT INTO caixa_caixa (id, status, data_abertura, data_fechamento, valor_entra
 (1, 1, DATE_ADD(NOW(), INTERVAL -365 DAY), NULL, 3404.30, 0.00, 0.00, 1000.00, 0.00, 0.00);
 
 
-INSERT INTO configuracoes_parametrizacao (id, quantidade_inlines_compra, quantidade_inlines_venda, habilita_pedido_compra, habilita_pedido_venda, qtde_minima_produtos_em_estoque, perc_valor_minimo_recebimento, intervalo_dias_entrega_venda, email_abertura_caixa, evento_calendario) VALUES 
-(1, 8, 4, 1, 1, 15, 50, 1, '', 'eventos');
+INSERT INTO configuracoes_parametrizacao (id, quantidade_inlines_compra, quantidade_inlines_venda, habilita_pedido_compra, habilita_pedido_venda, periodo_venc_pedido_compra, periodo_venc_pedido_venda, qtde_minima_produtos_em_estoque, perc_valor_minimo_recebimento, intervalo_dias_entrega_venda, email_abertura_caixa, evento_calendario) VALUES 
+(1, 8, 4, 1, 1, 3, 7, 15, 50, 1, '', 'eventos');
 
 
 
@@ -5745,7 +5745,7 @@ INSERT INTO parametros_financeiros_formapagamento (id, nome, descricao, quant_pa
 
 
 INSERT INTO parametros_financeiros_grupoencargo (id, nome, multa, juros, tipo_juros, status, padrao) VALUES 
-(1, 'Grupo de encargos Padrão', 2, 1, 'S', 1, 1);
+(1, 'Grupo de encargos Padrão', 2, 0.0333, 'S', 1, 1);
 
 
 INSERT INTO schedule_calendar (id, name, slug) VALUES

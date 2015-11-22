@@ -15,6 +15,8 @@ from utilitarios.funcoes_data import dia_util
 from numpy import random as np
 
 
+print('Etapa 1 - Início do procedimento de inserção de compras.')
+
 def calcula_valor_total_item_compra(quantidade, valor_unitario, desconto):
     valor_item_compra = valor_unitario * quantidade
     valor_percentual_desconto = (valor_item_compra * desconto) / 100

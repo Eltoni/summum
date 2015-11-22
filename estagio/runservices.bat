@@ -7,9 +7,9 @@ cd ..\Projetos\estagio
 
 
 :: Inicia os serviços consumidos pelo Celery
-del "estagio\logs\celerybeat.pid"
-start cmd /k celery -A estagio beat -l info -s estagio/logs/ -f estagio/logs/celerybeat.log --pidfile=estagio/logs/celerybeat.pid
-start cmd /k celery -A estagio worker -l info -f estagio/logs/celeryworker.log
+del "estagio\logs\celery\celerybeat.pid"
+start cmd /k celery -A estagio beat -l info -s estagio/logs/celery/ -f estagio/logs/celery/celerybeat.log --pidfile=estagio/logs/celery/celerybeat.pid
+start cmd /k celery -A estagio worker -l info -f estagio/logs/celery/celeryworker.log
 
 :: Define o diretório atual na variável "current_path"
 :: Inicia o serviço Redis

@@ -17,7 +17,7 @@ from decimal import Decimal
 class PagamentoAdmin(admin.ModelAdmin):
     form = PagamentoForm
     model = Pagamento
-    list_display = ('id', 'parcelas_contas_pagar', 'data', 'valor', 'juros', 'multa', 'desconto')
+    list_display = ('id', 'parcelas_contas_pagar', 'conta_associada', 'data', 'valor', 'juros', 'multa', 'desconto')
     date_hierarchy = 'data'
 
     def get_urls(self):
@@ -34,7 +34,7 @@ class PagamentoAdmin(admin.ModelAdmin):
         u""" Define todos os campos da inline como somente leitura caso o registro seja salvo no BD """
     
         if obj:
-            return ['data', 'valor', 'juros', 'multa', 'desconto', 'parcelas_contas_pagar', 'observacao']
+            return ['data', 'valor', 'juros', 'multa', 'desconto', 'parcelas_contas_pagar', 'conta_associada', 'observacao']
         else:
             return []
 

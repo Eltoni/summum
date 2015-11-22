@@ -102,7 +102,7 @@ class Caixa(models.Model):
 class MovimentosCaixa(models.Model):
     descricao = models.CharField(max_length=100, verbose_name=_(u"Descrição"))
     valor = models.DecimalField(max_digits=20, decimal_places=2, default=0.00, verbose_name=_(u"Valor"))
-    data = models.DateTimeField(verbose_name=_(u"Data"))
+    data = models.DateTimeField(verbose_name=_(u"Data de movimento"))
     tipo_mov = models.CharField(max_length=45, verbose_name=_(u"Tipo de movimento"))
     caixa = models.ForeignKey(Caixa, on_delete=models.PROTECT, verbose_name=_(u"Caixa"))
     pagamento = models.ForeignKey(Pagamento, on_delete=models.PROTECT, blank=True, null=True, verbose_name=_(u"Pagamento"))

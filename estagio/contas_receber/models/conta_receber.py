@@ -13,6 +13,7 @@ from django.core.urlresolvers import reverse
 from django.utils.html import format_html
 from django.utils.translation import ugettext_lazy as _
 from django.utils.encoding import python_2_unicode_compatible
+from django.utils.timezone import utc
 
 
 @python_2_unicode_compatible
@@ -23,7 +24,7 @@ class ContasReceber(models.Model):
     Criada em 22/09/2014. 
     """
 
-    data = models.DateTimeField(verbose_name=_(u"Data"))
+    data = models.DateTimeField(verbose_name=_(u"Data de geração"))
     valor_total = models.DecimalField(max_digits=20, decimal_places=2, verbose_name=_(u"Valor total"))
     status = models.BooleanField(default=False, verbose_name=_(u"Conta fechada"), help_text=_(u"Se desmarcado, indica que há parcelas em aberto, caso contrário, a conta foi fechada."))
     descricao = models.TextField(blank=True, verbose_name=_(u"Descrição")) 
@@ -331,7 +332,7 @@ class ContasReceber(models.Model):
             # Insere o recebimento de uma venda que tenha o prazo de carência 0(zero) na parametrização da forma de pagamento. 
             try:
                 parcela_paga = ParcelasContasReceber.objects.get(contas_receber=self, status=True)
-                Recebimento(data=data, 
+                Recebimento(data=self.data.replace(tzinfo=utc), 
                             valor=parcela_paga.valor, 
                             juros=0.00, 
                             multa=0.00,

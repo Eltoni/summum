@@ -14,6 +14,8 @@ from django.utils.encoding import force_text
 from django.contrib.contenttypes.models import ContentType
 from caixa.models import Caixa
 from configuracoes.models import *
+import pytz
+from datetime import datetime
 
 
 def retorna_pagamentos_parcela(request, id_parcela):
@@ -84,5 +86,6 @@ def efetiva_pagamento_parcela(request, id_parcela):
     data = {'form':PagamentoForm(initial={ 'parcelas_contas_pagar': id_parcela,
                                            'juros': juros,
                                            'multa': multa,
-                                           'valor': valor,})}
+                                           'valor': valor,
+                                           'data': datetime.utcnow().replace(tzinfo=pytz.utc)})}
     return render_to_response('admin/efetiva_pagamento_parcela.html', data, RequestContext(request))

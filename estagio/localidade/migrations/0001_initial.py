@@ -13,9 +13,9 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='Cidade',
             fields=[
-                ('id', models.AutoField(verbose_name='ID', serialize=False, primary_key=True, auto_created=True)),
-                ('nome', models.CharField(max_length=255, verbose_name='Nome')),
-                ('estado', models.CharField(max_length=2, verbose_name='Estado', blank=True, null=True)),
+                ('id', models.AutoField(serialize=False, auto_created=True, verbose_name='ID', primary_key=True)),
+                ('nome', models.CharField(verbose_name='Nome', max_length=255)),
+                ('estado', models.CharField(null=True, verbose_name='Estado', blank=True, max_length=2)),
             ],
             options={
                 'verbose_name': 'Cidade',

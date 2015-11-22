@@ -52,7 +52,7 @@ class BaseCadastroPessoa(models.Model):
     cpf = models.CharField(max_length=11, null=True, unique=True, verbose_name=_(u"CPF"))
     rg = models.CharField(max_length=20, blank=True, verbose_name=_(u"RG"))
     sexo = models.CharField(max_length=1, blank=True, null=True, choices=SEXO_CHOICES, verbose_name=_(u"Sexo")) 
-    estado_civil = models.CharField(max_length=30, blank=True, choices=ESTADO_CIVIL_CHOICES, verbose_name=_(u"Estado Civil")) 
+    estado_civil = models.CharField(max_length=30, blank=True, choices=ESTADO_CIVIL_CHOICES, verbose_name=_(u"Estado civil")) 
     endereco = models.CharField(max_length=50, verbose_name=_(u"Endereço"))
     numero = models.CharField(max_length=15, verbose_name=_(u"Número")) 
     bairro = models.CharField(max_length=50, verbose_name=_(u"Bairro"))
@@ -65,8 +65,8 @@ class BaseCadastroPessoa(models.Model):
     email = models.EmailField(max_length=100, blank=True, verbose_name=_(u"E-mail"))
     banco = models.DecimalField(max_digits=3, decimal_places=0, null=True, blank=True, verbose_name=_(u"Banco"))
     agencia = models.CharField(max_length=7, null=True, blank=True, verbose_name=_(u"Agência"))
-    conta_banco = models.CharField(max_length=15, null=True, blank=True, verbose_name=_(u"Conta Corrente")) 
-    data = models.DateTimeField(auto_now_add=True, verbose_name=_(u"Data do Cadastro"))
+    conta_banco = models.CharField(max_length=15, null=True, blank=True, verbose_name=_(u"Conta corrente")) 
+    data = models.DateTimeField(auto_now_add=True, verbose_name=_(u"Data de cadastro"))
     status = models.BooleanField(default=True, verbose_name=_(u"Status"))
     observacao = models.TextField(blank=True, verbose_name=_(u"Observações"))
     foto = ImageField(upload_to='fotos_pessoas', max_length=255, blank=True, verbose_name=_(u"Foto"))
@@ -92,7 +92,7 @@ class Cliente(BaseCadastroPessoa):
         ('PF', _(u"Pessoa Física")),
         ('PJ', _(u"Pessoa Jurídica")),
     )
-    tipo_pessoa = models.CharField(choices=TIPO_PESSOA_CHOICES, max_length=2, blank=False, null=False, default='PF', verbose_name=_(u"Tipo de Pessoa"))
+    tipo_pessoa = models.CharField(choices=TIPO_PESSOA_CHOICES, max_length=2, blank=False, null=False, default='PF', verbose_name=_(u"Tipo de pessoa"))
     cnpj = models.CharField(max_length=14, null=True, unique=True, verbose_name=_(u"CNPJ")) 
     razao_social = models.CharField(max_length=255, blank=True, null=True, verbose_name=_(u"Razão social")) 
     
@@ -151,7 +151,7 @@ class Fornecedor(BaseCadastroPessoa):
         ('PF', _(u"Pessoa Física")),
         ('PJ', _(u"Pessoa Jurídica")),
     )
-    tipo_pessoa = models.CharField(choices=TIPO_PESSOA_CHOICES, max_length=2, blank=False, null=False, default='PF', verbose_name=_(u"Tipo de Pessoa"))
+    tipo_pessoa = models.CharField(choices=TIPO_PESSOA_CHOICES, max_length=2, blank=False, null=False, default='PF', verbose_name=_(u"Tipo de pessoa"))
     cnpj = models.CharField(max_length=14, null=True, unique=True, verbose_name=_(u"CNPJ")) 
     razao_social = models.CharField(max_length=255, blank=True, null=True, verbose_name=_(u"Razão social")) 
 

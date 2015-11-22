@@ -1,8 +1,7 @@
 #-*- coding: UTF-8 -*-
 from django.db import models
 from parametros_financeiros.models import GrupoEncargo
-from utilitarios.funcoes_data import date_settings_timezone
-from utilitarios.calculos_encargos import calculo_composto, calculo_simples, EncargoSimples
+from utilitarios.calculos_encargos import EncargoSimples, EncargoCompostos
 import datetime
 from decimal import Decimal
 from django.db.models import Sum
@@ -21,7 +20,7 @@ class ParcelasContasPagar(models.Model):
     Criada em 22/09/2014.  
     """
 
-    vencimento = models.DateField(verbose_name=_(u"Vencimento"))
+    vencimento = models.DateField(verbose_name=_(u"Data de vencimento"))
     valor = models.DecimalField(max_digits=20, decimal_places=2, verbose_name=_(u"Valor")) 
     status = models.BooleanField(default=False, verbose_name=_(u"Status"))
     num_parcelas = models.IntegerField(verbose_name=_(u"Nº Parcela"))
@@ -50,33 +49,43 @@ class ParcelasContasPagar(models.Model):
     conta_associada.admin_order_field = 'contas_pagar'
 
 
+    def quant_dias_vencidos(self):
+
+        if self.pk and self.vencimento < self.data:
+            data_primeiro_pagamento = Pagamento.objects.filter(parcelas_contas_pagar=self.pk).values_list('data')
+            if not data_primeiro_pagamento:
+                dias_vencidos = self.data - self.vencimento
+                dias_vencidos = dias_vencidos.days
+            else: 
+                dias_vencidos = data_primeiro_pagamento[0][0].date() - self.vencimento
+                dias_vencidos = dias_vencidos.days
+
+                if dias_vencidos <= 0:
+                    return 0
+
+            return dias_vencidos
+        return 0
+    quant_dias_vencidos.short_description = _(u"Quantidade de dias vencidos")
+
+
     def calculo_juros(self):
         u""" 
         Retorna o valor cálculado dos juros de acordo com a parametrização feita no grupo de encargos selecionado para a conta a pagar 
         """
 
-        # Após a atualização para o Django 1.7.7, é preciso checar se está o objeto está instanciado (if self.pk) 
         if self.pk and self.vencimento < self.data:
             
-            parametros_grupo_encargo = GrupoEncargo.objects.filter(pk=self.contas_pagar.grupo_encargo.pk).values_list('juros', 'tipo_juros')[0]
-            # Percentual de multa
-            percentual_juros = parametros_grupo_encargo[0] / 100
+            percentual_juros = self.contas_pagar.grupo_encargo.juros
+            tipo_juros = self.contas_pagar.grupo_encargo.tipo_juros
             
-            # quantidade de dias em atraso
-            existe_pagamento = Pagamento.objects.filter(parcelas_contas_pagar=self.pk).exists()
-            if not existe_pagamento:
-                dias_vencidos = self.data - self.vencimento
-                dias_vencidos = dias_vencidos.days
-            else: 
-                data_primeiro_pagamento = Pagamento.objects.filter(parcelas_contas_pagar=self.pk).values_list('data')[0][0]
-                dias_vencidos = date_settings_timezone(data_primeiro_pagamento) - self.vencimento
-                dias_vencidos = dias_vencidos.days
+            if self.quant_dias_vencidos() <= 0:
+                return self.zero
 
-            if parametros_grupo_encargo[1] == 'S':
-                return calculo_simples(self.valor, dias_vencidos, percentual_juros)
+            if tipo_juros == 'S':
+                return EncargoSimples(self.valor, percentual_juros, self.quant_dias_vencidos()).calcular_juros()
 
-            if parametros_grupo_encargo[1] == 'C':
-                return calculo_composto(self.valor, dias_vencidos, percentual_juros)
+            if tipo_juros == 'C':
+                return EncargoCompostos(self.valor, percentual_juros, self.quant_dias_vencidos()).calcular_juros()
             
         return self.zero
     calculo_juros.short_description = _(u"Juros")
@@ -92,18 +101,11 @@ class ParcelasContasPagar(models.Model):
         if self.pk and self.vencimento < self.data:
             
             percentual_multa = self.contas_pagar.grupo_encargo.multa
-            data_primeiro_pagamento = Pagamento.objects.filter(parcelas_contas_pagar=self.pk).values_list('data')
-            if not data_primeiro_pagamento:
-                dias_vencidos = self.data - self.vencimento
-                dias_vencidos = dias_vencidos.days
-            else:
-                dias_vencidos = data_primeiro_pagamento[0][0].date() - self.vencimento
-                dias_vencidos = dias_vencidos.days
-                # Se pagamento foi realizado até o vencimento da parcela, não cobra multa
-                if dias_vencidos <= 0:
-                    return self.zero
 
-            return EncargoSimples(self.valor, percentual_multa, dias_vencidos).calcular_multa()
+            if self.quant_dias_vencidos() <= 0:
+                return self.zero
+
+            return EncargoSimples(self.valor, percentual_multa, self.quant_dias_vencidos()).calcular_multa()
 
         return self.zero
     calculo_multa.short_description = _(u"Multa")

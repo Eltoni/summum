@@ -1,4 +1,5 @@
 #-*- coding: UTF-8 -*-
+# from fixtures.py.insert_ContasPagar import *
 import random, decimal
 from datetime import timedelta
 from datetime import datetime
@@ -9,6 +10,9 @@ from parametros_financeiros.models import FormaPagamento, GrupoEncargo
 from contas_pagar.models import ContasPagar, Pagamento
 from caixa.models import Caixa, MovimentosCaixa
 from utilitarios.funcoes_data import dia_util
+
+
+print('Etapa 2 - Início do procedimento de inserção de Contas a Pagar.')
 
 format_date = '%Y-%m-%d %I:%M:%S %p'
 

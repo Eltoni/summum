@@ -11,10 +11,14 @@ class GrupoEncargoForm(ModelForm):
         widgets = {
             'juros': NumberInput(
                 attrs={ 'placeholder': '0%', 
-                        'min': '0'
+                        'min': '0',
+                        'max': '100',
+                        'step': '0.0001'
                 }),
             'multa': NumberInput(
                 attrs={ 'placeholder': '0%', 
-                        'min': '0'
+                        'min': '0',
+                        'max': '100',
+                        'step': '0.0001'
                 }),
         }

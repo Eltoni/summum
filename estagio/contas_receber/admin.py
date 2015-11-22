@@ -164,6 +164,7 @@ class ParcelasContasReceberAdmin(ExportMixin, admin.ModelAdmin):
     list_display = ('id', 'conta_associada', 'vencimento', 'valor', 'num_parcelas', 'status')
     list_filter = (('contas_receber__cliente', SelectableFilter), 'status')
     readonly_fields = ('id', 'conta_associada', 'vencimento', 'valor', 'num_parcelas', 'status')
+    date_hierarchy = 'vencimento'
 
     def has_add_permission(self, request, obj=None):
         return False

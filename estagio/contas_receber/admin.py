@@ -17,7 +17,7 @@ from decimal import Decimal
 class RecebimentoAdmin(admin.ModelAdmin):
     form = RecebimentoForm
     model = Recebimento
-    list_display = ('id', 'parcelas_contas_receber', 'data', 'valor', 'juros', 'multa', 'desconto')
+    list_display = ('id', 'parcelas_contas_receber', 'conta_associada', 'data', 'valor', 'juros', 'multa', 'desconto')
     date_hierarchy = 'data'
 
     def get_urls(self):
@@ -34,7 +34,7 @@ class RecebimentoAdmin(admin.ModelAdmin):
         """ Define todos os campos da inline como somente leitura caso o registro seja salvo no BD """
 
         if obj:
-            return ['data', 'valor', 'juros', 'multa', 'desconto', 'parcelas_contas_receber', 'observacao']
+            return ['data', 'valor', 'juros', 'multa', 'desconto', 'parcelas_contas_receber', 'conta_associada', 'observacao']
         else:
             return []
 
@@ -164,6 +164,7 @@ class ParcelasContasReceberAdmin(ExportMixin, admin.ModelAdmin):
     list_display = ('id', 'conta_associada', 'vencimento', 'valor', 'num_parcelas', 'status')
     list_filter = (('contas_receber__cliente', SelectableFilter), 'status')
     readonly_fields = ('id', 'conta_associada', 'vencimento', 'valor', 'num_parcelas', 'status')
+    date_hierarchy = 'vencimento'
 
     def has_add_permission(self, request, obj=None):
         return False

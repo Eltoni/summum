@@ -1,10 +1,11 @@
 #-*- coding: UTF-8 -*-
-from django.forms import ModelForm, TextInput, CheckboxInput
+from django.forms import ModelForm, TextInput, CheckboxInput, HiddenInput, CharField
 from suit.widgets import LinkedSelect, NumberInput, AutosizedTextarea, SuitSplitDateTimeWidget
 from django.forms import forms
 from django.forms.models import BaseInlineFormSet
 from venda.models import *
 from django.utils.translation import ugettext_lazy as _
+import pandas as pd
 
 
 class VendaForm(ModelForm):
@@ -15,6 +16,7 @@ class VendaForm(ModelForm):
     Criada em 15/06/2014. 
     Última alteração em 16/06/2014.
     """
+    status_apoio = CharField(widget=HiddenInput(attrs={'class' : 'hidden-form-row'}), required=False)
 
     class Media:
         js = (
@@ -44,6 +46,9 @@ class VendaForm(ModelForm):
 
     def __init__(self, *args, **kwargs):
         super(VendaForm, self).__init__(*args, **kwargs)
+
+        if self.instance.pedido == 'N' or self.instance.status or (self.instance.pedido == 'S' and self.instance.status_pedido):
+            self.fields['status_apoio'].initial = 1
 
         try:
             grupo_encargo_padrao = GrupoEncargo.objects.get(padrao=1)
@@ -105,7 +110,53 @@ class ItensVendaForm(ModelForm):
 
 class ItensVendaFormSet(BaseInlineFormSet):
 
+    def __init__(self, *args, **kwargs):
+        super(ItensVendaFormSet, self).__init__(*args, **kwargs)
+
+        # checa se deve ser habilitado a possibilidade de deletar uma inline
+        if not self.instance.pk or self.instance.pedido == 'N' or self.instance.status or (self.instance.pedido == 'S' and self.instance.status_pedido):
+            self.can_delete = False
+
+
     def clean(self):
+
+        # Condição para validar os itens de compra somente se o objeto não existir, ou se este for um pedido ainda não confirmado, ou registro não está cancelado
+        # print(self.instance.pk and (self.instance.status or self.instance.pedido == 'N' or (self.instance.pedido == 'S' and self.instance.status_pedido)))
+        if self.instance.pk and (self.instance.status or self.instance.pedido == 'N' or (self.instance.pedido == 'S' and self.instance.status_pedido)):
+            return
+
+        list_p = []
+        for form in self.forms:
+            try:
+                if form.cleaned_data:
+                    delete = form.cleaned_data.get('DELETE')
+                    if not delete and not form.instance.remove_estoque:
+                        list_p.append((('produto__pk', form.instance.produto.pk), ('produto__nome', form.instance.produto.nome), ('produto__quantidade', form.instance.produto.quantidade), ('quantidade', form.instance.quantidade)))
+            except AttributeError:
+                pass
+
+        # Checa se quantidades dos itens inseridas no formulário existem em estoque
+        if list_p:
+            list_p = [ dict(i) for i in list_p ]
+            df = pd.DataFrame(list_p).groupby(['produto__pk', 'produto__nome', 'produto__quantidade'], as_index=False).sum().values.tolist()
+
+            list_p = [ x for x in (list((i for i in d if d[3] > d[2])) for d in df) if x ]
+
+        # Retorna mesnagem de erro nas linhas em que os produtos não contém quantidades suficientes em estoque
+        if list_p:
+            for form in self.forms:
+                try:
+                    if form.cleaned_data:
+                        delete = form.cleaned_data.get('DELETE')
+                        if not delete and not form.instance.remove_estoque:
+                            if form.instance.produto.pk in [ i[0] for i in list_p ]:
+                                form.add_error('quantidade', 'Total de itens em estoque: %s' % [ i[2] for i in list_p if i[0] == form.instance.produto.pk ][0])
+                except AttributeError:
+                    pass
+
+            raise forms.ValidationError(_(u"Quantidade de produtos informada ultrapassa limite de unidades em estoque."))
+
+
         """Verifica se pelo menos um item de venda foi inserido."""
         super(ItensVendaFormSet, self).clean()
         if any(self.errors):

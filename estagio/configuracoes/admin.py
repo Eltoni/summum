@@ -32,6 +32,7 @@ class ParametrizacaoAdmin(admin.ModelAdmin):
             'fields': (
                 'quantidade_inlines_compra',
                 'habilita_pedido_compra',
+                'periodo_venc_pedido_compra',
             )
         }),
         (None, {
@@ -39,6 +40,7 @@ class ParametrizacaoAdmin(admin.ModelAdmin):
             'fields': (
                 'quantidade_inlines_venda',
                 'habilita_pedido_venda',
+                'periodo_venc_pedido_venda',
             )
         }),
         ('Entrega', {
@@ -68,7 +70,11 @@ class ParametrizacaoAdmin(admin.ModelAdmin):
 
     def has_add_permission(self, request):
         u""" Não permite adicionar outros registros de parametrização do sistema. """
-        return False
+        parametrizacao = Parametrizacao.objects.filter().exists()
+        if parametrizacao:
+            return False
+        else:
+            return True
 
     def save_model(self, request, obj, form, change):
         if not obj.perc_valor_minimo_recebimento:

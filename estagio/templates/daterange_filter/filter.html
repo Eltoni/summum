@@ -16,7 +16,9 @@
     <!-- <font style="white-space: nowrap;"> -->
     <span style="white-space: nowrap;">
     {% for form_field in spec.form %}
-        {{ form_field }}
+        <span class="hint--top hint--bounce" data-hint="{% trans 'Filtre por' %} {{ form_field.field.widget.attrs.field_verbosename }}">
+            {{ form_field }}
+        </span>
     {% endfor %}
     </span>
     <!-- </font> -->

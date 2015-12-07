@@ -28,7 +28,7 @@
                 success: function(status){
                     //alert(status);
                     if (status != 'True') {
-                        element.parent().find('input').val("");
+                        element.parent().find('.vForeignKeyRawIdAdminField').val("");
                         element.parent().find(".salmonella_label").empty();
                         element.focus();
                     }

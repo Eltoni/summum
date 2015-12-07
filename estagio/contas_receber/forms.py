@@ -6,6 +6,9 @@ from contas_receber.models import *
 from parametros_financeiros.models import GrupoEncargo
 from decimal import Decimal
 from django.utils.translation import ugettext_lazy as _
+from django.contrib.admin.widgets import AdminSplitDateTime
+import pytz
+from datetime import datetime
 
 
 class ContasReceberForm(ModelForm):
@@ -54,10 +57,20 @@ class RecebimentoForm(ModelForm):
     Última alteração em --.
     """
 
+    def __init__(self, *args, **kwargs):
+        super(RecebimentoForm, self).__init__(*args, **kwargs)
+        
+        try:
+            self.fields['data'].required = False
+        except KeyError:
+            pass
+
+            
     class Meta:
         model = Recebimento
         exclude = []
         widgets = {
+            'data': AdminSplitDateTime(attrs={'readonly': 'readonly'}),
             'valor': NumberInput(attrs={'class': 'input-small text-right', 'placeholder': '0,00', 'step': '0.01'}),
             'juros': NumberInput(attrs={'readonly': 'readonly', 'class': 'input-small text-right', 'placeholder': '0,00', 'step': '0.01'}),
             'multa': NumberInput(attrs={'readonly': 'readonly', 'class': 'input-small text-right', 'placeholder': '0,00', 'step': '0.01'}),
@@ -82,6 +95,9 @@ class RecebimentoForm(ModelForm):
 
         if 'desconto' in self.fields:
             instance.desconto = self.cleaned_data['desconto'] or zero
+
+        if 'data' in self.fields:
+            instance.data = self.cleaned_data['data'] or datetime.utcnow().replace(tzinfo=pytz.utc)
 
         if commit:
             instance.save()

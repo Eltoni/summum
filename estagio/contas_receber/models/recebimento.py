@@ -1,12 +1,12 @@
 #-*- coding: UTF-8 -*-
 from django.db import models
 from django.core.exceptions import ValidationError
-import datetime
 from django.utils.translation import ugettext_lazy as _
 from django.utils.encoding import python_2_unicode_compatible
 from configuracoes.models import *
 from contas_receber.models.parcela_conta_receber import ParcelasContasReceber
 from contas_receber.models.conta_receber import ContasReceber
+from django.core.urlresolvers import reverse
 
 
 @python_2_unicode_compatible
@@ -19,7 +19,7 @@ class Recebimento(models.Model):
     Criada em 15/06/2014. 
     """
 
-    data = models.DateTimeField(auto_now_add=True, verbose_name=_(u"Data do recebimento"))
+    data = models.DateTimeField(verbose_name=_(u"Data do recebimento"))
     valor = models.DecimalField(max_digits=20, decimal_places=2, verbose_name=_(u"Valor"))
     juros = models.DecimalField(max_digits=20, decimal_places=2, blank=True, null=True, verbose_name=_(u"Juros"))
     multa = models.DecimalField(max_digits=20, decimal_places=2, blank=True, null=True, verbose_name=_(u"Multa"))
@@ -35,6 +35,15 @@ class Recebimento(models.Model):
     def __str__(self):
         return u'%s' % (self.id)
 
+
+    def conta_associada(self):
+        if self.parcelas_contas_receber:
+            url = reverse("admin:contas_receber_contasreceber_change", args=[self.parcelas_contas_receber.contas_receber])
+            return u"<a href='%s'>%s</a>" % (url, self.parcelas_contas_receber.contas_receber)
+        return '-'
+    conta_associada.allow_tags = True
+    conta_associada.short_description = _(u"Conta a receber")
+    conta_associada.admin_order_field = 'parcelas_contas_receber__contas_receber'
 
 
     def save(self, *args, **kwargs):

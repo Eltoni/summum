@@ -120,7 +120,10 @@
     $(".quantidade-ic, .desconto, .vForeignKeyRawIdAdminField").blur(function(){
         var inline = $(this).closest('tr');
         var produto = inline.find('.vForeignKeyRawIdAdminField').val();
-        valida_quantidade_produto_estoque(produto, inline);
+        var valor = inline.find('input[id*="id_itensvenda_set"][type="hidden"]').val();
+        if (valor.length == 0) {
+            valida_quantidade_produto_estoque(produto, inline);
+        }
     });
 
     $(".quantidade-ic, .desconto").keyup(function(){
@@ -171,11 +174,17 @@
         $(".field-produto .vForeignKeyRawIdAdminField").each(function() {
             var obj = $(this);
             var row = obj.closest('tr');
+            var valor = row.find('input[id*="id_itensvenda_set"][type="hidden"]').val();
 
             if( obj.val() != "") {
                 jQuery(row.find('.quantidade-ic')).attr({"required": "required"});
                 jQuery(row.find('.quantidade-ic')).removeAttr('readonly');
                 jQuery(row.find('.desconto')).removeAttr('readonly'); 
+            }
+
+            if (valor.length != 0) {
+                row.find('.salmonella-related-lookup, .salmonella-clear-field').addClass('disabled');
+                row.find('.vForeignKeyRawIdAdminField, .quantidade-ic, .desconto').attr({"readonly": "readonly"});
             }
         });
 

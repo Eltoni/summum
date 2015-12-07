@@ -9,8 +9,11 @@ cd ..\..\Scripts\
 call activate
 :: volta a pasta do projeto e roda o projeto do contexto
 cd ..\Projetos\estagio
+
 python manage.py runserver
 pause
 
 :: Inicia o prompt novamente
 start
+
+

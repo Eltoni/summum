@@ -24,7 +24,12 @@ class Command(BaseCommand):
             action='store_true',
             dest='dados',
             default=False,
-            help='Elimina e recria todas as tabelas do banco de dados do projeto.')
+            help='Elimina e recria todas as tabelas do banco de dados do projeto., inserindo os dados iniciais de todas as fixtures.')
+        parser.add_argument('--not_fixtures_py',
+            action='store_true',
+            dest='not_fixtures_py',
+            default=False,
+            help='Elimina e recria todas as tabelas do banco de dados do projeto, inserindo os dados iniciais da fixture sql.')
         parser.add_argument('--arquivos',
             action='store_true',
             dest='arquivos',
@@ -33,7 +38,7 @@ class Command(BaseCommand):
 
 
     def handle(self, *args, **options):
-        if options['arquivos'] or (not options['arquivos'] and not options['dados']):
+        if options['arquivos'] or (not options['arquivos'] and not options['dados'] and not options['not_fixtures_py']):
             
             # verbosity: especificca a quantidade de notifiação e depurações retornados no shell; interactive: Evita a confirmação da execução do procedimento pelo usuário
             # Instala os arquivos estáticos necessários para a geração dos gráficos | Python NVD3
@@ -41,7 +46,7 @@ class Command(BaseCommand):
             # Coleta os arquivos estáticos | Django
             call_command('collectstatic', verbosity=3, interactive=False)
 
-        if options['dados'] or (not options['arquivos'] and not options['dados']):
+        if options['dados'] or (not options['arquivos'] and not options['dados'] and not options['not_fixtures_py']):
             
             # Elimina todas as tabelas do banco de dados | Django Extensions
             call_command('reset_db', verbosity=3, interactive=False)
@@ -55,6 +60,10 @@ class Command(BaseCommand):
                 f = open(file, encoding="utf8")
                 response = cursor.execute(f.read())
                 f.close()
+
+            # Finaliza o procedimento caso o comando not_fixtures_py tenha sido especificado
+            if options['not_fixtures_py']:
+                return
 
             # Executa os scripts .py existentes no caminho declarado no atributo FIXTURES_PY do settings.py 
             files_py = settings.FIXTURES_PY

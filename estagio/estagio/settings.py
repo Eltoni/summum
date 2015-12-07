@@ -62,6 +62,7 @@ INSTALLED_APPS = (
     'configuracoes',
     'utilitarios',
     # Bibliotecas em uso pelo projeto
+    'suitlocale',
     'import_export',
     'salmonella',
     'djangobower',
@@ -75,6 +76,8 @@ INSTALLED_APPS = (
     'suit_redactor',
     'django_extensions',
     'schedule',
+    'django_spaghetti',
+    'celery',
 )
 
 
@@ -144,6 +147,35 @@ USE_TZ = True
 SITE_ID = 1
 
 
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'handlers': {
+        'file': {
+            'level': 'DEBUG',
+            'class': 'logging.FileHandler',
+            'filename': os.path.join(BASE_DIR, 'estagio/logs/django/debug.log'),
+        },
+        # 'mail_admins': {
+        #     'level': 'ERROR',
+        #     'class': 'django.utils.log.AdminEmailHandler',
+        #     'email_backend': 'django.core.mail.backends.filebased.EmailBackend',
+        # }
+    },
+    'loggers': {
+        'django.request': {
+            'handlers': ['file'],
+            'level': 'DEBUG',
+            'propagate': True,
+        },
+        # 'mail_admins': {
+        #     'level': 'ERROR',
+        #     'class': 'django.utils.log.AdminEmailHandler',
+        #     'filters': ['special']
+        # }
+    },
+}
+
 
 # Absolute filesystem path to the directory that will hold user-uploaded files.
 # Example: "/var/www/example.com/media/"
@@ -192,7 +224,7 @@ TEMPLATE_CONTEXT_PROCESSORS = TCP + (
 )
 
 from django.utils.translation import ugettext_lazy as _
-ADMIN_NAME = _(u'SUMMUM')
+ADMIN_NAME = _(u'Summum')
 
 SUIT_CONFIG = {
     'SEARCH_URL': '/auth/user/',
@@ -213,7 +245,8 @@ SUIT_CONFIG = {
         {'label': u'Movimentos', 'app':'movimento', 'models': ('produtos', 'marca', 'categoria')},
         {'label': u'Parâmetros', 'app':'parametros_financeiros', 'icon':'icon-barcode', 'models': ('formapagamento', 'grupoencargo')},
         {'app':'compra', 'icon':'icon-shopping-cart'}, 
-        {'label': u'Venda', 'app':'venda', 'icon':'icon-shopping-cart', 'models': ('venda', 'entregavenda')},
+        # {'label': u'Venda', 'app':'venda', 'icon':'icon-shopping-cart', 'models': ('venda', 'entregavenda')},
+        {'label': u'Venda', 'app':'venda', 'icon':'icon-shopping-cart',},
         {'label': u'Contas à pagar', 'icon':'icon-folder-close', 'app':'contas_pagar', 'models': ('contaspagar', 'parcelascontaspagar', 'pagamento')},
         {'label': u'Contas à receber', 'icon':'icon-folder-open', 'app':'contas_receber', 'models': ('contasreceber', 'parcelascontasreceber', 'recebimento')},
         {'app':'caixa', 'icon':'icon-inbox'},
@@ -234,6 +267,7 @@ SUIT_CONFIG = {
 # -----------
 SELECTABLE_MAX_LIMIT = 10
 
+
 # django daterange-filter
 # -----------
 DATE_RANGE_FILTER_USE_WIDGET_SUIT = True
@@ -249,6 +283,39 @@ BOWER_INSTALLED_APPS = (
     'd3#3.3.13',
     'nvd3#1.7.1',
 )
+
+
+# django-spaghetti-and-meatballs
+# -----------
+SPAGHETTI_SAUCE = {
+  'apps': INSTALLED_APPS,
+  'show_fields': False,
+  #'exclude':{'auth':['user']}
+}
+
+
+# CELERY
+# -----------
+BROKER_URL = 'redis://localhost:6379'
+CELERY_RESULT_BACKEND = 'redis://localhost:6379'
+CELERY_ACCEPT_CONTENT = ['application/json']
+CELERY_TASK_SERIALIZER = 'json'
+CELERY_RESULT_SERIALIZER = 'json'
+CELERY_TIMEZONE = 'America/Sao_Paulo'
+
+from datetime import timedelta
+CELERYBEAT_SCHEDULE = {
+    'cancela_pedido_compra_vencido_a_cada_60_seconds': {
+        'task': 'compra.tasks.cancela_pedido_compra_vencido',
+        'schedule': timedelta(seconds=60),
+        #'args': (16, 16)
+    },
+    'cancela_pedido_venda_vencido_a_cada_60_seconds': {
+        'task': 'venda.tasks.cancela_pedido_venda_vencido',
+        'schedule': timedelta(seconds=60),
+    },
+}
+
 
 # Email configuration
 DEFAULT_FROM_EMAIL = 'gustavo.sdo@gmail.com'

@@ -1,13 +1,18 @@
 #-*- coding: UTF-8 -*-
+# from fixtures.py.insert_4_ContasReceber import *
 import random, decimal
 from datetime import timedelta
 from datetime import datetime
 import time
+from django.utils.timezone import utc
 from pessoal.models import Cliente
 from parametros_financeiros.models import FormaPagamento, GrupoEncargo
 from contas_receber.models import ContasReceber, Recebimento
 from caixa.models import Caixa, MovimentosCaixa
 from utilitarios.funcoes_data import dia_util
+
+
+print('Etapa 4 - Início do procedimento de inserção de Contas a Receber.')
 
 format_date = '%Y-%m-%d %I:%M:%S %p'
 
@@ -17,23 +22,23 @@ lista_grupos_encargo = GrupoEncargo.objects.filter(status=1)
 caixa_aberto = Caixa.objects.filter(status=1).values()[0]
 
 if caixa_aberto["status"]:
-    caixa_data_abertura = datetime.strptime(caixa_aberto["data_abertura"].strftime(format_date), format_date)
-    data_atual = datetime.strptime(datetime.now().strftime(format_date), format_date)
-    
+    caixa_data_abertura = caixa_aberto["data_abertura"]
+    data_atual = datetime.utcnow().replace(microsecond=0).replace(tzinfo=utc)
+
     quant_dias = caixa_data_abertura.date() - data_atual.date()
     qt_a_gerar = abs(quant_dias.days)
     
     data = caixa_data_abertura
     while not data >= data_atual:
         
-        data = data + timedelta(days=random.randint(0,3))
+        data = data + timedelta(days=random.randint(0,10))
         data = dia_util(data)
         
         for i in range(random.randint(0,10)):
             cliente = random.choice(lista_clientes)
             forma_pagamento = random.choice(lista_formas_pagamento)
             grupo_encargo = random.choice(lista_grupos_encargo)
-            valor_total = decimal.Decimal(random.random() * 3000).quantize(decimal.Decimal('.01'))
+            valor_total = decimal.Decimal(random.random() * 1000).quantize(decimal.Decimal('.01'))
             
             conta = ContasReceber(data=data, 
                                   valor_total=valor_total, 

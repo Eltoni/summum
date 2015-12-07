@@ -24,6 +24,15 @@ div#modal-recebimento-form {
 #modal-recebimento-form .alert.alert-success {
     text-align: center;
 }
+
+div.controls p.datetime br {
+    display: none;
+}
+
+div.controls p.datetime input.vDateField {
+    margin-right: 15px;
+}
+
 </style>
 
 <script>
@@ -31,6 +40,7 @@ div#modal-recebimento-form {
   var recebimento_confirmado = false;
 
   $('#confirma-recebimento').click(function() {
+      $(this).addClass('disabled');
       id_parcela = $('#id_parcelas_contas_receber').val();
       $.ajax({
               type: 'POST',
@@ -102,7 +112,7 @@ div#modal-recebimento-form {
     </form>
     <div class="box save-box">
       <div class="submit-row clearfix">
-        <button id="confirma-recebimento" class="btn btn-high btn-info" style="float: left;">Confirmar recebimento</button><br> 
+        <button id="confirma-recebimento" class="btn btn-high btn-info" style="float: left;">{% trans 'Confirmar recebimento' %}</button><br> 
       </div>
     </div>
   </div>

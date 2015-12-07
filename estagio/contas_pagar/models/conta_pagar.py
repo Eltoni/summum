@@ -13,6 +13,7 @@ from django.core.urlresolvers import reverse
 from django.utils.html import format_html
 from django.utils.translation import ugettext_lazy as _
 from django.utils.encoding import python_2_unicode_compatible
+from django.utils.timezone import utc
 
 
 @python_2_unicode_compatible
@@ -23,7 +24,7 @@ class ContasPagar(models.Model):
     Criada em 22/09/2014. 
     """
 
-    data = models.DateTimeField(verbose_name=_(u"Data")) 
+    data = models.DateTimeField(verbose_name=_(u"Data de geração")) 
     valor_total = models.DecimalField(max_digits=20, decimal_places=2, verbose_name=_(u"Valor total")) 
     status = models.BooleanField(default=False, verbose_name=_(u"Conta fechada"), help_text=_(u"Se desmarcado, indica que há parcelas em aberto, caso contrário, a conta foi fechada."))
     descricao = models.TextField(blank=True, verbose_name=_(u"Descrição")) 
@@ -81,7 +82,7 @@ class ContasPagar(models.Model):
         choices_tp = self.forma_pagamento._meta.get_field_by_name('tipo_prazo')[0].flatchoices
         tp = dict(choices_tp).get(self.forma_pagamento.tipo_prazo)
         choices_tp = self.forma_pagamento._meta.get_field_by_name('tipo_carencia')[0].flatchoices
-        tc = dict(choices_tp).get(self.forma_pagamento.tipo_prazo)
+        tc = dict(choices_tp).get(self.forma_pagamento.tipo_carencia)
         if self.forma_pagamento:
             url = pode_ver_link(self.usuario_sessao, 'parametros_financeiros', 'formapagamento', self.forma_pagamento.pk)
             return u"<a href='%s' rel='tooltip' data-hint='%s: %s&#10;&#10;%s: %s (%s)&#10;&#10;%s: %s (%s)' class='hint--right hint--bounce' target='_blank'>%s</a>" % ( url, 
@@ -218,19 +219,17 @@ class ContasPagar(models.Model):
 
         Parâmetros passados (data_da_compra, número_da_parcela) 
         """
-        self.forma_pagamento_conta = FormaPagamento.objects.get(pk=self.forma_pagamento.pk)
-        prazo_primeira_parcela = self.forma_pagamento_conta.carencia
 
-        if self.forma_pagamento_conta.tipo_carencia == 'M' and num_parcela == 0:
-            data = date_add_months(data, prazo_primeira_parcela)
+        if self.forma_pagamento.tipo_carencia == 'M' and num_parcela == 0:
+            data = date_add_months(data, self.forma_pagamento.carencia)
             return data
          
-        if self.forma_pagamento_conta.tipo_carencia == 'S' and num_parcela == 0:
-            data = date_add_week(data, prazo_primeira_parcela)
+        if self.forma_pagamento.tipo_carencia == 'S' and num_parcela == 0:
+            data = date_add_week(data, self.forma_pagamento.carencia)
             return data
 
-        if self.forma_pagamento_conta.tipo_carencia == 'D' and num_parcela == 0:
-            data = date_add_days(data, prazo_primeira_parcela)
+        if self.forma_pagamento.tipo_carencia == 'D' and num_parcela == 0:
+            data = date_add_days(data, self.forma_pagamento.carencia)
             return data
 
         else:
@@ -244,19 +243,17 @@ class ContasPagar(models.Model):
 
         Parâmetros passados (data_da_compra) 
         """
-        self.forma_pagamento_conta = FormaPagamento.objects.get(pk=self.forma_pagamento.pk)
-        prazo = self.forma_pagamento_conta.prazo_entre_parcelas
 
-        if self.forma_pagamento_conta.tipo_prazo == 'M':
-            data = date_add_months(data, prazo)
+        if self.forma_pagamento.tipo_prazo == 'M':
+            data = date_add_months(data, self.forma_pagamento.prazo_entre_parcelas)
             return data
 
-        if self.forma_pagamento_conta.tipo_prazo == 'S':
-            data = date_add_week(data, prazo)
+        if self.forma_pagamento.tipo_prazo == 'S':
+            data = date_add_week(data, self.forma_pagamento.prazo_entre_parcelas)
             return data
 
-        if self.forma_pagamento_conta.tipo_prazo == 'D':
-            data = date_add_days(data, prazo)
+        if self.forma_pagamento.tipo_prazo == 'D':
+            data = date_add_days(data, self.forma_pagamento.prazo_entre_parcelas)
             return data
 
 
@@ -267,13 +264,13 @@ class ContasPagar(models.Model):
 
         Parâmetros passados (número_da_parcela, valor_total_da_compra)
         """
-        self.forma_pagamento_conta = FormaPagamento.objects.get(pk=self.forma_pagamento.pk)
-        quant_parc = self.forma_pagamento_conta.quant_parcelas
+
+        quant_parc = self.forma_pagamento.quant_parcelas
         valor_parcela = round(total / quant_parc, 2)
 
         if (num_parcela + 1) == quant_parc:
             soma_parcelas = valor_parcela * num_parcela
-            valor_parcela = Decimal(total).quantize(Decimal("0.00")) - soma_parcelas
+            valor_parcela = Decimal(total).quantize(Decimal("0.00")) - Decimal(soma_parcelas).quantize(Decimal("0.00"))
             return valor_parcela
         else:
             return valor_parcela
@@ -285,9 +282,8 @@ class ContasPagar(models.Model):
 
         Parâmetros passados (número_da_parcela)
         """
-        self.forma_pagamento_conta = FormaPagamento.objects.get(pk=self.forma_pagamento.pk)
 
-        if self.forma_pagamento_conta.carencia == 0 and num_parcela == 0:
+        if self.forma_pagamento.carencia == 0 and num_parcela == 0:
             return True
         else:
             return False
@@ -297,10 +293,9 @@ class ContasPagar(models.Model):
         u"""
         Método que trata a geração e cálculo de contas à pagar.
         """
-        data = datetime.date.today()
 
-        forma_pagamento_conta = FormaPagamento.objects.get(pk=self.forma_pagamento.pk)
-        quantidade_parcelada = forma_pagamento_conta.quant_parcelas
+        data = self.data.date()
+        quantidade_parcelada = self.forma_pagamento.quant_parcelas
         
         if self.pk is None:
             # Chama a função save original para o save atual do modelo
@@ -321,7 +316,7 @@ class ContasPagar(models.Model):
             # Insere o pagamento de uma compra que tenha o prazo de carência 0(zero) na parametrização da forma de pagamento. 
             try:
                 parcela_paga = ParcelasContasPagar.objects.get(contas_pagar=self, status=True)
-                Pagamento(  data=data, 
+                Pagamento(  data=self.data.replace(tzinfo=utc), 
                             valor=parcela_paga.valor, 
                             juros=0.00, 
                             multa=0.00,

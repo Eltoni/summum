@@ -25,6 +25,9 @@
 {# Additional JS files in footer, right before </body> #}
 {% block extrajs %}
     
+    {# javascript_catalog - View nativa do Django que permite realizar internacionalização do código JS #}
+    <script type="text/javascript" src="{% url 'django.views.i18n.javascript_catalog' %}"></script>
+
     {# jQuery Mask - Script para criar as mascaras dos campos #}
     <script type="text/javascript" src="{% static 'js/jquery.mask.min.js' %}"></script>
     

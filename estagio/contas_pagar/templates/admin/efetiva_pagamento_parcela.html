@@ -24,6 +24,15 @@ div#modal-pagamento-form {
 #modal-pagamento-form .alert.alert-success {
     text-align: center;
 }
+
+div.controls p.datetime br {
+    display: none;
+}
+
+div.controls p.datetime input.vDateField {
+    margin-right: 15px;
+}
+
 </style>
 
 <script>
@@ -31,6 +40,7 @@ div#modal-pagamento-form {
   var pagamento_confirmado = false;
 
   $('#confirma-pagamento').click(function() {
+      $(this).addClass('disabled');
       id_parcela = $('#id_parcelas_contas_pagar').val();
       $.ajax({
               type: 'POST',
@@ -106,7 +116,7 @@ div#modal-pagamento-form {
     </form>
     <div class="box save-box">
       <div class="submit-row clearfix">
-        <button id="confirma-pagamento" class="btn btn-high btn-info" style="float: left;">Confirmar pagamento</button><br> 
+        <button id="confirma-pagamento" class="btn btn-high btn-info" style="float: left;">{% trans 'Confirmar pagamento' %}</button><br> 
       </div>
     </div>
   </div>

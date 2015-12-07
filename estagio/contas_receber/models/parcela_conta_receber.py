@@ -1,8 +1,7 @@
 #-*- coding: UTF-8 -*-
 from django.db import models
 from parametros_financeiros.models import GrupoEncargo
-from utilitarios.funcoes_data import date_settings_timezone
-from utilitarios.calculos_encargos import calculo_composto, calculo_simples
+from utilitarios.calculos_encargos import EncargoSimples, EncargoCompostos
 import datetime
 from decimal import Decimal
 from django.db.models import Sum
@@ -21,13 +20,14 @@ class ParcelasContasReceber(models.Model):
     Criada em 22/09/2014.  
     """
     
-    vencimento = models.DateField(verbose_name=_(u"Vencimento"))
+    vencimento = models.DateField(verbose_name=_(u"Data de vencimento"))
     valor = models.DecimalField(max_digits=20, decimal_places=2, verbose_name=_(u"Valor")) 
     status = models.BooleanField(default=False, verbose_name=_(u"Status"))
     num_parcelas = models.IntegerField(verbose_name=_(u"Nº Parcela"))
     contas_receber = models.ForeignKey(ContasReceber, on_delete=models.PROTECT, verbose_name=_(u"Conta a receber"))
 
     zero  = Decimal(0.00).quantize(Decimal("0.00"))
+    data = datetime.date.today()
 
     class Meta:
         verbose_name = _(u"Parcela de Conta a Receber")
@@ -51,17 +51,17 @@ class ParcelasContasReceber(models.Model):
 
     def quant_dias_vencidos(self):
 
-        data = datetime.date.today()
-
-        if self.pk and self.vencimento < data:
-            existe_recebimento = Recebimento.objects.filter(parcelas_contas_receber=self.pk).exists()
-            if not existe_recebimento:
-                dias_vencidos = data - self.vencimento
+        if self.pk and self.vencimento < self.data:
+            data_primeiro_recebimento = Recebimento.objects.filter(parcelas_contas_receber=self.pk).values_list('data')
+            if not data_primeiro_recebimento:
+                dias_vencidos = self.data - self.vencimento
                 dias_vencidos = dias_vencidos.days
             else: 
-                data_primeiro_recebimento = Recebimento.objects.filter(parcelas_contas_receber=self.pk).values_list('data')[0][0]
-                dias_vencidos = date_settings_timezone(data_primeiro_recebimento) - self.vencimento
+                dias_vencidos = data_primeiro_recebimento[0][0].date() - self.vencimento
                 dias_vencidos = dias_vencidos.days
+
+                if dias_vencidos <= 0:
+                    return 0
 
             return dias_vencidos
         return 0
@@ -73,32 +73,21 @@ class ParcelasContasReceber(models.Model):
         Retorna o valor cálculado dos juros de acordo com a parametrização feita no grupo de encargos selecionado para a conta a pagar 
         """
 
-        data = datetime.date.today()
-
-        # Após a atualização para o Django 1.7.7, é preciso checar se está o objeto está instanciado (if self.pk) 
-        if self.pk and self.vencimento < data:
+        if self.pk and self.vencimento < self.data:
             
-            parametros_grupo_encargo = GrupoEncargo.objects.filter(pk=self.contas_receber.grupo_encargo.pk).values_list('juros', 'tipo_juros')[0]
-            # Percentual de multa
-            percentual_juros = parametros_grupo_encargo[0] / 100
-            
-            # quantidade de dias em atraso
-            existe_recebimento = Recebimento.objects.filter(parcelas_contas_receber=self.pk).exists()
-            if not existe_recebimento:
-                dias_vencidos = data - self.vencimento
-                dias_vencidos = dias_vencidos.days
-            else: 
-                data_primeiro_recebimento = Recebimento.objects.filter(parcelas_contas_receber=self.pk).values_list('data')[0][0]
-                dias_vencidos = date_settings_timezone(data_primeiro_recebimento) - self.vencimento
-                dias_vencidos = dias_vencidos.days
+            percentual_juros = self.contas_receber.grupo_encargo.juros
+            tipo_juros = self.contas_receber.grupo_encargo.tipo_juros
 
-            if parametros_grupo_encargo[1] == 'S':
-                return calculo_simples(self.valor, dias_vencidos, percentual_juros)
+            if self.quant_dias_vencidos() <= 0:
+                return self.zero
 
-            if parametros_grupo_encargo[1] == 'C':
-                return calculo_composto(self.valor, dias_vencidos, percentual_juros)
+            if tipo_juros == 'S':
+                return EncargoSimples(self.valor, percentual_juros, self.quant_dias_vencidos()).calcular_juros()
+
+            if tipo_juros == 'C':
+                return EncargoCompostos(self.valor, percentual_juros, self.quant_dias_vencidos()).calcular_juros()
             
-        return 0.00
+        return self.zero
     calculo_juros.short_description = _(u"Juros")
 
 
@@ -109,27 +98,16 @@ class ParcelasContasReceber(models.Model):
         O valor da multa é único. Sendo assim, independe a quantidade de dias que a parcela está vencida, isto é, 1, 10, 100 dias de vencimento, o valor da multa será o mesmo.  
         """
 
-        data = datetime.date.today()
+        if self.pk and self.vencimento < self.data:
 
-        # Após a atualização para o Django 1.7.7, é preciso checar se está o objeto está instanciado (if self.pk) 
-        if self.pk and self.vencimento < data:
-            
-            percentual_multa = GrupoEncargo.objects.filter(pk=self.contas_receber.grupo_encargo.pk).values_list('multa')[0][0]
-            percentual_multa = percentual_multa / 100
+            percentual_multa = self.contas_receber.grupo_encargo.multa
 
-            # quantidade de dias em atraso
-            existe_recebimento = Recebimento.objects.filter(parcelas_contas_receber=self.pk).exists()
-            if not existe_recebimento:
-                dias_vencidos = data - self.vencimento
-                dias_vencidos = dias_vencidos.days
-            else: 
-                data_primeiro_recebimento = Recebimento.objects.filter(parcelas_contas_receber=self.pk).values_list('data')[0][0]
-                dias_vencidos = date_settings_timezone(data_primeiro_recebimento) - self.vencimento
-                dias_vencidos = dias_vencidos.days
+            if self.quant_dias_vencidos() <= 0:
+                return self.zero
 
-            return calculo_simples(self.valor, dias_vencidos, percentual_multa)
+            return EncargoSimples(self.valor, percentual_multa, self.quant_dias_vencidos()).calcular_multa()
 
-        return 0.00
+        return self.zero
     calculo_multa.short_description = _(u"Multa")
 
 
@@ -212,14 +190,13 @@ class ParcelasContasReceber(models.Model):
 
 
     def status_parcela(self):
-        data = datetime.date.today()
         if self.valor_pago() >= self.valor_total():
             return ('#2DB218', _(u'Pago')) #Pago
 
         if self.valor_total() > self.valor_pago() and self.valor_pago() > 0.00:
             return ('#355EED', _(u'Pago Parcialmente')) #Pago Parcial
 
-        if self.vencimento < data:
+        if self.vencimento < self.data:
             return ('#E8262A', _(u'Vencido')) #Vencido
 
         else: 

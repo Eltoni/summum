@@ -35,11 +35,11 @@
     }
 
     function novo_registro_inline(inline){
-        inline.find('.quantidade-ic, .desconto, .valor-total-ic').val("");
+        inline.find('.quantidade-ic, .valor-unitario-ic, .desconto, .valor-total-ic').val("");
     }
 
     function limpa_campos_inline(inline){
-        inline.find('input').val("");
+        novo_registro_inline(inline);
         inline.find(".salmonella_label").empty();
 
         inline.find('.desconto').attr({"readonly": "readonly"});
@@ -120,6 +120,9 @@
         var row = $(this).closest('tr');
         limpa_campos_inline(row);
         calcula_valor_total();
+
+        // Desabilita o link para remoção do item caso o mesmo seja um registro já salvo.
+        // row.closest('.has_original').find('.inline-deletelink').addClass('disabled');
     });
 
     $(".inline-deletelink").click(function(e){
@@ -139,14 +142,20 @@
         $(".field-produto .vForeignKeyRawIdAdminField").each(function() {
             var obj = $(this);
             var row = obj.closest('tr');
+            var valor = row.find('input[id*="id_itenscompra_set"][type="hidden"]').val();
 
             if( obj.val() != "") {
                 jQuery(row.find('.quantidade-ic')).attr({"required": "required"});
                 jQuery(row.find('.quantidade-ic')).removeAttr('readonly');
                 jQuery(row.find('.desconto')).removeAttr('readonly'); 
             }
+
+            if (valor.length != 0) {
+                row.find('.salmonella-related-lookup, .salmonella-clear-field').addClass('disabled');
+                row.find('.vForeignKeyRawIdAdminField, .quantidade-ic, .desconto').attr({"readonly": "readonly"});
+            }
         });
-        
+
         // Teste para ignorar a validação do HTML ao clicar no botão "Salvar Pedido"
         // $('button[type=submit][name=_addpedido]').click(function(){
         //     $('form').attr('novalidate','novalidate');

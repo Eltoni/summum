@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 
-from django.db import models, migrations
+from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
@@ -13,13 +13,13 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='Cidade',
             fields=[
-                ('id', models.AutoField(serialize=False, auto_created=True, primary_key=True, verbose_name='ID')),
-                ('nome', models.CharField(max_length=255, verbose_name='Nome')),
-                ('estado', models.CharField(blank=True, max_length=2, verbose_name='Estado', null=True)),
+                ('id', models.AutoField(serialize=False, auto_created=True, verbose_name='ID', primary_key=True)),
+                ('nome', models.CharField(verbose_name='Nome', max_length=255)),
+                ('estado', models.CharField(null=True, verbose_name='Estado', blank=True, max_length=2)),
             ],
             options={
-                'verbose_name_plural': 'Cidades',
                 'verbose_name': 'Cidade',
+                'verbose_name_plural': 'Cidades',
             },
         ),
         migrations.AlterUniqueTogether(

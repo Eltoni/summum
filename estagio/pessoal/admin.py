@@ -225,6 +225,7 @@ class CargoAdmin(ExportMixin, admin.ModelAdmin):
     resource_class = CargoResource
     model = Cargo
     list_display = ('nome', 'descricao')
+    search_fields = ['nome',]
 
 
 

@@ -2,14 +2,6 @@
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
 from django.utils.encoding import python_2_unicode_compatible
-from schedule.models import Calendar
-
-def calendarios_choices():
-    calendarios = []
-    for cal in Calendar.objects.all():
-        calendarios.append((cal.slug, cal.name))
-        
-    return calendarios
 
 
 @python_2_unicode_compatible
@@ -42,6 +34,18 @@ class Parametrizacao(models.Model):
         verbose_name=_(u"Habilita pedido de venda?"),
         help_text=_(u"Marcando o Checkbox, o botão para adicionar um pedido de venda será exibido no cadastro da venda.")
     )
+    periodo_venc_pedido_compra = models.IntegerField(
+        blank=True, 
+        null=True,
+        verbose_name=_(u"Período de vencimento do pedido (dias)"),
+        help_text=_(u"Defina o período de vencimento de um pedido de compra. Após o período estipulado, caso o pedido encontre-se sem confirmação, este será cancelado automaticamente.<br>configure-o baseado em dias inteiros.")
+    )
+    periodo_venc_pedido_venda = models.IntegerField(
+        blank=True, 
+        null=True,
+        verbose_name=_(u"Período de vencimento do pedido (dias)"),
+        help_text=_(u"Defina o período de vencimento de um pedido de venda. Após o período estipulado, caso o pedido encontre-se sem confirmação, este será cancelado automaticamente.<br>configure-o baseado em dias inteiros.")
+    )
     qtde_minima_produtos_em_estoque = models.IntegerField(
         blank=True, 
         null=True,
@@ -69,9 +73,9 @@ class Parametrizacao(models.Model):
     evento_calendario = models.CharField(
         verbose_name=_("Calendário de eventos"), 
         max_length=200,
-        help_text=_(u"Defina o calendário de eventos que aparecerão no dashboard do sistema.",),
+        help_text=_(u"Defina o calendário de eventos que aparecerão no dashboard do sistema."),
         null=True,
-        choices=calendarios_choices()
+        blank=True
     )
     
     class Meta:

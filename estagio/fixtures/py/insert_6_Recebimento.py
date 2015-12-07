@@ -1,5 +1,5 @@
 #-*- coding: UTF-8 -*-
-# from fixtures.py.insert_Recebimento import *
+# from fixtures.py.insert_6_Recebimento import *
 from contas_receber.models import ParcelasContasReceber, Recebimento
 from caixa.models import Caixa
 from datetime import timedelta
@@ -10,7 +10,7 @@ from django.utils.timezone import utc
 from configuracoes.models import Parametrizacao
 
 
-print('Etapa 4 - Início do procedimento de inserção de Recebimentos.')
+print('Etapa 6 - Início do procedimento de inserção de Recebimentos.')
 
 caixa_aberto = Caixa.objects.filter(status=1).values()[0]
 
@@ -25,9 +25,9 @@ if caixa_aberto["status"]:
         if pula_parcela:
             continue
 
-        quantidade_pagamentos = int(np.choice([1, 2, 3], p=[0.8, 0.15, 0.05]))
+        quantidade_recebimentos = int(np.choice([1, 2, 3], p=[0.8, 0.15, 0.05]))
 
-        for i in range(quantidade_pagamentos):
+        for i in range(quantidade_recebimentos):
             
             ultimo_recebimento = Recebimento.objects.filter(parcelas_contas_receber__pk=p[0]).values_list('data').order_by('-data')
 
@@ -40,14 +40,14 @@ if caixa_aberto["status"]:
                 data_recebimento = p[1] + timedelta(days=random.randint(0,50))
 
                 # Trata valor dos recebimentos de acordo com o percentual do valor mínimo definido nas configurações do sistema
-                if quantidade_pagamentos != 1:
+                if quantidade_recebimentos != 1:
                     perc_valor_minimo_recebimento = Parametrizacao.objects.all().values_list('perc_valor_minimo_recebimento')[0][0]
                     valor_a_receber = round((parcela.valor_total() * perc_valor_minimo_recebimento) / 100, 2)
             else:
                 data_recebimento = ultimo_recebimento[0][0] + timedelta(days=random.randint(0,10))
                 
                 # Divide o valor a ser recebido caso ainda haja nova iteração
-                if (quantidade_pagamentos == 3 and (i == 0 or i == 1)) or (quantidade_pagamentos == 2 and i == 0):
+                if (quantidade_recebimentos == 3 and (i == 0 or i == 1)) or (quantidade_recebimentos == 2 and i == 0):
                     valor_a_receber = valor_a_receber / 2
 
             #Insere registro de recebimento 

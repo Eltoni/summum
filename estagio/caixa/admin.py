@@ -5,6 +5,7 @@ from django.core.mail import EmailMultiAlternatives
 from django.utils.translation import ugettext_lazy as _
 from import_export.admin import ExportMixin
 from caixa.export import CaixaResource, MovimentosCaixaResource
+from caixa.forms import CaixaForm
 from decimal import Decimal
 from django.contrib.auth.models import Permission
 from django.contrib.auth.models import User
@@ -17,6 +18,7 @@ from configuracoes.models import Parametrizacao
 class CaixaAdmin(ExportMixin, admin.ModelAdmin):
     resource_class = CaixaResource
     model = Caixa
+    form = CaixaForm
     list_display = ('id', 'data_abertura', 'formata_data_fechamento', 'diferenca', 'status')
     list_filter = (('data_fechamento', DateRangeFilter),)
     date_hierarchy = 'data_abertura'
@@ -37,7 +39,7 @@ class CaixaAdmin(ExportMixin, admin.ModelAdmin):
         self.fieldsets = (
             (None, {
                 'classes': ('suit-tab suit-tab-geral',),
-                'fields' : ('data_abertura', 'data_fechamento', 'valor_entrada', 'valor_saida', 'valor_total', 'valor_inicial', 'valor_fechamento', 'diferenca',)
+                'fields' : ('data_abertura', 'data_fechamento', 'valor_inicial', 'valor_entrada', 'valor_saida', 'valor_total', 'valor_fechamento', 'diferenca',)
             }),
         )
 

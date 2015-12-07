@@ -26,72 +26,72 @@ from django.utils.html import format_html
 import pandas as pd
 
 
-class EntregaVendaAdmin(ExportMixin, admin.ModelAdmin):
-    resource_class = EntregaVendaResource
-    model = EntregaVenda
-    actions = None
+# class EntregaVendaAdmin(ExportMixin, admin.ModelAdmin):
+#     resource_class = EntregaVendaResource
+#     model = EntregaVenda
+#     actions = None
 
-    list_display = ('id_venda', 'link_venda', 'endereco', 'data', 'posicao', 'posicao_mapa')
-    search_fields = ['id',]
-    date_hierarchy = 'data'
-    list_filter = (('data', DateRangeFilter),)
-    # readonly_fields = ('data',)
+#     list_display = ('id_venda', 'link_venda', 'endereco', 'data', 'posicao', 'posicao_mapa')
+#     search_fields = ['id',]
+#     date_hierarchy = 'data'
+#     list_filter = (('data', DateRangeFilter),)
+#     # readonly_fields = ('data',)
 
-    def posicao_mapa(self, instance):
-        if instance.posicao is not None:
-            return '<img src="http://maps.googleapis.com/maps/api/staticmap?center=%(latitude)s,%(longitude)s&zoom=%(zoom)s&size=%(width)sx%(height)s&maptype=roadmap&markers=%(latitude)s,%(longitude)s&sensor=false&visual_refresh=true&scale=%(scale)s" width="%(width)s" height="%(height)s">' % {
-                'latitude': instance.posicao.latitude,
-                'longitude': instance.posicao.longitude,
-                'zoom': 15,
-                'width': 100,
-                'height': 100,
-                'scale': 2
-            }
-    posicao_mapa.allow_tags = True
-    posicao_mapa.short_description = _(u"Posição no mapa")
+#     def posicao_mapa(self, instance):
+#         if instance.posicao is not None:
+#             return '<img src="http://maps.googleapis.com/maps/api/staticmap?center=%(latitude)s,%(longitude)s&zoom=%(zoom)s&size=%(width)sx%(height)s&maptype=roadmap&markers=%(latitude)s,%(longitude)s&sensor=false&visual_refresh=true&scale=%(scale)s" width="%(width)s" height="%(height)s">' % {
+#                 'latitude': instance.posicao.latitude,
+#                 'longitude': instance.posicao.longitude,
+#                 'zoom': 15,
+#                 'width': 100,
+#                 'height': 100,
+#                 'scale': 2
+#             }
+#     posicao_mapa.allow_tags = True
+#     posicao_mapa.short_description = _(u"Posição no mapa")
 
 
-    def id_venda(object, instance):
+#     def id_venda(object, instance):
         
-        return "<a href=\"/%s/%s/%s/#info_entrega\">%s</a>" % (instance._meta.app_label, instance.venda._meta.model_name, instance.venda, instance.id,)
-    id_venda.allow_tags = True
-    id_venda.short_description = _(u"ID")
+#         return "<a href=\"/%s/%s/%s/#info_entrega\">%s</a>" % (instance._meta.app_label, instance.venda._meta.model_name, instance.venda, instance.id,)
+#     id_venda.allow_tags = True
+#     id_venda.short_description = _(u"ID")
 
 
-    def link_venda(object, instance):
+#     def link_venda(object, instance):
 
-        return "<a href=\"/%s/%s/%s/#info_entrega\">%s</a>" % (instance._meta.app_label, instance.venda._meta.model_name, instance.venda, instance.venda,)
-    link_venda.allow_tags = True
-    link_venda.short_description = _(u"Venda")
-
-
-    def has_add_permission(self, request, obj=None):
-        return False
+#         return "<a href=\"/%s/%s/%s/#info_entrega\">%s</a>" % (instance._meta.app_label, instance.venda._meta.model_name, instance.venda, instance.venda,)
+#     link_venda.allow_tags = True
+#     link_venda.short_description = _(u"Venda")
 
 
-
-class EntregaVendaInline(admin.StackedInline):
-    form = EntregaVendaForm
-    model = EntregaVenda
-    suit_classes = 'suit-tab suit-tab-info_entrega'
-    fields = ('status', 'endereco', 'data', 'observacao', 'posicao', 'venda')
-    list_display = ('endereco', 'cidade', 'data', 'posicao', 'venda',)
-
-    fieldsets = (
-                (None, {
-                        "fields" : ("status",)
-                }),
-                ("Detalhes", {
-                        #"classes" : ("collapse",),
-                        "fields" : ("endereco", "data", 'observacao', 'posicao', 'venda')
-                })
-    )
+#     def has_add_permission(self, request, obj=None):
+#         return False
 
 
-class EntregaVendaAddInline(EntregaVendaInline):
-    fieldsets = ((None, {
-                        "fields" : ("status",)
-                }),)
+
+# class EntregaVendaInline(admin.StackedInline):
+#     form = EntregaVendaForm
+#     model = EntregaVenda
+#     suit_classes = 'suit-tab suit-tab-info_entrega'
+#     fields = ('status', 'endereco', 'data', 'observacao', 'posicao', 'venda')
+#     list_display = ('endereco', 'cidade', 'data', 'posicao', 'venda',)
+
+#     fieldsets = (
+#                 (None, {
+#                         "fields" : ("status",)
+#                 }),
+#                 ("Detalhes", {
+#                         #"classes" : ("collapse",),
+#                         "fields" : ("endereco", "data", 'observacao', 'posicao', 'venda')
+#                 })
+#     )
+
+
+# class EntregaVendaAddInline(EntregaVendaInline):
+#     fieldsets = ((None, {
+#                         "fields" : ("status",)
+#                 }),)
 
 
 
@@ -253,14 +253,14 @@ class VendaAdmin(ExportMixin, SalmonellaMixin, admin.ModelAdmin):
             self.fieldsets[2][1]['fields'] = tuple(x for x in self.fieldsets[2][1]['fields'] if (x!='pedido' and x!='status_pedido' and x!='vendedor' and x!='vendedor_associado'))
 
         else:
-            insert_into_suit_form_tabs = tuple([('info_entrega', _(u"Informações de entrega"))])
-            self.suit_form_tabs += insert_into_suit_form_tabs
+            # insert_into_suit_form_tabs = tuple([('info_entrega', _(u"Informações de entrega"))])
+            # self.suit_form_tabs += insert_into_suit_form_tabs
 
-            sit_entrega = EntregaVenda.objects.filter(venda=obj.pk).exists()
-            if sit_entrega:
-                self.inlines = self.inlines + [EntregaVendaInline,]
-            else:
-                self.inlines = self.inlines + [EntregaVendaAddInline,]
+            # sit_entrega = EntregaVenda.objects.filter(venda=obj.pk).exists()
+            # if sit_entrega:
+            #     self.inlines = self.inlines + [EntregaVendaInline,]
+            # else:
+            #     self.inlines = self.inlines + [EntregaVendaAddInline,]
 
             if not obj.status:
                 self.fieldsets[0][1]['fields'] = tuple(x for x in self.fieldsets[0][1]['fields'] if (x!='data_cancelamento'))
@@ -348,4 +348,4 @@ class VendaAdmin(ExportMixin, SalmonellaMixin, admin.ModelAdmin):
 
 
 admin.site.register(Venda, VendaAdmin)
-admin.site.register(EntregaVenda, EntregaVendaAdmin)
+# admin.site.register(EntregaVenda, EntregaVendaAdmin)

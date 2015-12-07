@@ -4,7 +4,7 @@ INSERT INTO auth_user (id, password, last_login, is_superuser, username, first_n
 
 -- Define a data de abertura do caixa há 7 dias atrás
 INSERT INTO caixa_caixa (id, status, data_abertura, data_fechamento, valor_entrada, valor_saida, valor_total, valor_inicial, valor_fechamento, diferenca) VALUES 
-(1, 1, DATE_ADD(NOW(), INTERVAL -365 DAY), NULL, 3404.30, 0.00, 0.00, 1000.00, 0.00, 0.00);
+(1, 1, DATE_ADD(NOW(), INTERVAL -7 DAY), NULL, 0.00, 0.00, 0.00, 1000.00, 0.00, 0.00);
 
 
 INSERT INTO configuracoes_parametrizacao (id, quantidade_inlines_compra, quantidade_inlines_venda, habilita_pedido_compra, habilita_pedido_venda, periodo_venc_pedido_compra, periodo_venc_pedido_venda, qtde_minima_produtos_em_estoque, perc_valor_minimo_recebimento, intervalo_dias_entrega_venda, email_abertura_caixa, evento_calendario) VALUES 

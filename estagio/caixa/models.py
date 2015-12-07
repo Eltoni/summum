@@ -28,14 +28,14 @@ class Caixa(models.Model):
     
     """
     status = models.BooleanField(default=True, verbose_name=_(u"Status"), help_text=_(u"Desmarque o Checkbox para indicar que o caixa está fechado."))
-    data_abertura = models.DateTimeField(null=True, verbose_name=_(u"Data de abertura"))
-    data_fechamento = models.DateTimeField(null=True, verbose_name=_(u"Data de fechamento"))
-    valor_entrada = models.DecimalField(max_digits=20, decimal_places=2, default=0.00, verbose_name=_(u"Valor de entrada"))
-    valor_saida = models.DecimalField(max_digits=20, decimal_places=2, default=0.00, verbose_name=_(u"Valor de saída"))
-    valor_total = models.DecimalField(max_digits=20, decimal_places=2, default=0.00, verbose_name=_(u"Valor total"))
-    valor_inicial = models.DecimalField(max_digits=20, decimal_places=2, default=0.00)
-    valor_fechamento = models.DecimalField(max_digits=20, decimal_places=2, default=0.00, verbose_name=_(u"Valor de fechamento"))
-    diferenca = models.DecimalField(max_digits=20, decimal_places=2, default=0.00, verbose_name=_(u"Diferença"))
+    data_abertura = models.DateTimeField(null=True, verbose_name=_(u"Data de abertura"), help_text=_(u"Data de abertura do caixa."))
+    data_fechamento = models.DateTimeField(null=True, verbose_name=_(u"Data de fechamento"), help_text=_(u"Data de fechamento do caixa."))
+    valor_entrada = models.DecimalField(max_digits=20, decimal_places=2, default=0.00, verbose_name=_(u"Valor de entrada"), help_text=_(u"Somatório de todos os recebimentos (mov. do tipo Crédito)."))
+    valor_saida = models.DecimalField(max_digits=20, decimal_places=2, default=0.00, verbose_name=_(u"Valor de saída"), help_text=_(u"Somatório de todos os pagamentos (mov. do tipo Débito)."))
+    valor_total = models.DecimalField(max_digits=20, decimal_places=2, default=0.00, verbose_name=_(u"Valor total"), help_text=_(u"Valor calculado automaticamente da quantia existente no Caixa em seu fechamento."))
+    valor_inicial = models.DecimalField(max_digits=20, decimal_places=2, default=0.00, verbose_name=_(u"Valor inicial"), help_text=_(u"Valor existente no Caixa em sua abertura."))
+    valor_fechamento = models.DecimalField(max_digits=20, decimal_places=2, default=0.00, verbose_name=_(u"Valor de fechamento"), help_text=_(u"Valor calculado manualmente da quantia existente no Caixa em seu fechamento."))
+    diferenca = models.DecimalField(max_digits=20, decimal_places=2, default=0.00, verbose_name=_(u"Diferença"), help_text=_(u"Diferença do Valor Total calculado junto ao valor informado no fechamento do Caixa."))
 
     class Meta:
         verbose_name = _(u"Caixa")

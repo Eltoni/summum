@@ -1,5 +1,6 @@
 #-*- coding: UTF-8 -*-
-# from fixtures.py.insert_Compra import *
+# from fixtures.py.insert_1_Compra import *
+# exec(open('fixtures/py/insert_2_Venda.py').read())
 import random, decimal
 from datetime import timedelta
 from datetime import datetime
@@ -15,7 +16,7 @@ from utilitarios.funcoes_data import dia_util
 from numpy import random as np
 
 
-print('Etapa 1 - Início do procedimento de inserção de compras.')
+print('Etapa 1 - Início do procedimento de inserção de Compras.')
 
 def calcula_valor_total_item_compra(quantidade, valor_unitario, desconto):
     valor_item_compra = valor_unitario * quantidade

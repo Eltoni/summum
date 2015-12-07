@@ -1,5 +1,5 @@
 #-*- coding: UTF-8 -*-
-# from fixtures.py.insert_ContasReceber import *
+# from fixtures.py.insert_4_ContasReceber import *
 import random, decimal
 from datetime import timedelta
 from datetime import datetime
@@ -12,7 +12,7 @@ from caixa.models import Caixa, MovimentosCaixa
 from utilitarios.funcoes_data import dia_util
 
 
-print('Etapa 3 - Início do procedimento de inserção de Contas a Receber.')
+print('Etapa 4 - Início do procedimento de inserção de Contas a Receber.')
 
 format_date = '%Y-%m-%d %I:%M:%S %p'
 

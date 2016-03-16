@@ -1,4 +1,3 @@
-
 INSERT INTO localidade_cidade (id, nome, estado) VALUES
 (1, 'Afonso Cláudio', 'ES'),
 (2, 'Água Doce do Norte', 'ES'),

@@ -33,6 +33,10 @@ if caixa_aberto["status"]:
         
         data = data + timedelta(days=random.randint(0,10))
         data = dia_util(data)
+
+        # Quebra iteração caso data de geração do registro seja maior que data atual
+        if data > data_atual:
+            break
         
         for i in range(random.randint(0,10)):
             fornecedor = random.choice(lista_fornecedores)

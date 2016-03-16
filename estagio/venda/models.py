@@ -239,7 +239,7 @@ class EntregaVenda(models.Model):
 
         quantidade = Parametrizacao.objects.get().intervalo_dias_entrega_venda
         venda = Venda.objects.get(pk=self.venda.pk)
-        data_minima_para_entrega = datetime_settings_timezone(venda.data) + datetime.timedelta(days=quantidade)
+        data_minima_para_entrega = datetime_settings_timezone(venda.data_venda) + datetime.timedelta(days=quantidade)
 
         # Data de entrega não pode ser menor que data de venda + quantidade de dias para entrega (configurada nas parametrizações do sistema)
         if self.data and self.data < data_minima_para_entrega:

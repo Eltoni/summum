@@ -8,14 +8,14 @@ import django.db.models.deletion
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('contas_receber', '0001_initial'),
         ('caixa', '0002_movimentoscaixa_pagamento'),
+        ('contas_receber', '0001_initial'),
     ]
 
     operations = [
         migrations.AddField(
             model_name='movimentoscaixa',
             name='recebimento',
-            field=models.ForeignKey(to='contas_receber.Recebimento', verbose_name='Recebimento', blank=True, null=True, on_delete=django.db.models.deletion.PROTECT),
+            field=models.ForeignKey(blank=True, verbose_name='Recebimento', to='contas_receber.Recebimento', null=True, on_delete=django.db.models.deletion.PROTECT),
         ),
     ]

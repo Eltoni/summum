@@ -17,7 +17,12 @@ HOME_PATH = os.path.expanduser('~')
 
 # Caminhos para os fixtures. Arquivos que populam os dados iniciais das tabelas da base de dados
 FIXTURES = (
-    os.path.join(BASE_DIR, 'fixtures\data_all.sql'),
+    # os.path.join(BASE_DIR, 'fixtures\data_all.sql'),
+    os.path.join(BASE_DIR, 'fixtures\localidade_cidade.sql'),
+    os.path.join(BASE_DIR, 'fixtures\movimento_produtos.sql'),
+    os.path.join(BASE_DIR, 'fixtures\\banco_banco.sql'),
+    os.path.join(BASE_DIR, 'fixtures\\banco_agencia.sql'),
+    os.path.join(BASE_DIR, 'fixtures\others.sql'),
 )
 # Caminho único para os fixtures criados em py.
 FIXTURES_PY = os.path.join(BASE_DIR, 'fixtures\py')
@@ -61,6 +66,7 @@ INSTALLED_APPS = (
     'caixa',
     'configuracoes',
     'utilitarios',
+    'banco',
     # Bibliotecas em uso pelo projeto
     'suitlocale',
     'import_export',
@@ -241,6 +247,7 @@ SUIT_CONFIG = {
     'MENU': (
         {'label': u'Autenticação', 'app':'auth'},
         {'app':'localidade', 'icon':'icon-globe'},
+        {'app':'banco', 'icon':'fa fa-bank'},
         {'app':'pessoal', 'icon':'icon-user'},
         {'label': u'Movimentos', 'app':'movimento', 'models': ('produtos', 'marca', 'categoria')},
         {'label': u'Parâmetros', 'app':'parametros_financeiros', 'icon':'icon-barcode', 'models': ('formapagamento', 'grupoencargo')},
@@ -280,7 +287,7 @@ BOWER_COMPONENTS_ROOT = os.path.join(BASE_DIR, 'estagio/static/components')
 BOWER_PATH = HOME_PATH + '/AppData/Roaming/npm/bower.cmd'
 
 BOWER_INSTALLED_APPS = (
-    'd3#3.3.13',
+    'd3#3.5.5',
     'nvd3#1.7.1',
 )
 

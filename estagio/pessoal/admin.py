@@ -91,6 +91,7 @@ class ClienteAdmin(ExportMixin, BaseCadastroPessoaAdmin):
     readonly_fields = ('status_financeiro', 'id', 'data', 'formata_data_nascimento')
     list_display = ('nome', 'email', 'data', 'status_financeiro',)
     list_filter = (('cidade', SelectableFilter), 'status', StatusFinanceiroFilter)
+    radio_fields = {"sexo": admin.HORIZONTAL, 'tipo_pessoa': admin.HORIZONTAL}
 
     def get_urls(self):
         urls = super(ClienteAdmin, self).get_urls()
@@ -164,7 +165,7 @@ class FornecedorAdmin(ExportMixin, BaseCadastroPessoaAdmin):
     list_display = ('nome', 'email', 'status', 'status_financeiro')
     list_filter = (('cidade', SelectableFilter), 'status', StatusFinanceiroFilter)
     popup_list_display = ('nome', 'email', 'status', 'status_financeiro')
-
+    radio_fields = {"sexo": admin.HORIZONTAL, 'tipo_pessoa': admin.HORIZONTAL}
 
     def get_form(self, request, obj=None, **kwargs):
         self.fieldsets = (
@@ -233,6 +234,7 @@ class FuncionarioAdmin(ExportMixin, BaseCadastroPessoaAdmin):
     resource_class = FuncionarioResource
     model = Funcionario
     form = FuncionarioForm
+    radio_fields = {"sexo": admin.HORIZONTAL}
 
     def get_urls(self):
         urls = super(FuncionarioAdmin, self).get_urls()

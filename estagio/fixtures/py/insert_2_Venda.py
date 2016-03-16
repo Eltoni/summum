@@ -44,6 +44,10 @@ if caixa_aberto["status"]:
         
         data = data + timedelta(days=random.randint(0,10))
         data = dia_util(data)
+
+        # Quebra iteração caso data de geração do registro seja maior que data atual
+        if data > data_atual:
+            break
         
         # ...Será realizado numa quantidade aleatória de vezes a inserção de uma venda no banco de dados
         for i in range(random.randint(0,10)):

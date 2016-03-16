@@ -10,6 +10,7 @@ from django.utils.translation import ugettext_lazy as _
 from django.utils.html import format_html
 from django.utils.encoding import python_2_unicode_compatible
 from django.core.urlresolvers import reverse
+from banco.models import Banco, Agencia
 
 # faz a validação da data de nascimento para que o usuário fique impedido de informar data maior ou igual a hoje, e seja maior de 18 anos
 def valida_data_nascimento(value):
@@ -63,8 +64,8 @@ class BaseCadastroPessoa(models.Model):
     telefone = models.CharField(max_length=30, blank=True, verbose_name=_(u"Telefone"))
     celular = models.CharField(max_length=30, blank=True, verbose_name=_(u"Celular")) 
     email = models.EmailField(max_length=100, blank=True, verbose_name=_(u"E-mail"))
-    banco = models.DecimalField(max_digits=3, decimal_places=0, null=True, blank=True, verbose_name=_(u"Banco"))
-    agencia = models.CharField(max_length=7, null=True, blank=True, verbose_name=_(u"Agência"))
+    banco = models.ForeignKey(Banco, null=True, blank=True, verbose_name=_(u"Banco"))
+    agencia = models.ForeignKey(Agencia, null=True, blank=True, verbose_name=_(u"Agência"))
     conta_banco = models.CharField(max_length=15, null=True, blank=True, verbose_name=_(u"Conta corrente")) 
     data = models.DateTimeField(auto_now_add=True, verbose_name=_(u"Data de cadastro"))
     status = models.BooleanField(default=True, verbose_name=_(u"Status"))

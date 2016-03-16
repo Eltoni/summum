@@ -6,15 +6,28 @@ from localflavor.br.forms import BRStateChoiceField, BRPhoneNumberField, BRCPFFi
 from django.forms import ModelForm, TextInput
 from django.utils.safestring import mark_safe
 from django.utils.translation import ugettext_lazy as _
-from pessoal.lookups import CidadeChainedLookup
+from pessoal.lookups import CidadeChainedLookup, AgenciaChainedLookup, BancoChainedLookup
 from selectable.forms import AutoCompleteSelectField, AutoComboboxSelectWidget
 
 
 class BaseCadastroPessoaForm(forms.ModelForm):
+
     cidade = AutoCompleteSelectField(
         lookup_class=CidadeChainedLookup,
         label='Cidade',
         required=True,
+        widget=AutoComboboxSelectWidget
+    )
+    banco = AutoCompleteSelectField(
+        lookup_class=BancoChainedLookup,
+        label='Banco',
+        required=False,
+        widget=AutoComboboxSelectWidget
+    )
+    agencia = AutoCompleteSelectField(
+        lookup_class=AgenciaChainedLookup,
+        label='Agência',
+        required=False,
         widget=AutoComboboxSelectWidget
     )
 
@@ -22,6 +35,7 @@ class BaseCadastroPessoaForm(forms.ModelForm):
         js = (
             '/static/js/mascaras_campos.js',
             '/static/js/consulta_cidades.js',
+            '/static/js/consulta_agencias.js',
         )
         # css personalizado
         css = {
@@ -33,8 +47,7 @@ class BaseCadastroPessoaForm(forms.ModelForm):
         exclude = []
         
         widgets = {
-            'tipo_pessoa': forms.RadioSelect(),
-            'sexo': forms.RadioSelect(),
+            # 'sexo': forms.RadioSelect(),
             'data_nasc': SuitDateWidget,
             'observacao': AutosizedTextarea(attrs={'rows': 5, 'class': 'input-xxlarge', 'placeholder': '...'}),
             'numero': TextInput(attrs={'class': 'input-mini'}),
@@ -73,8 +86,6 @@ class FornecedorForm(BaseCadastroPessoaForm):
         js = (
             '/static/js/controle_campos_pf_pj.js',
             '/static/js/formata_campos.js',
-            '/static/js/footable.js',
-            '/static/js/footable.paginate.js',
         )
 
     def __init__(self, *args, **kwargs):
@@ -112,7 +123,6 @@ class FuncionarioForm(BaseCadastroPessoaForm):
                         'step': '0.01',
                         'min': '0.01',
             }),
-            'sexo': forms.RadioSelect(),
             'data_nasc': SuitDateWidget,
             'observacao': AutosizedTextarea(attrs={'rows': 5, 'class': 'input-xxlarge', 'placeholder': '...'}),
             'numero': TextInput(attrs={'class': 'input-mini'}),
@@ -135,8 +145,6 @@ class ClienteForm(BaseCadastroPessoaForm):
         js = (
             '/static/js/controle_campos_pf_pj.js',
             '/static/js/formata_campos.js',
-            '/static/js/footable.js',
-            '/static/js/footable.paginate.js',
         )
 
     def __init__(self, *args, **kwargs):

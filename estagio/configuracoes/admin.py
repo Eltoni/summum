@@ -10,25 +10,25 @@ class ParametrizacaoAdmin(admin.ModelAdmin):
     form = ParametrizacaoForm
     fieldsets = (
         (None, {
-            'classes': ('suit-tab suit-tab-geral',),
+            'classes': ('suit-tab suit-tab-geral wide',),
             'fields': (
                 'perc_valor_minimo_recebimento',
             )
         }),
         ('Eventos', {
-            'classes': ('suit-tab suit-tab-geral',),
+            'classes': ('suit-tab suit-tab-geral wide',),
             'fields': (
                 'evento_calendario',
             )
         }),
         ('Caixa', {
-            'classes': ('suit-tab suit-tab-geral',),
+            'classes': ('suit-tab suit-tab-geral wide',),
             'fields': (
                 'email_abertura_caixa',
             )
         }),
         (None, {
-            'classes': ('suit-tab suit-tab-compra',),
+            'classes': ('suit-tab suit-tab-compra wide',),
             'fields': (
                 'quantidade_inlines_compra',
                 'habilita_pedido_compra',
@@ -36,7 +36,7 @@ class ParametrizacaoAdmin(admin.ModelAdmin):
             )
         }),
         (None, {
-            'classes': ('suit-tab suit-tab-venda',),
+            'classes': ('suit-tab suit-tab-venda wide',),
             'fields': (
                 'quantidade_inlines_venda',
                 'habilita_pedido_venda',
@@ -44,13 +44,13 @@ class ParametrizacaoAdmin(admin.ModelAdmin):
             )
         }),
         ('Entrega', {
-            'classes': ('suit-tab suit-tab-venda',),
+            'classes': ('suit-tab suit-tab-venda wide',),
             'fields': (
                 'intervalo_dias_entrega_venda',
             )
         }),
         (None, {
-            'classes': ('suit-tab suit-tab-relatorios',),
+            'classes': ('suit-tab suit-tab-relatorios wide',),
             'fields': (
                 'qtde_minima_produtos_em_estoque',
             )

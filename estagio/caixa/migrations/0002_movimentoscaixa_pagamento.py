@@ -16,6 +16,6 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='movimentoscaixa',
             name='pagamento',
-            field=models.ForeignKey(to='contas_pagar.Pagamento', verbose_name='Pagamento', blank=True, null=True, on_delete=django.db.models.deletion.PROTECT),
+            field=models.ForeignKey(blank=True, verbose_name='Pagamento', to='contas_pagar.Pagamento', null=True, on_delete=django.db.models.deletion.PROTECT),
         ),
     ]

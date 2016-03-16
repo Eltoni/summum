@@ -1,9 +1,8 @@
-input[type="radio"] {
-    vertical-align: text-bottom;
-}
-
 input[type="radio"][value=""], li label[for="id_sexo_0"] {
     display: none;
+}
+/*input[type="radio"] {
+    vertical-align: text-bottom;
 }
 
 ul#id_tipo_pessoa, ul#id_sexo {
@@ -18,7 +17,7 @@ ul#id_tipo_pessoa, ul#id_sexo {
 ul#id_tipo_pessoa li, ul#id_sexo li {
     padding-right: 25px;
 }
-
+*/
 
 /* Begin ::Django Selectable::; */
 a.ui-combo-button .ui-button-text {

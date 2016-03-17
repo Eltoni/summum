@@ -10,16 +10,14 @@ class AgenciaInline(admin.TabularInline):
     model = Agencia
     form = AgenciaForm
     formset = AgenciaFormSet
-    # form = EnderecoEntregaClienteForm
     fields = ('banco', 'agencia', 'nome', 'endereco', 'numero', 'bairro', 'estado', 'cidade', 'cep', 'contato')
 
 
 class BancoAdmin(AdminImageMixin, admin.ModelAdmin):
-    #form = BancoForm
     model = Banco
-    list_display = ('banco', 'nome',)
+    list_display = ('banco', 'nome', 'site')
     search_fields = ['banco', 'nome']
-    fields = ('banco', 'nome', 'logo')
+    fields = ('banco', 'nome', 'site', 'logo')
     inlines = [AgenciaInline,]
 
     suit_js_includes = [

@@ -54,9 +54,11 @@ class Command(BaseCommand):
             call_command('migrate', verbosity=3)
 
             # Executa os scripts sql declarados na tupla FIXTURES do settings.py
+            print('\n Iniciando procedimento de execução dos scripts SQL:')
             files = settings.FIXTURES
             cursor = connection.cursor()
-            for file in files:
+            for id, file in enumerate(files, start=1):
+                print('Etapa ' + str(id) + ' - Executando script', file.split('fixtures\\', 1)[1])
                 f = open(file, encoding="utf8")
                 response = cursor.execute(f.read())
                 f.close()
@@ -65,7 +67,8 @@ class Command(BaseCommand):
             if options['not_fixtures_py']:
                 return
 
-            # Executa os scripts .py existentes no caminho declarado no atributo FIXTURES_PY do settings.py 
+            # Executa os scripts .py existentes no caminho declarado no atributo FIXTURES_PY do settings.py
+            print('\n Iniciando procedimento de execução dos scripts Python:')
             files_py = settings.FIXTURES_PY
             for file in os.listdir(files_py):
                 if file.endswith(".py"):

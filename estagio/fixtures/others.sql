@@ -104,3 +104,8 @@ INSERT INTO schedule_event (id, start, end, title, description, created_on, upda
 (4, '2000-04-21 03:00:00.000000', '2000-04-21 03:00:00.000000', 'Feriado “Tiradentes” ', 'Recesso Administrativo', '2015-08-24 02:52:26.440734', '2015-08-24 02:52:26.440734', NULL, '', 1, NULL, 2),
 (5, '2000-04-02 03:00:00.000000', '2000-04-04 03:00:00.000000', 'Feriado “Paixão de Cristo” ', 'Recesso Administrativo', '2015-08-24 02:53:12.523636', '2015-08-24 02:53:12.523636', NULL, '', 1, NULL, 2),
 (6, '2000-10-04 03:00:00.000000', '2000-10-04 03:00:00.000000', 'Feriado Municipal de Umuarama', 'Recesso Administrativo', '2015-08-24 02:59:59.028659', '2015-08-24 02:59:59.028659', NULL, '', 1, NULL, 2);
+
+
+UPDATE  django_site 
+SET     domain = 'localhost:8000', name = 'summum.com'
+WHERE   id = 1;

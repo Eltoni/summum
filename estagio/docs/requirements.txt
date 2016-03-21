@@ -32,3 +32,4 @@ pytz==2016.1
 six==1.10.0
 sorl-thumbnail==12.3
 tablib==0.11.2
+wiki==0.1

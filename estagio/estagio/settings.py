@@ -52,6 +52,7 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.sites',
     'django.contrib.humanize',
     # Modulos do sistema
     'app_global',
@@ -84,6 +85,14 @@ INSTALLED_APPS = (
     'schedule',
     'django_spaghetti',
     'celery',
+    'django_nyt',
+    'mptt',
+    'sekizai',
+    'wiki',
+    'wiki.plugins.attachments',
+    'wiki.plugins.notifications',
+    'wiki.plugins.images',
+    'wiki.plugins.macros',
 )
 
 
@@ -227,6 +236,8 @@ from django.conf.global_settings import TEMPLATE_CONTEXT_PROCESSORS as TCP
 
 TEMPLATE_CONTEXT_PROCESSORS = TCP + (
     'django.core.context_processors.request',
+    'sekizai.context_processors.sekizai',
+    'django.core.context_processors.debug',
 )
 
 from django.utils.translation import ugettext_lazy as _
@@ -259,6 +270,7 @@ SUIT_CONFIG = {
         {'app':'caixa', 'icon':'icon-inbox'},
         {'label': u'Configurações', 'icon':'icon-wrench', 'app':'configuracoes'},
         {'label': u'Eventos', 'icon': 'icon-calendar', 'app': 'schedule'},
+        {'label': u'Wiki', 'icon': 'fa fa-book', 'app':'wiki', 'models': ('wiki.articlerevision', 'wiki.article', 'wiki.urlpath', 'wiki_attachments.attachment', 'wiki_images.image')},
         # Separator
         '-',
         '-',
@@ -324,7 +336,18 @@ CELERYBEAT_SCHEDULE = {
 }
 
 
+# django-wiki
+# -----------
+WIKI_ACCOUNT_HANDLING = False
+WIKI_ACCOUNT_SIGNUP_ALLOWED = False
+WIKI_ANONYMOUS = False
+LOGIN_URL = '../login/'
+LOGOUT_URL = '../../logout/'
+# WIKI_EDITOR = 'suit_redactor.widgets.RedactorWidget'
+
+
 # Email configuration
+# -----------
 DEFAULT_FROM_EMAIL = 'gustavo.sdo@gmail.com'
 EMAIL_USE_TLS = True
 EMAIL_HOST = 'smtp.gmail.com'

@@ -5,6 +5,9 @@ from django.conf import settings
 from django.conf.urls.static import static
 from django.views.i18n import javascript_catalog
 
+from wiki.urls import get_pattern as get_wiki_pattern
+from django_nyt.urls import get_pattern as get_nyt_pattern
+
 js_info_dict = {
     'domain': 'djangojs',
     'packages': ('estagio',),
@@ -22,7 +25,9 @@ urlpatterns = patterns('',
     url(r'^admin/salmonella/', include('salmonella.urls')),         # url necessária para o funcionamento da biblioteca django-salmonella
     url(r'^selectable/', include('selectable.urls')),               # url necessária para o funcionamento da biblioteca django-selectable
     url(r'^schedule/', include('schedule.urls')),                   # url necessária para o funcionamento da biblioteca django-scheduler
-    url(r'^diagrama_sistema/', include('django_spaghetti.urls')),    # url necessária para o funcionamento da biblioteca django-spaghetti-and-meatballs
+    url(r'^diagrama_sistema/', include('django_spaghetti.urls')),   # url necessária para o funcionamento da biblioteca django-spaghetti-and-meatballs
+    url(r'^wiki-site/notifications/', get_nyt_pattern()),           # url necessária para o funcionamento da biblioteca django-wiki (sistema de notificações)
+    url(r'^wiki-site/', get_wiki_pattern()),                        # url necessária para o funcionamento da biblioteca django-wiki
 
     # dashboard
     url(r'^dashboard/$', 'movimento.views.index'),

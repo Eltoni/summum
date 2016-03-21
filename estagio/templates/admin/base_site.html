@@ -65,9 +65,18 @@
         <!-- First icon column -->
         <div class="header-column icon">
             <i class="icon-eye-open"></i><br>
+            <i class="fa fa-area-chart"></i><br>
         </div>
-        <div class="header-column" style="margin-right: 20px">
-            <a id="up-tour-1-link" href="/" class="grey">{% trans 'Tour Guiado' %}</a><br>
+        <div class="header-column" style="margin-right: 35px">
+            <a id="up-tour-1-link" href="/" class="grey" title="{% trans 'Navegue pelas páginas e entenda quais são as principais características do sistema.' %}">{% trans 'Tour Guiado' %}</a><br>
+            <a id="up-diagrama-link" href="/diagrama_sistema/" class="grey" target="_blank">{% trans 'Diagrama do Projeto' %}</a><br>
+        </div>
+        <!-- Second icon column -->
+        <div class="header-column icon">
+            <i class="fa fa-book"></i><br>
+        </div>
+        <div class="header-column" style="margin-right: 35px">
+            <a id="up-wiki-link" href="/wiki-site/" class="grey" target="_blank" title="{% trans 'Documentação dos procedimentos padrão da instituição.' %}">{% trans 'Wiki' %}</a><br>
         </div>
     </div>
 {% endblock %}

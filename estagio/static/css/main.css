@@ -19,3 +19,8 @@ div.help-block ul.errorlist {
     list-style-type: none;
     margin-left: 0px;
 }
+
+/* Customiza a cor dos ícones do menu que utilizam a biblioteca Font Awesome */
+#left-nav li:not(.active) .fa {
+    color: #000;
+}

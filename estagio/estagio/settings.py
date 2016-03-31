@@ -36,8 +36,6 @@ SECRET_KEY = '#$*7&2zayxbai-=@jdvn=r=mtsh^u-wh&_l@9v84%0&^&7wm-p'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-TEMPLATE_DEBUG = True
-
 ALLOWED_HOSTS = ['127.0.0.1', 'localhost']
 
 
@@ -93,16 +91,21 @@ INSTALLED_APPS = (
     'wiki.plugins.notifications',
     'wiki.plugins.images',
     'wiki.plugins.macros',
+    'compressor',
 )
 
 
 MIDDLEWARE_CLASSES = (
+    'django.middleware.cache.UpdateCacheMiddleware',
+    'htmlmin.middleware.HtmlMinifyMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'django.middleware.cache.FetchFromCacheMiddleware',
+    'htmlmin.middleware.MarkRequestMiddleware',
 )
 
 ROOT_URLCONF = 'estagio.urls'
@@ -192,6 +195,20 @@ LOGGING = {
 }
 
 
+CACHES = {
+    'default': {
+        'BACKEND': 'redis_cache.RedisCache',
+        'LOCATION': 'redis://localhost:6379',
+        'OPTIONS': {
+            'DB': 1,
+            'PARSER_CLASS': 'redis.connection.HiredisParser',
+        }
+    },
+}
+
+SESSION_ENGINE = 'django.contrib.sessions.backends.cached_db'
+
+
 # Absolute filesystem path to the directory that will hold user-uploaded files.
 # Example: "/var/www/example.com/media/"
 MEDIA_ROOT = os.path.join(BASE_DIR, 'estagio/media')
@@ -211,9 +228,33 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'estagio/static')
 STATIC_URL = '/static/'
 
 
-TEMPLATE_DIRS = (
-    os.path.join(BASE_DIR, 'templates'),
+from django.conf.global_settings import TEMPLATE_CONTEXT_PROCESSORS as TCP
+
+CONTEXT_PROCESSORS = TCP + (
+    'django.core.context_processors.request',
+    'sekizai.context_processors.sekizai',
+    'django.core.context_processors.debug',
 )
+
+TEMPLATES = [
+    {
+        'BACKEND': 'django.template.backends.django.DjangoTemplates',
+        'DIRS': [
+            # insert your TEMPLATE_DIRS here
+            os.path.join(BASE_DIR, 'templates'),
+        ],
+        'OPTIONS': {
+            'debug': DEBUG,
+            'context_processors': CONTEXT_PROCESSORS,
+            'loaders': [
+                ('django.template.loaders.cached.Loader', [
+                    'django.template.loaders.filesystem.Loader',
+                    'django.template.loaders.app_directories.Loader',
+                ]),
+            ],
+        },
+    },
+]
 
 
 # É possível informar vários diretórios para fornecer os arquivos estáticos do projeto
@@ -227,19 +268,12 @@ STATICFILES_FINDERS = (
     'django.contrib.staticfiles.finders.AppDirectoriesFinder',
     # 'django.contrib.staticfiles.finders.DefaultStorageFinder',
     'djangobower.finders.BowerFinder',
+    'compressor.finders.CompressorFinder',
 )
 
 
 # Django Suit
 # -----------
-from django.conf.global_settings import TEMPLATE_CONTEXT_PROCESSORS as TCP
-
-TEMPLATE_CONTEXT_PROCESSORS = TCP + (
-    'django.core.context_processors.request',
-    'sekizai.context_processors.sekizai',
-    'django.core.context_processors.debug',
-)
-
 from django.utils.translation import ugettext_lazy as _
 ADMIN_NAME = _(u'Summum')
 
@@ -294,13 +328,22 @@ DATE_RANGE_FILTER_USE_WIDGET_SUIT = True
 
 # Django Nvd3
 # -----------
-BOWER_COMPONENTS_ROOT = os.path.join(BASE_DIR, 'estagio/static/components')
+BOWER_COMPONENTS_ROOT = os.path.join(BASE_DIR, 'static/components')
 
 BOWER_PATH = HOME_PATH + '/AppData/Roaming/npm/bower.cmd'
 
 BOWER_INSTALLED_APPS = (
     'd3#3.5.5',
     'nvd3#1.7.1',
+    'hint.css#2.2.1',
+    'hopscotch#0.2.5',
+    'fontawesome#4.5.0',
+    'jquery.numeric#1.4.1',
+    'jQuery-Mask-Plugin#1.13.9',
+    'bootstrap-filestyle#1.0.6',
+    'footable#3.0.7',
+    'jquery-modal#0.7.0',
+    'fullcalendar#2.6.1',
 )
 
 
@@ -344,6 +387,21 @@ WIKI_ANONYMOUS = False
 LOGIN_URL = '../login/'
 LOGOUT_URL = '../../logout/'
 # WIKI_EDITOR = 'suit_redactor.widgets.RedactorWidget'
+
+
+# django-compress
+# -----------
+COMPRESS_ENABLED = True
+COMPRESS_OFFLINE = True
+COMPRESS_CSS_FILTERS = [
+    'compressor.filters.css_default.CssAbsoluteFilter',
+    'compressor.filters.cssmin.rCSSMinFilter',
+]
+
+
+# django-htmlmin
+# -----------
+HTML_MINIFY = True
 
 
 # Email configuration

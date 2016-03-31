@@ -40,7 +40,8 @@ div.controls p.datetime input.vDateField {
   var pagamento_confirmado = false;
 
   $('#confirma-pagamento').click(function() {
-      $(this).addClass('disabled');
+      var botao_pagamento = $(this);
+      botao_pagamento.addClass('disabled');
       id_parcela = $('#id_parcelas_contas_pagar').val();
       $.ajax({
               type: 'POST',
@@ -56,24 +57,29 @@ div.controls p.datetime input.vDateField {
               },
               success : function(result) {
                   console.log(result);
-                  pagamento_confirmado = result['pagamento_confirmado'] == 1 ? true : false;
+                  pagamento_confirmado = result.resposta['pagamento_confirmado'] == 1 ? true : false;
 
                   if (pagamento_confirmado) {
                     $('#modal-pagamento-form').html('<img id="img-success" src="{{STATIC_URL}}img/icon-success.svg" alt="Pagamento efetuado com successo.">');
-                    $('#img-success').after('<div class="alert alert-success">' + result['message'] + '</div>');
+                    $('#img-success').after('<div class="alert alert-success">' + result.resposta['message'] + '</div>');
                   } 
                   else {
+                    // Habilita botão de pagamento
+                    botao_pagamento.removeClass('disabled');
                     // Atualiza as mensagens de erro
                     if ($('#erro-pagamento')[0]) {
                       $( "#erro-pagamento" ).remove();
                     }
                     if (!$('#erro-pagamento')[0]) {
-                      $('#efetiva_pagamento_form').before('<div id="erro-pagamento" class="alert alert-error">' + result['message'] + '</div>');
+                      $('#efetiva_pagamento_form').before('<div id="erro-pagamento" class="alert alert-error">' + result.resposta['message'] + '</div>');
                     }
                   }
               },
               error : function(req, status, error) {
                   console.log("Erro ao efetivar o pagamento.");
+                  console.log(req);
+                  console.log(status);
+                  console.log(error);
               }
           });
    });

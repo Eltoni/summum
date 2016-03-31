@@ -24,3 +24,25 @@ div.help-block ul.errorlist {
 #left-nav li:not(.active) .fa {
     color: #000;
 }
+
+
+/* Início - Customização para funcionamento correto da library jquery-modal.js */
+.modal {
+  z-index: 3 !important;
+}
+.jquery-modal {
+  z-index: 2 !important;
+}
+.modal.current #wrap #container .suit-columns.one-column {
+  padding-left: 0px;
+}
+.form-horizontal .inline-group .inline-related {
+  z-index: 0 !important; 
+}
+/* Fim - Customização */
+
+
+/*  Customiza indice de paginação do componente footable  */
+.footable .pagination {
+    float: inherit;
+}

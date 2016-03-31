@@ -39,14 +39,7 @@ class ContasReceberForm(ModelForm):
             'descricao': AutosizedTextarea(attrs={'rows': 5, 'class': 'input-xxlarge', 'placeholder': '...'}),
         }
 
-    class Media:
-        js = (
-            '/static/js/jquery.modal.min.js',
-        )
-        css = {
-            'all': ('/static/css/jquery.modal.css',)
-        }
-        
+
 
 class RecebimentoForm(ModelForm):
     u""" 

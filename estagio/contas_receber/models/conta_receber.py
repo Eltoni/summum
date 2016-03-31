@@ -214,7 +214,7 @@ class ContasReceber(models.Model):
 
     def link_recebimentos_conta(self):
         url = reverse('admin:app_list', kwargs={'app_label': 'contas_receber'})
-        return u"<a href='%(url)srecebimento/recebimentos_conta/%(pk)s' class='modal-rel-recebimentos modal-main-custom' rel='modal:open'>%(valor)s<span class='icon-share icon-alpha5 hint--bottom hint--bounce' style='vertical-align: text-bottom; margin-left: 10px;' rel='tooltip' data-hint='%(desc)s %(pk)s'></span></a>" % {'url': url, 'pk': self.pk, 'valor': self.valor_total_recebido(), 'desc': _(u"Visualize todos os recebimentos da conta")}
+        return u"<a href='%(url)srecebimento/recebimentos_conta/%(pk)s' class='modal-rel-recebimentos modal-main-custom'>%(valor)s<span class='icon-share icon-alpha5 hint--bottom hint--bounce' style='vertical-align: text-bottom; margin-left: 10px;' rel='tooltip' data-hint='%(desc)s %(pk)s'></span></a>" % {'url': url, 'pk': self.pk, 'valor': self.valor_total_recebido(), 'desc': _(u"Visualize todos os recebimentos da conta")}
     link_recebimentos_conta.allow_tags = True
     link_recebimentos_conta.short_description = _(u"Valor total recebido")
 

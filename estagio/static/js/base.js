@@ -71,17 +71,11 @@ $('.modal-main-custom').click(function(event) {
   });
 });
 
-var len = $('script').filter(function () {
-    return($(this).attr('src') == '/static/js/jquery.modal.min.js');
-}).length;
-
-if (len != 0) {
-    function modal_open_event(event, modal) {
-      $('body').css('overflow', 'hidden');
-    };
-    function modal_close_event(event, modal) {
-      $('body').css('overflow', 'auto');
-    };
-    $(document).on($.modal.BLOCK, modal_open_event);
-    $(document).on($.modal.CLOSE, modal_close_event);
-}
+function modal_open_event(event, modal) {
+  $('body').css('overflow', 'hidden');
+};
+function modal_close_event(event, modal) {
+  $('body').css('overflow', 'auto');
+};
+$(document).on($.modal.BLOCK, modal_open_event);
+$(document).on($.modal.CLOSE, modal_close_event);

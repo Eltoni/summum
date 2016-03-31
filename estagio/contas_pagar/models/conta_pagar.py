@@ -197,7 +197,7 @@ class ContasPagar(models.Model):
 
     def link_pagamentos_conta(self):
         url = reverse('admin:app_list', kwargs={'app_label': 'contas_pagar'})
-        return u"<a href='%(url)spagamento/pagamentos_conta/%(pk)s' class='modal-rel-pagamentos modal-main-custom' rel='modal:open'>%(valor)s<span class='icon-share icon-alpha5 hint--bottom hint--bounce' style='vertical-align: text-bottom; margin-left: 10px;' rel='tooltip' data-hint='%(desc)s %(pk)s'></span></a>" % {'url': url, 'pk': self.pk, 'valor': self.valor_total_pago(), 'desc': _(u"Visualize todos os pagamentos efetuados da conta")}
+        return u"<a href='%(url)spagamento/pagamentos_conta/%(pk)s' class='modal-rel-pagamentos modal-main-custom'>%(valor)s<span class='icon-share icon-alpha5 hint--bottom hint--bounce' style='vertical-align: text-bottom; margin-left: 10px;' rel='tooltip' data-hint='%(desc)s %(pk)s'></span></a>" % {'url': url, 'pk': self.pk, 'valor': self.valor_total_pago(), 'desc': _(u"Visualize todos os pagamentos efetuados da conta")}
     link_pagamentos_conta.allow_tags = True
     link_pagamentos_conta.short_description = _(u"Valor total pago")
 

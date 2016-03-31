@@ -13,11 +13,11 @@
 
 {% block extrahead %}
   <link rel="stylesheet" type="text/css" href="{% static 'css/dashboard.css' %}" media="all">
-  <link rel='stylesheet' type='text/css' href="{% static 'css/fullcalendar.css' %}" />
+  <link rel='stylesheet' type='text/css' href="{% static 'components/bower_components/fullcalendar/dist/fullcalendar.min.css' %}" />
 
-  <script type='text/javascript' src="{% static 'js/full_calendar/moment.min.js' %}"></script>
-  <script type='text/javascript' src="{% static 'js/full_calendar/fullcalendar.min.js' %}"></script>
-  <script type='text/javascript' src="{% static 'js/full_calendar/pt-br.js' %}"></script>
+  <script type='text/javascript' src="{% static 'components/bower_components/moment/min/moment.min.js' %}"></script>
+  <script type='text/javascript' src="{% static 'components/bower_components/fullcalendar/dist/fullcalendar.min.js' %}"></script>
+  <script type='text/javascript' src="{% static 'components/bower_components/fullcalendar/dist/lang/pt-br.js' %}"></script>
 {# {{ block.super }}#}
 {% endblock %}
 
@@ -88,14 +88,13 @@
                   </td>
                 </tr>
               </table>
-
               <br>
-              <table id="tabela_creditos_debitos" class="table table-striped table-bordered table-hover table-condensed" data-page-size="5">
+              <table id="tabela_creditos_debitos" class="table table-striped well table-hover footable footable-1 footable-paging footable-paging-center breakpoint-lg">
                 <thead>
-                  <tr>
-                    <td>Data</td>
-                    <td>Crédito (R$)</td>
-                    <td>Débito (R$)</td>
+                  <tr class="footable-header">
+                    <th data-breakpoints="xs">Data</th>
+                    <th>Crédito (R$)</th>
+                    <th>Débito (R$)</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -107,32 +106,39 @@
                   </tr>
                 {% endfor %}
                 </tbody>
-                <tfoot>
-                  <tr>
-                    <td colspan="3">
-                      <div class="pagination pagination-centered hide-if-no-paging"></div>
-                    </td>
-                  </tr>
-                </tfoot>
               </table>
               <script type="text/javascript">
-                $(function () {
-                  $('#tabela_creditos_debitos').footable();
+                  (function($){
+                      $(document).ready(function(){
+                          // Hide all TD before init of footable
+                          // $("#tabela_creditos_debitos tbody tr td").css("display", "none");
 
-                    $('#change-page-size').change(function (e) {
-                      e.preventDefault();
-                      var pageSize = $(this).val();
-                      $('.footable').data('page-size', pageSize);
-                      $('.footable').trigger('footable_initialized');
-                    });
-
-                    $('#change-nav-size').change(function (e) {
-                      e.preventDefault();
-                      var navSize = $(this).val();
-                      $('.footable').data('limit-navigation', navSize);
-                      $('.footable').trigger('footable_initialized');
-                    });
-                  });
+                          $("#tabela_creditos_debitos").footable({
+                              "empty": "Sem registros",
+                              "paging": { "enabled":true, 
+                                          "limit": 5, 
+                                          "countFormat": "{CP} de {TP}", 
+                                          "size": 10,
+                                          "current": !!window.localStorage ? localStorage.getItem('footable-page') : 1
+                              },
+                              "filtering": {
+                                  "enabled": true,
+                                  "delay": 500,
+                                  "placeholder": "Buscar",
+                                  "position": "right",
+                                  // "filters": [{
+                                  //     "name": "my-filter",
+                                  //     // "query": "Variable",
+                                  //     "columns": ["Variable"]
+                                  // }]
+                              }
+                          }).on('after.ft.paging', function(e, ftbl, pager){
+                              if (!!window.localStorage){
+                                  localStorage.setItem('footable-page', pager.page);
+                              }
+                          });
+                      });
+                  })(jQuery);
               </script>
               {% endif %}
           </div>

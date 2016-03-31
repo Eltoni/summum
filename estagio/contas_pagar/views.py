@@ -61,7 +61,8 @@ def efetiva_pagamento_parcela(request, id_parcela):
         if not Caixa.objects.filter(status=1).exists():
             pagamento_confirmado = 0
             message = force_text(_(u"Não há caixa aberto. Para efetivar um pagamento é necessário ter o caixa aberto."))
-            return HttpResponse(json.dumps({"message": message, 'pagamento_confirmado': pagamento_confirmado,}))
+            resposta = {"message": message, 'pagamento_confirmado': pagamento_confirmado,}
+            return HttpResponse(json.dumps({"resposta" : resposta}), content_type="text/javascript")
 
         if form.is_valid():
             pagamento_obj = form.save()
@@ -77,7 +78,8 @@ def efetiva_pagamento_parcela(request, id_parcela):
             pagamento_confirmado = 1
             message = force_text(_(u'Pagamento da parcela "%(p)s" efetuado com sucesso!') % {'p': id_parcela})
 
-        return HttpResponse(json.dumps({'message': message, 'pagamento_confirmado': pagamento_confirmado,}))
+        resposta = {'message': message, 'pagamento_confirmado': pagamento_confirmado,}
+        return HttpResponse(json.dumps({"resposta" : resposta}), content_type="text/javascript")
 
     dados_pagamento = ParcelasContasPagar.objects.get(pk=id_parcela)
     juros = Decimal(dados_pagamento.calculo_juros()).quantize(Decimal("0.00"))

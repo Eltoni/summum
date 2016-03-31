@@ -13,13 +13,13 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='Cidade',
             fields=[
-                ('id', models.AutoField(serialize=False, auto_created=True, verbose_name='ID', primary_key=True)),
+                ('id', models.AutoField(auto_created=True, primary_key=True, verbose_name='ID', serialize=False)),
                 ('nome', models.CharField(verbose_name='Nome', max_length=255)),
-                ('estado', models.CharField(null=True, verbose_name='Estado', blank=True, max_length=2)),
+                ('estado', models.CharField(blank=True, verbose_name='Estado', null=True, max_length=2)),
             ],
             options={
-                'verbose_name': 'Cidade',
                 'verbose_name_plural': 'Cidades',
+                'verbose_name': 'Cidade',
             },
         ),
         migrations.AlterUniqueTogether(

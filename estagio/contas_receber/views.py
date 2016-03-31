@@ -61,7 +61,8 @@ def efetiva_recebimento_parcela(request, id_parcela):
         if not Caixa.objects.filter(status=1).exists():
             recebimento_confirmado = 0
             message = force_text(_(u"Não há caixa aberto. Para efetivar um recebimento é necessário ter o caixa aberto."))
-            return HttpResponse(json.dumps({"message": message, 'recebimento_confirmado': recebimento_confirmado,}))
+            resposta = {"message": message, 'recebimento_confirmado': recebimento_confirmado,}
+            return HttpResponse(json.dumps({"resposta" : resposta}), content_type="text/javascript")
 
         # Checa a situação do valor do recebimento
         perc_valor_minimo_recebimento = Parametrizacao.objects.all().values_list('perc_valor_minimo_recebimento')[0][0]
@@ -71,7 +72,8 @@ def efetiva_recebimento_parcela(request, id_parcela):
         if Decimal(request.POST['valor']).quantize(Decimal("0.00")) < valor_minimo_recebimento and not primeiro_recebimento:
             recebimento_confirmado = 0
             message = force_text(_(u"Primeiro recebimento deve ser de no mínimo %(perc_valor_minimo)s%% do valor da parcela. Valor mínimo: R$ %(valor_minimo)s.") % {'perc_valor_minimo': perc_valor_minimo_recebimento, 'valor_minimo': valor_minimo_recebimento})
-            return HttpResponse(json.dumps({"message": message, 'recebimento_confirmado': recebimento_confirmado,}))
+            resposta = {"message": message, 'recebimento_confirmado': recebimento_confirmado,}
+            return HttpResponse(json.dumps({"resposta" : resposta}), content_type="text/javascript")
 
 
         if form.is_valid():
@@ -88,7 +90,8 @@ def efetiva_recebimento_parcela(request, id_parcela):
             recebimento_confirmado = 1
             message = force_text(_(u'Recebimento da parcela "%(p)s" efetuado com sucesso!') % {'p': id_parcela})
 
-        return HttpResponse(json.dumps({'message': message, 'recebimento_confirmado': recebimento_confirmado,}))
+        resposta = {'message': message, 'recebimento_confirmado': recebimento_confirmado,}
+        return HttpResponse(json.dumps({"resposta" : resposta}), content_type="text/javascript")
 
     dados_recebimento = ParcelasContasReceber.objects.get(pk=id_parcela)
     juros = Decimal(dados_recebimento.calculo_juros()).quantize(Decimal("0.00"))

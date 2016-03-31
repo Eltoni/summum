@@ -3,17 +3,21 @@ from django.template import RequestContext
 from django.core import serializers
 from django.http import HttpResponse
 from django.contrib.auth.models import User
+from django.utils.translation import gettext as _g, ugettext_lazy as _
+from django import forms
+from django.views.decorators.cache import cache_page
+
+from itertools import groupby
+
 from pessoal.models import Cliente
 from contas_receber.models import ContasReceber, ParcelasContasReceber, Recebimento
-from django.utils.translation import gettext as _g, ugettext_lazy as _
-from itertools import groupby
-from django import forms
 
 
 ANOS_CHOICES = [
     ('', u'---'), 
     ('2014', u'2014'), 
     ('2015', u'2015'),
+    ('2016', u'2016'),
 ]
 
 class Opcoes(forms.Form):
@@ -44,6 +48,7 @@ def cliente_financeiro(request):
     return render_to_response('admin/cliente_financeiro.html', data, context_instance=RequestContext(request))
 
 
+@cache_page(60 * 30)
 def cliente_detalhe_financeiro(request, id_cliente):
     # Busca todos os dados do cliente
     cliente = Cliente.objects.get(pk=id_cliente)

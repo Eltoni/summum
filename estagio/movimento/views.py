@@ -1,15 +1,19 @@
 #-*- coding: UTF-8 -*-
 from django.shortcuts import render, render_to_response, HttpResponseRedirect
 from django.template import RequestContext
+from django.utils.translation import gettext as _g
+from django.views.decorators.cache import cache_page
+
+import time
+from itertools import groupby
+
 from movimento.models import Produtos
 from configuracoes.models import Parametrizacao
 from caixa.models import *
-import time
-from itertools import groupby
 from utilitarios.funcoes_data import date_settings_timezone
-from django.utils.translation import gettext as _g
 
 
+@cache_page(60 * 60)
 def index(request):
     u""" Indica na página inicial do sistema os produtos que estão se esgotando no estoque. """
 

@@ -217,10 +217,10 @@ class ParcelasContasReceber(models.Model):
                     </button>                                                                    \
                     <ul class='dropdown-menu'>                                                   \
                         <li>                                                                     \
-                            <a href='%(url)sefetiva_recebimento_parcela/%(pk)s' class='modal-recebimento modal-main-custom' name='_return_id_parcela' rel='modal:open'><i class='icon-tag'></i>&nbsp;&nbsp;%(desc_p)s</a> \
+                            <a href='%(url)sefetiva_recebimento_parcela/%(pk)s' class='modal-recebimento modal-main-custom' name='_return_id_parcela'><i class='icon-tag'></i>&nbsp;&nbsp;%(desc_p)s</a> \
                         </li>                                                                    \
                         <li>                                                                     \
-                            <a href='%(url)srecebimentos_parcela/%(pk)s' class='modal-rel-recebimentos modal-main-custom' rel='modal:open'><i class='icon-tags'></i>&nbsp;&nbsp;%(desc_al)s</a> \
+                            <a href='%(url)srecebimentos_parcela/%(pk)s' class='modal-rel-recebimentos modal-main-custom'><i class='icon-tags'></i>&nbsp;&nbsp;%(desc_al)s</a> \
                         </li>                                                                    \
                     </ul>                                                                        \
                 </div>" % {'url': url, 'pk': self.pk, 'desc_p': _(u"Receber"), 'desc_al': _(u"Recebimentos Realizados"),}

@@ -189,10 +189,10 @@ class ParcelasContasPagar(models.Model):
                     </button>                                                                    \
                     <ul class='dropdown-menu'>                                                   \
                         <li>                                                                     \
-                            <a href='%(url)sefetiva_pagamento_parcela/%(pk)s' class='modal-pagamento modal-main-custom' name='_return_id_parcela' rel='modal:open'><i class='icon-tag'></i>&nbsp;&nbsp;%(desc_p)s</a> \
+                            <a href='%(url)sefetiva_pagamento_parcela/%(pk)s' class='modal-pagamento modal-main-custom' name='_return_id_parcela'><i class='icon-tag'></i>&nbsp;&nbsp;%(desc_p)s</a> \
                         </li>                                                                    \
                         <li>                                                                     \
-                            <a href='%(url)spagamentos_parcela/%(pk)s' class='modal-rel-pagamentos modal-main-custom' rel='modal:open'><i class='icon-tags'></i>&nbsp;&nbsp;%(desc_al)s</a> \
+                            <a href='%(url)spagamentos_parcela/%(pk)s' class='modal-rel-pagamentos modal-main-custom'><i class='icon-tags'></i>&nbsp;&nbsp;%(desc_al)s</a> \
                         </li>                                                                    \
                         <!--<li>                                                                     \
                             <a href='%(url)sestorno_parcela/%(pk)s'><i class='icon-minus-sign'></i>&nbsp;&nbsp;%(desc_est)s</a> \

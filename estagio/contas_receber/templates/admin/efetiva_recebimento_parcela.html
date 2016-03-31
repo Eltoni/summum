@@ -40,7 +40,8 @@ div.controls p.datetime input.vDateField {
   var recebimento_confirmado = false;
 
   $('#confirma-recebimento').click(function() {
-      $(this).addClass('disabled');
+      var botao_recebimento = $(this);
+      botao_recebimento.addClass('disabled');
       id_parcela = $('#id_parcelas_contas_receber').val();
       $.ajax({
               type: 'POST',
@@ -56,19 +57,21 @@ div.controls p.datetime input.vDateField {
               },
               success : function(result) {
                   console.log(result);
-                  recebimento_confirmado = result['recebimento_confirmado'] == 1 ? true : false;
+                  recebimento_confirmado = result.resposta['recebimento_confirmado'] == 1 ? true : false;
 
                   if (recebimento_confirmado) {
                     $('#modal-recebimento-form').html('<img id="img-success" src="{{STATIC_URL}}img/icon-success.svg" alt="Recebimento efetuado com successo.">');
-                    $('#img-success').after('<div class="alert alert-success">' + result['message'] + '</div>');
+                    $('#img-success').after('<div class="alert alert-success">' + result.resposta['message'] + '</div>');
                   } 
                   else {
+                    // Habilita botão de recebimento
+                    botao_recebimento.removeClass('disabled');
                     // Atualiza as mensagens de erro
                     if ($('#erro-recebimento')[0]) {
                       $( "#erro-recebimento" ).remove();
                     }
                     if (!$('#erro-recebimento')[0]) {
-                      $('#efetiva_recebimento_form').before('<div id="erro-recebimento" class="alert alert-error">' + result['message'] + '</div>');
+                      $('#efetiva_recebimento_form').before('<div id="erro-recebimento" class="alert alert-error">' + result.resposta['message'] + '</div>');
                     }
                   }
               },

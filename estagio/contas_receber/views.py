@@ -2,20 +2,22 @@
 from django.shortcuts import render_to_response
 from django.template import RequestContext
 from django.contrib.auth.decorators import permission_required
-from contas_receber.models import Recebimento, ParcelasContasReceber, ContasReceber
-from contas_receber.forms import RecebimentoForm
 from django.utils.translation import ugettext_lazy as _
-import json
 from django.shortcuts import *
 from django.views.decorators.csrf import csrf_exempt
-from decimal import Decimal
 from django.contrib.admin.models import LogEntry, ADDITION
 from django.utils.encoding import force_text
 from django.contrib.contenttypes.models import ContentType
+import pytz
+
+import json
+from decimal import Decimal
+from datetime import datetime
+
+from contas_receber.models import Recebimento, ParcelasContasReceber, ContasReceber
+from contas_receber.forms import RecebimentoForm
 from caixa.models import Caixa
 from configuracoes.models import *
-import pytz
-from datetime import datetime
 
 
 def retorna_recebimentos_parcela(request, id_parcela):

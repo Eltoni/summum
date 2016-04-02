@@ -1,16 +1,18 @@
 #-*- coding: UTF-8 -*-
 from django.db import models
-from localidade.models import Cidade
 from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
-import datetime
-from datetime import date
-from sorl.thumbnail import ImageField
 from django.utils.translation import ugettext_lazy as _
 from django.utils.html import format_html
 from django.utils.encoding import python_2_unicode_compatible
 from django.core.urlresolvers import reverse
+from sorl.thumbnail import ImageField
+
+import datetime
+from datetime import date
+
 from banco.models import Banco, Agencia
+from localidade.models import Cidade
 
 # faz a validação da data de nascimento para que o usuário fique impedido de informar data maior ou igual a hoje, e seja maior de 18 anos
 def valida_data_nascimento(value):
@@ -68,7 +70,7 @@ class BaseCadastroPessoa(models.Model):
     agencia = models.ForeignKey(Agencia, null=True, blank=True, verbose_name=_(u"Agência"))
     conta_banco = models.CharField(max_length=15, null=True, blank=True, verbose_name=_(u"Conta corrente")) 
     data = models.DateTimeField(auto_now_add=True, verbose_name=_(u"Data de cadastro"))
-    status = models.BooleanField(default=True, verbose_name=_(u"Status"))
+    status = models.BooleanField(default=True, db_index=True, verbose_name=_(u"Status"))
     observacao = models.TextField(blank=True, verbose_name=_(u"Observações"))
     foto = ImageField(upload_to='fotos_pessoas', max_length=255, blank=True, verbose_name=_(u"Foto"))
 
@@ -217,7 +219,7 @@ class Funcionario(BaseCadastroPessoa):
 
 @python_2_unicode_compatible
 class EnderecoEntregaCliente(models.Model):
-    status = models.BooleanField(default=True, verbose_name=_(u"Status"))
+    status = models.BooleanField(default=True, db_index=True, verbose_name=_(u"Status"))
     endereco = models.CharField(max_length=50, verbose_name=_(u"Endereço"))
     numero = models.CharField(max_length=15, verbose_name=_(u"Número")) 
     bairro = models.CharField(max_length=50, verbose_name=_(u"Bairro"))

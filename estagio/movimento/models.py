@@ -1,8 +1,8 @@
 #-*- coding: UTF-8 -*-
 from django.db import models
-from sorl.thumbnail import ImageField
 from django.utils.translation import ugettext_lazy as _
 from django.utils.encoding import python_2_unicode_compatible
+from sorl.thumbnail import ImageField
 
 
 @python_2_unicode_compatible
@@ -31,7 +31,7 @@ class Produtos(models.Model):
     preco_venda = models.DecimalField(max_digits=20, decimal_places=2, verbose_name=_(u"Preço de venda"))
     quantidade = models.IntegerField(default=0, verbose_name=_(u"Quantidade"))
     descricao = models.TextField(blank=True, verbose_name=_(u"Descrição")) 
-    status = models.BooleanField(default=True, verbose_name=_(u"Status"), help_text=_(u"Indica se o produto está ativo para atividades de compra e venda."))
+    status = models.BooleanField(default=True, db_index=True, verbose_name=_(u"Status"), help_text=_(u"Indica se o produto está ativo para atividades de compra e venda."))
     marca = models.ForeignKey(Marca, blank=True, null=True, on_delete=models.PROTECT, verbose_name=_(u"Marca"))
     categorias = models.ManyToManyField(Categoria, blank=True, verbose_name=_(u"Categoria"))
     imagem = ImageField(upload_to='produtos', max_length=255, blank=True, verbose_name=_(u"Imagem"))

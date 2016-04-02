@@ -1,9 +1,11 @@
-from venda.models import Venda
-from celery import shared_task
-from configuracoes.models import Parametrizacao
-import datetime
+#-*- coding: UTF-8 -*-
 from django.utils.timezone import utc
+from celery import shared_task
 
+import datetime
+
+from venda.models import Venda
+from configuracoes.models import Parametrizacao
 
 @shared_task
 def cancela_pedido_venda_vencido():

@@ -1,9 +1,10 @@
 #-*- coding: UTF-8 -*-
 from django.contrib import admin
-from banco.models import *
-from banco.forms import *
 from django.utils.translation import ugettext_lazy as _
 from sorl.thumbnail.admin import AdminImageMixin
+
+from banco.models import *
+from banco.forms import *
 
 
 class AgenciaInline(admin.TabularInline):

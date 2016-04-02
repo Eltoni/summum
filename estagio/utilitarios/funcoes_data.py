@@ -1,7 +1,8 @@
 #-*- coding: UTF-8 -*-
+from pytz import timezone
 from datetime import timedelta
 import datetime
-from pytz import timezone
+
 from estagio import settings
 
 def dia_util(data):

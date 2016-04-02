@@ -1,7 +1,8 @@
 #-*- coding: UTF-8 -*-
 from import_export import resources
-from venda.models import Venda, EntregaVenda
 from decimal import Decimal
+
+from venda.models import Venda, EntregaVenda
 
 #classe usada pelo import_export
 class VendaResource(resources.ModelResource):

@@ -1,19 +1,21 @@
 #-*- coding: UTF-8 -*-
 from django.db import models
-from pessoal.models import Cliente
-from venda.models import Venda
-from parametros_financeiros.models import FormaPagamento, GrupoEncargo
-from utilitarios.funcoes_data import date_add_months, date_add_week, date_add_days
-from utilitarios.funcoes import pode_ver_link
 from django.core.exceptions import ValidationError
-import datetime
-from decimal import Decimal
 from django.db.models import Sum
 from django.core.urlresolvers import reverse
 from django.utils.html import format_html
 from django.utils.translation import ugettext_lazy as _
 from django.utils.encoding import python_2_unicode_compatible
 from django.utils.timezone import utc
+
+import datetime
+from decimal import Decimal
+
+from pessoal.models import Cliente
+from venda.models import Venda
+from parametros_financeiros.models import FormaPagamento, GrupoEncargo
+from utilitarios.funcoes_data import date_add_months, date_add_week, date_add_days
+from utilitarios.funcoes import pode_ver_link
 
 
 @python_2_unicode_compatible
@@ -24,9 +26,9 @@ class ContasReceber(models.Model):
     Criada em 22/09/2014. 
     """
 
-    data = models.DateTimeField(verbose_name=_(u"Data de geração"))
+    data = models.DateTimeField(db_index=True, verbose_name=_(u"Data de geração"))
     valor_total = models.DecimalField(max_digits=20, decimal_places=2, verbose_name=_(u"Valor total"))
-    status = models.BooleanField(default=False, verbose_name=_(u"Conta fechada"), help_text=_(u"Se desmarcado, indica que há parcelas em aberto, caso contrário, a conta foi fechada."))
+    status = models.BooleanField(default=False, db_index=True, verbose_name=_(u"Conta fechada"), help_text=_(u"Se desmarcado, indica que há parcelas em aberto, caso contrário, a conta foi fechada."))
     descricao = models.TextField(blank=True, verbose_name=_(u"Descrição")) 
     vendas = models.ForeignKey(Venda, on_delete=models.PROTECT, null=True, verbose_name=_(u"Venda")) 
     cliente = models.ForeignKey(Cliente, on_delete=models.PROTECT, null=True, verbose_name=_(u"Cliente"))

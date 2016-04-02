@@ -1,15 +1,17 @@
 #-*- coding: UTF-8 -*-
 from django.db import models
-from parametros_financeiros.models import GrupoEncargo
-from utilitarios.calculos_encargos import EncargoSimples, EncargoCompostos
-import datetime
-from decimal import Decimal
 from django.db.models import Sum
 from django.core.urlresolvers import reverse
 from django.utils.html import format_html
 from django.utils.translation import ugettext_lazy as _
 from django.utils.encoding import python_2_unicode_compatible
+
+import datetime
+from decimal import Decimal
+
+from parametros_financeiros.models import GrupoEncargo
 from contas_pagar.models.conta_pagar import ContasPagar
+from utilitarios.calculos_encargos import EncargoSimples, EncargoCompostos
 
 
 @python_2_unicode_compatible
@@ -20,9 +22,9 @@ class ParcelasContasPagar(models.Model):
     Criada em 22/09/2014.  
     """
 
-    vencimento = models.DateField(verbose_name=_(u"Data de vencimento"))
+    vencimento = models.DateField(db_index=True, verbose_name=_(u"Data de vencimento"))
     valor = models.DecimalField(max_digits=20, decimal_places=2, verbose_name=_(u"Valor")) 
-    status = models.BooleanField(default=False, verbose_name=_(u"Status"))
+    status = models.BooleanField(default=False, db_index=True, verbose_name=_(u"Status"))
     num_parcelas = models.IntegerField(verbose_name=_(u"Nº Parcela"))
     contas_pagar = models.ForeignKey(ContasPagar, on_delete=models.PROTECT, verbose_name=_(u"Conta a pagar"))
 

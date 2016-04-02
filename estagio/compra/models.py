@@ -1,12 +1,14 @@
 #-*- coding: UTF-8 -*-
 from django.db import models
-from pessoal.models import Fornecedor
-from parametros_financeiros.models import FormaPagamento, GrupoEncargo
-from movimento.models import Produtos
 from django.core.exceptions import ValidationError
 from django.utils.translation import ugettext_lazy as _
 from django.utils.encoding import python_2_unicode_compatible
 from django.core.urlresolvers import reverse
+
+from pessoal.models import Fornecedor
+from parametros_financeiros.models import FormaPagamento, GrupoEncargo
+from movimento.models import Produtos
+
 
 
 @python_2_unicode_compatible
@@ -18,17 +20,17 @@ class Compra(models.Model):
     Criada em 15/06/2014. 
     """
     total = models.DecimalField(max_digits=20, decimal_places=2, verbose_name=_(u"Total (R$)"), help_text=_(u"Valor total da compra."))
-    data_compra = models.DateTimeField(null=True, verbose_name=_(u"Data da compra"))
-    data_pedido = models.DateTimeField(null=True, verbose_name=_(u"Data do pedido"))
-    data_cancelamento = models.DateTimeField(null=True, verbose_name=_(u"Data do cancelamento"))
+    data_compra = models.DateTimeField(null=True, db_index=True, verbose_name=_(u"Data da compra"))
+    data_pedido = models.DateTimeField(null=True, db_index=True, verbose_name=_(u"Data do pedido"))
+    data_cancelamento = models.DateTimeField(null=True, db_index=True, verbose_name=_(u"Data do cancelamento"))
     desconto = models.DecimalField(max_digits=20, decimal_places=0, blank=True, null=True, verbose_name=_(u"Desconto (%)"), help_text=_(u"Desconto sob o valor total da compra."))
-    status = models.BooleanField(default=False, verbose_name=_(u"Cancelado?"), help_text=_(u"Indica se o status da compra está ativo ou cancelada."))
+    status = models.BooleanField(default=False, db_index=True, verbose_name=_(u"Cancelado?"), help_text=_(u"Indica se o status da compra está ativo ou cancelada."))
     fornecedor = models.ForeignKey(Fornecedor, on_delete=models.PROTECT, verbose_name=_(u"Fornecedor"))
     forma_pagamento = models.ForeignKey(FormaPagamento, verbose_name=_(u"Forma de pagamento"), on_delete=models.PROTECT)
     grupo_encargo = models.ForeignKey(GrupoEncargo, blank=False, null=False, verbose_name=_(u"Grupo de encargo"), on_delete=models.PROTECT)
     observacao = models.TextField(blank=True, verbose_name=_(u"Observações"), help_text=_(u"Descreva na área as informações relavantes da compra."))
-    pedido = models.CharField(max_length=1, blank=True, choices=((u'S', _(u"Sim")), (u'N', _(u"Não")),), verbose_name=_(u"Pedido?")) 
-    status_pedido = models.BooleanField(default=False, verbose_name=_(u"Pedido confirmado?"), help_text=_(u"Caso confirmado, os itens financeiros serão gerados e o estoque movimentado."))
+    pedido = models.CharField(max_length=1, blank=True, db_index=True, choices=((u'S', _(u"Sim")), (u'N', _(u"Não")),), verbose_name=_(u"Pedido?")) 
+    status_pedido = models.BooleanField(default=False, db_index=True, verbose_name=_(u"Pedido confirmado?"), help_text=_(u"Caso confirmado, os itens financeiros serão gerados e o estoque movimentado."))
     
     class Meta:
         verbose_name = _(u"Compra")

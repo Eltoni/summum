@@ -1,9 +1,10 @@
 #-*- coding: UTF-8 -*-
 from django.forms import forms, ModelForm, TextInput, CheckboxInput, HiddenInput, CharField
-from suit.widgets import LinkedSelect, NumberInput, AutosizedTextarea
 from django.forms.models import BaseInlineFormSet
-from compra.models import *
 from django.utils.translation import ugettext_lazy as _
+from suit.widgets import LinkedSelect, NumberInput, AutosizedTextarea
+
+from compra.models import *
 
 
 class CompraForm(ModelForm):

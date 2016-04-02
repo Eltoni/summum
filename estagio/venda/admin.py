@@ -1,30 +1,31 @@
 #-*- coding: UTF-8 -*-
 from django.contrib import admin
-from venda.models import *
-from venda.forms import *
-from venda.views import get_valor_unitario, get_endereco_entrega_cliente, overview_vendas
 from django.http import HttpResponseRedirect
-from configuracoes.models import Parametrizacao
-from salmonella.admin import SalmonellaMixin
 from django.utils.translation import ugettext_lazy as _
-from import_export.admin import ExportMixin
-from venda.export import VendaResource, EntregaVendaResource
-from daterange_filter.filter import DateRangeFilter
-from selectable_filter.filter import SelectableFilter
 from django.conf.urls import patterns
-import datetime
 from django.utils.timezone import utc
-import copy
 from django.core.urlresolvers import reverse
 from django.core.exceptions import PermissionDenied
 from django.contrib.admin.models import LogEntry, ADDITION
 from django.utils.encoding import force_text
 from django.contrib.contenttypes.models import ContentType
 from django.contrib import messages
-from movimento.models import Produtos
 from django.utils.html import format_html
+from salmonella.admin import SalmonellaMixin
+from import_export.admin import ExportMixin
+from daterange_filter.filter import DateRangeFilter
+from selectable_filter.filter import SelectableFilter
 import pandas as pd
 
+import datetime
+import copy
+
+from venda.models import *
+from venda.forms import *
+from venda.views import get_valor_unitario, get_endereco_entrega_cliente, overview_vendas
+from configuracoes.models import Parametrizacao
+from venda.export import VendaResource, EntregaVendaResource
+from movimento.models import Produtos
 
 # class EntregaVendaAdmin(ExportMixin, admin.ModelAdmin):
 #     resource_class = EntregaVendaResource

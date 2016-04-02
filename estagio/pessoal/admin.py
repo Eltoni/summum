@@ -1,15 +1,16 @@
 #-*- coding: UTF-8 -*-
 from django.contrib import admin
-from pessoal.models import *
-from pessoal.forms import *
+from django.contrib.admin.views.main import IS_POPUP_VAR
+from django.conf.urls import patterns
+from django.utils.translation import ugettext_lazy as _
 from import_export.admin import ExportMixin
 from sorl.thumbnail.admin import AdminImageMixin
-from pessoal.export import ClienteResource, FornecedorResource, FuncionarioResource, CargoResource
-from django.contrib.admin.views.main import IS_POPUP_VAR
-from app_global.admin import GlobalAdmin
-from django.utils.translation import ugettext_lazy as _
 from selectable_filter.filter import SelectableFilter
-from django.conf.urls import patterns
+
+from pessoal.models import *
+from pessoal.forms import *
+from pessoal.export import ClienteResource, FornecedorResource, FuncionarioResource, CargoResource
+from app_global.admin import GlobalAdmin
 from pessoal.views import get_dados_usuario, cliente_financeiro, cliente_detalhe_financeiro
 from utilitarios.funcoes import remove_tags
 

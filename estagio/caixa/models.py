@@ -1,13 +1,15 @@
 #-*- coding: UTF-8 -*-
 from django.db import models
-from contas_pagar.models import ContasPagar, ParcelasContasPagar, Pagamento
-from contas_receber.models import ContasReceber, ParcelasContasReceber, Recebimento
 from django.core.exceptions import ValidationError
 from django.db.models.signals import post_save
-from datetime import datetime
-from decimal import Decimal
 from django.utils.translation import ugettext_lazy as _
 from django.utils.encoding import python_2_unicode_compatible
+
+from datetime import datetime
+from decimal import Decimal
+
+from contas_pagar.models import ContasPagar, ParcelasContasPagar, Pagamento
+from contas_receber.models import ContasReceber, ParcelasContasReceber, Recebimento
 
 
 @python_2_unicode_compatible
@@ -27,9 +29,9 @@ class Caixa(models.Model):
     diferenca> tem como objetivo principal saber se o que tem no caixa é o mesmo valor que foi calculado pelo sistema.
     
     """
-    status = models.BooleanField(default=True, verbose_name=_(u"Status"), help_text=_(u"Desmarque o Checkbox para indicar que o caixa está fechado."))
-    data_abertura = models.DateTimeField(null=True, verbose_name=_(u"Data de abertura"), help_text=_(u"Data de abertura do caixa."))
-    data_fechamento = models.DateTimeField(null=True, verbose_name=_(u"Data de fechamento"), help_text=_(u"Data de fechamento do caixa."))
+    status = models.BooleanField(default=True, db_index=True, verbose_name=_(u"Status"), help_text=_(u"Desmarque o Checkbox para indicar que o caixa está fechado."))
+    data_abertura = models.DateTimeField(null=True, db_index=True, verbose_name=_(u"Data de abertura"), help_text=_(u"Data de abertura do caixa."))
+    data_fechamento = models.DateTimeField(null=True, db_index=True, verbose_name=_(u"Data de fechamento"), help_text=_(u"Data de fechamento do caixa."))
     valor_entrada = models.DecimalField(max_digits=20, decimal_places=2, default=0.00, verbose_name=_(u"Valor de entrada"), help_text=_(u"Somatório de todos os recebimentos (mov. do tipo Crédito)."))
     valor_saida = models.DecimalField(max_digits=20, decimal_places=2, default=0.00, verbose_name=_(u"Valor de saída"), help_text=_(u"Somatório de todos os pagamentos (mov. do tipo Débito)."))
     valor_total = models.DecimalField(max_digits=20, decimal_places=2, default=0.00, verbose_name=_(u"Valor total"), help_text=_(u"Valor calculado automaticamente da quantia existente no Caixa em seu fechamento."))
@@ -102,8 +104,8 @@ class Caixa(models.Model):
 class MovimentosCaixa(models.Model):
     descricao = models.CharField(max_length=100, verbose_name=_(u"Descrição"))
     valor = models.DecimalField(max_digits=20, decimal_places=2, default=0.00, verbose_name=_(u"Valor"))
-    data = models.DateTimeField(verbose_name=_(u"Data de movimento"))
-    tipo_mov = models.CharField(max_length=45, verbose_name=_(u"Tipo de movimento"))
+    data = models.DateTimeField(db_index=True, verbose_name=_(u"Data de movimento"))
+    tipo_mov = models.CharField(max_length=45, db_index=True, verbose_name=_(u"Tipo de movimento"))
     caixa = models.ForeignKey(Caixa, on_delete=models.PROTECT, verbose_name=_(u"Caixa"))
     pagamento = models.ForeignKey(Pagamento, on_delete=models.PROTECT, blank=True, null=True, verbose_name=_(u"Pagamento"))
     recebimento = models.ForeignKey(Recebimento, on_delete=models.PROTECT, blank=True, null=True, verbose_name=_(u"Recebimento"))

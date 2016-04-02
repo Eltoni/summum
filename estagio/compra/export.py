@@ -1,7 +1,7 @@
 #-*- coding: UTF-8 -*-
 from import_export import resources
-from compra.models import Compra
 from decimal import Decimal
+from compra.models import Compra
 
 #classe usada pelo import_export
 class CompraResource(resources.ModelResource):

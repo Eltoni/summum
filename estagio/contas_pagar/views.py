@@ -2,20 +2,22 @@
 from django.shortcuts import render_to_response
 from django.template import RequestContext
 from django.contrib.auth.decorators import permission_required
-from contas_pagar.models import Pagamento, ParcelasContasPagar, ContasPagar
-from contas_pagar.forms import PagamentoForm
 from django.utils.translation import ugettext_lazy as _
-import json
 from django.shortcuts import *
 from django.views.decorators.csrf import csrf_exempt
-from decimal import Decimal
 from django.contrib.admin.models import LogEntry, ADDITION
 from django.utils.encoding import force_text
 from django.contrib.contenttypes.models import ContentType
+import pytz
+
+import json
+from decimal import Decimal
+from datetime import datetime
+
+from contas_pagar.models import Pagamento, ParcelasContasPagar, ContasPagar
+from contas_pagar.forms import PagamentoForm
 from caixa.models import Caixa
 from configuracoes.models import *
-import pytz
-from datetime import datetime
 
 
 def retorna_pagamentos_parcela(request, id_parcela):

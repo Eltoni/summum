@@ -1,10 +1,11 @@
 #-*- coding: UTF-8 -*-
 from django.forms import ModelForm, ModelChoiceField, ChoiceField
+from django.utils.translation import ugettext_lazy as _
 from suit.widgets import NumberInput
-from configuracoes.models import *
 from suit_redactor.widgets import RedactorWidget
 from schedule.models import Calendar
-from django.utils.translation import ugettext_lazy as _
+
+from configuracoes.models import *
 
 
 class ParametrizacaoForm(ModelForm):

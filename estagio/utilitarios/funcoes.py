@@ -1,9 +1,10 @@
 #-*- coding: UTF-8 -*-
-import xml.etree.ElementTree
 from django.db.models import Q
 from django.contrib.auth.models import Permission
 from django.contrib.auth.models import User
 from django.core.urlresolvers import reverse
+
+import xml.etree.ElementTree
 
 def remove_tags(text):
     """Remove elementos html de uma string e retorna o resultado"""

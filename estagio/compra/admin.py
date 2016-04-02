@@ -1,26 +1,28 @@
 #-*- coding: UTF-8 -*-
 from django.contrib import admin
-from compra.models import *
-from compra.forms import *
-from compra.views import get_valor_unitario
 from django.http import HttpResponseRedirect
-from configuracoes.models import Parametrizacao
-from salmonella.admin import SalmonellaMixin
-from app_global.widgets import NoAddingRelatedFieldWidgetWrapper
 from django.utils.translation import ugettext_lazy as _
-from import_export.admin import ExportMixin
-from compra.export import CompraResource
-from daterange_filter.filter import DateRangeFilter
-from selectable_filter.filter import SelectableFilter
 from django.conf.urls import patterns
-import datetime
 from django.utils.timezone import utc
-import copy
 from django.core.urlresolvers import reverse
 from django.core.exceptions import PermissionDenied
 from django.contrib.admin.models import LogEntry, ADDITION
 from django.utils.encoding import force_text
 from django.contrib.contenttypes.models import ContentType
+from salmonella.admin import SalmonellaMixin
+from import_export.admin import ExportMixin
+from daterange_filter.filter import DateRangeFilter
+from selectable_filter.filter import SelectableFilter
+
+import datetime
+import copy
+
+from compra.models import *
+from compra.forms import *
+from compra.views import get_valor_unitario
+from compra.export import CompraResource
+from configuracoes.models import Parametrizacao
+from app_global.widgets import NoAddingRelatedFieldWidgetWrapper
 
 
 class ItensCompraInline(SalmonellaMixin, admin.TabularInline):

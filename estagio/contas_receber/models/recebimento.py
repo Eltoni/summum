@@ -3,10 +3,11 @@ from django.db import models
 from django.core.exceptions import ValidationError
 from django.utils.translation import ugettext_lazy as _
 from django.utils.encoding import python_2_unicode_compatible
+from django.core.urlresolvers import reverse
+
 from configuracoes.models import *
 from contas_receber.models.parcela_conta_receber import ParcelasContasReceber
 from contas_receber.models.conta_receber import ContasReceber
-from django.core.urlresolvers import reverse
 
 
 @python_2_unicode_compatible
@@ -19,7 +20,7 @@ class Recebimento(models.Model):
     Criada em 15/06/2014. 
     """
 
-    data = models.DateTimeField(verbose_name=_(u"Data do recebimento"))
+    data = models.DateTimeField(db_index=True, verbose_name=_(u"Data do recebimento"))
     valor = models.DecimalField(max_digits=20, decimal_places=2, verbose_name=_(u"Valor"))
     juros = models.DecimalField(max_digits=20, decimal_places=2, blank=True, null=True, verbose_name=_(u"Juros"))
     multa = models.DecimalField(max_digits=20, decimal_places=2, blank=True, null=True, verbose_name=_(u"Multa"))

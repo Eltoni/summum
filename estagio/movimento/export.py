@@ -1,7 +1,7 @@
 #-*- coding: UTF-8 -*-
 from import_export import resources
-from movimento.models import Produtos
 from decimal import Decimal
+from movimento.models import Produtos
 
 #classe usada pelo import_export
 class ProdutosResource(resources.ModelResource):

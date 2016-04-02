@@ -1,18 +1,20 @@
 #-*- coding: UTF-8 -*-
 from django.contrib import admin
-from caixa.models import *
 from django.core.mail import EmailMultiAlternatives
 from django.utils.translation import ugettext_lazy as _
-from import_export.admin import ExportMixin
-from caixa.export import CaixaResource, MovimentosCaixaResource
-from caixa.forms import CaixaForm
-from decimal import Decimal
 from django.contrib.auth.models import Permission
 from django.contrib.auth.models import User
 from django.db.models import Q
+from import_export.admin import ExportMixin
 from daterange_filter.filter import DateRangeFilter
-from utilitarios.funcoes_email import TextosEmail
+
+from decimal import Decimal
+
+from caixa.models import *
+from caixa.export import CaixaResource, MovimentosCaixaResource
+from caixa.forms import CaixaForm
 from configuracoes.models import Parametrizacao
+from utilitarios.funcoes_email import TextosEmail
 
 
 class CaixaAdmin(ExportMixin, admin.ModelAdmin):

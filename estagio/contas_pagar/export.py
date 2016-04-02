@@ -1,8 +1,11 @@
 #-*- coding: UTF-8 -*-
-from import_export import fields, resources
-from contas_pagar.models import ContasPagar, ParcelasContasPagar
-from decimal import Decimal
 from django.utils.translation import gettext
+from import_export import fields, resources
+
+from decimal import Decimal
+
+from contas_pagar.models import ContasPagar, ParcelasContasPagar
+
 #classe usada pelo import_export
 class ContasPagarResource(resources.ModelResource):
 

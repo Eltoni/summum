@@ -1,13 +1,14 @@
 #-*- coding: UTF-8 -*-
-from pessoal.models import *
 from django import forms
-from suit.widgets import LinkedSelect, NumberInput, AutosizedTextarea, SuitDateWidget
-from localflavor.br.forms import BRStateChoiceField, BRPhoneNumberField, BRCPFField, BRZipCodeField, BRCNPJField
 from django.forms import ModelForm, TextInput
 from django.utils.safestring import mark_safe
 from django.utils.translation import ugettext_lazy as _
-from pessoal.lookups import CidadeChainedLookup, AgenciaChainedLookup, BancoChainedLookup
+from suit.widgets import LinkedSelect, NumberInput, AutosizedTextarea, SuitDateWidget
+from localflavor.br.forms import BRStateChoiceField, BRPhoneNumberField, BRCPFField, BRZipCodeField, BRCNPJField
 from selectable.forms import AutoCompleteSelectField, AutoComboboxSelectWidget
+
+from pessoal.models import *
+from pessoal.lookups import CidadeChainedLookup, AgenciaChainedLookup, BancoChainedLookup
 
 
 class BaseCadastroPessoaForm(forms.ModelForm):

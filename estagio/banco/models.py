@@ -2,8 +2,9 @@
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
 from django.utils.encoding import python_2_unicode_compatible
-from localidade.models import Cidade
 from sorl.thumbnail import ImageField
+
+from localidade.models import Cidade
 
 
 @python_2_unicode_compatible

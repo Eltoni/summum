@@ -1,7 +1,6 @@
 #-*- coding: UTF-8 -*-
-from datetime import date
 from django.conf import settings
-
+from datetime import date
 
 ADMIN_NAME = settings.ADMIN_NAME.encode('utf-8').decode("utf-8")
 

@@ -3,11 +3,12 @@ from django.shortcuts import render_to_response
 from django.template import RequestContext
 from django.core import serializers
 from django.http import HttpResponse
+from django.utils.translation import ugettext_lazy as _
+from django.db.models import Count, Sum
+
 from movimento.models import Produtos
 from pessoal.models import EnderecoEntregaCliente, Funcionario
 from venda.models import Venda
-from django.utils.translation import ugettext_lazy as _
-from django.db.models import Count, Sum
 
 
 def get_valor_unitario(request, id):

@@ -1,7 +1,7 @@
 #-*- coding: UTF-8 -*-
 from import_export import resources
-from caixa.models import Caixa, MovimentosCaixa
 from decimal import Decimal
+from caixa.models import Caixa, MovimentosCaixa
 
 #classe usada pelo import_export
 class CaixaResource(resources.ModelResource):

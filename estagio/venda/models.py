@@ -1,18 +1,20 @@
 #-*- coding: UTF-8 -*-
 from django.db import models
-from pessoal.models import Cliente, EnderecoEntregaCliente
-from parametros_financeiros.models import FormaPagamento, GrupoEncargo
-from movimento.models import Produtos
 from django.core.exceptions import ValidationError
-import datetime
 from django.utils.timezone import utc
 from django.utils.translation import ugettext_lazy as _
-from geoposition.fields import GeopositionField
-from configuracoes.models import Parametrizacao
-from utilitarios.funcoes_data import datetime_settings_timezone
 from django.contrib.auth.models import User
 from django.utils.encoding import python_2_unicode_compatible
 from django.core.urlresolvers import reverse
+from geoposition.fields import GeopositionField
+
+import datetime
+
+from pessoal.models import Cliente, EnderecoEntregaCliente
+from parametros_financeiros.models import FormaPagamento, GrupoEncargo
+from movimento.models import Produtos
+from configuracoes.models import Parametrizacao
+from utilitarios.funcoes_data import datetime_settings_timezone
 
 
 @python_2_unicode_compatible
@@ -24,17 +26,17 @@ class Venda(models.Model):
     Criada em 05/10/2014. 
     """
     total = models.DecimalField(max_digits=20, decimal_places=2, verbose_name=_(u"Total (R$)"), help_text=u'Valor total da venda.')
-    data_venda = models.DateTimeField(null=True, verbose_name=_(u"Data da venda"))
-    data_pedido = models.DateTimeField(null=True, verbose_name=_(u"Data do pedido"))
-    data_cancelamento = models.DateTimeField(null=True, verbose_name=_(u"Data do cancelamento"))
+    data_venda = models.DateTimeField(null=True, db_index=True, verbose_name=_(u"Data da venda"))
+    data_pedido = models.DateTimeField(null=True, db_index=True, verbose_name=_(u"Data do pedido"))
+    data_cancelamento = models.DateTimeField(null=True, db_index=True, verbose_name=_(u"Data do cancelamento"))
     desconto = models.DecimalField(max_digits=20, decimal_places=0, blank=True, null=True, verbose_name=_(u"Desconto (%)"), help_text=_(u"Desconto sob o valor total da venda."))
-    status = models.BooleanField(default=False, verbose_name=_(u"Cancelado?"), help_text=_(u"Marcando o Checkbox, a venda será cancelada e os itens financeiros estornados."))
+    status = models.BooleanField(default=False, db_index=True, verbose_name=_(u"Cancelado?"), help_text=_(u"Marcando o Checkbox, a venda será cancelada e os itens financeiros estornados."))
     cliente = models.ForeignKey(Cliente, on_delete=models.PROTECT, verbose_name=_(u"Cliente"))
     forma_pagamento = models.ForeignKey(FormaPagamento, on_delete=models.PROTECT, verbose_name=_(u"Forma de pagamento"))
     grupo_encargo = models.ForeignKey(GrupoEncargo, blank=False, null=False, verbose_name=_(u"Grupo de encargo"), on_delete=models.PROTECT)
     observacao = models.TextField(blank=True, verbose_name=_(u"Observações"), help_text=_(u"Descreva na área as informações relavantes da venda."))
-    pedido = models.CharField(max_length=1, blank=True, choices=((u'S', _(u"Sim")), (u'N', _(u"Não")),), verbose_name=_(u"Pedido?")) 
-    status_pedido = models.BooleanField(default=False, verbose_name=_(u"Pedido confirmado?"), help_text=_(u"Marcando o Checkbox, os itens financeiros serão gerados e o estoque movimentado."))
+    pedido = models.CharField(max_length=1, blank=True, db_index=True, choices=((u'S', _(u"Sim")), (u'N', _(u"Não")),), verbose_name=_(u"Pedido?")) 
+    status_pedido = models.BooleanField(default=False, db_index=True, verbose_name=_(u"Pedido confirmado?"), help_text=_(u"Marcando o Checkbox, os itens financeiros serão gerados e o estoque movimentado."))
     vendedor = models.ForeignKey(User, blank=True, null=True, on_delete=models.DO_NOTHING, verbose_name=_(u"Vendedor"))
 
     class Meta:
@@ -218,9 +220,9 @@ class ItensVenda(models.Model):
 
 @python_2_unicode_compatible
 class EntregaVenda(models.Model):
-    status = models.BooleanField(default=False, verbose_name=_(u"Entrega agendada?"))
+    status = models.BooleanField(default=False, db_index=True, verbose_name=_(u"Entrega agendada?"))
     endereco = models.ForeignKey(EnderecoEntregaCliente, null=True, blank=True, on_delete=models.PROTECT, verbose_name=_(u"Endereço"))
-    data = models.DateTimeField(null=True, blank=True, verbose_name=_(u"Data de entrega"))
+    data = models.DateTimeField(null=True, blank=True, db_index=True, verbose_name=_(u"Data de entrega"))
     observacao = models.TextField(blank=True, verbose_name=_(u"Observações"), help_text=_(u"Descreva na área as informações relavantes da entrega."))
     posicao = GeopositionField(blank=True, verbose_name=_(u"Posição"))
     venda = models.OneToOneField(Venda, null=True, blank=True, verbose_name=_(u"Venda"))

@@ -1,6 +1,7 @@
 #-*- coding: UTF-8 -*-
-from pessoal.models import Cliente, Fornecedor, Funcionario, Cargo
 from import_export import resources, fields
+
+from pessoal.models import Cliente, Fornecedor, Funcionario, Cargo
 from utilitarios.funcoes import remove_tags
 
 #classes usadas pelo import_export

@@ -3,10 +3,11 @@ from django.db import models
 from django.core.exceptions import ValidationError
 from django.utils.translation import ugettext_lazy as _
 from django.utils.encoding import python_2_unicode_compatible
+from django.core.urlresolvers import reverse
+
 from configuracoes.models import *
 from contas_pagar.models.parcela_conta_pagar import ParcelasContasPagar
 from contas_pagar.models.conta_pagar import ContasPagar
-from django.core.urlresolvers import reverse
 
 
 @python_2_unicode_compatible
@@ -20,7 +21,7 @@ class Pagamento(models.Model):
     Criada em 16/06/2014. 
     """
     
-    data = models.DateTimeField(verbose_name=_(u"Data do pagamento"))
+    data = models.DateTimeField(db_index=True, verbose_name=_(u"Data do pagamento"))
     valor = models.DecimalField(max_digits=20, decimal_places=2, verbose_name=_(u"Valor"))
     juros = models.DecimalField(max_digits=20, decimal_places=2, blank=True, null=True, verbose_name=_(u"Juros"))
     multa = models.DecimalField(max_digits=20, decimal_places=2, blank=True, null=True, verbose_name=_(u"Multa"))

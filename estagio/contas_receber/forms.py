@@ -1,14 +1,16 @@
 #-*- coding: UTF-8 -*-
 from django.forms import ModelForm, CheckboxInput
-from suit.widgets import NumberInput, SuitSplitDateTimeWidget, AutosizedTextarea
 from django.forms import forms, TextInput
-from contas_receber.models import *
-from parametros_financeiros.models import GrupoEncargo
-from decimal import Decimal
 from django.utils.translation import ugettext_lazy as _
 from django.contrib.admin.widgets import AdminSplitDateTime
+from suit.widgets import NumberInput, SuitSplitDateTimeWidget, AutosizedTextarea
 import pytz
+
 from datetime import datetime
+from decimal import Decimal
+
+from contas_receber.models import *
+from parametros_financeiros.models import GrupoEncargo
 
 
 class ContasReceberForm(ModelForm):

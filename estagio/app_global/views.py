@@ -2,6 +2,7 @@
 from django.http import HttpResponse
 from django.apps import apps
 
+
 def checa_foreignkey_habilitada(request, app_name, model_name, id):
     model = apps.get_model(app_name, model_name)
     try:

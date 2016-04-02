@@ -1,9 +1,10 @@
 from django.contrib import admin
+from django.contrib.admin.views.main import IS_POPUP_VAR
+from django.utils.translation import ugettext_lazy as _
+
 from parametros_financeiros.models import *
 from parametros_financeiros.forms import *
 from app_global.admin import GlobalAdmin
-from django.contrib.admin.views.main import IS_POPUP_VAR
-from django.utils.translation import ugettext_lazy as _
 
 
 class FormaPagamentoAdmin(GlobalAdmin):

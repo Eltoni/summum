@@ -9,11 +9,12 @@ from django.utils.encoding import python_2_unicode_compatible
 class FormaPagamento(models.Model):
     nome = models.CharField(max_length=100, verbose_name=_(u"Nome")) 
     descricao = models.CharField(max_length=250, blank=True, verbose_name=_(u"Descrição"))
-    quant_parcelas = models.IntegerField(verbose_name=_(u"Quantidade de parcelas")) 
-    prazo_entre_parcelas = models.IntegerField(verbose_name=_(u"Prazo entre parcelas")) 
+    quant_parcelas = models.IntegerField(db_index=True, verbose_name=_(u"Quantidade de parcelas")) 
+    prazo_entre_parcelas = models.IntegerField(db_index=True, verbose_name=_(u"Prazo entre parcelas")) 
     tipo_prazo = models.CharField(
         max_length=1, 
         blank=True,
+        db_index=True,
         choices=(
             (u'D', _(u"Diário")),
             (u'S', _(u"Semanal")),
@@ -24,7 +25,8 @@ class FormaPagamento(models.Model):
     carencia = models.IntegerField(verbose_name=_(u"Carência"))
     tipo_carencia = models.CharField(
         max_length=1, 
-        blank=True, 
+        blank=True,
+        db_index=True,
         verbose_name=_(u"Tipo de carência"),
         choices=(
             (u'D', _(u"Diário")),
@@ -32,7 +34,7 @@ class FormaPagamento(models.Model):
             (u'M', _(u"Mensal")),
         )
     )
-    status = models.BooleanField(default=True, verbose_name=_(u"Status"), help_text=_(u"Indica se a forma de pagamento está ativa para uso."))
+    status = models.BooleanField(default=True, db_index=True, verbose_name=_(u"Status"), help_text=_(u"Indica se a forma de pagamento está ativa para uso."))
 
     class Meta:
         verbose_name = _(u"Forma de Pagamento")
@@ -66,9 +68,9 @@ class GrupoEncargo(models.Model):
     nome = models.CharField(max_length=100, unique=True, verbose_name=_(u"Nome")) 
     multa = models.DecimalField(max_digits=7, decimal_places=4, blank=True, null=True, verbose_name=_(u"Taxa de multa (%)"))
     juros = models.DecimalField(max_digits=7, decimal_places=4, blank=True, null=True, verbose_name=_(u"Taxa de juros (%)"), help_text=_(u"Juros que serão calculados diariamente."))
-    tipo_juros = models.CharField(choices=TIPO_JUROS_CHOICES, max_length=1, blank=False, null=False, default='S', verbose_name=_(u"Tipo de juros"))
-    status = models.BooleanField(default=True, verbose_name=_(u"Status"))
-    padrao = models.BooleanField(default=False, verbose_name=_(u"Padrão"), help_text=_(u"Define o Grupo de Encargo padrão"))
+    tipo_juros = models.CharField(choices=TIPO_JUROS_CHOICES, max_length=1, blank=False, null=False, default='S', db_index=True, verbose_name=_(u"Tipo de juros"))
+    status = models.BooleanField(default=True, db_index=True, verbose_name=_(u"Status"))
+    padrao = models.BooleanField(default=False, db_index=True, verbose_name=_(u"Padrão"), help_text=_(u"Define o Grupo de Encargo padrão"))
 
     class Meta:
         verbose_name = _(u"Grupo de Encargo")

@@ -60,7 +60,7 @@ div.controls p.datetime input.vDateField {
                   pagamento_confirmado = result.resposta['pagamento_confirmado'] == 1 ? true : false;
 
                   if (pagamento_confirmado) {
-                    $('#modal-pagamento-form').html('<img id="img-success" src="{{STATIC_URL}}img/icon-success.svg" alt="Pagamento efetuado com successo.">');
+                    $('#modal-pagamento-form').html('<img id="img-success" src="{{STATIC_URL}}admin/img/icon-yes.svg" alt="Pagamento efetuado com successo.">');
                     $('#img-success').after('<div class="alert alert-success">' + result.resposta['message'] + '</div>');
                   } 
                   else {

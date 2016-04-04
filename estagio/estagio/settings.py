@@ -230,11 +230,11 @@ STATIC_URL = '/static/'
 
 from django.conf.global_settings import TEMPLATE_CONTEXT_PROCESSORS as TCP
 
-CONTEXT_PROCESSORS = TCP + (
+CONTEXT_PROCESSORS = TCP + [
     'django.core.context_processors.request',
     'sekizai.context_processors.sekizai',
     'django.core.context_processors.debug',
-)
+]
 
 TEMPLATES = [
     {

@@ -1,8 +1,6 @@
 #-*- coding: UTF-8 -*-
-from django.forms import ModelForm, CheckboxInput
-from django.forms import forms, TextInput
+from django.forms import ModelForm, CheckboxInput, TextInput, Textarea
 from django.utils.translation import ugettext_lazy as _
-from django.contrib.admin.widgets import AdminSplitDateTime
 from suit.widgets import NumberInput, SuitSplitDateTimeWidget, AutosizedTextarea
 import pytz
 
@@ -11,6 +9,7 @@ from datetime import datetime
 
 from contas_pagar.models import *
 from parametros_financeiros.models import GrupoEncargo
+from app_global.widgets import DateTimeLabelWidget
 
 
 class ContasPagarForm(ModelForm):
@@ -54,7 +53,7 @@ class PagamentoForm(ModelForm):
 
     def __init__(self, *args, **kwargs):
         super(PagamentoForm, self).__init__(*args, **kwargs)
-        
+
         try:
             self.fields['data'].required = False
         except KeyError:
@@ -65,13 +64,13 @@ class PagamentoForm(ModelForm):
         model = Pagamento
         exclude = []
         widgets = {
-            'data': AdminSplitDateTime(attrs={'readonly': 'readonly'}),
+            'data': DateTimeLabelWidget(),
             'valor': NumberInput(attrs={'class': 'input-small text-right', 'placeholder': '0,00', 'step': '0.01'}),
             'juros': NumberInput(attrs={'readonly': 'readonly', 'class': 'input-small text-right', 'placeholder': '0,00', 'step': '0.01'}),
             'multa': NumberInput(attrs={'readonly': 'readonly', 'class': 'input-small text-right', 'placeholder': '0,00', 'step': '0.01'}),
             'desconto': NumberInput(attrs={'class': 'input-small text-right', 'placeholder': '0,00', 'step': '0.01'}),
             'parcelas_contas_pagar': NumberInput(attrs={'readonly': 'readonly', 'class': 'input-small'}),
-            'observacao': forms.Textarea(attrs={'rows': 1, 'cols': 100}),
+            'observacao': Textarea(attrs={'rows': 1, 'cols': 100}),
         }
 
 

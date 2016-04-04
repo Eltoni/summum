@@ -2,7 +2,7 @@
 from django.contrib import admin
 from django.http import HttpResponseRedirect
 from django.utils.translation import ugettext_lazy as _
-from django.conf.urls import patterns
+from django.conf.urls import url
 from django.utils.timezone import utc
 from django.core.urlresolvers import reverse
 from django.core.exceptions import PermissionDenied
@@ -159,12 +159,12 @@ class VendaAdmin(ExportMixin, SalmonellaMixin, admin.ModelAdmin):
 
     def get_urls(self):
         urls = super(VendaAdmin, self).get_urls()
-        my_urls = patterns('',
-            (r'^get_valor_unitario/(?P<id>\d+)/$', self.admin_site.admin_view(get_valor_unitario)),
-            (r'^get_endereco_entrega_cliente/(?P<id>\d+)/$', self.admin_site.admin_view(get_endereco_entrega_cliente)),
-            (r'^overview/$', self.admin_site.admin_view(overview_vendas)),
-            (r'^(\d+)/copia_novo_pedido/$', self.admin_site.admin_view(self.copia_novo_pedido))
-        )
+        my_urls = [
+            url(r'^get_valor_unitario/(?P<id>\d+)/$', self.admin_site.admin_view(get_valor_unitario)),
+            url(r'^get_endereco_entrega_cliente/(?P<id>\d+)/$', self.admin_site.admin_view(get_endereco_entrega_cliente)),
+            url(r'^overview/$', self.admin_site.admin_view(overview_vendas)),
+            url(r'^(\d+)/change/copia_novo_pedido/$', self.admin_site.admin_view(self.copia_novo_pedido))
+        ]
         return my_urls + urls
 
 
@@ -194,6 +194,7 @@ class VendaAdmin(ExportMixin, SalmonellaMixin, admin.ModelAdmin):
         novo_pedido.status = False
         novo_pedido.pedido = 'S'
         novo_pedido.status_pedido = False
+        novo_pedido.observacao = _(u"Copiado originalmente como novo pedido através de registro n° %(venda)s.") % {'venda': id}
         novo_pedido.data_pedido = self.data
         novo_pedido.save()
 

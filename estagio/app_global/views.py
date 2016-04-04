@@ -8,7 +8,7 @@ def checa_foreignkey_habilitada(request, app_name, model_name, id):
     try:
         status = model.objects.get(id=id)
         try:
-            condition = model._meta.get_field_by_name('status')[0]._get_val_from_obj(status)
+            condition = model._meta.get_field('status')._get_val_from_obj(status)
             if not condition:
                 status = False
             else:

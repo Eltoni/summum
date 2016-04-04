@@ -1,5 +1,28 @@
 import django.contrib.admin.widgets
 from django.utils.safestring import mark_safe
+from django.forms import Widget
+from django.conf.locale.pt_BR import formats as pt_BR_format
+
+
+class DateTimeLabelWidget(Widget):
+    def render(self, name, value, attrs):
+        final_attrs = self.build_attrs(attrs, name=name)
+        if hasattr(self, 'initial'):
+            value = self.initial
+        if type(value) == type(u''):
+            value = datetime.date(*map(int, value.split('-')))
+        return mark_safe(
+            #"%s" % value.strftime(pt_BR_format.DATETIME_FORMAT)
+            "%s" % value.strftime('%d/%m/%Y às %H:%M')
+        ) + mark_safe(
+            "<input type='hidden' name='%s' value='%s' />" % (
+                name, value
+            )
+        )
+
+    def _has_changed(self, initial, data):
+        return False
+
 
 
 class NoAddingRelatedFieldWidgetWrapper(django.contrib.admin.widgets.RelatedFieldWidgetWrapper):

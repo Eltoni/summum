@@ -1,7 +1,7 @@
 #-*- coding: UTF-8 -*-
 from django.contrib import admin
 from django.http import HttpResponseRedirect
-from django.conf.urls import patterns
+from django.conf.urls import url
 from django.utils.translation import ugettext_lazy as _
 from salmonella.admin import SalmonellaMixin
 from import_export.admin import ExportMixin
@@ -24,11 +24,11 @@ class PagamentoAdmin(admin.ModelAdmin):
 
     def get_urls(self):
         urls = super(PagamentoAdmin, self).get_urls()
-        my_urls = patterns('',
-            (r'pagamentos_parcela/(?P<id_parcela>\d+)/$', self.admin_site.admin_view(retorna_pagamentos_parcela)),
-            (r'pagamentos_conta/(?P<id_conta>\d+)/$', self.admin_site.admin_view(retorna_pagamentos_conta)),
-            (r'efetiva_pagamento_parcela/(?P<id_parcela>\d+)/$', self.admin_site.admin_view(efetiva_pagamento_parcela)),
-        )
+        my_urls = [
+            url(r'pagamentos_parcela/(?P<id_parcela>\d+)/$', self.admin_site.admin_view(retorna_pagamentos_parcela)),
+            url(r'pagamentos_conta/(?P<id_conta>\d+)/$', self.admin_site.admin_view(retorna_pagamentos_conta)),
+            url(r'efetiva_pagamento_parcela/(?P<id_parcela>\d+)/$', self.admin_site.admin_view(efetiva_pagamento_parcela)),
+        ]
         return my_urls + urls
 
 

@@ -81,19 +81,19 @@ class ContasPagar(models.Model):
 
 
     def forma_pagamento_associada(self):
-        choices_tp = self.forma_pagamento._meta.get_field_by_name('tipo_prazo')[0].flatchoices
+        choices_tp = self.forma_pagamento._meta.get_field('tipo_prazo').flatchoices
         tp = dict(choices_tp).get(self.forma_pagamento.tipo_prazo)
-        choices_tp = self.forma_pagamento._meta.get_field_by_name('tipo_carencia')[0].flatchoices
+        choices_tp = self.forma_pagamento._meta.get_field('tipo_carencia').flatchoices
         tc = dict(choices_tp).get(self.forma_pagamento.tipo_carencia)
         if self.forma_pagamento:
             url = pode_ver_link(self.usuario_sessao, 'parametros_financeiros', 'formapagamento', self.forma_pagamento.pk)
             return u"<a href='%s' rel='tooltip' data-hint='%s: %s&#10;&#10;%s: %s (%s)&#10;&#10;%s: %s (%s)' class='hint--right hint--bounce' target='_blank'>%s</a>" % ( url, 
-                                                                                                                                                                          self.forma_pagamento._meta.get_field_by_name('quant_parcelas')[0].verbose_name,
+                                                                                                                                                                          self.forma_pagamento._meta.get_field('quant_parcelas').verbose_name,
                                                                                                                                                                           self.forma_pagamento.quant_parcelas,  
-                                                                                                                                                                          self.forma_pagamento._meta.get_field_by_name('prazo_entre_parcelas')[0].verbose_name,                                                                                                                                                                                             
+                                                                                                                                                                          self.forma_pagamento._meta.get_field('prazo_entre_parcelas').verbose_name,                                                                                                                                                                                             
                                                                                                                                                                           self.forma_pagamento.prazo_entre_parcelas, 
                                                                                                                                                                           tp,
-                                                                                                                                                                          self.forma_pagamento._meta.get_field_by_name('carencia')[0].verbose_name,
+                                                                                                                                                                          self.forma_pagamento._meta.get_field('carencia').verbose_name,
                                                                                                                                                                           self.forma_pagamento.carencia, 
                                                                                                                                                                           tc, 
                                                                                                                                                                           self.forma_pagamento )
@@ -104,16 +104,16 @@ class ContasPagar(models.Model):
 
 
     def grupo_encargo_associado(self):
-        choices_tj = self.grupo_encargo._meta.get_field_by_name('tipo_juros')[0].flatchoices
+        choices_tj = self.grupo_encargo._meta.get_field('tipo_juros').flatchoices
         tj = dict(choices_tj).get(self.grupo_encargo.tipo_juros)
         if self.grupo_encargo:
             url = pode_ver_link(self.usuario_sessao, 'parametros_financeiros', 'grupoencargo', self.grupo_encargo.pk)
             return u"<a href='%s' rel='tooltip' data-hint='%s: %s&#10;&#10;%s: %s&#10;&#10;%s: %s' class='hint--right hint--bounce' target='_blank'>%s</a>" % ( url, 
-                                                                                                                                                                self.grupo_encargo._meta.get_field_by_name('juros')[0].verbose_name,
+                                                                                                                                                                self.grupo_encargo._meta.get_field('juros').verbose_name,
                                                                                                                                                                 self.grupo_encargo.juros,  
-                                                                                                                                                                self.grupo_encargo._meta.get_field_by_name('multa')[0].verbose_name,                                                                                                                                                                                             
+                                                                                                                                                                self.grupo_encargo._meta.get_field('multa').verbose_name,                                                                                                                                                                                             
                                                                                                                                                                 self.grupo_encargo.multa,
-                                                                                                                                                                self.grupo_encargo._meta.get_field_by_name('tipo_juros')[0].verbose_name,
+                                                                                                                                                                self.grupo_encargo._meta.get_field('tipo_juros').verbose_name,
                                                                                                                                                                 tj, 
                                                                                                                                                                 self.grupo_encargo )
         return '-'

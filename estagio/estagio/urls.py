@@ -1,12 +1,14 @@
 #-*- coding: UTF-8 -*-
-from django.conf.urls import patterns, include, url
+from django.conf.urls import include, url
 from django.contrib import admin
 from django.conf import settings
 from django.conf.urls.static import static
 from django.views.i18n import javascript_catalog
-
 from wiki.urls import get_pattern as get_wiki_pattern
 from django_nyt.urls import get_pattern as get_nyt_pattern
+
+from app_global.views import checa_foreignkey_habilitada
+from movimento.views import index
 
 js_info_dict = {
     'domain': 'djangojs',
@@ -15,11 +17,11 @@ js_info_dict = {
 
 admin.autodiscover()
 
-urlpatterns = patterns('',
+urlpatterns = [
     # django
     url(r'^doc/', include('django.contrib.admindocs.urls')),
     url(r'', include(admin.site.urls)),
-    url(r'^jsi18n/$', 'django.views.i18n.javascript_catalog', js_info_dict),
+    url(r'^jsi18n/$', javascript_catalog, js_info_dict),
 
     # bibliotecas
     url(r'^admin/salmonella/', include('salmonella.urls')),         # url necessária para o funcionamento da biblioteca django-salmonella
@@ -30,8 +32,8 @@ urlpatterns = patterns('',
     url(r'^wiki-site/', get_wiki_pattern()),                        # url necessária para o funcionamento da biblioteca django-wiki
 
     # dashboard
-    url(r'^dashboard/$', 'movimento.views.index'),
+    url(r'^dashboard/$', index),
     # urls das aplicações
-    url(r'^admin/salmonella/(?P<app_name>[\w-]+)/(?P<model_name>[\w-]+)/(?P<id>\d+)/$', 'app_global.views.checa_foreignkey_habilitada'),
+    url(r'^admin/salmonella/(?P<app_name>[\w-]+)/(?P<model_name>[\w-]+)/(?P<id>\d+)/$', checa_foreignkey_habilitada),
 
-) + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

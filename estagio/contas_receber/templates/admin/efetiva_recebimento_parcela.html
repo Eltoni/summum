@@ -60,7 +60,7 @@ div.controls p.datetime input.vDateField {
                   recebimento_confirmado = result.resposta['recebimento_confirmado'] == 1 ? true : false;
 
                   if (recebimento_confirmado) {
-                    $('#modal-recebimento-form').html('<img id="img-success" src="{{STATIC_URL}}img/icon-success.svg" alt="Recebimento efetuado com successo.">');
+                    $('#modal-recebimento-form').html('<img id="img-success" src="{{STATIC_URL}}admin/img/icon-yes.svg" alt="Recebimento efetuado com successo.">');
                     $('#img-success').after('<div class="alert alert-success">' + result.resposta['message'] + '</div>');
                   } 
                   else {

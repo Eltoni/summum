@@ -1,7 +1,7 @@
 #-*- coding: UTF-8 -*-
 from django.contrib import admin
 from django.contrib.admin.views.main import IS_POPUP_VAR
-from django.conf.urls import patterns
+from django.conf.urls import url
 from django.utils.translation import ugettext_lazy as _
 from import_export.admin import ExportMixin
 from sorl.thumbnail.admin import AdminImageMixin
@@ -96,10 +96,10 @@ class ClienteAdmin(ExportMixin, BaseCadastroPessoaAdmin):
 
     def get_urls(self):
         urls = super(ClienteAdmin, self).get_urls()
-        my_urls = patterns('',
-            (r'financeiro/$', self.admin_site.admin_view(cliente_financeiro)),
-            (r'detalhes_financeiros/(?P<id_cliente>\w+)/', self.admin_site.admin_view(cliente_detalhe_financeiro)),
-        )
+        my_urls = [
+            url(r'financeiro/$', self.admin_site.admin_view(cliente_financeiro)),
+            url(r'detalhes_financeiros/(?P<id_cliente>\w+)/', self.admin_site.admin_view(cliente_detalhe_financeiro)),
+        ]
         return my_urls + urls
 
     def get_form(self, request, obj=None, **kwargs):
@@ -239,9 +239,9 @@ class FuncionarioAdmin(ExportMixin, BaseCadastroPessoaAdmin):
 
     def get_urls(self):
         urls = super(FuncionarioAdmin, self).get_urls()
-        my_urls = patterns('',
-            (r'^get_dados_usuario/(?P<id>\d+)/$', self.admin_site.admin_view(get_dados_usuario)),
-        )
+        my_urls = [
+            url(r'^get_dados_usuario/(?P<id>\d+)/$', self.admin_site.admin_view(get_dados_usuario)),
+        ]
         return my_urls + urls
 
 

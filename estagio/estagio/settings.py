@@ -339,7 +339,7 @@ BOWER_INSTALLED_APPS = (
     'hopscotch#0.2.5',
     'fontawesome#4.5.0',
     'jquery.numeric#1.4.1',
-    'jQuery-Mask-Plugin#1.13.9',
+    'jQuery-Mask-Plugin#1.14.0',
     'bootstrap-filestyle#1.0.6',
     'footable#3.0.7',
     'jquery-modal#0.7.0',

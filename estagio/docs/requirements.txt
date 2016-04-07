@@ -12,7 +12,7 @@ django-debug-toolbar==1.4
 django-extensions==1.6.1
 django-geoposition==0.2.2
 django-htmlmin==0.9.1
-django-import-export==0.4.4
+django-import-export==0.4.5
 django-localflavor==1.2
 django-nvd3==0.9.7
 django-redis-cache==1.6.5

@@ -1,0 +1,9 @@
+[{
+		"model" : "schedule.calendar",
+		"pk" : 1,
+		"fields" : {
+			"name" : "Eventos",
+			"slug" : "eventos"
+		}
+	}
+]

@@ -42,26 +42,18 @@ class Command(BaseCommand):
             
             # verbosity: especificca a quantidade de notifiação e depurações retornados no shell; interactive: Evita a confirmação da execução do procedimento pelo usuário
             # Instala os arquivos estáticos necessários para a geração dos gráficos | Python NVD3
-            call_command('bower_install', verbosity=3, interactive=False)
+            call_command('bower_install', verbosity=0, interactive=False)
             # Coleta os arquivos estáticos | Django
-            call_command('collectstatic', verbosity=3, interactive=False)
+            call_command('collectstatic', verbosity=0, interactive=False)
 
         if options['dados'] or (not options['arquivos'] and not options['dados'] and not options['not_fixtures_py']):
             
             # Elimina todas as tabelas do banco de dados | Django Extensions
-            call_command('reset_db', verbosity=3, interactive=False)
+            call_command('reset_db', verbosity=0, interactive=False)
             # Recria as tabelas do banco de dados do projeto | Django
-            call_command('migrate', verbosity=3)
-
-            # Executa os scripts sql declarados na tupla FIXTURES do settings.py
-            print('\n Iniciando procedimento de execução dos scripts SQL:')
-            files = settings.FIXTURES
-            cursor = connection.cursor()
-            for id, file in enumerate(files, start=1):
-                print('Etapa ' + str(id) + ' - Executando script', file.split('fixtures\\', 1)[1])
-                f = open(file, encoding="utf8")
-                response = cursor.execute(f.read())
-                f.close()
+            call_command('migrate', verbosity=0)
+            # Carrega as fixtures do sistema.
+            call_command('loaddata', 'fixture', verbosity=0)
 
             # Finaliza o procedimento caso o comando not_fixtures_py tenha sido especificado
             if options['not_fixtures_py']:

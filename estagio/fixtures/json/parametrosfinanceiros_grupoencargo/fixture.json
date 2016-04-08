@@ -1,0 +1,13 @@
+[{
+		"model" : "parametros_financeiros.grupoencargo",
+		"pk" : 1,
+		"fields" : {
+			"nome" : "Grupo de encargos Padr\u00e3o",
+			"multa" : "2.0000",
+			"juros" : "0.0333",
+			"tipo_juros" : "S",
+			"status" : true,
+			"padrao" : true
+		}
+	}
+]

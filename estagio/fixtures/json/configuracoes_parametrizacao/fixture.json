@@ -1,0 +1,18 @@
+[{
+		"model" : "configuracoes.parametrizacao",
+		"pk" : 1,
+		"fields" : {
+			"quantidade_inlines_compra" : 8,
+			"quantidade_inlines_venda" : 4,
+			"habilita_pedido_compra" : true,
+			"habilita_pedido_venda" : true,
+			"periodo_venc_pedido_compra" : 3,
+			"periodo_venc_pedido_venda" : 7,
+			"qtde_minima_produtos_em_estoque" : 15,
+			"perc_valor_minimo_recebimento" : "50",
+			"intervalo_dias_entrega_venda" : 1,
+			"email_abertura_caixa" : "",
+			"evento_calendario" : "eventos"
+		}
+	}
+]

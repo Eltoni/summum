@@ -1,0 +1,33 @@
+[{
+		"model" : "pessoal.funcionario",
+		"pk" : 1,
+		"fields" : {
+			"nome" : "Padm\u00e9 Amidala",
+			"data_nasc" : null,
+			"cpf" : null,
+			"rg" : "",
+			"sexo" : "F",
+			"estado_civil" : "solteiro",
+			"endereco" : "Rua Mogi das Cruzes",
+			"numero" : "680",
+			"bairro" : "Vila Santo Ant\u00f4nio",
+			"complemento" : "",
+			"estado" : "PR",
+			"cidade" : 3172,
+			"cep" : "87502-120",
+			"telefone" : "11-26234-0400",
+			"celular" : "",
+			"email" : "padme@gmail.com",
+			"banco" : null,
+			"agencia" : null,
+			"conta_banco" : null,
+			"data" : "2015-10-27T01:03:05Z",
+			"status" : true,
+			"observacao" : "",
+			"foto" : "",
+			"salario" : null,
+			"cargo" : 2,
+			"usuario" : null
+		}
+	}
+]

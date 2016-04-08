@@ -1,0 +1,36 @@
+[{
+		"model" : "auth.user",
+		"pk" : 1,
+		"fields" : {
+			"password" : "pbkdf2_sha256$24000$8veeBndktCm3$xiu34K2qeQsGkk30IxVwjJGiRUNnYy9BWYO36HAivf4=",
+			"last_login" : "2016-04-06T22:34:35Z",
+			"is_superuser" : true,
+			"username" : "admin",
+			"first_name" : "Gustavo",
+			"last_name" : "Santana de Oliveira",
+			"email" : "gustavo.sdo@gmail.com",
+			"is_staff" : true,
+			"is_active" : true,
+			"date_joined" : "2014-12-31T01:18:00Z",
+			"groups" : [],
+			"user_permissions" : []
+		}
+	}, {
+		"model" : "auth.user",
+		"pk" : 2,
+		"fields" : {
+			"password" : "pbkdf2_sha256$12000$UjxpI6EkJXg2$GoYKHvFp9n+wGJV3ZiaDwBDqiMISOvHANHbAV27qVjE=",
+			"last_login" : "2015-01-01T01:18:00Z",
+			"is_superuser" : false,
+			"username" : "spossato",
+			"first_name" : "Stephanie",
+			"last_name" : "Possato de Oliveira",
+			"email" : "spossato@unipar.br",
+			"is_staff" : true,
+			"is_active" : true,
+			"date_joined" : "2015-01-01T01:18:00Z",
+			"groups" : [],
+			"user_permissions" : []
+		}
+	}
+]

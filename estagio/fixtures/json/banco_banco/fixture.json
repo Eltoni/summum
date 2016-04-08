@@ -1,0 +1,1532 @@
+[{
+		"model" : "banco.banco",
+		"pk" : 1,
+		"fields" : {
+			"banco" : "654",
+			"nome" : "Banco A.J.Renner S.A.",
+			"site" : "-",
+			"logo" : ""
+		}
+	}, {
+		"model" : "banco.banco",
+		"pk" : 2,
+		"fields" : {
+			"banco" : "246",
+			"nome" : "Banco ABC Brasil S.A.",
+			"site" : "http://www.abcbrasil.com.br",
+			"logo" : ""
+		}
+	}, {
+		"model" : "banco.banco",
+		"pk" : 3,
+		"fields" : {
+			"banco" : "25",
+			"nome" : "Banco Alfa S.A.",
+			"site" : "http://www.bancoalfa.com.br",
+			"logo" : ""
+		}
+	}, {
+		"model" : "banco.banco",
+		"pk" : 4,
+		"fields" : {
+			"banco" : "641",
+			"nome" : "Banco Alvorada S.A.",
+			"site" : "-",
+			"logo" : ""
+		}
+	}, {
+		"model" : "banco.banco",
+		"pk" : 5,
+		"fields" : {
+			"banco" : "213",
+			"nome" : "Banco Arbi S.A.",
+			"site" : "http://www.arbi.com.br",
+			"logo" : ""
+		}
+	}, {
+		"model" : "banco.banco",
+		"pk" : 6,
+		"fields" : {
+			"banco" : "19",
+			"nome" : "Banco Azteca do Brasil S.A.",
+			"site" : "-",
+			"logo" : ""
+		}
+	}, {
+		"model" : "banco.banco",
+		"pk" : 7,
+		"fields" : {
+			"banco" : "29",
+			"nome" : "Banco Banerj S.A.",
+			"site" : "http://www.banerj.com.br",
+			"logo" : ""
+		}
+	}, {
+		"model" : "banco.banco",
+		"pk" : 8,
+		"fields" : {
+			"banco" : "0",
+			"nome" : "Banco Bankpar S.A.",
+			"site" : "http://www.aexp.com",
+			"logo" : ""
+		}
+	}, {
+		"model" : "banco.banco",
+		"pk" : 9,
+		"fields" : {
+			"banco" : "740",
+			"nome" : "Banco Barclays S.A.",
+			"site" : "http://www.barclays.com",
+			"logo" : ""
+		}
+	}, {
+		"model" : "banco.banco",
+		"pk" : 10,
+		"fields" : {
+			"banco" : "107",
+			"nome" : "Banco BBM S.A.",
+			"site" : "http://www.bbmbank.com.br",
+			"logo" : ""
+		}
+	}, {
+		"model" : "banco.banco",
+		"pk" : 11,
+		"fields" : {
+			"banco" : "31",
+			"nome" : "Banco Beg S.A.",
+			"site" : "http://www.itau.com.br",
+			"logo" : ""
+		}
+	}, {
+		"model" : "banco.banco",
+		"pk" : 12,
+		"fields" : {
+			"banco" : "739",
+			"nome" : "Banco BGN S.A.",
+			"site" : "http://www.bgn.com.br",
+			"logo" : ""
+		}
+	}, {
+		"model" : "banco.banco",
+		"pk" : 13,
+		"fields" : {
+			"banco" : "96",
+			"nome" : "Banco BM&F de Servi\u00e7os de Liquida\u00e7\u00e3o e Cust\u00f3dia S.A",
+			"site" : "http://www.bmf.com.br",
+			"logo" : ""
+		}
+	}, {
+		"model" : "banco.banco",
+		"pk" : 14,
+		"fields" : {
+			"banco" : "318",
+			"nome" : "Banco BMG S.A.",
+			"site" : "http://www.bancobmg.com.br",
+			"logo" : ""
+		}
+	}, {
+		"model" : "banco.banco",
+		"pk" : 15,
+		"fields" : {
+			"banco" : "752",
+			"nome" : "Banco BNP Paribas Brasil S.A.",
+			"site" : "http://www.bnpparibas.com.br",
+			"logo" : ""
+		}
+	}, {
+		"model" : "banco.banco",
+		"pk" : 16,
+		"fields" : {
+			"banco" : "248",
+			"nome" : "Banco Boavista Interatl\u00e2ntico S.A.",
+			"site" : "-",
+			"logo" : ""
+		}
+	}, {
+		"model" : "banco.banco",
+		"pk" : 17,
+		"fields" : {
+			"banco" : "218",
+			"nome" : "Banco Bonsucesso S.A.",
+			"site" : "http://www.bancobonsucesso.com.br",
+			"logo" : ""
+		}
+	}, {
+		"model" : "banco.banco",
+		"pk" : 18,
+		"fields" : {
+			"banco" : "65",
+			"nome" : "Banco Bracce S.A.",
+			"site" : "http://www.lemon.com",
+			"logo" : ""
+		}
+	}, {
+		"model" : "banco.banco",
+		"pk" : 19,
+		"fields" : {
+			"banco" : "36",
+			"nome" : "Banco Bradesco BBI S.A.",
+			"site" : "-",
+			"logo" : ""
+		}
+	}, {
+		"model" : "banco.banco",
+		"pk" : 20,
+		"fields" : {
+			"banco" : "204",
+			"nome" : "Banco Bradesco Cart\u00f5es S.A.",
+			"site" : "http://www.iamex.com.br",
+			"logo" : ""
+		}
+	}, {
+		"model" : "banco.banco",
+		"pk" : 21,
+		"fields" : {
+			"banco" : "394",
+			"nome" : "Banco Bradesco Financiamentos S.A.",
+			"site" : "http://www.bmc.com.br",
+			"logo" : ""
+		}
+	}, {
+		"model" : "banco.banco",
+		"pk" : 22,
+		"fields" : {
+			"banco" : "237",
+			"nome" : "Banco Bradesco S.A.",
+			"site" : "http://www.bradesco.com.br",
+			"logo" : ""
+		}
+	}, {
+		"model" : "banco.banco",
+		"pk" : 23,
+		"fields" : {
+			"banco" : "225",
+			"nome" : "Banco Brascan S.A.",
+			"site" : "http://www.bancobrascan.com.br",
+			"logo" : ""
+		}
+	}, {
+		"model" : "banco.banco",
+		"pk" : 24,
+		"fields" : {
+			"banco" : "M15",
+			"nome" : "Banco BRJ S.A.",
+			"site" : "http://www.brjbank.com.br",
+			"logo" : ""
+		}
+	}, {
+		"model" : "banco.banco",
+		"pk" : 25,
+		"fields" : {
+			"banco" : "208",
+			"nome" : "Banco BTG Pactual S.A.",
+			"site" : "http://www.pactual.com.br",
+			"logo" : ""
+		}
+	}, {
+		"model" : "banco.banco",
+		"pk" : 26,
+		"fields" : {
+			"banco" : "44",
+			"nome" : "Banco BVA S.A.",
+			"site" : "http://www.bancobva.com.br",
+			"logo" : ""
+		}
+	}, {
+		"model" : "banco.banco",
+		"pk" : 27,
+		"fields" : {
+			"banco" : "263",
+			"nome" : "Banco Cacique S.A.",
+			"site" : "http://www.bancocacique.com.br",
+			"logo" : ""
+		}
+	}, {
+		"model" : "banco.banco",
+		"pk" : 28,
+		"fields" : {
+			"banco" : "473",
+			"nome" : "Banco Caixa Geral - Brasil S.A.",
+			"site" : "-",
+			"logo" : ""
+		}
+	}, {
+		"model" : "banco.banco",
+		"pk" : 29,
+		"fields" : {
+			"banco" : "412",
+			"nome" : "Banco Capital S.A.",
+			"site" : "http://www.bancocapital.com.br",
+			"logo" : ""
+		}
+	}, {
+		"model" : "banco.banco",
+		"pk" : 30,
+		"fields" : {
+			"banco" : "40",
+			"nome" : "Banco Cargill S.A.",
+			"site" : "http://www.bancocargill.com.br",
+			"logo" : ""
+		}
+	}, {
+		"model" : "banco.banco",
+		"pk" : 31,
+		"fields" : {
+			"banco" : "745",
+			"nome" : "Banco Citibank S.A.",
+			"site" : "http://www.citibank.com.br",
+			"logo" : ""
+		}
+	}, {
+		"model" : "banco.banco",
+		"pk" : 32,
+		"fields" : {
+			"banco" : "M08",
+			"nome" : "Banco Citicard S.A.",
+			"site" : "http://www.credicardbanco.com.br",
+			"logo" : ""
+		}
+	}, {
+		"model" : "banco.banco",
+		"pk" : 33,
+		"fields" : {
+			"banco" : "241",
+			"nome" : "Banco Cl\u00e1ssico S.A.",
+			"site" : "-",
+			"logo" : ""
+		}
+	}, {
+		"model" : "banco.banco",
+		"pk" : 34,
+		"fields" : {
+			"banco" : "M19",
+			"nome" : "Banco CNH Capital S.A.",
+			"site" : "http://www.bancocnh.com.br",
+			"logo" : ""
+		}
+	}, {
+		"model" : "banco.banco",
+		"pk" : 35,
+		"fields" : {
+			"banco" : "215",
+			"nome" : "Banco Comercial e de Investimento Sudameris S.A.",
+			"site" : "http://www.sudameris.com.br",
+			"logo" : ""
+		}
+	}, {
+		"model" : "banco.banco",
+		"pk" : 36,
+		"fields" : {
+			"banco" : "756",
+			"nome" : "Banco Cooperativo do Brasil S.A. - BANCOOB",
+			"site" : "http://www.bancoob.com.br",
+			"logo" : ""
+		}
+	}, {
+		"model" : "banco.banco",
+		"pk" : 37,
+		"fields" : {
+			"banco" : "748",
+			"nome" : "Banco Cooperativo Sicredi S.A.",
+			"site" : "http://www.sicredi.com.br",
+			"logo" : ""
+		}
+	}, {
+		"model" : "banco.banco",
+		"pk" : 38,
+		"fields" : {
+			"banco" : "75",
+			"nome" : "Banco CR2 S.A.",
+			"site" : "http://www.bancocr2.com.br",
+			"logo" : ""
+		}
+	}, {
+		"model" : "banco.banco",
+		"pk" : 39,
+		"fields" : {
+			"banco" : "721",
+			"nome" : "Banco Credibel S.A.",
+			"site" : "http://www.credibel.com.br",
+			"logo" : ""
+		}
+	}, {
+		"model" : "banco.banco",
+		"pk" : 40,
+		"fields" : {
+			"banco" : "222",
+			"nome" : "Banco Credit Agricole Brasil S.A.",
+			"site" : "http://www.calyon.com.br",
+			"logo" : ""
+		}
+	}, {
+		"model" : "banco.banco",
+		"pk" : 41,
+		"fields" : {
+			"banco" : "505",
+			"nome" : "Banco Credit Suisse (Brasil) S.A.",
+			"site" : "http://www.csfb.com",
+			"logo" : ""
+		}
+	}, {
+		"model" : "banco.banco",
+		"pk" : 42,
+		"fields" : {
+			"banco" : "229",
+			"nome" : "Banco Cruzeiro do Sul S.A.",
+			"site" : "http://www.bcsul.com.br",
+			"logo" : ""
+		}
+	}, {
+		"model" : "banco.banco",
+		"pk" : 43,
+		"fields" : {
+			"banco" : "266",
+			"nome" : "Banco C\u00e9dula S.A.",
+			"site" : "http://www.bancocedula.com.br",
+			"logo" : ""
+		}
+	}, {
+		"model" : "banco.banco",
+		"pk" : 44,
+		"fields" : {
+			"banco" : "3",
+			"nome" : "Banco da Amaz\u00f4nia S.A.",
+			"site" : "http://www.bancoamazonia.com.br",
+			"logo" : ""
+		}
+	}, {
+		"model" : "banco.banco",
+		"pk" : 45,
+		"fields" : {
+			"banco" : "083-3",
+			"nome" : "Banco da China Brasil S.A.",
+			"site" : "-",
+			"logo" : ""
+		}
+	}, {
+		"model" : "banco.banco",
+		"pk" : 46,
+		"fields" : {
+			"banco" : "M21",
+			"nome" : "Banco Daimlerchrysler S.A.",
+			"site" : "http://www.bancodaimlerchrysler.com.br",
+			"logo" : ""
+		}
+	}, {
+		"model" : "banco.banco",
+		"pk" : 47,
+		"fields" : {
+			"banco" : "707",
+			"nome" : "Banco Daycoval S.A.",
+			"site" : "http://www.daycoval.com.br",
+			"logo" : ""
+		}
+	}, {
+		"model" : "banco.banco",
+		"pk" : 48,
+		"fields" : {
+			"banco" : "300",
+			"nome" : "Banco de La Nacion Argentina",
+			"site" : "http://www.bna.com.ar",
+			"logo" : ""
+		}
+	}, {
+		"model" : "banco.banco",
+		"pk" : 49,
+		"fields" : {
+			"banco" : "495",
+			"nome" : "Banco de La Provincia de Buenos Aires",
+			"site" : "http://www.bapro.com.ar",
+			"logo" : ""
+		}
+	}, {
+		"model" : "banco.banco",
+		"pk" : 50,
+		"fields" : {
+			"banco" : "494",
+			"nome" : "Banco de La Republica Oriental del Uruguay",
+			"site" : "-",
+			"logo" : ""
+		}
+	}, {
+		"model" : "banco.banco",
+		"pk" : 51,
+		"fields" : {
+			"banco" : "M06",
+			"nome" : "Banco de Lage Landen Brasil S.A.",
+			"site" : "http://www.delagelanden.com",
+			"logo" : ""
+		}
+	}, {
+		"model" : "banco.banco",
+		"pk" : 52,
+		"fields" : {
+			"banco" : "24",
+			"nome" : "Banco de Pernambuco S.A. - BANDEPE",
+			"site" : "http://www.bandepe.com.br",
+			"logo" : ""
+		}
+	}, {
+		"model" : "banco.banco",
+		"pk" : 53,
+		"fields" : {
+			"banco" : "456",
+			"nome" : "Banco de Tokyo-Mitsubishi UFJ Brasil S.A.",
+			"site" : "http://www.btm.com.br",
+			"logo" : ""
+		}
+	}, {
+		"model" : "banco.banco",
+		"pk" : 54,
+		"fields" : {
+			"banco" : "214",
+			"nome" : "Banco Dibens S.A.",
+			"site" : "http://www.bancodibens.com.br",
+			"logo" : ""
+		}
+	}, {
+		"model" : "banco.banco",
+		"pk" : 55,
+		"fields" : {
+			"banco" : "1",
+			"nome" : "Banco do Brasil S.A.",
+			"site" : "http://www.bb.com.br",
+			"logo" : ""
+		}
+	}, {
+		"model" : "banco.banco",
+		"pk" : 56,
+		"fields" : {
+			"banco" : "47",
+			"nome" : "Banco do Estado de Sergipe S.A.",
+			"site" : "http://www.banese.com.br",
+			"logo" : ""
+		}
+	}, {
+		"model" : "banco.banco",
+		"pk" : 57,
+		"fields" : {
+			"banco" : "37",
+			"nome" : "Banco do Estado do Par\u00e1 S.A.",
+			"site" : "http://www.banparanet.com.br",
+			"logo" : ""
+		}
+	}, {
+		"model" : "banco.banco",
+		"pk" : 58,
+		"fields" : {
+			"banco" : "39",
+			"nome" : "Banco do Estado do Piau\u00ed S.A. - BEP",
+			"site" : "http://www.bep.com.br",
+			"logo" : ""
+		}
+	}, {
+		"model" : "banco.banco",
+		"pk" : 59,
+		"fields" : {
+			"banco" : "41",
+			"nome" : "Banco do Estado do Rio Grande do Sul S.A.",
+			"site" : "http://www.banrisul.com.br",
+			"logo" : ""
+		}
+	}, {
+		"model" : "banco.banco",
+		"pk" : 60,
+		"fields" : {
+			"banco" : "4",
+			"nome" : "Banco do Nordeste do Brasil S.A.",
+			"site" : "http://www.banconordeste.gov.br",
+			"logo" : ""
+		}
+	}, {
+		"model" : "banco.banco",
+		"pk" : 61,
+		"fields" : {
+			"banco" : "265",
+			"nome" : "Banco Fator S.A.",
+			"site" : "http://www.bancofator.com.br",
+			"logo" : ""
+		}
+	}, {
+		"model" : "banco.banco",
+		"pk" : 62,
+		"fields" : {
+			"banco" : "M03",
+			"nome" : "Banco Fiat S.A.",
+			"site" : "http://www.bancofiat.com.br",
+			"logo" : ""
+		}
+	}, {
+		"model" : "banco.banco",
+		"pk" : 63,
+		"fields" : {
+			"banco" : "224",
+			"nome" : "Banco Fibra S.A.",
+			"site" : "http://www.bancofibra.com.br",
+			"logo" : ""
+		}
+	}, {
+		"model" : "banco.banco",
+		"pk" : 64,
+		"fields" : {
+			"banco" : "626",
+			"nome" : "Banco Ficsa S.A.",
+			"site" : "http://www.ficsa.com.br",
+			"logo" : ""
+		}
+	}, {
+		"model" : "banco.banco",
+		"pk" : 65,
+		"fields" : {
+			"banco" : "M18",
+			"nome" : "Banco Ford S.A.",
+			"site" : "http://www.bancoford.com.br",
+			"logo" : ""
+		}
+	}, {
+		"model" : "banco.banco",
+		"pk" : 66,
+		"fields" : {
+			"banco" : "233",
+			"nome" : "Banco GE Capital S.A.",
+			"site" : "http://www.ge.com.br",
+			"logo" : ""
+		}
+	}, {
+		"model" : "banco.banco",
+		"pk" : 67,
+		"fields" : {
+			"banco" : "734",
+			"nome" : "Banco Gerdau S.A.",
+			"site" : "http://www.bancogerdau.com.br",
+			"logo" : ""
+		}
+	}, {
+		"model" : "banco.banco",
+		"pk" : 68,
+		"fields" : {
+			"banco" : "M07",
+			"nome" : "Banco GMAC S.A.",
+			"site" : "http://www.bancogm.com.br",
+			"logo" : ""
+		}
+	}, {
+		"model" : "banco.banco",
+		"pk" : 69,
+		"fields" : {
+			"banco" : "612",
+			"nome" : "Banco Guanabara S.A.",
+			"site" : "http://www.bcoguan.com.br",
+			"logo" : ""
+		}
+	}, {
+		"model" : "banco.banco",
+		"pk" : 70,
+		"fields" : {
+			"banco" : "M22",
+			"nome" : "Banco Honda S.A.",
+			"site" : "http://www.bancohonda.com.br",
+			"logo" : ""
+		}
+	}, {
+		"model" : "banco.banco",
+		"pk" : 71,
+		"fields" : {
+			"banco" : "63",
+			"nome" : "Banco Ibi S.A. Banco M\u00faltiplo",
+			"site" : "http://www.ibi.com.br",
+			"logo" : ""
+		}
+	}, {
+		"model" : "banco.banco",
+		"pk" : 72,
+		"fields" : {
+			"banco" : "M11",
+			"nome" : "Banco IBM S.A.",
+			"site" : "http://www.ibm.com/br/financing/",
+			"logo" : ""
+		}
+	}, {
+		"model" : "banco.banco",
+		"pk" : 73,
+		"fields" : {
+			"banco" : "604",
+			"nome" : "Banco Industrial do Brasil S.A.",
+			"site" : "http://www.bancoindustrial.com.br",
+			"logo" : ""
+		}
+	}, {
+		"model" : "banco.banco",
+		"pk" : 74,
+		"fields" : {
+			"banco" : "320",
+			"nome" : "Banco Industrial e Comercial S.A.",
+			"site" : "http://www.bicbanco.com.br",
+			"logo" : ""
+		}
+	}, {
+		"model" : "banco.banco",
+		"pk" : 75,
+		"fields" : {
+			"banco" : "653",
+			"nome" : "Banco Indusval S.A.",
+			"site" : "http://www.indusval.com.br",
+			"logo" : ""
+		}
+	}, {
+		"model" : "banco.banco",
+		"pk" : 76,
+		"fields" : {
+			"banco" : "630",
+			"nome" : "Banco Intercap S.A.",
+			"site" : "http://www.intercap.com.br",
+			"logo" : ""
+		}
+	}, {
+		"model" : "banco.banco",
+		"pk" : 77,
+		"fields" : {
+			"banco" : "077-9",
+			"nome" : "Banco Intermedium S.A.",
+			"site" : "http://www.intermedium.com.br",
+			"logo" : ""
+		}
+	}, {
+		"model" : "banco.banco",
+		"pk" : 78,
+		"fields" : {
+			"banco" : "249",
+			"nome" : "Banco Investcred Unibanco S.A.",
+			"site" : "-",
+			"logo" : ""
+		}
+	}, {
+		"model" : "banco.banco",
+		"pk" : 79,
+		"fields" : {
+			"banco" : "M09",
+			"nome" : "Banco Itaucred Financiamentos S.A.",
+			"site" : "http://www.itaucred.com.br",
+			"logo" : ""
+		}
+	}, {
+		"model" : "banco.banco",
+		"pk" : 80,
+		"fields" : {
+			"banco" : "184",
+			"nome" : "Banco Ita\u00fa BBA S.A.",
+			"site" : "http://www.itaubba.com.br",
+			"logo" : ""
+		}
+	}, {
+		"model" : "banco.banco",
+		"pk" : 81,
+		"fields" : {
+			"banco" : "479",
+			"nome" : "Banco Ita\u00faBank S.A",
+			"site" : "http://www.itaubank.com.br",
+			"logo" : ""
+		}
+	}, {
+		"model" : "banco.banco",
+		"pk" : 82,
+		"fields" : {
+			"banco" : "376",
+			"nome" : "Banco J. P. Morgan S.A.",
+			"site" : "http://www.jpmorgan.com",
+			"logo" : ""
+		}
+	}, {
+		"model" : "banco.banco",
+		"pk" : 83,
+		"fields" : {
+			"banco" : "74",
+			"nome" : "Banco J. Safra S.A.",
+			"site" : "http://www.jsafra.com.br",
+			"logo" : ""
+		}
+	}, {
+		"model" : "banco.banco",
+		"pk" : 84,
+		"fields" : {
+			"banco" : "217",
+			"nome" : "Banco John Deere S.A.",
+			"site" : "http://www.johndeere.com.br",
+			"logo" : ""
+		}
+	}, {
+		"model" : "banco.banco",
+		"pk" : 85,
+		"fields" : {
+			"banco" : "76",
+			"nome" : "Banco KDB S.A.",
+			"site" : "http://www.bancokdb.com.br",
+			"logo" : ""
+		}
+	}, {
+		"model" : "banco.banco",
+		"pk" : 86,
+		"fields" : {
+			"banco" : "757",
+			"nome" : "Banco KEB do Brasil S.A.",
+			"site" : "http://www.bancokeb.com.br",
+			"logo" : ""
+		}
+	}, {
+		"model" : "banco.banco",
+		"pk" : 87,
+		"fields" : {
+			"banco" : "600",
+			"nome" : "Banco Luso Brasileiro S.A.",
+			"site" : "http://www.lusobrasileiro.com.br",
+			"logo" : ""
+		}
+	}, {
+		"model" : "banco.banco",
+		"pk" : 88,
+		"fields" : {
+			"banco" : "212",
+			"nome" : "Banco Matone S.A.",
+			"site" : "http://www.bancomatone.com.br",
+			"logo" : ""
+		}
+	}, {
+		"model" : "banco.banco",
+		"pk" : 89,
+		"fields" : {
+			"banco" : "M12",
+			"nome" : "Banco Maxinvest S.A.",
+			"site" : "http://www.bancomaxinvest.com.br",
+			"logo" : ""
+		}
+	}, {
+		"model" : "banco.banco",
+		"pk" : 90,
+		"fields" : {
+			"banco" : "389",
+			"nome" : "Banco Mercantil do Brasil S.A.",
+			"site" : "http://www.mercantil.com.br",
+			"logo" : ""
+		}
+	}, {
+		"model" : "banco.banco",
+		"pk" : 91,
+		"fields" : {
+			"banco" : "746",
+			"nome" : "Banco Modal S.A.",
+			"site" : "http://www.bancomodal.com.br",
+			"logo" : ""
+		}
+	}, {
+		"model" : "banco.banco",
+		"pk" : 92,
+		"fields" : {
+			"banco" : "M10",
+			"nome" : "Banco Moneo S.A.",
+			"site" : "http://www.bancomoneo.com.br",
+			"logo" : ""
+		}
+	}, {
+		"model" : "banco.banco",
+		"pk" : 93,
+		"fields" : {
+			"banco" : "738",
+			"nome" : "Banco Morada S.A.",
+			"site" : "http://www.bancomorada.com.br",
+			"logo" : ""
+		}
+	}, {
+		"model" : "banco.banco",
+		"pk" : 94,
+		"fields" : {
+			"banco" : "66",
+			"nome" : "Banco Morgan Stanley S.A.",
+			"site" : "http://www.morganstanley.com.br",
+			"logo" : ""
+		}
+	}, {
+		"model" : "banco.banco",
+		"pk" : 95,
+		"fields" : {
+			"banco" : "243",
+			"nome" : "Banco M\u00e1xima S.A.",
+			"site" : "http://www.bancomaxima.com.br",
+			"logo" : ""
+		}
+	}, {
+		"model" : "banco.banco",
+		"pk" : 96,
+		"fields" : {
+			"banco" : "45",
+			"nome" : "Banco Opportunity S.A.",
+			"site" : "http://www.opportunity.com.br",
+			"logo" : ""
+		}
+	}, {
+		"model" : "banco.banco",
+		"pk" : 97,
+		"fields" : {
+			"banco" : "M17",
+			"nome" : "Banco Ourinvest S.A.",
+			"site" : "http://www.ourinvest.com.br",
+			"logo" : ""
+		}
+	}, {
+		"model" : "banco.banco",
+		"pk" : 98,
+		"fields" : {
+			"banco" : "623",
+			"nome" : "Banco Panamericano S.A.",
+			"site" : "http://www.panamericano.com.br",
+			"logo" : ""
+		}
+	}, {
+		"model" : "banco.banco",
+		"pk" : 99,
+		"fields" : {
+			"banco" : "611",
+			"nome" : "Banco Paulista S.A.",
+			"site" : "http://www.bancopaulista.com.br",
+			"logo" : ""
+		}
+	}, {
+		"model" : "banco.banco",
+		"pk" : 100,
+		"fields" : {
+			"banco" : "613",
+			"nome" : "Banco Pec\u00fania S.A.",
+			"site" : "http://www.bancopecunia.com.br",
+			"logo" : ""
+		}
+	}, {
+		"model" : "banco.banco",
+		"pk" : 101,
+		"fields" : {
+			"banco" : "094-2",
+			"nome" : "Banco Petra S.A.",
+			"site" : "http://www.personaltrader.com.br",
+			"logo" : ""
+		}
+	}, {
+		"model" : "banco.banco",
+		"pk" : 102,
+		"fields" : {
+			"banco" : "643",
+			"nome" : "Banco Pine S.A.",
+			"site" : "http://www.bancopine.com.br",
+			"logo" : ""
+		}
+	}, {
+		"model" : "banco.banco",
+		"pk" : 103,
+		"fields" : {
+			"banco" : "724",
+			"nome" : "Banco Porto Seguro S.A.",
+			"site" : "-",
+			"logo" : ""
+		}
+	}, {
+		"model" : "banco.banco",
+		"pk" : 104,
+		"fields" : {
+			"banco" : "735",
+			"nome" : "Banco Pottencial S.A.",
+			"site" : "http://www.pottencial.com.br",
+			"logo" : ""
+		}
+	}, {
+		"model" : "banco.banco",
+		"pk" : 105,
+		"fields" : {
+			"banco" : "638",
+			"nome" : "Banco Prosper S.A.",
+			"site" : "http://www.bancoprosper.com.br",
+			"logo" : ""
+		}
+	}, {
+		"model" : "banco.banco",
+		"pk" : 106,
+		"fields" : {
+			"banco" : "M24",
+			"nome" : "Banco PSA Finance Brasil S.A.",
+			"site" : "-",
+			"logo" : ""
+		}
+	}, {
+		"model" : "banco.banco",
+		"pk" : 107,
+		"fields" : {
+			"banco" : "747",
+			"nome" : "Banco Rabobank International Brasil S.A.",
+			"site" : "http://www.rabobank.com.br",
+			"logo" : ""
+		}
+	}, {
+		"model" : "banco.banco",
+		"pk" : 108,
+		"fields" : {
+			"banco" : "088-4",
+			"nome" : "Banco Randon S.A.",
+			"site" : "-",
+			"logo" : ""
+		}
+	}, {
+		"model" : "banco.banco",
+		"pk" : 109,
+		"fields" : {
+			"banco" : "356",
+			"nome" : "Banco Real S.A.",
+			"site" : "http://www.bancoreal.com.br",
+			"logo" : ""
+		}
+	}, {
+		"model" : "banco.banco",
+		"pk" : 110,
+		"fields" : {
+			"banco" : "633",
+			"nome" : "Banco Rendimento S.A.",
+			"site" : "http://www.rendimento.com.br",
+			"logo" : ""
+		}
+	}, {
+		"model" : "banco.banco",
+		"pk" : 111,
+		"fields" : {
+			"banco" : "741",
+			"nome" : "Banco Ribeir\u00e3o Preto S.A.",
+			"site" : "http://www.brp.com.br",
+			"logo" : ""
+		}
+	}, {
+		"model" : "banco.banco",
+		"pk" : 112,
+		"fields" : {
+			"banco" : "M16",
+			"nome" : "Banco Rodobens S.A.",
+			"site" : "http://www.rodobens.com.br",
+			"logo" : ""
+		}
+	}, {
+		"model" : "banco.banco",
+		"pk" : 113,
+		"fields" : {
+			"banco" : "72",
+			"nome" : "Banco Rural Mais S.A.",
+			"site" : "http://www.rural.com.br",
+			"logo" : ""
+		}
+	}, {
+		"model" : "banco.banco",
+		"pk" : 114,
+		"fields" : {
+			"banco" : "453",
+			"nome" : "Banco Rural S.A.",
+			"site" : "http://www.rural.com.br",
+			"logo" : ""
+		}
+	}, {
+		"model" : "banco.banco",
+		"pk" : 115,
+		"fields" : {
+			"banco" : "422",
+			"nome" : "Banco Safra S.A.",
+			"site" : "http://www.safra.com.br",
+			"logo" : ""
+		}
+	}, {
+		"model" : "banco.banco",
+		"pk" : 116,
+		"fields" : {
+			"banco" : "33",
+			"nome" : "Banco Santander (Brasil) S.A.",
+			"site" : "http://www.santander.com.br",
+			"logo" : ""
+		}
+	}, {
+		"model" : "banco.banco",
+		"pk" : 117,
+		"fields" : {
+			"banco" : "250",
+			"nome" : "Banco Schahin S.A.",
+			"site" : "http://www.bancoschahin.com.br",
+			"logo" : ""
+		}
+	}, {
+		"model" : "banco.banco",
+		"pk" : 118,
+		"fields" : {
+			"banco" : "743",
+			"nome" : "Banco Semear S.A.",
+			"site" : "http://www.bancosemear.com.br",
+			"logo" : ""
+		}
+	}, {
+		"model" : "banco.banco",
+		"pk" : 119,
+		"fields" : {
+			"banco" : "749",
+			"nome" : "Banco Simples S.A.",
+			"site" : "http://www.bancosimples.com.br",
+			"logo" : ""
+		}
+	}, {
+		"model" : "banco.banco",
+		"pk" : 120,
+		"fields" : {
+			"banco" : "366",
+			"nome" : "Banco Soci\u00e9t\u00e9 G\u00e9n\u00e9rale Brasil S.A.",
+			"site" : "http://www.sgbrasil.com.br",
+			"logo" : ""
+		}
+	}, {
+		"model" : "banco.banco",
+		"pk" : 121,
+		"fields" : {
+			"banco" : "637",
+			"nome" : "Banco Sofisa S.A.",
+			"site" : "http://www.sofisa.com.br",
+			"logo" : ""
+		}
+	}, {
+		"model" : "banco.banco",
+		"pk" : 122,
+		"fields" : {
+			"banco" : "12",
+			"nome" : "Banco Standard de Investimentos S.A.",
+			"site" : "http://www.standardbank.com",
+			"logo" : ""
+		}
+	}, {
+		"model" : "banco.banco",
+		"pk" : 123,
+		"fields" : {
+			"banco" : "464",
+			"nome" : "Banco Sumitomo Mitsui Brasileiro S.A.",
+			"site" : "-",
+			"logo" : ""
+		}
+	}, {
+		"model" : "banco.banco",
+		"pk" : 124,
+		"fields" : {
+			"banco" : "082-5",
+			"nome" : "Banco Top\u00e1zio S.A.",
+			"site" : "http://www.bancotopazio.com.br",
+			"logo" : ""
+		}
+	}, {
+		"model" : "banco.banco",
+		"pk" : 125,
+		"fields" : {
+			"banco" : "M20",
+			"nome" : "Banco Toyota do Brasil S.A.",
+			"site" : "http://www.bancotoyota.com.br",
+			"logo" : ""
+		}
+	}, {
+		"model" : "banco.banco",
+		"pk" : 126,
+		"fields" : {
+			"banco" : "M13",
+			"nome" : "Banco Tricury S.A.",
+			"site" : "http://www.tricury.com.br",
+			"logo" : ""
+		}
+	}, {
+		"model" : "banco.banco",
+		"pk" : 127,
+		"fields" : {
+			"banco" : "634",
+			"nome" : "Banco Tri\u00e2ngulo S.A.",
+			"site" : "http://www.tribanco.com.br",
+			"logo" : ""
+		}
+	}, {
+		"model" : "banco.banco",
+		"pk" : 128,
+		"fields" : {
+			"banco" : "M14",
+			"nome" : "Banco Volkswagen S.A.",
+			"site" : "http://www.bancovw.com.br",
+			"logo" : ""
+		}
+	}, {
+		"model" : "banco.banco",
+		"pk" : 129,
+		"fields" : {
+			"banco" : "M23",
+			"nome" : "Banco Volvo (Brasil) S.A.",
+			"site" : "-",
+			"logo" : ""
+		}
+	}, {
+		"model" : "banco.banco",
+		"pk" : 130,
+		"fields" : {
+			"banco" : "655",
+			"nome" : "Banco Votorantim S.A.",
+			"site" : "http://www.bancovotorantim.com.br",
+			"logo" : ""
+		}
+	}, {
+		"model" : "banco.banco",
+		"pk" : 131,
+		"fields" : {
+			"banco" : "610",
+			"nome" : "Banco VR S.A.",
+			"site" : "http://www.vr.com.br",
+			"logo" : ""
+		}
+	}, {
+		"model" : "banco.banco",
+		"pk" : 132,
+		"fields" : {
+			"banco" : "370",
+			"nome" : "Banco WestLB do Brasil S.A.",
+			"site" : "http://www.westlb.com.br",
+			"logo" : ""
+		}
+	}, {
+		"model" : "banco.banco",
+		"pk" : 133,
+		"fields" : {
+			"banco" : "21",
+			"nome" : "BANESTES S.A. Banco do Estado do Esp\u00edrito Santo",
+			"site" : "http://www.banestes.com.br",
+			"logo" : ""
+		}
+	}, {
+		"model" : "banco.banco",
+		"pk" : 134,
+		"fields" : {
+			"banco" : "719",
+			"nome" : "Banif-Banco Internacional do Funchal (Brasil)S.A.",
+			"site" : "http://www.banif.com.br",
+			"logo" : ""
+		}
+	}, {
+		"model" : "banco.banco",
+		"pk" : 135,
+		"fields" : {
+			"banco" : "755",
+			"nome" : "Bank of America Merrill Lynch Banco M\u00faltiplo S.A.",
+			"site" : "http://www.ml.com",
+			"logo" : ""
+		}
+	}, {
+		"model" : "banco.banco",
+		"pk" : 136,
+		"fields" : {
+			"banco" : "744",
+			"nome" : "BankBoston N.A.",
+			"site" : "http://www.bankboston.com.br",
+			"logo" : ""
+		}
+	}, {
+		"model" : "banco.banco",
+		"pk" : 137,
+		"fields" : {
+			"banco" : "73",
+			"nome" : "BB Banco Popular do Brasil S.A.",
+			"site" : "http://www.bancopopulardobrasil.com.br",
+			"logo" : ""
+		}
+	}, {
+		"model" : "banco.banco",
+		"pk" : 138,
+		"fields" : {
+			"banco" : "78",
+			"nome" : "BES Investimento do Brasil S.A.-Banco de Investimento",
+			"site" : "http://www.besinvestimento.com.br",
+			"logo" : ""
+		}
+	}, {
+		"model" : "banco.banco",
+		"pk" : 139,
+		"fields" : {
+			"banco" : "69",
+			"nome" : "BPN Brasil Banco M\u00faltiplo S.A.",
+			"site" : "http://www.bpnbrasil.com.br",
+			"logo" : ""
+		}
+	}, {
+		"model" : "banco.banco",
+		"pk" : 140,
+		"fields" : {
+			"banco" : "70",
+			"nome" : "BRB - Banco de Bras\u00edlia S.A.",
+			"site" : "http://www.brb.com.br",
+			"logo" : ""
+		}
+	}, {
+		"model" : "banco.banco",
+		"pk" : 141,
+		"fields" : {
+			"banco" : "092-2",
+			"nome" : "Brickell S.A. Cr\u00e9dito, financiamento e Investimento",
+			"site" : "-",
+			"logo" : ""
+		}
+	}, {
+		"model" : "banco.banco",
+		"pk" : 142,
+		"fields" : {
+			"banco" : "104",
+			"nome" : "Caixa Econ\u00f4mica Federal",
+			"site" : "http://www.caixa.gov.br",
+			"logo" : ""
+		}
+	}, {
+		"model" : "banco.banco",
+		"pk" : 143,
+		"fields" : {
+			"banco" : "477",
+			"nome" : "Citibank N.A.",
+			"site" : "http://www.citibank.com/brasil",
+			"logo" : ""
+		}
+	}, {
+		"model" : "banco.banco",
+		"pk" : 144,
+		"fields" : {
+			"banco" : "081-7",
+			"nome" : "Conc\u00f3rdia Banco S.A.",
+			"site" : "http://www.concordiabanco.com",
+			"logo" : ""
+		}
+	}, {
+		"model" : "banco.banco",
+		"pk" : 145,
+		"fields" : {
+			"banco" : "097-3",
+			"nome" : "Cooperativa Central de Cr\u00e9dito Noroeste Brasileiro Ltda.",
+			"site" : "-",
+			"logo" : ""
+		}
+	}, {
+		"model" : "banco.banco",
+		"pk" : 146,
+		"fields" : {
+			"banco" : "085-x",
+			"nome" : "Cooperativa Central de Cr\u00e9dito Urbano-CECRED",
+			"site" : "-",
+			"logo" : ""
+		}
+	}, {
+		"model" : "banco.banco",
+		"pk" : 147,
+		"fields" : {
+			"banco" : "099-x",
+			"nome" : "Cooperativa Central de Economia e Credito Mutuo das Unicreds",
+			"site" : "-",
+			"logo" : ""
+		}
+	}, {
+		"model" : "banco.banco",
+		"pk" : 148,
+		"fields" : {
+			"banco" : "090-2",
+			"nome" : "Cooperativa Central de Economia e Cr\u00e9dito Mutuo das Unicreds",
+			"site" : "-",
+			"logo" : ""
+		}
+	}, {
+		"model" : "banco.banco",
+		"pk" : 149,
+		"fields" : {
+			"banco" : "089-2",
+			"nome" : "Cooperativa de Cr\u00e9dito Rural da Regi\u00e3o de Mogiana",
+			"site" : "-",
+			"logo" : ""
+		}
+	}, {
+		"model" : "banco.banco",
+		"pk" : 150,
+		"fields" : {
+			"banco" : "087-6",
+			"nome" : "Cooperativa Unicred Central Santa Catarina",
+			"site" : "-",
+			"logo" : ""
+		}
+	}, {
+		"model" : "banco.banco",
+		"pk" : 151,
+		"fields" : {
+			"banco" : "098-1",
+			"nome" : "Credicorol Cooperativa de Cr\u00e9dito Rural",
+			"site" : "-",
+			"logo" : ""
+		}
+	}, {
+		"model" : "banco.banco",
+		"pk" : 152,
+		"fields" : {
+			"banco" : "487",
+			"nome" : "Deutsche Bank S.A. - Banco Alem\u00e3o",
+			"site" : "http://www.deutsche-bank.com.br",
+			"logo" : ""
+		}
+	}, {
+		"model" : "banco.banco",
+		"pk" : 153,
+		"fields" : {
+			"banco" : "751",
+			"nome" : "Dresdner Bank Brasil S.A. - Banco M\u00faltiplo",
+			"site" : "http://www.dkib.com.br",
+			"logo" : ""
+		}
+	}, {
+		"model" : "banco.banco",
+		"pk" : 154,
+		"fields" : {
+			"banco" : "64",
+			"nome" : "Goldman Sachs do Brasil Banco M\u00faltiplo S.A.",
+			"site" : "http://www.goldmansachs.com",
+			"logo" : ""
+		}
+	}, {
+		"model" : "banco.banco",
+		"pk" : 155,
+		"fields" : {
+			"banco" : "62",
+			"nome" : "Hipercard Banco M\u00faltiplo S.A.",
+			"site" : "http://www.hipercard.com.br",
+			"logo" : ""
+		}
+	}, {
+		"model" : "banco.banco",
+		"pk" : 156,
+		"fields" : {
+			"banco" : "399",
+			"nome" : "HSBC Bank Brasil S.A. - Banco M\u00faltiplo",
+			"site" : "http://www.hsbc.com.br",
+			"logo" : ""
+		}
+	}, {
+		"model" : "banco.banco",
+		"pk" : 157,
+		"fields" : {
+			"banco" : "168",
+			"nome" : "HSBC Finance (Brasil) S.A. - Banco M\u00faltiplo",
+			"site" : "-",
+			"logo" : ""
+		}
+	}, {
+		"model" : "banco.banco",
+		"pk" : 158,
+		"fields" : {
+			"banco" : "492",
+			"nome" : "ING Bank N.V.",
+			"site" : "http://www.ing.com",
+			"logo" : ""
+		}
+	}, {
+		"model" : "banco.banco",
+		"pk" : 159,
+		"fields" : {
+			"banco" : "652",
+			"nome" : "Ita\u00fa Unibanco Holding S.A.",
+			"site" : "http://www.itau.com.br",
+			"logo" : ""
+		}
+	}, {
+		"model" : "banco.banco",
+		"pk" : 160,
+		"fields" : {
+			"banco" : "341",
+			"nome" : "Ita\u00fa Unibanco S.A.",
+			"site" : "http://www.itau.com.br",
+			"logo" : ""
+		}
+	}, {
+		"model" : "banco.banco",
+		"pk" : 161,
+		"fields" : {
+			"banco" : "79",
+			"nome" : "JBS Banco S.A.",
+			"site" : "http://www.bancojbs.com.br",
+			"logo" : ""
+		}
+	}, {
+		"model" : "banco.banco",
+		"pk" : 162,
+		"fields" : {
+			"banco" : "488",
+			"nome" : "JPMorgan Chase Bank",
+			"site" : "http://www.jpmorganchase.com",
+			"logo" : ""
+		}
+	}, {
+		"model" : "banco.banco",
+		"pk" : 163,
+		"fields" : {
+			"banco" : "14",
+			"nome" : "Natixis Brasil S.A. Banco M\u00faltiplo",
+			"site" : "-",
+			"logo" : ""
+		}
+	}, {
+		"model" : "banco.banco",
+		"pk" : 164,
+		"fields" : {
+			"banco" : "753",
+			"nome" : "NBC Bank Brasil S.A. - Banco M\u00faltiplo",
+			"site" : "http://www.nbcbank.com.br",
+			"logo" : ""
+		}
+	}, {
+		"model" : "banco.banco",
+		"pk" : 165,
+		"fields" : {
+			"banco" : "086-8",
+			"nome" : "OBOE Cr\u00e9dito Financiamento e Investimento S.A.",
+			"site" : "-",
+			"logo" : ""
+		}
+	}, {
+		"model" : "banco.banco",
+		"pk" : 166,
+		"fields" : {
+			"banco" : "254",
+			"nome" : "Paran\u00e1 Banco S.A.",
+			"site" : "http://www.paranabanco.com.br",
+			"logo" : ""
+		}
+	}, {
+		"model" : "banco.banco",
+		"pk" : 167,
+		"fields" : {
+			"banco" : "409",
+			"nome" : "UNIBANCO - Uni\u00e3o de Bancos Brasileiros S.A.",
+			"site" : "http://www.unibanco.com.br",
+			"logo" : ""
+		}
+	}, {
+		"model" : "banco.banco",
+		"pk" : 168,
+		"fields" : {
+			"banco" : "230",
+			"nome" : "Unicard Banco M\u00faltiplo S.A.",
+			"site" : "http://www.unicard.com.br",
+			"logo" : ""
+		}
+	}, {
+		"model" : "banco.banco",
+		"pk" : 169,
+		"fields" : {
+			"banco" : "091-4",
+			"nome" : "Unicred Central do Rio Grande do Sul",
+			"site" : "http://www.unicred-rs.com.br",
+			"logo" : ""
+		}
+	}, {
+		"model" : "banco.banco",
+		"pk" : 170,
+		"fields" : {
+			"banco" : "84",
+			"nome" : "Unicred Norte do Paran\u00e1",
+			"site" : "-",
+			"logo" : ""
+		}
+	}
+]

@@ -1,0 +1,30 @@
+[{
+		"model" : "pessoal.cargo",
+		"pk" : 1,
+		"fields" : {
+			"nome" : "Secret\u00e1rio atendente",
+			"descricao" : "Secret\u00e1rio atendente"
+		}
+	}, {
+		"model" : "pessoal.cargo",
+		"pk" : 2,
+		"fields" : {
+			"nome" : "Assistente de vendas",
+			"descricao" : "Assistente de vendas"
+		}
+	}, {
+		"model" : "pessoal.cargo",
+		"pk" : 3,
+		"fields" : {
+			"nome" : "Vendedor",
+			"descricao" : "Vendedor"
+		}
+	}, {
+		"model" : "pessoal.cargo",
+		"pk" : 4,
+		"fields" : {
+			"nome" : "Gerente",
+			"descricao" : "Gerente"
+		}
+	}
+]

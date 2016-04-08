@@ -1,0 +1,17 @@
+[{
+		"model" : "caixa.caixa",
+		"pk" : 1,
+		"fields" : {
+			"status" : true,
+			"data_abertura" : "2016-03-03T19:13:35Z",
+			"data_fechamento" : null,
+			"valor_entrada" : "42771.78",
+			"valor_saida" : "37384.28",
+			"valor_total" : "0.00",
+			"valor_inicial" : "1000.00",
+			"valor_fechamento" : "0.00",
+			"diferenca" : "0.00"
+
+		}
+	}
+]

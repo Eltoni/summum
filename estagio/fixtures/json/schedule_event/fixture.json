@@ -1,0 +1,98 @@
+[{
+		"model" : "schedule.event",
+		"pk" : 1,
+		"fields" : {
+			"start" : "1993-11-06T02:00:00Z",
+			"end" : "1993-11-07T01:59:59Z",
+			"title" : "Anivers\u00e1rio do Gustavo",
+			"description" : "Comprar presentes para o chefe!!",
+			"creator" : null,
+			"created_on" : "2015-08-24T02:07:35Z",
+			"updated_on" : "2015-08-24T02:28:23Z",
+			"rule" : 1,
+			"end_recurring_period" : null,
+			"calendar" : 1,
+			"color_event" : "#f1c232"
+		}
+	}, {
+		"model" : "schedule.event",
+		"pk" : 2,
+		"fields" : {
+			"start" : "2000-01-01T02:00:00Z",
+			"end" : "2000-01-01T02:00:00Z",
+			"title" : "Feriado \u201cConfraterniza\u00e7\u00e3o Universal\u201d",
+			"description" : "Recesso Administrativo",
+			"creator" : null,
+			"created_on" : "2015-08-24T02:48:39Z",
+			"updated_on" : "2015-08-24T02:50:06Z",
+			"rule" : 2,
+			"end_recurring_period" : null,
+			"calendar" : 1,
+			"color_event" : ""
+		}
+	}, {
+		"model" : "schedule.event",
+		"pk" : 3,
+		"fields" : {
+			"start" : "2000-02-16T02:00:00Z",
+			"end" : "2000-02-18T02:00:00Z",
+			"title" : "Feriado \u201cCarnaval\u201d",
+			"description" : "Recesso Administrativo",
+			"creator" : null,
+			"created_on" : "2015-08-24T02:50:13Z",
+			"updated_on" : "2015-08-24T02:50:13Z",
+			"rule" : 2,
+			"end_recurring_period" : null,
+			"calendar" : 1,
+			"color_event" : ""
+		}
+	}, {
+		"model" : "schedule.event",
+		"pk" : 4,
+		"fields" : {
+			"start" : "2000-04-21T03:00:00Z",
+			"end" : "2000-04-21T03:00:00Z",
+			"title" : "Feriado \u201cTiradentes\u201d ",
+			"description" : "Recesso Administrativo",
+			"creator" : null,
+			"created_on" : "2015-08-24T02:52:26Z",
+			"updated_on" : "2015-08-24T02:52:26Z",
+			"rule" : 2,
+			"end_recurring_period" : null,
+			"calendar" : 1,
+			"color_event" : ""
+		}
+	}, {
+		"model" : "schedule.event",
+		"pk" : 5,
+		"fields" : {
+			"start" : "2000-04-02T03:00:00Z",
+			"end" : "2000-04-04T03:00:00Z",
+			"title" : "Feriado \u201cPaix\u00e3o de Cristo\u201d ",
+			"description" : "Recesso Administrativo",
+			"creator" : null,
+			"created_on" : "2015-08-24T02:53:12Z",
+			"updated_on" : "2015-08-24T02:53:12Z",
+			"rule" : 2,
+			"end_recurring_period" : null,
+			"calendar" : 1,
+			"color_event" : ""
+		}
+	}, {
+		"model" : "schedule.event",
+		"pk" : 6,
+		"fields" : {
+			"start" : "2000-10-04T03:00:00Z",
+			"end" : "2000-10-04T03:00:00Z",
+			"title" : "Feriado Municipal de Umuarama",
+			"description" : "Recesso Administrativo",
+			"creator" : null,
+			"created_on" : "2015-08-24T02:59:59Z",
+			"updated_on" : "2015-08-24T02:59:59Z",
+			"rule" : 2,
+			"end_recurring_period" : null,
+			"calendar" : 1,
+			"color_event" : ""
+		}
+	}
+]

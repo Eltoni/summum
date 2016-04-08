@@ -1,0 +1,67 @@
+[{
+		"model" : "parametros_financeiros.formapagamento",
+		"pk" : 1,
+		"fields" : {
+			"nome" : "\u00c0 vista",
+			"descricao" : "Pagamento efetuado \u00e0 vista.",
+			"quant_parcelas" : 1,
+			"prazo_entre_parcelas" : 0,
+			"tipo_prazo" : "M",
+			"carencia" : 0,
+			"tipo_carencia" : "M",
+			"status" : true
+		}
+	}, {
+		"model" : "parametros_financeiros.formapagamento",
+		"pk" : 2,
+		"fields" : {
+			"nome" : "\u00c0 prazo (Mensal, Entrada + 2x)",
+			"descricao" : "Pagamento parcelado em 3 vezes, com acerto da primeira parcela no ato da compra.",
+			"quant_parcelas" : 3,
+			"prazo_entre_parcelas" : 1,
+			"tipo_prazo" : "M",
+			"carencia" : 0,
+			"tipo_carencia" : "M",
+			"status" : true
+		}
+	}, {
+		"model" : "parametros_financeiros.formapagamento",
+		"pk" : 3,
+		"fields" : {
+			"nome" : "\u00c0 prazo (Mensal, em 6x - Prazo: 1M - Car\u00eancia: 2S)",
+			"descricao" : "Pagamento parcelado em 6 vezes, com primeiro pagamento para duas semanas.",
+			"quant_parcelas" : 6,
+			"prazo_entre_parcelas" : 1,
+			"tipo_prazo" : "M",
+			"carencia" : 2,
+			"tipo_carencia" : "S",
+			"status" : true
+		}
+	}, {
+		"model" : "parametros_financeiros.formapagamento",
+		"pk" : 4,
+		"fields" : {
+			"nome" : "\u00c0 prazo (Semanal, em 3x - Prazo: 2S - Car\u00eancia: 1D) ",
+			"descricao" : "Pagamento parcelado em 3 vezes, com prazo entre parcelas de 2 semanas e car\u00eancia de 1 dia.",
+			"quant_parcelas" : 3,
+			"prazo_entre_parcelas" : 2,
+			"tipo_prazo" : "S",
+			"carencia" : 1,
+			"tipo_carencia" : "D",
+			"status" : true
+		}
+	}, {
+		"model" : "parametros_financeiros.formapagamento",
+		"pk" : 5,
+		"fields" : {
+			"nome" : "\u00c0 prazo (Di\u00e1rio, em 5x - Prazo: 3D - Car\u00eancia: 1M) ",
+			"descricao" : "Pagamento parcelado em 5 vezes, com prazo entre parcelas de 3 dias e car\u00eancia de 1 m\u00eas.",
+			"quant_parcelas" : 5,
+			"prazo_entre_parcelas" : 3,
+			"tipo_prazo" : "D",
+			"carencia" : 1,
+			"tipo_carencia" : "M",
+			"status" : true
+		}
+	}
+]

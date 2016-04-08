@@ -16,14 +16,25 @@ HOME_PATH = os.path.expanduser('~')
 
 
 # Caminhos para os fixtures. Arquivos que populam os dados iniciais das tabelas da base de dados
-FIXTURES = (
-    # os.path.join(BASE_DIR, 'fixtures\data_all.sql'),
-    os.path.join(BASE_DIR, 'fixtures\localidade_cidade.sql'),
-    os.path.join(BASE_DIR, 'fixtures\movimento_produtos.sql'),
-    os.path.join(BASE_DIR, 'fixtures\\banco_banco.sql'),
-    os.path.join(BASE_DIR, 'fixtures\\banco_agencia.sql'),
-    os.path.join(BASE_DIR, 'fixtures\others.sql'),
-)
+FIXTURE_DIRS = [
+    os.path.join(BASE_DIR, 'fixtures\json\\auth_user'),
+    os.path.join(BASE_DIR, 'fixtures\json\\localidade_cidade'),
+    os.path.join(BASE_DIR, 'fixtures\json\\movimento_produto'),
+    os.path.join(BASE_DIR, 'fixtures\json\\banco_banco'),
+    os.path.join(BASE_DIR, 'fixtures\json\\banco_agencia'),
+    os.path.join(BASE_DIR, 'fixtures\json\\caixa_caixa'),
+    os.path.join(BASE_DIR, 'fixtures\json\\configuracoes_parametrizacao'),
+    os.path.join(BASE_DIR, 'fixtures\json\\pessoal_cargo'),
+    os.path.join(BASE_DIR, 'fixtures\json\\pessoal_cliente'),
+    os.path.join(BASE_DIR, 'fixtures\json\\pessoal_fornecedor'),
+    os.path.join(BASE_DIR, 'fixtures\json\\pessoal_funcionario'),
+    os.path.join(BASE_DIR, 'fixtures\json\\parametrosfinanceiros_formapagamento'),
+    os.path.join(BASE_DIR, 'fixtures\json\\parametrosfinanceiros_grupoencargo'),
+    os.path.join(BASE_DIR, 'fixtures\json\\schedule_calendar'),
+    os.path.join(BASE_DIR, 'fixtures\json\\schedule_rule'),
+    os.path.join(BASE_DIR, 'fixtures\json\\schedule_event'),
+    os.path.join(BASE_DIR, 'fixtures\json\\sites_site'),
+]
 # Caminho único para os fixtures criados em py.
 FIXTURES_PY = os.path.join(BASE_DIR, 'fixtures\py')
 

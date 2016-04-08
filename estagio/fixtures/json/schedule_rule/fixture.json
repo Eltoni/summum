@@ -1,0 +1,20 @@
+[{
+		"model" : "schedule.rule",
+		"pk" : 1,
+		"fields" : {
+			"name" : "Aniversário",
+			"description" : "Evento realizado anualmente.",
+			"frequency" : "YEARLY",
+			"params" : ""
+		}
+	}, {
+		"model" : "schedule.rule",
+		"pk" : 2,
+		"fields" : {
+			"name" : "Feriado",
+			"description" : "Evento realizado anualmente.",
+			"frequency" : "YEARLY",
+			"params" : ""
+		}
+	}
+]

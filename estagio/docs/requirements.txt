@@ -16,6 +16,7 @@ django-import-export==0.4.5
 django-localflavor==1.2
 django-nvd3==0.9.7
 django-redis-cache==1.6.5
+django-salmonella==1.0
 django-selectable==0.9.0
 django-selectable-filter==0.1.5
 django-smart-selects==1.1.1

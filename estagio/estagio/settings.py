@@ -348,13 +348,14 @@ BOWER_INSTALLED_APPS = (
     'nvd3#1.7.1',
     'hint.css#2.2.1',
     'hopscotch#0.2.5',
-    'fontawesome#4.5.0',
+    'fontawesome#4.6.0',
     'jquery.numeric#1.4.1',
     'jQuery-Mask-Plugin#1.14.0',
     'bootstrap-filestyle#1.0.6',
-    'footable#3.0.7',
+    'footable#3.0.8',
     'jquery-modal#0.7.0',
     'fullcalendar#2.6.1',
+    'highcharts#4.2.3',
 )
 
 

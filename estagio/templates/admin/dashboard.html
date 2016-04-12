@@ -1,15 +1,7 @@
 {% extends "admin/index.html" %}
 
 {% load i18n admin_static %}
-{% load nvd3_tags %}  
 {% load geral_filters %}
-
-{% block extrastyle %}
-  {{ block.super }}
-
-  {% include_chart_jscss %}
-  {% load_chart charttype chartdata chartcontainer extra %}
-{% endblock %}
 
 {% block extrahead %}
   <link rel="stylesheet" type="text/css" href="{% static 'css/dashboard.css' %}" media="all">
@@ -18,197 +10,168 @@
   <script type='text/javascript' src="{% static 'components/bower_components/moment/min/moment.min.js' %}"></script>
   <script type='text/javascript' src="{% static 'components/bower_components/fullcalendar/dist/fullcalendar.min.js' %}"></script>
   <script type='text/javascript' src="{% static 'components/bower_components/fullcalendar/dist/lang/pt-br.js' %}"></script>
+
+  <script type='text/javascript' src="{% static 'components/bower_components/highcharts/highcharts.js' %}"></script>
+  <script type='text/javascript' src="{% static 'components/bower_components/highcharts/modules/data.js' %}"></script>
+  <script type='text/javascript' src="{% static 'components/bower_components/highcharts/highcharts-more.js' %}"></script>
+  <script type='text/javascript' src="{% static 'components/bower_components/highcharts/modules/exporting.js' %}"></script>
 {# {{ block.super }}#}
 {% endblock %}
 
-
 {% block content %}
-  <div id="custom-dashboard">
-      <div id="content-main">
-        
-        <div id="calendar"></div>
-
-        {% if perms.movimento.visualizar_rel_produtos_esgotando %}   {# Exibe apenas para usuários com permissão "Ver relatorio de produtos esgotando em estoque" #}
-          {% if tab_limite_estoque %}
-            {% if produtos_esgotando %}
-              <div class="module blocks-content-main">
+  <div class="suit-row suit-row-1-col">
+    <div class="suit-column">
+      <div id="calendar"></div>
+    </div>
+  </div>
+  <div class="suit-row suit-row-1-col">
+    <div class="suit-column">
+      {% if perms.movimento.visualizar_rel_produtos_esgotando and quantidade_minima %}
+          {% if produtos_esgotando %}
+            <div style="background-color: #ffffff;display: flex;padding: 10px;border: 1px solid #e3e3e3;">
+              <div style="width: 70%; position: relative; float: left;" class="">
                 <h4 class="italic-title" style="margin-left: 26px;"><b>{% trans 'Estoque' %}</b></h4>
-                <h2><span class="description">{% trans 'Indicativo de Produtos esgotando em estoque' %}</span></h2>
-                <!-- <table class="table-overview table table-striped table-bordered table-hover table-condensed"> -->
-                <table class="table-overview table table-condensed">
-                  <thead>
-                    <tr>
-                      <td></td>
-                      <td>{% trans 'ID' %}</td>
-                      <td>{% trans 'Produto' %}</td>
-                      <td>{% trans 'Quantidade em estoque' %}</td>
-                    </tr>
-                  </thead>
-                  <tbody>
-                  {% for produtos in produtos_esgotando %}
-                    <tr class='{{produtos.2|formata_quantidade_produtos:quantidade_minima}}'>
-                      <td><span class="icon-pencil icon-alpha5"></span></td>
-                      <td><a href="{% url 'admin:movimento_produtos_change' produtos.0 %}">{{ produtos.0 }}</a></td>
-                      <td><a href="{% url 'admin:movimento_produtos_change' produtos.0 %}">{{ produtos.1 }}</a></td>
-                      <td>{{ produtos.2 }}</td>
-                    </tr>
-                  {% endfor %}
-                  </tbody>
-                </table>
+                <h2 class=""><span class="description">{% trans 'Indicativo de Produtos esgotando em estoque' %}</span></h2>
+              </div>
+              <div style="width: 30%; position: relative; float: right;">
                 <h2><span class="description">{% blocktrans %}Produtos com menos de {{ quantidade_minima }} itens em estoque.{% endblocktrans %}</span></h2>
                 <ul class="legenda-produtos-esgotando">
-                    <li>
-                      <span class="cinquenta-porcento"></span> 
-                      <font class="fonte-legenda">{% trans 'Abaixo de 50% da quantidade.' %}</font>
-                    </li>
-                    <br>
-                    <li>
-                      <span class="cem-porcento"></span>
-                      <font class="fonte-legenda">{% trans 'Entre 50% e 100% da quantidade.' %}</font>
-                    </li>
+                  <li><span class="cinquenta-porcento"></span><font class="fonte-legenda">{% trans 'Abaixo de 50% da quantidade.' %}</font></li>
+                  <br>
+                  <li><span class="cem-porcento"></span><font class="fonte-legenda">{% trans 'Entre 50% e 100% da quantidade.' %}</font></li>
                 </ul>
               </div>
-            {% else %}
-              <div class="module blocks-content-main alert alert-success">
-                <h4 class="italic-title" style="margin-left: 26px;"><b>{% trans 'Estoque' %}</b></h4>
-                <h2><span class="description">{% trans 'Não há produtos esgotando em estoque.' %}</span></h2>
-              </div>
-            {% endif %}
-          {% endif %}
-        {% endif %}
-        {% if perms.movimento.visualizar_rel_debitos_creditos_diario %}   {# Exibe apenas para usuários com permissão "Ver relatorio de debitos e creditos diarios" #}
-          <div class="blocks-content-main">
-              {% if grafico_mov_dia %}
-              <table>
-                <tr>
-                  <td>
-                    <h4 class="italic-title" style="margin-left: 26px;"><b>{% trans 'Movimentação Financeira Diária' %}</b></h4>
-                    <h2><span class="description">{% trans 'Demonstrativo diário de Débitos e Créditos movimentados em caixa' %}</span></h2>
-                    {% include_container chartcontainer 500 1000 %}
-                  </td>
+            </div>
+            <table id="produto_caixa_esgotando" class="table table-striped well table-hover footable footable-paging footable-paging-center breakpoint-lg">
+              <thead>
+                <tr class="footable-header">
+                  <th data-type="html" data-sort-use="text" data-filterable="false"></th>
+                  <th data-type="html" data-sort-use="text">{% trans 'ID' %}</th>
+                  <th data-type="html" data-sort-use="text">{% trans 'Produto' %}</th>
+                  <th>{% trans 'Quantidade em estoque' %}</th>
                 </tr>
-              </table>
-              <br>
-              <table id="tabela_creditos_debitos" class="table table-striped well table-hover footable footable-1 footable-paging footable-paging-center breakpoint-lg">
-                <thead>
-                  <tr class="footable-header">
-                    <th data-breakpoints="xs">Data</th>
-                    <th>Crédito (R$)</th>
-                    <th>Débito (R$)</th>
-                  </tr>
-                </thead>
-                <tbody>
-                {% for d, cr, de in table_creditos_debitos %}
-                  <tr>
-                    <td>{{ d }}</td>
-                    <td>{{ cr }}</td>
-                    <td>{{ de }}</td>
-                  </tr>
-                {% endfor %}
-                </tbody>
-              </table>
-              <script type="text/javascript">
-                  (function($){
-                      $(document).ready(function(){
-                          // Hide all TD before init of footable
-                          // $("#tabela_creditos_debitos tbody tr td").css("display", "none");
-
-                          $("#tabela_creditos_debitos").footable({
-                              "empty": "Sem registros",
-                              "paging": { "enabled":true, 
-                                          "limit": 5, 
-                                          "countFormat": "{CP} de {TP}", 
-                                          "size": 10,
-                                          "current": !!window.localStorage ? localStorage.getItem('footable-page') : 1
-                              },
-                              "filtering": {
-                                  "enabled": true,
-                                  "delay": 500,
-                                  "placeholder": "Buscar",
-                                  "position": "right",
-                                  // "filters": [{
-                                  //     "name": "my-filter",
-                                  //     // "query": "Variable",
-                                  //     "columns": ["Variable"]
-                                  // }]
-                              }
-                          }).on('after.ft.paging', function(e, ftbl, pager){
-                              if (!!window.localStorage){
-                                  localStorage.setItem('footable-page', pager.page);
-                              }
-                          });
-                      });
-                  })(jQuery);
-              </script>
-              {% endif %}
-          </div>
-        {% endif %}
-      </div>
-    
+              </thead>
+              <tbody>
+              {% for produtos in produtos_esgotando %}
+                <tr class='{{produtos.2|formata_quantidade_produtos:quantidade_minima}}'>
+                  <td><span class="icon-pencil icon-alpha5"></span></td>
+                  <td><a href="{% url 'admin:movimento_produtos_change' produtos.0 %}">{{ produtos.0 }}</a></td>
+                  <td><a href="{% url 'admin:movimento_produtos_change' produtos.0 %}">{{ produtos.1 }}</a></td>
+                  <td>{{ produtos.2 }}</td>
+                </tr>
+              {% endfor %}
+              </tbody>
+            </table>
+          {% else %}
+            <div class="alert alert-success">
+              <h4 class="italic-title" style="margin-left: 26px;"><b>{% trans 'Estoque' %}</b></h4>
+              <h2><span class="description">{% trans 'Não há produtos esgotando em estoque.' %}</span></h2>
+            </div>
+          {% endif %}
+      {% endif %}
+    </div>
   </div>
+  <div class="suit-row suit-row-1-col">
+    <div class="suit-column">
+      {% if grafico_mov_dia and perms.movimento.visualizar_rel_debitos_creditos_diario %}
+        <div id="grafico_movimento_financeiro"></div>
+      {% endif %}
+    </div>
+  </div>
+    
+  <script type='text/javascript'>
+    (function($){
+      $(document).ready(function(){
+        // Hide all TD before init of footable
+        // $("#tabela_creditos_debitos tbody tr td").css("display", "none");
+        $("#produto_caixa_esgotando").footable({
+          "empty": "Sem registros",
+          "paging": { 
+            "enabled":true, 
+            "limit": 5, 
+            "countFormat": "{CP} de {TP}", 
+            "size": 10,
+            "current": !!window.localStorage ? localStorage.getItem('footable-page') : 1
+          },
+          "filtering": {
+            "enabled": true,
+            "delay": 500,
+            "placeholder": "Buscar",
+            "position": "right",
+            // "filters": [{
+            //     "name": "my-filter",
+            //     // "query": "Variable",
+            //     "columns": ["Variable"]
+            // }]
+          }
+        }).on('after.ft.paging', function(e, ftbl, pager){
+          if (!!window.localStorage){
+            localStorage.setItem('footable-page', pager.page);
+          }
+        });
+      });
+    })(jQuery);
 
-<script type='text/javascript'>
-$(document).ready(function() {
 
-
-    function getCookie(name) {
+    $(document).ready(function(){
+      function getCookie(name) {
         var cookieValue = null;
         if (document.cookie && document.cookie != '') {
-            var cookies = document.cookie.split(';');
-            for (var i = 0; i < cookies.length; i++) {
-                var cookie = jQuery.trim(cookies[i]);
-                // Does this cookie string begin with the name we want?
-                if (cookie.substring(0, name.length + 1) == (name + '=')) {
-                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
-                    break;
-                }
+          var cookies = document.cookie.split(';');
+          for (var i = 0; i < cookies.length; i++) {
+            var cookie = jQuery.trim(cookies[i]);
+            // Does this cookie string begin with the name we want?
+            if (cookie.substring(0, name.length + 1) == (name + '=')) {
+              cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+              break;
             }
+          }
         }
         return cookieValue;
-    }
+      }
 
-    function sameOrigin(url) {
-                // test that a given url is a same-origin URL
-                // url could be relative or scheme relative or absolute
-                var host = document.location.host; // host + port
-                var protocol = document.location.protocol;
-                var sr_origin = '//' + host;
-                var origin = protocol + sr_origin;
-                // Allow absolute or scheme relative URLs to same origin
-                return (url == origin || url.slice(0, origin.length + 1) == origin + '/') ||
-                    (url == sr_origin || url.slice(0, sr_origin.length + 1) == sr_origin + '/') ||
-                    // or any other URL that isn't scheme relative or absolute i.e relative.
-                    !(/^(\/\/|http:|https:).*/.test(url));
-            }
+      function sameOrigin(url) {
+        // test that a given url is a same-origin URL
+        // url could be relative or scheme relative or absolute
+        var host = document.location.host; // host + port
+        var protocol = document.location.protocol;
+        var sr_origin = '//' + host;
+        var origin = protocol + sr_origin;
+        // Allow absolute or scheme relative URLs to same origin
+        return (url == origin || url.slice(0, origin.length + 1) == origin + '/') ||
+          (url == sr_origin || url.slice(0, sr_origin.length + 1) == sr_origin + '/') ||
+          // or any other URL that isn't scheme relative or absolute i.e relative.
+          !(/^(\/\/|http:|https:).*/.test(url));
+      }
 
-    $.ajaxSetup({
+      $.ajaxSetup({
         beforeSend: function(xhr, settings) {
-            if (!(/^http:.*/.test(settings.url) || /^https:.*/.test(settings.url))) {
-                // Only send the token to relative URLs i.e. locally.
-                xhr.setRequestHeader('X-CSRFToken', getCookie('csrftoken'));
-            }
+          if (!(/^http:.*/.test(settings.url) || /^https:.*/.test(settings.url))) {
+            // Only send the token to relative URLs i.e. locally.
+            xhr.setRequestHeader('X-CSRFToken', getCookie('csrftoken'));
+          }
         }
-    });
+      });
 
-    $.ajaxPrefilter(function(options, originalOptions, jqXHR){
+      $.ajaxPrefilter(function(options, originalOptions, jqXHR){
         var request_method = options['type'].toLowerCase();
         if ((request_method === 'post' || request_method === 'delete') && sameOrigin(options.url)) {
-            jqXHR.setRequestHeader('X-CSRFToken', getCookie('csrftoken'));
+          jqXHR.setRequestHeader('X-CSRFToken', getCookie('csrftoken'));
         }
-    });
+      });
 
-    var date = new Date();
-    var d = date.getDate();
-    var m = date.getMonth();
-    var y = date.getFullYear();
+      var date = new Date();
+      var d = date.getDate();
+      var m = date.getMonth();
+      var y = date.getFullYear();
 
       // page is now ready, initialize the calendar...
       $('#calendar').fullCalendar({
         // put your options and callbacks here
         header: {
-            left: 'title',
-            center: 'prev,today,next',
-            right: 'agendaDay,agendaWeek,month'
+          left: 'title',
+          center: 'prev,today,next',
+          right: 'agendaDay,agendaWeek,month'
         },
         height: 350,
         events: '/schedule/api/occurrences?calendar_slug={{ evento_calendario }}',
@@ -219,11 +182,11 @@ $(document).ready(function() {
         //selectable: true, // Permite que o usuário realce vários dias ou intervalos de tempo, clicando e arrastando.
         selectHelper: true,
         loading: function(bool) {
-            if (bool) {
-                $('#loading').show();
-            }else{
-                $('#loading').hide();
-            }
+          if (bool) {
+            $('#loading').show();
+          }else{
+            $('#loading').hide();
+          }
         },
         // eventRender: function(event, element) {
         //     var s = element[0].className;
@@ -239,88 +202,140 @@ $(document).ready(function() {
         //     }
         // },
         dayClick: function(date, allDay, jsEvent, view) {
-                    if (allDay) {       
-                        $('#calendar').fullCalendar('changeView', 'agendaWeek');
-                        $("#calendar").fullCalendar('gotoDate', date);
-                    }
-                },
-        eventClick: function(event, jsEvent, view) {
-            
+          if (allDay) {       
+            $('#calendar').fullCalendar('changeView', 'agendaWeek');
+            $("#calendar").fullCalendar('gotoDate', date);
+          }
         },
+        eventClick: function(event, jsEvent, view) {},
         eventDrop: function(event,delta,revertFunc) {
-            $.ajax({
-                    type: 'POST',
-                    url: "{% url 'api_move_or_resize' %}",
-                    dataType: 'json',
-                    data : {
-                        'id': event.id,
-                        'event_id' : event.event_id,
-                        'existed' : event.existed,
-                        'delta' : delta.asMinutes(),
-                    },
-                    success : function(result) {
-                        if (result.success) $('#feedback input').attr('value', ''); 
-                        $('#calendar').fullCalendar('refetchEvents');
-                        },
-                    error : function(req, status, error) {
-                        console.log(error);
-                    }
-                });
-            return false;
+          $.ajax({
+            type: 'POST',
+            url: "{% url 'api_move_or_resize' %}",
+            dataType: 'json',
+            data : {
+              'id': event.id,
+              'event_id' : event.event_id,
+              'existed' : event.existed,
+              'delta' : delta.asMinutes(),
+            },
+            success : function(result) {
+              if (result.success) $('#feedback input').attr('value', ''); 
+              $('#calendar').fullCalendar('refetchEvents');
+            },
+            error : function(req, status, error) {
+              console.log(error);
+            }
+          });
+          return false;
         },
         eventResize: function(event,delta,revertFunc) {
-            $.ajax({
-                    type: 'POST',
-                    url: "{% url 'api_move_or_resize' %}",
-                    dataType: 'json',
-                    data : {
-                        'id': event.id,
-                        'event_id' : event.event_id,
-                        'existed' : event.existed,
-                        'delta' : delta.asMinutes(),
-                        'resize' : true,
-                    },
-                    success : function(result) {
-                        if (result.success) $('#feedback input').attr('value', ''); 
-                        $('#calendar').fullCalendar('refetchEvents');
-                        },
-                    error : function(req, status, error) {
-                        console.log(error);
-                    }
-                });
-            return false;
+          $.ajax({
+            type: 'POST',
+            url: "{% url 'api_move_or_resize' %}",
+            dataType: 'json',
+            data : {
+              'id': event.id,
+              'event_id' : event.event_id,
+              'existed' : event.existed,
+              'delta' : delta.asMinutes(),
+              'resize' : true,
+            },
+            success : function(result) {
+              if (result.success) $('#feedback input').attr('value', ''); 
+              $('#calendar').fullCalendar('refetchEvents');
+            },
+            error : function(req, status, error) {
+              console.log(error);
+            }
+          });
+          return false;
         },
         // select: function( start, end, jsEvent, view  ) {
-        //     if(jsEvent.toElement.className == 'fc-bg'){
-        //         $.ajax({
-        //                 type: 'POST',
-        //                 url: "{% url 'api_select_create' %}",
-        //                 dataType: 'json',
-        //                 data : {
-        //                     'start': start.toISOString(),
-        //                     'end' : end.toISOString(),
-        //                     'calendar_slug' : '{{ evento_calendario }}',
-        //                 },
-        //                 success : function(result) {
-        //                     console.log(result);
-        //                     if (result.success) $('#feedback input').attr('value', ''); 
-        //                     $('#calendar').fullCalendar('refetchEvents');
-        //                     },
-        //                 error : function(req, status, error) {
-        //                     console.log(error);
-        //                 }
-        //             });
-        //         $('#calendar').fullCalendar('unselect');
-        //         return false;
-        //     }
+        //   if(jsEvent.toElement.className == 'fc-bg'){
+        //     $.ajax({
+        //         type: 'POST',
+        //         url: "{% url 'api_select_create' %}",
+        //         dataType: 'json',
+        //         data : {
+        //           'start': start.toISOString(),
+        //           'end' : end.toISOString(),
+        //           'calendar_slug' : '{{ evento_calendario }}',
+        //         },
+        //         success : function(result) {
+        //           console.log(result);
+        //           if (result.success) $('#feedback input').attr('value', ''); 
+        //           $('#calendar').fullCalendar('refetchEvents');
+        //         },
+        //         error : function(req, status, error) {
+        //           console.log(error);
+        //         }
+        //     });
+        //     $('#calendar').fullCalendar('unselect');
+        //     return false;
+        //   }
         // }
-      })
+        })
+    });
 
-});
-</script>
 
+    $(function () {
+      $('#grafico_movimento_financeiro').highcharts({
+        title: {
+          text: "{% trans 'Movimentação Financeira Diária' %}",
+          x: -20 //center
+        },
+        subtitle: {
+          text: "{% trans 'Demonstrativo diário de Débitos e Créditos movimentados em caixa' %}",
+          x: -20
+        },
+        xAxis: {
+          categories: {{ data_movimento|striptags|safe }},
+          tickInterval: 6,
+          labels: {
+            rotation: 45,
+            align: 'left'
+          },
+        },
+        yAxis: {
+          title: {
+            text: "{% trans 'Valor diário (R$)' %}"
+          },
+          plotLines: [{
+            value: 0,
+            width: 1,
+            color: '#808080'
+          }]
+        },
+        tooltip: {
+          shared: true,
+          crosshairs: true,
+          valuePrefix: 'R$ ',
+          valueDecimals: 2,
+        },
+        legend: {
+          layout: 'vertical',
+          align: 'right',
+          verticalAlign: 'middle',
+          borderWidth: 0
+        },
+        series: [{
+          name: "{% trans 'Crédito' %}",
+          data: {{ credito_movimento }}
+        }, {
+          name: "{% trans 'Débito' %}",
+          data: {{ debito_movimento }}
+        }]
+      });
+
+      Highcharts.setOptions({
+        lang: {
+          decimalPoint: ',',
+          thousandsSep: ' '
+        }
+      });
+    });
+  </script>
 {% endblock %}
 
-
-{% block sidebar %}
-{% endblock %}
+{% block sidebar %}{% endblock %}

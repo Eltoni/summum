@@ -10,7 +10,7 @@
 {% endblock %}
 
 {% block content %}
-{% if user|pode_exportar:opts.model_name %}
+{% if user|pode_exportar:opts %}
   
   <h1>{% trans "Export" %}</h1>
 

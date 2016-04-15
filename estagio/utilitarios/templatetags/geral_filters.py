@@ -63,7 +63,7 @@ def template_dir(this_object, its_name=""):
 
 
 @register.filter(name='pode_exportar')
-def pode_exportar(usuario, model_name):
+def pode_exportar(usuario, opts):
     """
     Retorna booleano que indica se usuário tem permissão para acesso ao elemento do contexto.
 
@@ -73,9 +73,9 @@ def pode_exportar(usuario, model_name):
     {%/ if user|pode_exportar:opts.model_name %}...{%/ endif %}
     """
 
-    nome_permissao = 'pode_exportar_' + model_name
+    nome_permissao = 'pode_exportar_' + opts.app_label
     try:
-        perm = Permission.objects.get(codename=nome_permissao)
+        perm = Permission.objects.get(codename=nome_permissao, content_type__model=opts.model_name)
     except Permission.DoesNotExist: 
         perm = False
 

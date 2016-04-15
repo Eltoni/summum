@@ -348,7 +348,7 @@ BOWER_INSTALLED_APPS = (
     'nvd3#1.7.1',
     'hint.css#2.2.1',
     'hopscotch#0.2.5',
-    'fontawesome#4.6.0',
+    'fontawesome#4.6.1',
     'jquery.numeric#1.4.1',
     'jQuery-Mask-Plugin#1.14.0',
     'bootstrap-filestyle#1.0.6',

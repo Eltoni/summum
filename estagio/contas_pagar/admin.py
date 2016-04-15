@@ -1,6 +1,6 @@
 #-*- coding: UTF-8 -*-
 from django.contrib import admin
-from django.http import HttpResponseRedirect
+from django.contrib.auth.decorators import permission_required
 from django.conf.urls import url
 from django.utils.translation import ugettext_lazy as _
 from salmonella.admin import SalmonellaMixin
@@ -12,7 +12,7 @@ from decimal import Decimal
 
 from contas_pagar.models import *
 from contas_pagar.forms import *
-from contas_pagar.views import retorna_pagamentos_parcela, retorna_pagamentos_conta, efetiva_pagamento_parcela
+from contas_pagar.views import EfetivaPagamentoParcela, retorna_pagamentos_parcela, retorna_pagamentos_conta
 from contas_pagar.export import ContasPagarResource, ParcelasContasPagarResource
 
 
@@ -27,7 +27,7 @@ class PagamentoAdmin(admin.ModelAdmin):
         my_urls = [
             url(r'pagamentos_parcela/(?P<id_parcela>\d+)/$', self.admin_site.admin_view(retorna_pagamentos_parcela)),
             url(r'pagamentos_conta/(?P<id_conta>\d+)/$', self.admin_site.admin_view(retorna_pagamentos_conta)),
-            url(r'efetiva_pagamento_parcela/(?P<id_parcela>\d+)/$', self.admin_site.admin_view(efetiva_pagamento_parcela)),
+            url(r'efetiva_pagamento_parcela/(?P<id_parcela>\d+)/$', permission_required('contas_pagar.add_pagamento')(EfetivaPagamentoParcela.as_view())),
         ]
         return my_urls + urls
 

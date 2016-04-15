@@ -3,7 +3,7 @@
 {% load geral_filters %}
 
 {% block object-tools-items %}
-  {% if user|pode_exportar:opts.model_name and not is_popup %}
+  {% if user|pode_exportar:opts and not is_popup %}
     <a href="export/{{ cl.get_query_string }}" id="export-data" class="btn btn-success">
       <i class="icon-circle-arrow-up icon-white"></i>&nbsp;&nbsp;{% trans "Export" %}
     </a>

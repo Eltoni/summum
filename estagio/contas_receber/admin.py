@@ -1,6 +1,6 @@
 #-*- coding: UTF-8 -*-
 from django.contrib import admin
-from django.http import HttpResponseRedirect
+from django.contrib.auth.decorators import permission_required
 from django.conf.urls import url
 from django.utils.translation import ugettext_lazy as _
 from salmonella.admin import SalmonellaMixin
@@ -12,7 +12,7 @@ from decimal import Decimal
 
 from contas_receber.models import *
 from contas_receber.forms import *
-from contas_receber.views import retorna_recebimentos_parcela, retorna_recebimentos_conta, efetiva_recebimento_parcela
+from contas_receber.views import EfetivaRecebimentoParcela, retorna_recebimentos_parcela, retorna_recebimentos_conta
 from contas_receber.export import ContasReceberResource, ParcelasContasReceberResource
 
 
@@ -27,7 +27,7 @@ class RecebimentoAdmin(admin.ModelAdmin):
         my_urls = [
             url(r'recebimentos_parcela/(?P<id_parcela>\d+)/$', self.admin_site.admin_view(retorna_recebimentos_parcela)),
             url(r'recebimentos_conta/(?P<id_conta>\d+)/$', self.admin_site.admin_view(retorna_recebimentos_conta)),
-            url(r'efetiva_recebimento_parcela/(?P<id_parcela>\d+)/$', self.admin_site.admin_view(efetiva_recebimento_parcela)),
+            url(r'efetiva_recebimento_parcela/(?P<id_parcela>\d+)/$', permission_required('contas_receber.add_recebimento')(EfetivaRecebimentoParcela.as_view())),
         ]
         return my_urls + urls
 

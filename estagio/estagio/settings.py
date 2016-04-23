@@ -54,6 +54,7 @@ ALLOWED_HOSTS = ['127.0.0.1', 'localhost']
 
 INSTALLED_APPS = (
     'suit',
+    'django_su',
     'django.contrib.admin',
     'django.contrib.admindocs',
     'django.contrib.auth',
@@ -82,7 +83,6 @@ INSTALLED_APPS = (
     'import_export',
     'salmonella',
     'djangobower',
-    'django_nvd3',
     'sorl.thumbnail',
     'selectable',
     'daterange_filter',
@@ -148,6 +148,12 @@ DATABASES = {
         'PORT': '',                               # Set to empty string for default.
     },
 }
+
+
+AUTHENTICATION_BACKENDS = (
+    'django.contrib.auth.backends.ModelBackend',
+    'django_su.backends.SuBackend',
+)
 
 
 # Internationalization
@@ -337,25 +343,21 @@ SELECTABLE_MAX_LIMIT = 10
 DATE_RANGE_FILTER_USE_WIDGET_SUIT = True
 
 
-# Django Nvd3
+# Django Bower
 # -----------
 BOWER_COMPONENTS_ROOT = os.path.join(BASE_DIR, 'static/components')
-
 BOWER_PATH = HOME_PATH + '/AppData/Roaming/npm/bower.cmd'
-
 BOWER_INSTALLED_APPS = (
-    'd3#3.5.5',
-    'nvd3#1.7.1',
     'hint.css#2.2.1',
     'hopscotch#0.2.5',
-    'fontawesome#4.6.1',
+    'font-awesome#4.6.1',
     'jquery.numeric#1.4.1',
     'jQuery-Mask-Plugin#1.14.0',
     'bootstrap-filestyle#1.0.6',
     'footable#3.0.8',
     'jquery-modal#0.7.0',
     'fullcalendar#2.6.1',
-    'highcharts#4.2.3',
+    'highcharts#4.2.4',
 )
 
 

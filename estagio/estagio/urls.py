@@ -30,6 +30,7 @@ urlpatterns = [
     url(r'^diagrama_sistema/', include('django_spaghetti.urls')),   # url necessária para o funcionamento da biblioteca django-spaghetti-and-meatballs
     url(r'^wiki-site/notifications/', get_nyt_pattern()),           # url necessária para o funcionamento da biblioteca django-wiki (sistema de notificações)
     url(r'^wiki-site/', get_wiki_pattern()),                        # url necessária para o funcionamento da biblioteca django-wiki
+    url(r'^su/', include('django_su.urls')),                        # url necessária para o funcionamento da biblioteca django-su
 
     # dashboard
     url(r'^dashboard/$', index),

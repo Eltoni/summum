@@ -37,6 +37,13 @@
     <script type="text/javascript" src="{% url 'django.views.i18n.javascript_catalog' %}"></script>
 
     {% compress js inline %}
+
+        {# highcharts - Script para gerar gráficos #}
+        <script type='text/javascript' src="{% static 'components/bower_components/highcharts/highcharts.js' %}"></script>
+        <script type='text/javascript' src="{% static 'components/bower_components/highcharts/modules/data.js' %}"></script>
+        <script type='text/javascript' src="{% static 'components/bower_components/highcharts/highcharts-more.js' %}"></script>
+        <script type='text/javascript' src="{% static 'components/bower_components/highcharts/modules/exporting.js' %}"></script>
+
         {# jQuery Mask - Script para criar as mascaras dos campos #}
         <script type="text/javascript" src="{% static 'components/bower_components/jQuery-Mask-Plugin/dist/jquery.mask.min.js' %}"></script>
         

@@ -1,20 +1,13 @@
 {% extends "admin/base_site.html" %}
 
 {% load i18n admin_urls admin_static %}
-{% load nvd3_tags %}
 {% load thumbnail %}
 {% load geral_filters %}
 {% load humanize %}
 
 {% block extrastyle %}
+    <link rel="stylesheet" type="text/css" href="{% static 'css/main_external_pages.css' %}" media="all">
   {{ block.super }}
-
-  {% include_chart_jscss %}
-  {% load_chart charttype chartdata chartcontainer extra %}
-  <script type="text/javascript">
-
-    {% load_chart charttype_1 chartdata_1 chartcontainer_1 extra_1 %}    
-  </script>
 {% endblock %}
 
 {% if not is_popup %}
@@ -53,186 +46,261 @@
 
 
 {% block content %}
-    <div id="detalhe_financeiro-cliente">
-        <div id="content-main">
-            <div id="toolbar" class="clearfix">
-              <form action="" method="get" id="changelist-search" class="form-inline">
-                <div class="search-container">
-                    <label style="vertical-align: bottom;" for="">{% trans 'Ano' %}:</label>{{ opcoes.ano }}
-<!--                     {#<select id="id_ano" name="ano" class="auto-width search-filter">
-                        {% for a in opcoes.ano.field.choices %}
-                            <option value="{{a.0}}" {% if a.0 == f_ano %} "selected" {% endif %}>{{a.1}}</option>
-                        {% endfor %}
-                    </select>#} -->
-                    <input type="submit" value="{% trans 'Pesquisar' %}" class="btn btn-info" autocomplete="off">
-                </div>
-              </form>
-            </div>
-            <br>
-
-            <fieldset class="module">
-                <h2 style="margin-left: 30px;">Totais</h2>
-                <h2><span class="description">{% trans 'Totalidade dos itens financeiros gerados para o cliente' %}</span></h2>
-                <table class="table table-bordered table-condensed table-striped">
-                    <thead>
-                        <tr>
-                            <th colspan="1">{% trans 'Status' %}</th>
-                            <th>{% trans 'Valor (R$)' %}</th>
-                            <th>{% trans 'Encargos (R$)' %}</th>
-                            <th>{% trans 'Total (R$)' %}</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr class="form-row row1 has_original" id="totais_recebidos">
-                            <td class="field-status">
-                                <p>{% trans 'Pago' %}</p>
-                            </td>
-                            <td class="field-valor">
-                                <p>{{ totais_recebidos_sem_encargos }}</p>
-                            </td>
-                            <td class="field-encargos">
-                                <p>{{ encargos_recebidos }}</p>
-                            </td>
-                            <td class="field-total">
-                                <p>{{ totais_recebidos }}</p>
-                            </td>
-                        </tr>
-                        <tr class="form-row row2 has_original" id="totais_a_receber">
-                            <td class="field-status">
-                                <p>{% trans 'A Pagar' %}</p>
-                            </td>
-                            <td class="field-valor">
-                                <p>{{ totais_a_pagar_sem_encargos }}</p>
-                            </td>
-                            <td class="field-encargos">
-                                <p>{{ encargos_a_receber }}</p>
-                            </td>
-                            <td class="field-total">
-                                <p>{{ totais_a_receber }}</p>
-                            </td>
-                        </tr>
-                        <tr class="form-row row3 has_original" id="totais">
-                            <td class="field-status">
-                                <p><b>{% trans 'Total' %}</b></p>
-                            </td>
-                            <td class="field-valor">
-                                <p>{{ totais_sem_encargos }}</p>
-                            </td>
-                            <td class="field-encargos">
-                                <p>{{ totais_encargos }}</p>
-                            </td>
-                            <td class="field-total">
-                                <p>{{ totais_cobrados }}</p>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-            </fieldset>
-            <br>
-            <fieldset class="module">
-                <table>
-                    <tr>
-                        <td>
-                          <table>
-                            <tr>
-                              <td>
-                                <h4 class="italic-title" style="margin-left: 30px;"><b>{% trans 'Status atual das parcelas' %}</b></h4>
-                                <h2><span class="description">{% trans 'Demonstrativo dos percentuais quanto as pendências financeiras junto ao estabelecimento' %}</span></h2>
-                                {% include_container chartcontainer 400 800 %}
-                              </td>
-                            </tr>
-                          </table>
-                        </td>
-                        <td>
-                            <table class="table table-bordered table-condensed table-striped">
-                                <tbody>
-                                    <tr>
-                                        <td colspan="6">
-                                        <h2><span class="description">{% trans 'Valores atuais (geral)' %}</span></h2>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td colspan="1"><b>{% trans 'Status' %}</b></td>
-                                    {% for s in nome_status %}
-                                        <td>{{ s }}</td>
-                                    {% endfor %}
-                                        <td><b>{% trans 'Total' %}</b></td>
-                                    </tr>
-                                    <tr>
-                                        <td colspan="1"><b>{% trans 'Quantidade' %}</b></td>
-                                    {% for q in quant_status %}
-                                        <td>{{ q }}</td>
-                                    {% endfor %}
-                                        <td>{{ quant_status_t }}</td>
-                                    </tr>
-                                    <tr>
-                                        <td colspan="1"><b>{% trans 'Percentuais' %}</b></td>
-                                    {% for p in percent_status %}
-                                        <td>{{ p|floatformat:2 }}</td>
-                                    {% endfor %}
-                                        <td>{{ percent_status_t|floatformat:2 }}</td>
-                                    </tr>
-                                </tbody>
-                                <tbody>
-                                    <tr>
-                                        <td colspan="6">
-                                        <h2><span class="description">{% trans 'Valores históricos (inadimplência)' %}</span></h2>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td colspan="5"><b>{% trans 'Quantidade de parcelas vencidas:' %}</b></td>
-                                        <td>{{ parcelas_hist_q_atrasadas }}</td>
-                                    </tr>
-                                    <tr>
-                                        <td colspan="5"><b>{% trans 'Percentual de parcelas atradas:' %}</b></td>
-                                        <td>{{ parcelas_hist_per_atrasadas|floatformat:2 }}%</td>
-                                    </tr>
-                                    <tr>
-                                        <td colspan="5"><b>{% trans 'Média de dias atrasados:' %}</b></td>
-                                        <td>{{ parcelas_hist_md_atrasadas }}</td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </td>
-                    </tr>
-                </table>
-            </fieldset>
-            <fieldset>
-                <table>
-                    <tr>
-                        <td>
-                            <h4 class="italic-title" style="margin-left: 30px;"><b>{% trans 'Recebimentos mensais' %}</b></h4>
-                            <h2><span class="description">{% trans 'Demonstrativo dos valores monetários recebidos por mês' %}</span></h2>
-                            {% include_container chartcontainer_1 450 800 %}
-                        </td>
-                        <td>
-                            <table class="table table-bordered table-condensed table-striped">
-                                <thead>
-                                    <tr>
-                                        <th colspan="1">{% trans 'Mês' %}</th>
-                                        <th>{% trans 'Valor (R$)' %}</th>
-                                        <th>{% trans 'Qtde' %}</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    {% for r in receb_group_mes %}
-                                    <tr>
-                                        <td>{{ r.1 }}</td>
-                                        <td>{{ r.2|floatformat:2 }}</td>
-                                        <td>{{ r.3 }}</td>
-                                    </tr>
-                                    {% endfor %}
-                                </tbody>
-                            </table>
-                        </td>
-                    </tr>
-                </table>
-            </fieldset>
+  <div class="suit-row suit-row-1-col">
+    <div class="suit-column">
+      <form action="" method="get" id="changelist-search" class="form-inline">
+        <div class="search-container">
+            <label style="vertical-align: bottom;" for="">{% trans 'Ano' %}:</label>{{ opcoes.ano }}
+            <input type="submit" value="{% trans 'Pesquisar' %}" class="btn btn-info" autocomplete="off">
         </div>
+      </form>
     </div>
+  </div>
 
+  <div class="suit-row suit-row-1-col">
+    <div class="suit-column">
+      <h2 style="margin-left: 30px;">Totais</h2>
+      <h2>
+        <span class="description">{% trans 'Totalidade dos itens financeiros gerados para o cliente' %}</span>
+      </h2>
+      <table class="table table-bordered table-condensed table-striped">
+        <thead>
+          <tr>
+            <th colspan="1">{% trans 'Status' %}</th>
+            <th>{% trans 'Valor (R$)' %}</th>
+            <th>{% trans 'Encargos (R$)' %}</th>
+            <th>{% trans 'Total (R$)' %}</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="form-row row1 has_original" id="totais_recebidos">
+            <td class="field-status">
+              <p>{% trans 'Pago' %}</p>
+            </td>
+            <td class="field-valor">
+              <p>{{ totais_recebidos_sem_encargos }}</p>
+            </td>
+            <td class="field-encargos">
+              <p>{{ encargos_recebidos }}</p>
+            </td>
+            <td class="field-total">
+              <p>{{ totais_recebidos }}</p>
+            </td>
+          </tr>
+            <tr class="form-row row2 has_original" id="totais_a_receber">
+              <td class="field-status">
+                <p>{% trans 'A Pagar' %}</p>
+              </td>
+              <td class="field-valor">
+                <p>{{ totais_a_pagar_sem_encargos }}</p>
+              </td>
+              <td class="field-encargos">
+                <p>{{ encargos_a_receber }}</p>
+              </td>
+              <td class="field-total">
+                <p>{{ totais_a_receber }}</p>
+              </td>
+            </tr>
+            <tr class="form-row row3 has_original" id="totais">
+              <td class="field-status">
+                <p><b>{% trans 'Total' %}</b></p>
+              </td>
+              <td class="field-valor">
+                <p>{{ totais_sem_encargos }}</p>
+              </td>
+              <td class="field-encargos">
+                <p>{{ totais_encargos }}</p>
+              </td>
+              <td class="field-total">
+                <p>{{ totais_cobrados }}</p>
+              </td>
+            </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="suit-row suit-row-1-col">
+    <div class="suit-column">
+      <div class="suit-row suit-row-2-col">
+        <div class="suit-column">
+          <div id="grafico_status_financeiro_atual"></div>
+        </div>
+      </div>
+      <div class="suit-row suit-row-2-col">
+        <div class="suit-column">
+          <table class="table table-bordered table-condensed table-striped" style="max-width: 270px; margin: auto; margin-bottom: 10px;">
+            <thead>
+              <tr>
+                <th>{% trans 'Status' %}</th>
+                <th>{% trans 'Quantidade' %}</th>
+                <th>{% trans 'Percentuais' %}</th>
+              </tr>
+            </thead>
+            <tfoot>
+              <tr>
+                <td><b>{% trans 'Total' %}:</b></td>
+                <td>{{ list_p.0.5 }}</td>
+                <td>{{ list_p.0.11|floatformat:2 }}%</td>
+              </tr>
+            </tfoot>
+            <tbody>
+              {% for p in list_p %}
+              <tr>
+                <td>{{ p.1 }}</td>
+                <td>{{ p.3 }}</td>
+                <td>{{ p.10|floatformat:2 }}%</td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+          <table class="table table-bordered table-condensed table-striped" style="max-width: 270px; margin: auto;">
+            <thead><tr><th>{% trans 'Valores históricos (inadimplência)' %}:</th></tr></thead>
+            <tbody>
+              <tr>
+                <td>{% trans 'Quantidade de parcelas vencidas:' %}</td>
+                <td>{{ list_p.0.6 }}</td>
+              </tr>
+              <tr>
+                <td>{% trans 'Percentual de parcelas atradas:' %}</td>
+                <td>{{ list_p.0.8|floatformat:2 }}%</td>
+              </tr>
+              <tr>
+                <td>{% trans 'Média de dias atrasados:' %}</td>
+                <td>{{ list_p.0.9|floatformat:0 }}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="suit-row suit-row-1-col">
+    <div class="suit-column">
+      <div class="suit-row suit-row-2-col">
+        <div class="suit-column">
+          <div id="grafico_movimento_mes"></div>
+        </div>
+      </div>
+      <div class="suit-row suit-row-2-col">
+        <div class="suit-column">
+          <table class="table table-bordered table-condensed table-striped" style="max-width: 270px; margin: auto;">
+            <thead>
+              <tr>
+                <th colspan="1">{% trans 'Mês' %}</th>
+                <th>{% trans 'Valor (R$)' %}</th>
+                <th>{% trans 'Qtde' %}</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for r in list_mr %}
+              <tr>
+                <td>{{ r.1 }}</td>
+                <td>{{ r.3|floatformat:2 }}</td>
+                <td>{{ r.4 }}</td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+      </div>
+   </div>
+  </div>
+
+  <script>
+    $(function () {
+      Highcharts.setOptions({
+        lang: {
+          decimalPoint: ',',
+          thousandsSep: ' ',
+          contextButtonTitle: "{% trans 'Exportar gráfico' %}",
+          downloadJPEG: "{% trans 'Download em JPEG' %}",
+          downloadPDF: "{% trans 'Download em PDF' %}",
+          downloadPNG: "{% trans 'Download em PNG' %}",
+          downloadSVG: "{% trans 'Download em SVG' %}",
+          printChart: "{% trans 'Imprimir gráfico' %}",
+          loading: "{% trans 'Carregando...' %}",
+          months: ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'],
+          weekdays: ['Domingo', 'Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta', 'Sábado'],
+          shortMonths: ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun', 'Jul', 'Ago', 'Set', 'Out', 'Nov', 'Dez'],
+          exportButtonTitle: "{% trans 'Exportar' %}",
+          printButtonTitle: "{% trans 'Imprimir' %}",
+          rangeSelectorFrom: "{% trans 'De' %}",
+          rangeSelectorTo: "{% trans 'Até' %}",
+          rangeSelectorZoom: "{% trans 'Periodo' %}",
+        }
+      });
+
+      $('#grafico_movimento_mes').highcharts({
+        chart: {
+          type: 'column'
+        },
+        title: {
+          text: "{% trans 'Recebimentos mensais' %}"
+        },
+        subtitle: {
+          text: "{% trans 'Demonstrativo dos valores monetários recebidos por mês' %}"
+        },
+        xAxis: {
+          categories: {{ lista_meses_recebimentos|striptags|safe }},
+          crosshair: true
+        },
+        yAxis: {
+          min: 0,
+          title: {
+              text: "{% trans 'Valor mensal (R$)' %}"
+          }
+        },
+        tooltip: {
+          headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
+          pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
+                       '<td style="padding:0"><b>R$ {point.y:.2f}</b></td></tr>',
+          footerFormat: '</table>',
+          shared: true,
+          useHTML: true
+        },
+        series: [{
+          name: 'Recebido',
+          data: {{ lista_valor_recebimentos|striptags|safe }},
+        }]
+      });
+
+      // Pie-Chart
+      $('#grafico_status_financeiro_atual').highcharts({
+        chart: {
+          plotBackgroundColor: null,
+          plotBorderWidth: null,
+          plotShadow: false,
+          type: 'pie'
+        },
+        title: {
+          text: "{% trans 'Status atual das parcelas' %}"
+        },
+        subtitle: {
+          text: "{% trans 'Demonstrativo dos percentuais quanto as pendências financeiras junto ao estabelecimento' %}"
+        },
+        tooltip: {
+          pointFormat: '{series.name}: <b>{point.percentage:.2f}%</b>'
+        },
+        plotOptions: {
+          pie: {
+            allowPointSelect: true,
+            cursor: 'pointer',
+            dataLabels: {
+              enabled: false
+            },
+            showInLegend: true
+          }
+        },
+        series: [{
+          name: 'Percentual',
+          colorByPoint: true,
+          data: {{ lista_status_parcelas|striptags|safe }},
+        }]
+      });
+    });
+  </script>
 {% endblock %}
 
-
-{% block sidebar %}
-{% endblock %}
+{% block sidebar %}{% endblock %}

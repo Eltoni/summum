@@ -12,6 +12,7 @@ from decimal import Decimal
 from parametros_financeiros.models import GrupoEncargo
 from contas_receber.models.conta_receber import ContasReceber
 from utilitarios.calculos_encargos import EncargoSimples, EncargoCompostos
+from utilitarios.funcoes import lista_status_parcela
 
 
 @python_2_unicode_compatible
@@ -192,17 +193,19 @@ class ParcelasContasReceber(models.Model):
 
 
     def status_parcela(self):
+        lsp = lista_status_parcela()
+
         if self.valor_pago() >= self.valor_total():
-            return ('#2DB218', _(u'Pago')) #Pago
+            return lsp[0] #Pago
 
         if self.valor_total() > self.valor_pago() and self.valor_pago() > 0.00:
-            return ('#355EED', _(u'Pago Parcialmente')) #Pago Parcial
+            return lsp[1] #Pago Parcial
 
         if self.vencimento < self.data:
-            return ('#E8262A', _(u'Vencido')) #Vencido
+            return lsp[2] #Vencido
 
         else: 
-            return ('#333333', _(u'Em aberto')) #Em aberto
+            return lsp[3] #Em aberto
 
 
     def cor_valor_pago(self):

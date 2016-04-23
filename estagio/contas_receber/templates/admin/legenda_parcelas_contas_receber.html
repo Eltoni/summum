@@ -1,4 +1,7 @@
 {% load i18n admin_static %}
+{% load geral_filters %}
+
+{% tag_lista_status_parcela as lsp %}
 
 <style>
 .item-legenda {
@@ -13,19 +16,19 @@
 }
 
 .fonte-legenda-vencida {
-    color: #E8262A;
+    color: {{ lsp.2.0 }};
 }
 
 .fonte-legenda-paga-parcialmente {
-    color: #355EED;
+    color: {{ lsp.1.0 }};
 }
 
 .fonte-legenda-paga {
-    color: #2DB218;
+    color: {{ lsp.0.0 }};
 }
 
 .fonte-legenda-aberto {
-    color: #333333;
+    color: {{ lsp.3.0 }};
 }
 
 
@@ -46,16 +49,16 @@
 
 /* colors */
 .legenda-parcelas .cor-vencida { 
-    background-color: #E8262A; border: 1px solid #E8262A;
+    background-color: {{ lsp.2.0 }}; border: 1px solid {{ lsp.2.0 }};
 }
 .legenda-parcelas .cor-paga-parcialmente { 
-    background-color: #355EED; border: 1px solid #355EED;
+    background-color: {{ lsp.1.0 }}; border: 1px solid {{ lsp.1.0 }};
 }
 .legenda-parcelas .cor-paga { 
-    background-color: #2DB218; border: 1px solid #2DB218;
+    background-color: {{ lsp.0.0 }}; border: 1px solid {{ lsp.0.0 }};
 }
 .legenda-parcelas .cor-aberto { 
-    background-color: #333333; border: 1px solid #333333;
+    background-color: {{ lsp.3.0 }}; border: 1px solid {{ lsp.3.0 }};
 }
 .cor-vencida, .cor-paga-parcialmente, .cor-paga, .cor-aberto {
     border-radius: 50%;

@@ -5,8 +5,9 @@ from django.contrib.auth.models import Permission
 from django.contrib.auth.models import User
 from django import template
 
-register = template.Library()
+from utilitarios.funcoes import lista_status_parcela
 
+register = template.Library()
 
 @register.filter(name='format_value_null')
 def format_value_null(value):
@@ -49,7 +50,7 @@ def template_dir(this_object, its_name=""):
     Retorna as variáveis da instância, os atributos da classe e das demais classes base.
     Funciona apenas se o Debug está ativado no servidor.
 
-    Para utilização no template:
+    Para utilizá-lo no template:
 
     {%/ load geral_filters %}
     {%/ template_dir object.field "object.field" %}
@@ -67,7 +68,7 @@ def pode_exportar(usuario, opts):
     """
     Retorna booleano que indica se usuário tem permissão para acesso ao elemento do contexto.
 
-    Para utilização no template:
+    Para utilizá-lo no template:
 
     {%/ load geral_filters %}
     {%/ if user|pode_exportar:opts.model_name %}...{%/ endif %}
@@ -85,3 +86,16 @@ def pode_exportar(usuario, opts):
     if tem_permissao:
         return True
     return False
+
+
+
+@register.simple_tag
+def tag_lista_status_parcela():
+    """
+    Retorna lista de cores utilizadas na identificação dos status das parcelas de contas a pagar/receber.
+    Para utilizá-lo no template:
+
+    {%/ tag_lista_status_parcela as lsp %}
+    {{/ lsp }}
+    """
+    return lista_status_parcela()

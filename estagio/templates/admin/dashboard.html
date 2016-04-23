@@ -5,16 +5,12 @@
 
 {% block extrahead %}
   <link rel="stylesheet" type="text/css" href="{% static 'css/dashboard.css' %}" media="all">
+  <link rel="stylesheet" type="text/css" href="{% static 'css/main_external_pages.css' %}" media="all">
   <link rel='stylesheet' type='text/css' href="{% static 'components/bower_components/fullcalendar/dist/fullcalendar.min.css' %}" />
 
   <script type='text/javascript' src="{% static 'components/bower_components/moment/min/moment.min.js' %}"></script>
   <script type='text/javascript' src="{% static 'components/bower_components/fullcalendar/dist/fullcalendar.min.js' %}"></script>
   <script type='text/javascript' src="{% static 'components/bower_components/fullcalendar/dist/lang/pt-br.js' %}"></script>
-
-  <script type='text/javascript' src="{% static 'components/bower_components/highcharts/highcharts.js' %}"></script>
-  <script type='text/javascript' src="{% static 'components/bower_components/highcharts/modules/data.js' %}"></script>
-  <script type='text/javascript' src="{% static 'components/bower_components/highcharts/highcharts-more.js' %}"></script>
-  <script type='text/javascript' src="{% static 'components/bower_components/highcharts/modules/exporting.js' %}"></script>
 {# {{ block.super }}#}
 {% endblock %}
 

@@ -3,6 +3,7 @@ from django.db.models import Q
 from django.contrib.auth.models import Permission
 from django.contrib.auth.models import User
 from django.core.urlresolvers import reverse
+from django.utils.translation import ugettext_lazy as _
 
 import xml.etree.ElementTree
 
@@ -33,3 +34,13 @@ def pode_ver_link(usuario, app_name, model_name, object_pk):
         r = "admin:%s_%s_change" % ( app_name, model_name)
         return reverse(r, args=[object_pk])
     return '#'
+
+
+def lista_status_parcela():
+    lista_status_parcela = [
+        ('#90ed7d', _(u'Pago'), 1),
+        ('#7cb5ec', _(u'Pago Parcialmente'), 2),
+        ('#f45b5b', _(u'Vencido'), 3),
+        ('#434348', _(u'Em aberto'), 4),
+    ]
+    return lista_status_parcela

@@ -251,6 +251,7 @@ CONTEXT_PROCESSORS = TCP + [
     'django.core.context_processors.request',
     'sekizai.context_processors.sekizai',
     'django.core.context_processors.debug',
+    'django_su.context_processors.is_su',
 ]
 
 TEMPLATES = [

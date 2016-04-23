@@ -99,6 +99,21 @@
     </div>
 {% endblock %}
 
+
+{% block welcome-msg %}
+  {% if IS_SU %}
+    <a href="/su/" title="{% trans 'Restabelecer papel original' %}">{% trans 'Você' %}</a>{% trans ' acessou como,' %}
+  {% else %}
+    {% trans 'Welcome,' %}
+  {% endif %}
+  <strong>
+    {% filter force_escape %}
+      {% firstof user.first_name user.username %}
+    {% endfilter %}
+  </strong>.
+{% endblock %}
+
+
 {# Footer branding name (center) #}
 {#{% block footer_branding %}#}
 {#{% endblock %}#}

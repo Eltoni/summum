@@ -5,11 +5,6 @@
 {% load geral_filters %}
 {% load humanize %}
 
-{% block extrastyle %}
-    <link rel="stylesheet" type="text/css" href="{% static 'css/main_external_pages.css' %}" media="all">
-  {{ block.super }}
-{% endblock %}
-
 {% if not is_popup %}
   {% block breadcrumbs %}
     <ul class="breadcrumb">
@@ -46,8 +41,8 @@
 
 
 {% block content %}
-  <div class="suit-row suit-row-1-col">
-    <div class="suit-column">
+  <div class="suit-row summum-suit-row-1-col">
+    <div class="summum-suit-column">
       <form action="" method="get" id="changelist-search" class="form-inline">
         <div class="search-container">
             <label style="vertical-align: bottom;" for="">{% trans 'Ano' %}:</label>{{ opcoes.ano }}
@@ -57,8 +52,8 @@
     </div>
   </div>
 
-  <div class="suit-row suit-row-1-col">
-    <div class="suit-column">
+  <div class="suit-row summum-suit-row-1-col">
+    <div class="summum-suit-column">
       <h2 style="margin-left: 30px;">Totais</h2>
       <h2>
         <span class="description">{% trans 'Totalidade dos itens financeiros gerados para o cliente' %}</span>
@@ -120,15 +115,15 @@
     </div>
   </div>
 
-  <div class="suit-row suit-row-1-col">
-    <div class="suit-column">
-      <div class="suit-row suit-row-2-col">
-        <div class="suit-column">
+  <div class="suit-row summum-suit-row-1-col">
+    <div class="summum-suit-column">
+      <div class="suit-row summum-suit-row-2-col">
+        <div class="summum-suit-column">
           <div id="grafico_status_financeiro_atual"></div>
         </div>
       </div>
-      <div class="suit-row suit-row-2-col">
-        <div class="suit-column">
+      <div class="suit-row summum-suit-row-2-col">
+        <div class="summum-suit-column">
           <table class="table table-bordered table-condensed table-striped" style="max-width: 270px; margin: auto; margin-bottom: 10px;">
             <thead>
               <tr>
@@ -176,15 +171,15 @@
     </div>
   </div>
 
-  <div class="suit-row suit-row-1-col">
-    <div class="suit-column">
-      <div class="suit-row suit-row-2-col">
-        <div class="suit-column">
+  <div class="suit-row summum-suit-row-1-col">
+    <div class="summum-suit-column">
+      <div class="suit-row summum-suit-row-2-col">
+        <div class="summum-suit-column">
           <div id="grafico_movimento_mes"></div>
         </div>
       </div>
-      <div class="suit-row suit-row-2-col">
-        <div class="suit-column">
+      <div class="suit-row summum-suit-row-2-col">
+        <div class="summum-suit-column">
           <table class="table table-bordered table-condensed table-striped" style="max-width: 270px; margin: auto;">
             <thead>
               <tr>

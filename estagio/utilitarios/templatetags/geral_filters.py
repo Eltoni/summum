@@ -74,9 +74,9 @@ def pode_exportar(usuario, opts):
     {%/ if user|pode_exportar:opts.model_name %}...{%/ endif %}
     """
 
-    nome_permissao = 'pode_exportar_' + opts.app_label
+    nome_permissao = 'pode_exportar_' + opts.model_name
     try:
-        perm = Permission.objects.get(codename=nome_permissao, content_type__model=opts.model_name)
+        perm = Permission.objects.get(codename=nome_permissao, content_type__app_label=opts.app_label, content_type__model=opts.model_name)
     except Permission.DoesNotExist: 
         perm = False
 

@@ -8,13 +8,15 @@ from wiki.urls import get_pattern as get_wiki_pattern
 from django_nyt.urls import get_pattern as get_nyt_pattern
 
 from app_global.views import checa_foreignkey_habilitada
-from movimento.views import index
+from dashboard.sites import DashboardSite
 
 js_info_dict = {
     'domain': 'djangojs',
     'packages': ('estagio',),
 }
 
+admin.site = DashboardSite()
+admin.sites.site = admin.site
 admin.autodiscover()
 
 urlpatterns = [
@@ -32,8 +34,6 @@ urlpatterns = [
     url(r'^wiki-site/', get_wiki_pattern()),                        # url necessária para o funcionamento da biblioteca django-wiki
     url(r'^su/', include('django_su.urls')),                        # url necessária para o funcionamento da biblioteca django-su
 
-    # dashboard
-    url(r'^dashboard/$', index),
     # urls das aplicações
     url(r'^admin/salmonella/(?P<app_name>[\w-]+)/(?P<model_name>[\w-]+)/(?P<id>\d+)/$', checa_foreignkey_habilitada),
 

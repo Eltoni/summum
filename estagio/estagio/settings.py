@@ -55,7 +55,7 @@ ALLOWED_HOSTS = ['127.0.0.1', 'localhost']
 INSTALLED_APPS = (
     'suit',
     'django_su',
-    'django.contrib.admin',
+    'django.contrib.admin.apps.SimpleAdminConfig',  # Replace 'django.contrib.admin' for dashboard
     'django.contrib.admindocs',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -65,6 +65,7 @@ INSTALLED_APPS = (
     'django.contrib.sites',
     'django.contrib.humanize',
     # Modulos do sistema
+    'dashboard',
     'app_global',
     'pessoal',
     'localidade',

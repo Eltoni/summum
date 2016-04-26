@@ -14,7 +14,6 @@
     cursor: default;
     opacity: 0.6;
 }
-
 div.help-block ul.errorlist {
     list-style-type: none;
     margin-left: 0px;
@@ -45,4 +44,48 @@ div.help-block ul.errorlist {
 /*  Customiza indice de paginação do componente footable  */
 .footable .pagination {
     float: inherit;
+}
+
+
+/* Cria grid na página */
+.summum-suit-column {
+    position: relative;
+    float: left;
+    margin-bottom: 50px;
+}
+.summum-suit-row-1-col .summum-suit-column {
+    width: 100%;
+}
+.summum-suit-row-2-col .summum-suit-column {
+    width: 50%;
+}
+.summum-suit-row-3-col .summum-suit-column {
+    width: 33.33%;
+}
+.summum-suit-row-4-col .summum-suit-column {
+    width: 25%;
+}
+.summum-suit-row-5-col .summum-suit-column {
+    width: 20%;
+}
+.summum-suit-row-6-col .summum-suit-column {
+    width: 16.66%;
+}
+.summum-suit-row-7-col .summum-suit-column {
+    width: 14.28%;
+}
+.summum-suit-row-8-col .summum-suit-column {
+    width: 12.5%;
+}
+.summum-suit-row-9-col .summum-suit-column {
+    width: 11.11%;
+}
+.summum-suit-row-10-col .summum-suit-column {
+    width: 10%;
+}
+.summum-suit-row-11-col .summum-suit-column {
+    width: 9.09%;
+}
+.summum-suit-row-12-col .summum-suit-column {
+    width: 8.333%;
 }

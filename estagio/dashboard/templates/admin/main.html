@@ -1,11 +1,12 @@
-{% extends "admin/index.html" %}
+{% extends "admin/base_site.html" %}
 
 {% load i18n admin_static %}
 {% load geral_filters %}
 
+{% block breadcrumbs %}{% endblock %}
+
 {% block extrahead %}
   <link rel="stylesheet" type="text/css" href="{% static 'css/dashboard.css' %}" media="all">
-  <link rel="stylesheet" type="text/css" href="{% static 'css/main_external_pages.css' %}" media="all">
   <link rel='stylesheet' type='text/css' href="{% static 'components/bower_components/fullcalendar/dist/fullcalendar.min.css' %}" />
 
   <script type='text/javascript' src="{% static 'components/bower_components/moment/min/moment.min.js' %}"></script>
@@ -15,13 +16,13 @@
 {% endblock %}
 
 {% block content %}
-  <div class="suit-row suit-row-1-col">
-    <div class="suit-column">
+  <div class="suit-row summum-suit-row-1-col">
+    <div class="summum-suit-column">
       <div id="calendar"></div>
     </div>
   </div>
-  <div class="suit-row suit-row-1-col">
-    <div class="suit-column">
+  <div class="suit-row summum-suit-row-1-col">
+    <div class="summum-suit-column">
       {% if perms.movimento.visualizar_rel_produtos_esgotando and quantidade_minima %}
           {% if produtos_esgotando %}
             <div style="background-color: #ffffff;display: flex;padding: 10px;border: 1px solid #e3e3e3;">
@@ -67,14 +68,14 @@
       {% endif %}
     </div>
   </div>
-  <div class="suit-row suit-row-1-col">
-    <div class="suit-column">
+  <div class="suit-row summum-suit-row-1-col">
+    <div class="summum-suit-column">
       {% if grafico_mov_dia and perms.movimento.visualizar_rel_debitos_creditos_diario %}
         <div id="grafico_movimento_financeiro"></div>
       {% endif %}
     </div>
   </div>
-    
+
   <script type='text/javascript'>
     (function($){
       $(document).ready(function(){
@@ -333,5 +334,3 @@
     });
   </script>
 {% endblock %}
-
-{% block sidebar %}{% endblock %}

@@ -47,7 +47,9 @@ class Command(BaseCommand):
             call_command('collectstatic', verbosity=0, interactive=False)
 
         if options['dados'] or (not options['arquivos'] and not options['dados'] and not options['not_fixtures_py']):
-            
+
+            # Invalida os dados presentes em cache | Django-Cachalot
+            call_command('invalidate_cachalot', verbosity=0, interactive=False)
             # Elimina todas as tabelas do banco de dados | Django Extensions
             call_command('reset_db', verbosity=0, interactive=False)
             # Recria as tabelas do banco de dados do projeto | Django

@@ -78,7 +78,7 @@ class Parametrizacao(models.Model):
         blank=True
     )
     
-    class Meta:
+    class Meta(object):
         verbose_name = _(u"Parametrização")
         verbose_name_plural = _(u"Parametrizações")
 

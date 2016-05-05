@@ -36,7 +36,7 @@ class Produtos(models.Model):
     categorias = models.ManyToManyField(Categoria, blank=True, verbose_name=_(u"Categoria"))
     imagem = ImageField(upload_to='produtos', max_length=255, blank=True, verbose_name=_(u"Imagem"))
 
-    class Meta:
+    class Meta(object):
         verbose_name = _(u"Produto")
         verbose_name_plural = _(u"Produtos")
         permissions = ((u"visualizar_rel_produtos_esgotando", _(u"Ver relatorio de produtos esgotando em estoque")),

@@ -6,7 +6,7 @@ from movimento.models import *
 
 class ProdutosForm(forms.ModelForm):
 
-    class Meta:
+    class Meta(object):
         model = Produtos
         exclude = []
         widgets = {

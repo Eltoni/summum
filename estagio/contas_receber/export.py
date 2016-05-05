@@ -10,7 +10,7 @@ from contas_receber.models import ContasReceber, ParcelasContasReceber
 #classe usada pelo import_export
 class ContasReceberResource(resources.ModelResource):
 
-    class Meta:
+    class Meta(object):
         model = ContasReceber
         #exclude = ('nome', 'estado')
 
@@ -39,7 +39,7 @@ class ParcelasContasReceberResource(resources.ModelResource):
     valor_a_receber = fields.Field()
     cliente = fields.Field()
 
-    class Meta:
+    class Meta(object):
         model = ParcelasContasReceber
         fields = ('id', 'num_parcelas', 'vencimento', 'valor', 'encargos_calculados', 'valor_total', 'valor_pago', 'valor_a_receber', 'status_parcela', 'contas_receber', 'cliente')
         export_order = fields

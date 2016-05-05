@@ -7,7 +7,7 @@ from venda.models import Venda, EntregaVenda
 #classe usada pelo import_export
 class VendaResource(resources.ModelResource):
 
-    class Meta:
+    class Meta(object):
         model = Venda
         #exclude = ('nome', 'estado')
 
@@ -51,7 +51,7 @@ class VendaResource(resources.ModelResource):
 
 class EntregaVendaResource(resources.ModelResource):
 
-    class Meta:
+    class Meta(object):
         model = EntregaVenda
         #exclude = ('nome', 'estado')
 

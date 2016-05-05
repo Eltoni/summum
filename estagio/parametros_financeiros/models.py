@@ -36,7 +36,7 @@ class FormaPagamento(models.Model):
     )
     status = models.BooleanField(default=True, db_index=True, verbose_name=_(u"Status"), help_text=_(u"Indica se a forma de pagamento está ativa para uso."))
 
-    class Meta:
+    class Meta(object):
         verbose_name = _(u"Forma de Pagamento")
         verbose_name_plural = _(u"Formas de Pagamento")
 
@@ -72,7 +72,7 @@ class GrupoEncargo(models.Model):
     status = models.BooleanField(default=True, db_index=True, verbose_name=_(u"Status"))
     padrao = models.BooleanField(default=False, db_index=True, verbose_name=_(u"Padrão"), help_text=_(u"Define o Grupo de Encargo padrão"))
 
-    class Meta:
+    class Meta(object):
         verbose_name = _(u"Grupo de Encargo")
         verbose_name_plural = _(u"Grupo de Encargos")
 

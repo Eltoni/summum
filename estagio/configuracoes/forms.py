@@ -15,12 +15,12 @@ class ParametrizacaoForm(ModelForm):
         self.fields['evento_calendario'] = ChoiceField(choices=[ (o[0], o[1]) for o in Calendar.objects.values_list('slug', 'name') ])
         self.fields['evento_calendario'].help_text = _(u"Defina o calendário de eventos que aparecerão no dashboard do sistema.")
 
-    class Media:
+    class Media(object):
         js = (
             '/static/js/suit_redactor/pt_br.js',
         )
 
-    class Meta:
+    class Meta(object):
         widgets = {
             'perc_valor_minimo_recebimento': NumberInput(attrs={'placeholder': '0%'}),
             'email_abertura_caixa': RedactorWidget(editor_options={

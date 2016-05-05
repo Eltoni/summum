@@ -8,8 +8,8 @@ from django.utils.encoding import python_2_unicode_compatible
 from datetime import datetime
 from decimal import Decimal
 
-from contas_pagar.models import ContasPagar, ParcelasContasPagar, Pagamento
-from contas_receber.models import ContasReceber, ParcelasContasReceber, Recebimento
+from contas_pagar.models import ParcelasContasPagar, Pagamento
+from contas_receber.models import ParcelasContasReceber, Recebimento
 
 
 @python_2_unicode_compatible
@@ -23,23 +23,75 @@ class Caixa(models.Model):
     : valor_total       : valor_inicial + (valor_entrada - valor_saida) (valor_inicial + (valor_entrada menos o valor_saida), pois o caixa pode ser negativo)
     : valor_inicial     : é o valor (R$) que existe no caixa quando ele for aberto
     : valor_fechamento  : é o valor (R$) que existe no caixa quando ele for fechado
-    : diferenca         : diferença calculada automaticamente entre o valor_total e o valor_fechamento (calculado de acordo com as mov. de caixa do sistema - valor informado manualmente)
+    : diferenca         : diferença calculada automaticamente entre o valor_total e o valor_fechamento 
+                         (calculado de acordo com as mov. de caixa do sistema - valor informado manualmente)
     
     valor_inicial e valor_fechamento são referentes ao valor monetário existente no caixa. Ambos devem ser informados.
     diferenca> tem como objetivo principal saber se o que tem no caixa é o mesmo valor que foi calculado pelo sistema.
     
     """
-    status = models.BooleanField(default=True, db_index=True, verbose_name=_(u"Status"), help_text=_(u"Desmarque o Checkbox para indicar que o caixa está fechado."))
-    data_abertura = models.DateTimeField(null=True, db_index=True, verbose_name=_(u"Data de abertura"), help_text=_(u"Data de abertura do caixa."))
-    data_fechamento = models.DateTimeField(null=True, db_index=True, verbose_name=_(u"Data de fechamento"), help_text=_(u"Data de fechamento do caixa."))
-    valor_entrada = models.DecimalField(max_digits=20, decimal_places=2, default=0.00, verbose_name=_(u"Valor de entrada"), help_text=_(u"Somatório de todos os recebimentos (mov. do tipo Crédito)."))
-    valor_saida = models.DecimalField(max_digits=20, decimal_places=2, default=0.00, verbose_name=_(u"Valor de saída"), help_text=_(u"Somatório de todos os pagamentos (mov. do tipo Débito)."))
-    valor_total = models.DecimalField(max_digits=20, decimal_places=2, default=0.00, verbose_name=_(u"Valor total"), help_text=_(u"Valor calculado automaticamente da quantia existente no Caixa em seu fechamento."))
-    valor_inicial = models.DecimalField(max_digits=20, decimal_places=2, default=0.00, verbose_name=_(u"Valor inicial"), help_text=_(u"Valor existente no Caixa em sua abertura."))
-    valor_fechamento = models.DecimalField(max_digits=20, decimal_places=2, default=0.00, verbose_name=_(u"Valor de fechamento"), help_text=_(u"Valor calculado manualmente da quantia existente no Caixa em seu fechamento."))
-    diferenca = models.DecimalField(max_digits=20, decimal_places=2, default=0.00, verbose_name=_(u"Diferença"), help_text=_(u"Diferença do Valor Total calculado junto ao valor informado no fechamento do Caixa."))
+    status = models.BooleanField(
+        default=True, 
+        db_index=True, 
+        verbose_name=_(u"Status"), 
+        help_text=_(u"Desmarque o Checkbox para indicar que o caixa está fechado.")
+    )
+    data_abertura = models.DateTimeField(
+        null=True, 
+        db_index=True, 
+        verbose_name=_(u"Data de abertura"), 
+        help_text=_(u"Data de abertura do caixa.")
+    )
+    data_fechamento = models.DateTimeField(
+        null=True, 
+        db_index=True, 
+        verbose_name=_(u"Data de fechamento"), 
+        help_text=_(u"Data de fechamento do caixa.")
+    )
+    valor_entrada = models.DecimalField(
+        max_digits=20, 
+        decimal_places=2, 
+        default=0.00, 
+        verbose_name=_(u"Valor de entrada"), 
+        help_text=_(u"Somatório de todos os recebimentos (mov. do tipo Crédito).")
+    )
+    valor_saida = models.DecimalField(
+        max_digits=20, 
+        decimal_places=2, 
+        default=0.00, 
+        verbose_name=_(u"Valor de saída"), 
+        help_text=_(u"Somatório de todos os pagamentos (mov. do tipo Débito).")
+    )
+    valor_total = models.DecimalField(
+        max_digits=20, 
+        decimal_places=2, 
+        default=0.00, 
+        verbose_name=_(u"Valor total"), 
+        help_text=_(u"Valor calculado automaticamente da quantia existente no Caixa em seu fechamento.")
+    )
+    valor_inicial = models.DecimalField(
+        max_digits=20, 
+        decimal_places=2, 
+        default=0.00, 
+        verbose_name=_(u"Valor inicial"), 
+        help_text=_(u"Valor existente no Caixa em sua abertura.")
+    )
+    valor_fechamento = models.DecimalField(
+        max_digits=20, 
+        decimal_places=2, 
+        default=0.00, 
+        verbose_name=_(u"Valor de fechamento"), 
+        help_text=_(u"Valor calculado manualmente da quantia existente no Caixa em seu fechamento.")
+    )
+    diferenca = models.DecimalField(
+        max_digits=20, 
+        decimal_places=2, 
+        default=0.00, 
+        verbose_name=_(u"Diferença"), 
+        help_text=_(u"Diferença do Valor Total calculado junto ao valor informado no fechamento do Caixa.")
+    )
 
-    class Meta:
+    class Meta(object):
         verbose_name = _(u"Caixa")
         verbose_name_plural = _(u"Caixas")
         permissions = ((u"pode_exportar_caixa", _(u"Exportar Caixas")),
@@ -110,7 +162,7 @@ class MovimentosCaixa(models.Model):
     pagamento = models.ForeignKey(Pagamento, on_delete=models.PROTECT, blank=True, null=True, verbose_name=_(u"Pagamento"))
     recebimento = models.ForeignKey(Recebimento, on_delete=models.PROTECT, blank=True, null=True, verbose_name=_(u"Recebimento"))
 
-    class Meta:
+    class Meta(object):
         verbose_name = _(u"Movimento de Caixa")
         verbose_name_plural = _(u"Movimentos de Caixas")
         permissions = ((u"pode_exportar_movimentoscaixa", _(u"Exportar Movimentos de Caixas")),)

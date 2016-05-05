@@ -1,12 +1,10 @@
 import django.contrib.admin.widgets
 from django.utils.safestring import mark_safe
 from django.forms import Widget
-from django.conf.locale.pt_BR import formats as pt_BR_format
 
 
 class DateTimeLabelWidget(Widget):
     def render(self, name, value, attrs):
-        final_attrs = self.build_attrs(attrs, name=name)
         if hasattr(self, 'initial'):
             value = self.initial
         if type(value) == type(u''):
@@ -28,7 +26,7 @@ class DateTimeLabelWidget(Widget):
 class NoAddingRelatedFieldWidgetWrapper(django.contrib.admin.widgets.RelatedFieldWidgetWrapper):
 
     def render(self, name, value, *args, **kwargs):
-        from django.contrib.admin.views.main import TO_FIELD_VAR
+        # from django.contrib.admin.views.main import TO_FIELD_VAR
         rel_to = self.rel.to
         info = (rel_to._meta.app_label, rel_to._meta.model_name)
         self.widget.choices = self.choices

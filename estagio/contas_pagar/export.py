@@ -9,7 +9,7 @@ from contas_pagar.models import ContasPagar, ParcelasContasPagar
 #classe usada pelo import_export
 class ContasPagarResource(resources.ModelResource):
 
-    class Meta:
+    class Meta(object):
         model = ContasPagar
         #exclude = ('nome', 'estado')
 
@@ -38,7 +38,7 @@ class ParcelasContasPagarResource(resources.ModelResource):
     valor_a_pagar = fields.Field()
     fornecedores = fields.Field()
 
-    class Meta:
+    class Meta(object):
         model = ParcelasContasPagar
         fields = ('id', 'num_parcelas', 'vencimento', 'valor', 'encargos_calculados', 'valor_total', 'valor_pago', 'valor_a_pagar', 'status_parcela', 'contas_pagar', 'fornecedores')
         export_order = fields

@@ -39,7 +39,7 @@ class Venda(models.Model):
     status_pedido = models.BooleanField(default=False, db_index=True, verbose_name=_(u"Pedido confirmado?"), help_text=_(u"Marcando o Checkbox, os itens financeiros serão gerados e o estoque movimentado."))
     vendedor = models.ForeignKey(User, blank=True, null=True, on_delete=models.DO_NOTHING, verbose_name=_(u"Vendedor"))
 
-    class Meta:
+    class Meta(object):
         verbose_name = _(u"Venda")
         verbose_name_plural = _(u"Vendas")
         permissions = ((u"pode_exportar_venda", _(u"Exportar Vendas")),)
@@ -170,7 +170,7 @@ class ItensVenda(models.Model):
     vendas = models.ForeignKey(Venda, on_delete=models.PROTECT, verbose_name=_(u"Venda"))
     remove_estoque = models.BooleanField(default=False, verbose_name=_(u"Removido do estoque?"))
 
-    class Meta:
+    class Meta(object):
         verbose_name = _(u"Item de Venda")
         verbose_name_plural = _(u"Itens de Venda")
 
@@ -228,7 +228,7 @@ class EntregaVenda(models.Model):
     venda = models.OneToOneField(Venda, null=True, blank=True, verbose_name=_(u"Venda"))
     # status_entrega = models.CharField(max_length=1, blank=True, choices=((u'1', _(u"Realizada")), (u'2', _(u"Em andamento")), (u'3', _(u"Atrasada")),), verbose_name=_(u"Status da entrega")) 
 
-    class Meta:
+    class Meta(object):
         verbose_name = _(u"Entrega")
         verbose_name_plural = _(u"Entregas")
         permissions = ((u"pode_exportar_entregavenda", _(u"Exportar Entregas")),)

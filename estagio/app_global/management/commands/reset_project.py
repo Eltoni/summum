@@ -1,8 +1,7 @@
 #-*- coding: UTF-8 -*-
 from django.conf import settings
-from django.db import connection, transaction
 from django.core.management import call_command
-from django.core.management.base import BaseCommand, CommandError
+from django.core.management.base import BaseCommand
 import os
 import runpy
 
@@ -40,7 +39,8 @@ class Command(BaseCommand):
     def handle(self, *args, **options):
         if options['arquivos'] or (not options['arquivos'] and not options['dados'] and not options['not_fixtures_py']):
             
-            # verbosity: especificca a quantidade de notifiação e depurações retornados no shell; interactive: Evita a confirmação da execução do procedimento pelo usuário
+            # verbosity: especificca a quantidade de notifiação e depurações retornados no shell; 
+            # interactive: Evita a confirmação da execução do procedimento pelo usuário
             # Instala os arquivos estáticos necessários para a geração dos gráficos | Python NVD3
             call_command('bower_install', verbosity=0, interactive=False)
             # Coleta os arquivos estáticos | Django
@@ -64,6 +64,6 @@ class Command(BaseCommand):
             # Executa os scripts .py existentes no caminho declarado no atributo FIXTURES_PY do settings.py
             print('\n Iniciando procedimento de execução dos scripts Python:')
             files_py = settings.FIXTURES_PY
-            for file in os.listdir(files_py):
-                if file.endswith(".py"):
-                    runpy.run_path(os.path.join(files_py, file))
+            for f in os.listdir(files_py):
+                if f.endswith(".py"):
+                    runpy.run_path(os.path.join(files_py, f))

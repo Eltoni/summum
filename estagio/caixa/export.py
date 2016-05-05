@@ -6,7 +6,7 @@ from caixa.models import Caixa, MovimentosCaixa
 #classe usada pelo import_export
 class CaixaResource(resources.ModelResource):
 
-    class Meta:
+    class Meta(object):
         model = Caixa
         #exclude = ('nome', 'estado')
 
@@ -47,7 +47,7 @@ class CaixaResource(resources.ModelResource):
 
 class MovimentosCaixaResource(resources.ModelResource):
 
-    class Meta:
+    class Meta(object):
         model = MovimentosCaixa
         #exclude = ('nome', 'estado')
 

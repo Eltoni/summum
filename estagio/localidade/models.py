@@ -12,7 +12,7 @@ class Cidade(models.Model):
     def __str__(self):
         return u'%s' % (self.nome)
 
-    class Meta:
+    class Meta(object):
         verbose_name = _(u"Cidade")
         verbose_name_plural = _(u"Cidades")
         unique_together = ("nome", "estado")

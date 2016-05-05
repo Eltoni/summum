@@ -4,7 +4,4 @@ pip install -e git://github.com/Gustavosdo/django-selectable-filter.git#egg=djan
 :: clone do projeto no meu repositório
 pip install -e git://github.com/Gustavosdo/django-datefilterspec.git#egg=django-datefilterspec
 
-:: clone do repositório llazzaro | Mais atualizado
-pip install -e git://github.com/llazzaro/django-scheduler.git@develop#egg=django-scheduler
-
 pip install django django-daterange-filter django-debug-toolbar django-geoposition django-import-export django-localflavor django-selectable django-selectable-filter django-smart-selects django-suit django-suit-redactor docutils pytz sorl-thumbnail mysqlclient django_extensions django-spaghetti-and-meatballs wiki django-htmlmin hiredis django-compressor django-redis django-salmonella django-su django-cachalot

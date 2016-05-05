@@ -8,7 +8,7 @@ from utilitarios.funcoes import remove_tags
 class ClienteResource(resources.ModelResource):
     status_financeiro = fields.Field()
 
-    class Meta:
+    class Meta(object):
         model = Cliente
         #exclude = ('nome', 'estado')
 
@@ -37,7 +37,7 @@ class ClienteResource(resources.ModelResource):
 class FornecedorResource(resources.ModelResource):
     status_financeiro = fields.Field()
 
-    class Meta:
+    class Meta(object):
         model = Fornecedor
         #exclude = ('nome', 'estado')
 
@@ -66,7 +66,7 @@ class FornecedorResource(resources.ModelResource):
 
 class FuncionarioResource(resources.ModelResource):
 
-    class Meta:
+    class Meta(object):
         model = Funcionario
         #exclude = ('nome', 'estado')
 
@@ -99,6 +99,6 @@ class FuncionarioResource(resources.ModelResource):
 
 class CargoResource(resources.ModelResource):
 
-    class Meta:
+    class Meta(object):
         model = Cargo
         #exclude = ('nome', 'estado')

@@ -6,7 +6,7 @@ from compra.models import Compra
 #classe usada pelo import_export
 class CompraResource(resources.ModelResource):
 
-    class Meta:
+    class Meta(object):
         model = Compra
         #exclude = ('nome', 'estado')
 

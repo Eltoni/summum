@@ -15,7 +15,7 @@ class CaixaForm(ModelForm):
         except KeyError:
             pass
 
-    class Media:
+    class Media(object):
         js = (
             '/static/js/formata_caixa.js',
         )

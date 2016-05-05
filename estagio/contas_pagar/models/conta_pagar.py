@@ -35,7 +35,7 @@ class ContasPagar(models.Model):
     forma_pagamento = models.ForeignKey(FormaPagamento, on_delete=models.PROTECT, verbose_name=_(u"Forma de pagamento")) 
     grupo_encargo = models.ForeignKey(GrupoEncargo, blank=False, null=False, verbose_name=_(u"Grupo de encargo"), on_delete=models.PROTECT)
 
-    class Meta:
+    class Meta(object):
         verbose_name = _(u"Conta a Pagar")
         verbose_name_plural = _(u"Contas a Pagar")
         permissions = ((u"pode_exportar_contaspagar", _(u"Exportar Contas a Pagar")),)

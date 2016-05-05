@@ -1,14 +1,12 @@
 #-*- coding: UTF-8 -*-
 from django import forms
-from django.forms import ModelForm, TextInput
-from django.utils.safestring import mark_safe
-from django.utils.translation import ugettext_lazy as _
+from django.forms import TextInput
 from django.forms.models import BaseInlineFormSet
-from suit.widgets import LinkedSelect, NumberInput, AutosizedTextarea, SuitDateWidget
-from localflavor.br.forms import BRStateChoiceField, BRPhoneNumberField, BRCPFField, BRZipCodeField, BRCNPJField
+from suit.widgets import LinkedSelect, NumberInput, AutosizedTextarea
+from localflavor.br.forms import BRStateChoiceField, BRPhoneNumberField, BRCPFField, BRZipCodeField
 from selectable.forms import AutoCompleteSelectField, AutoComboboxSelectWidget
 
-from banco.models import *
+from banco.models import Agencia
 from banco.lookups import CidadeChainedLookup
 
 
@@ -20,7 +18,7 @@ class AgenciaForm(forms.ModelForm):
         widget=AutoComboboxSelectWidget
     )
 
-    class Media:
+    class Media(object):
         js = (
             '/static/js/formata_campos_banco.js',
             '/static/js/inline_endereco_banco.js',
@@ -30,7 +28,7 @@ class AgenciaForm(forms.ModelForm):
             'all': ('/static/css/formata_banco.css',)
         }
         
-    class Meta:
+    class Meta(object):
         model = Agencia
         exclude = []
         

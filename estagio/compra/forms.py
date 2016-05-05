@@ -17,12 +17,12 @@ class CompraForm(ModelForm):
     """
     status_apoio = CharField(widget=HiddenInput(attrs={'class' : 'hidden-form-row'}), required=False)
 
-    class Media:
+    class Media(object):
         js = (
             '/static/js/formata_campos_compra.js',
         )
 
-    class Meta:
+    class Meta(object):
         widgets = {
             'total': NumberInput(attrs={'readonly':'readonly', 'class': 'input-small text-right', 'placeholder': '0,00'}),
             'desconto': NumberInput(
@@ -65,12 +65,12 @@ class ItensCompraForm(ModelForm):
     Última alteração em 16/06/2014.
     """
 
-    class Media:
+    class Media(object):
         css = {
             'all': ('/static/css/itens_compra.css',)
         }
 
-    class Meta:
+    class Meta(object):
         widgets = {
             'quantidade': NumberInput(
                 attrs={ 'readonly':'readonly',

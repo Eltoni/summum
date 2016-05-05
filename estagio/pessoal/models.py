@@ -74,7 +74,7 @@ class BaseCadastroPessoa(models.Model):
     observacao = models.TextField(blank=True, verbose_name=_(u"Observações"))
     foto = ImageField(upload_to='fotos_pessoas', max_length=255, blank=True, verbose_name=_(u"Foto"))
 
-    class Meta:
+    class Meta(object):
         abstract = True
 
     def formata_data_nascimento(obj):
@@ -99,7 +99,7 @@ class Cliente(BaseCadastroPessoa):
     cnpj = models.CharField(max_length=14, null=True, unique=True, verbose_name=_(u"CNPJ")) 
     razao_social = models.CharField(max_length=255, blank=True, null=True, verbose_name=_(u"Razão social")) 
     
-    class Meta:
+    class Meta(object):
         verbose_name = _(u"Cliente")
         verbose_name_plural = _(u"Clientes")
         permissions = ((u"pode_exportar_cliente", _(u"Exportar Clientes")),)
@@ -158,7 +158,7 @@ class Fornecedor(BaseCadastroPessoa):
     cnpj = models.CharField(max_length=14, null=True, unique=True, verbose_name=_(u"CNPJ")) 
     razao_social = models.CharField(max_length=255, blank=True, null=True, verbose_name=_(u"Razão social")) 
 
-    class Meta:
+    class Meta(object):
         verbose_name = _(u"Fornecedor")
         verbose_name_plural = _(u"Fornecedores")
         permissions = ((u"pode_exportar_fornecedor", _(u"Exportar Fornecedores")),)
@@ -191,7 +191,7 @@ class Cargo(models.Model):
     nome = models.CharField(max_length=100, unique=True, verbose_name=_(u"Nome"))
     descricao = models.TextField(blank=True, verbose_name=_(u"Descrição"))
 
-    class Meta:
+    class Meta(object):
         verbose_name = _(u"Cargo")
         verbose_name_plural = _(u"Cargos")
         permissions = ((u"pode_exportar_cargo", _(u"Exportar Cargos")),)
@@ -207,7 +207,7 @@ class Funcionario(BaseCadastroPessoa):
     cargo = models.ForeignKey(Cargo, on_delete=models.PROTECT, verbose_name=_(u"Cargo"))
     usuario = models.OneToOneField(User, on_delete=models.PROTECT, null=True, blank=True, unique=True, verbose_name=_(u"Usuário"))
 
-    class Meta:
+    class Meta(object):
         verbose_name = _(u"Funcionário")
         verbose_name_plural = _(u"Funcionários")
         permissions = ((u"pode_exportar_funcionario", _(u"Exportar Funcionários")),)
@@ -230,7 +230,7 @@ class EnderecoEntregaCliente(models.Model):
     observacao = models.TextField(blank=True, verbose_name=_(u"Observações"))
     cliente = models.ForeignKey(Cliente, on_delete=models.PROTECT, verbose_name=_(u"Cliente"))
 
-    class Meta:
+    class Meta(object):
         verbose_name = _(u"Endereço de Entrega")
         verbose_name_plural = _(u"Endereços de Entrega")
 

@@ -6,7 +6,7 @@ from movimento.models import Produtos
 #classe usada pelo import_export
 class ProdutosResource(resources.ModelResource):
 
-    class Meta:
+    class Meta(object):
         model = Produtos
         #exclude = ('nome', 'estado')
 

@@ -28,7 +28,7 @@ class ContasReceberForm(ModelForm):
         except GrupoEncargo.DoesNotExist and KeyError:
             pass
 
-    class Meta:
+    class Meta(object):
         widgets = {
             'data': SuitSplitDateTimeWidget,
             'valor_total': NumberInput(
@@ -60,7 +60,7 @@ class RecebimentoForm(ModelForm):
             pass
 
             
-    class Meta:
+    class Meta(object):
         model = Recebimento
         exclude = []
         widgets = {
@@ -101,12 +101,12 @@ class RecebimentoForm(ModelForm):
 
 class ParcelasContasReceberForm(ModelForm):
 
-    class Media:
+    class Media(object):
         js = (
             '/static/js/formata_parcelas_contas_receber.js',
         )
 
-    class Meta:
+    class Meta(object):
         widgets = {
             'status': CheckboxInput(attrs={'class': 'status-parcela'}),
         }

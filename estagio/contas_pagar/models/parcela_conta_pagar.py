@@ -32,7 +32,7 @@ class ParcelasContasPagar(models.Model):
     zero  = Decimal(0.00).quantize(Decimal("0.00"))
     data = datetime.date.today()
 
-    class Meta:
+    class Meta(object):
         verbose_name = _(u"Parcela de Conta a Pagar")
         verbose_name_plural = _(u"Parcelas de Contas a Pagar")
         permissions = ((u"pode_exportar_parcelascontaspagar", _(u"Exportar Parcelas de Contas a Pagar")),)

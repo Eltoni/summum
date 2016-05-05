@@ -15,7 +15,7 @@ class Banco(models.Model):
     site = models.URLField(blank=True, verbose_name=_(u"Site"))
     logo = ImageField(upload_to='logo_banco', max_length=255, blank=True, null=True, verbose_name=_(u"Logo"))
     
-    class Meta:
+    class Meta(object):
         verbose_name = _(u"Banco")
         verbose_name_plural = _(u"Bancos")
 
@@ -39,7 +39,7 @@ class Agencia(models.Model):
     cep = models.CharField(max_length=9, blank=True, null=True, verbose_name=_(u"Cep"))
     contato = models.CharField(max_length=30, blank=True, null=True, verbose_name=_(u"Contato"))
 
-    class Meta:
+    class Meta(object):
         unique_together = (("banco", "agencia"),)
         verbose_name = _(u"Agência")
         verbose_name_plural = _(u"Agências")

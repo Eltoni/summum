@@ -32,7 +32,7 @@ class Compra(models.Model):
     pedido = models.CharField(max_length=1, blank=True, db_index=True, choices=((u'S', _(u"Sim")), (u'N', _(u"Não")),), verbose_name=_(u"Pedido?")) 
     status_pedido = models.BooleanField(default=False, db_index=True, verbose_name=_(u"Pedido confirmado?"), help_text=_(u"Caso confirmado, os itens financeiros serão gerados e o estoque movimentado."))
     
-    class Meta:
+    class Meta(object):
         verbose_name = _(u"Compra")
         verbose_name_plural = _(u"Compras")
         permissions = ((u"pode_exportar_compra", _(u"Exportar Compras")),)
@@ -153,7 +153,7 @@ class ItensCompra(models.Model):
     compras = models.ForeignKey(Compra, on_delete=models.PROTECT, verbose_name=_(u"Compra"))
     add_estoque = models.BooleanField(default=False, verbose_name=_(u"Adicionado ao estoque?"))
 
-    class Meta:
+    class Meta(object):
         verbose_name = _(u"Item de Compra")
         verbose_name_plural = _(u"Itens de Compra")
 

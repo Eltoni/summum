@@ -7,7 +7,7 @@ from parametros_financeiros.models import *
 
 class GrupoEncargoForm(ModelForm):
 
-    class Meta:
+    class Meta(object):
         widgets = {
             'juros': NumberInput(
                 attrs={ 'placeholder': '0%', 

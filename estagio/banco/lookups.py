@@ -1,6 +1,5 @@
 from selectable.base import ModelLookup
 from selectable.registry import registry
-from selectable.decorators import login_required
 from localidade.models import Cidade
 
 

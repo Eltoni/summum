@@ -28,7 +28,7 @@ class Recebimento(models.Model):
     parcelas_contas_receber = models.ForeignKey(ParcelasContasReceber, on_delete=models.PROTECT, verbose_name=_(u"Recebimento de parcela"))
     observacao = models.TextField(blank=True, verbose_name=_(u"Observações"))
 
-    class Meta:
+    class Meta(object):
         verbose_name = _(u"Recebimento")
         verbose_name_plural = _(u"Recebimentos")
 

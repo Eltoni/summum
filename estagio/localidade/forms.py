@@ -13,7 +13,7 @@ class CidadeForm(forms.ModelForm):
 
 # class CalendarWidget(forms.TextInput):
 # """ Exemplo de utilização de css e javascript no Django  """
-#     class Media:
+#     class Media(object):
 #         css = {
 #             'all': ('pretty.css',)
 #         }

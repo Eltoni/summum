@@ -32,7 +32,7 @@ class BaseCadastroPessoaForm(forms.ModelForm):
         widget=AutoComboboxSelectWidget
     )
 
-    class Media:
+    class Media(object):
         js = (
             '/static/js/mascaras_campos.js',
             '/static/js/consulta_cidades.js',
@@ -43,7 +43,7 @@ class BaseCadastroPessoaForm(forms.ModelForm):
             'all': ('/static/css/formata_pessoal.css',)
         }
         
-    class Meta:
+    class Meta(object):
         model = BaseCadastroPessoa
         exclude = []
         
@@ -83,7 +83,7 @@ class FornecedorForm(BaseCadastroPessoaForm):
     Última alteração em 20/08/2014.
     """
 
-    class Media:
+    class Media(object):
         js = (
             '/static/js/controle_campos_pf_pj.js',
             '/static/js/formata_campos.js',
@@ -114,7 +114,7 @@ class FuncionarioForm(BaseCadastroPessoaForm):
     Criada em 22/08/2014. 
     """
 
-    class Meta:
+    class Meta(object):
         model = Funcionario
         exclude = []
         widgets = {
@@ -129,7 +129,7 @@ class FuncionarioForm(BaseCadastroPessoaForm):
             'numero': TextInput(attrs={'class': 'input-mini'}),
         }
 
-    class Media:
+    class Media(object):
         js = (
             '/static/js/get_dados_usuario.js',
         )
@@ -142,7 +142,7 @@ class FuncionarioForm(BaseCadastroPessoaForm):
 
 class ClienteForm(BaseCadastroPessoaForm):
 
-    class Media:
+    class Media(object):
         js = (
             '/static/js/controle_campos_pf_pj.js',
             '/static/js/formata_campos.js',
@@ -172,12 +172,12 @@ class EnderecoEntregaClienteForm(forms.ModelForm):
         widget=AutoComboboxSelectWidget
     )
 
-    class Media:
+    class Media(object):
         js = (
             '/static/js/consulta_cidades.js',
         )
 
-    class Meta:
+    class Meta(object):
         model = EnderecoEntregaCliente
         exclude = []
         widgets = {

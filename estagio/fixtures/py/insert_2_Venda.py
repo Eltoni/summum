@@ -1,10 +1,12 @@
 #-*- coding: UTF-8 -*-
 # from fixtures.py.insert_2_Venda import *
-import random, decimal
-from datetime import timedelta
-from datetime import datetime
-import time
 from django.utils.timezone import utc
+from numpy import random as np
+
+import random, decimal
+from datetime import timedelta, datetime
+import time
+
 from venda.models import Venda, ItensVenda
 from movimento.models import Produtos
 from pessoal.models import Cliente
@@ -12,7 +14,6 @@ from parametros_financeiros.models import FormaPagamento, GrupoEncargo
 from contas_receber.models import Recebimento
 from caixa.models import Caixa
 from utilitarios.funcoes_data import dia_util
-from numpy import random as np
 
 
 print('Etapa 2 - Início do procedimento de inserção de Vendas.')

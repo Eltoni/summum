@@ -1,15 +1,15 @@
 #-*- coding: UTF-8 -*-
 # from fixtures.py.insert_5_Pagamento import *
+from django.utils.timezone import utc
+from numpy import random as np
+
+from datetime import datetime, timedelta
+import random, decimal
+
 from contas_pagar.models import ParcelasContasPagar, Pagamento
 from caixa.models import Caixa
-from datetime import timedelta
-import random, decimal
-from numpy import random as np
-from utilitarios.funcoes_data import dia_util
-from django.utils.timezone import utc
 from configuracoes.models import Parametrizacao
-from datetime import datetime
-from django.utils.timezone import utc
+from utilitarios.funcoes_data import dia_util
 
 
 print('Etapa 5 - Início do procedimento de inserção de Pagamentos.')

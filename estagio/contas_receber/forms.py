@@ -25,7 +25,7 @@ class ContasReceberForm(ModelForm):
         try:
             grupo_encargo_padrao = GrupoEncargo.objects.get(padrao=1)
             self.fields['grupo_encargo'].initial = grupo_encargo_padrao.pk
-        except GrupoEncargo.DoesNotExist and KeyError:
+        except (GrupoEncargo.DoesNotExist, KeyError) as e:
             pass
 
     class Meta(object):

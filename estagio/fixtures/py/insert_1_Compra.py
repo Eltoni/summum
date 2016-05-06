@@ -1,11 +1,13 @@
 #-*- coding: UTF-8 -*-
 # from fixtures.py.insert_1_Compra import *
 # exec(open('fixtures/py/insert_2_Venda.py').read())
-import random, decimal
-from datetime import timedelta
-from datetime import datetime
-import time
 from django.utils.timezone import utc
+from numpy import random as np
+
+import random, decimal
+from datetime import timedelta, datetime
+import time
+
 from compra.models import Compra, ItensCompra
 from movimento.models import Produtos
 from pessoal.models import Fornecedor
@@ -13,7 +15,6 @@ from parametros_financeiros.models import FormaPagamento, GrupoEncargo
 from contas_pagar.models import Pagamento
 from caixa.models import Caixa
 from utilitarios.funcoes_data import dia_util
-from numpy import random as np
 
 
 print('Etapa 1 - Início do procedimento de inserção de Compras.')

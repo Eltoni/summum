@@ -1,10 +1,11 @@
 #-*- coding: UTF-8 -*-
 # from fixtures.py.insert_4_ContasReceber import *
-import random, decimal
-from datetime import timedelta
-from datetime import datetime
-import time
 from django.utils.timezone import utc
+
+import random, decimal
+from datetime import timedelta, datetime
+import time
+
 from pessoal.models import Cliente
 from parametros_financeiros.models import FormaPagamento, GrupoEncargo
 from contas_receber.models import ContasReceber, Recebimento

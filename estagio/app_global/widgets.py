@@ -2,6 +2,8 @@ import django.contrib.admin.widgets
 from django.utils.safestring import mark_safe
 from django.forms import Widget
 
+import datetime
+
 
 class DateTimeLabelWidget(Widget):
     def render(self, name, value, attrs):

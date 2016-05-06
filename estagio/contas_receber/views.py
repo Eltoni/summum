@@ -1,8 +1,8 @@
 #-*- coding: UTF-8 -*-
 from django.shortcuts import render, render_to_response
+from django.http import HttpResponse
 from django.template import RequestContext
 from django.utils.translation import ugettext_lazy as _
-from django.shortcuts import *
 from django.contrib.auth.decorators import permission_required
 from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import csrf_exempt

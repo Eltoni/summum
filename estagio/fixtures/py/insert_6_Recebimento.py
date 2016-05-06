@@ -1,13 +1,15 @@
 #-*- coding: UTF-8 -*-
 # from fixtures.py.insert_6_Recebimento import *
-from contas_receber.models import ParcelasContasReceber, Recebimento
-from caixa.models import Caixa
+from django.utils.timezone import utc
+from numpy import random as np
+
 from datetime import timedelta
 import random, decimal
-from numpy import random as np
-from utilitarios.funcoes_data import dia_util
-from django.utils.timezone import utc
+
+from contas_receber.models import ParcelasContasReceber, Recebimento
+from caixa.models import Caixa
 from configuracoes.models import Parametrizacao
+from utilitarios.funcoes_data import dia_util
 
 
 print('Etapa 6 - Início do procedimento de inserção de Recebimentos.')

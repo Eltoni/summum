@@ -10,7 +10,7 @@ from daterange_filter.filter import DateRangeFilter
 
 from decimal import Decimal
 
-from caixa.models import *
+from caixa.models import Caixa, MovimentosCaixa
 from caixa.export import CaixaResource, MovimentosCaixaResource
 from caixa.forms import CaixaForm
 from configuracoes.models import Parametrizacao

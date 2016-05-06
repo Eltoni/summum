@@ -19,7 +19,6 @@ from datetime import datetime
 from contas_pagar.models import Pagamento, ParcelasContasPagar, ContasPagar
 from contas_pagar.forms import PagamentoForm
 from caixa.models import Caixa
-from configuracoes.models import *
 
 
 def retorna_pagamentos_parcela(request, id_parcela):

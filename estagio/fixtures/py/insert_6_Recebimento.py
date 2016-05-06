@@ -4,7 +4,7 @@ from django.utils.timezone import utc
 from numpy import random as np
 
 from datetime import timedelta
-import random, decimal
+import random
 
 from contas_receber.models import ParcelasContasReceber, Recebimento
 from caixa.models import Caixa

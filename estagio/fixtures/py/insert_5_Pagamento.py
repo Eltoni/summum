@@ -4,11 +4,10 @@ from django.utils.timezone import utc
 from numpy import random as np
 
 from datetime import datetime, timedelta
-import random, decimal
+import random
 
 from contas_pagar.models import ParcelasContasPagar, Pagamento
 from caixa.models import Caixa
-from configuracoes.models import Parametrizacao
 from utilitarios.funcoes_data import dia_util
 
 

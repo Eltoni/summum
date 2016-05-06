@@ -2,6 +2,9 @@
 # https://landscape.io/pages/docs
 # https://landscape.io/github/astropy/imageutils
 
+ignore-paths:
+  - migrations/
+
 requirements:
     - estagio/docs/requirements.txt
 

@@ -54,7 +54,7 @@ class VendaForm(ModelForm):
         try:
             grupo_encargo_padrao = GrupoEncargo.objects.get(padrao=1)
             self.fields['grupo_encargo'].initial = grupo_encargo_padrao.pk
-        except (GrupoEncargo.DoesNotExist, KeyError) as e:
+        except (GrupoEncargo.DoesNotExist, KeyError):
             pass
 
             

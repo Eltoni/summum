@@ -1,6 +1,7 @@
 #-*- coding: UTF-8 -*-
 from django.http import HttpResponse
 from django.apps import apps
+from django.core.exceptions import FieldDoesNotExist
 
 
 def checa_foreignkey_habilitada(request, app_name, model_name, id):
@@ -13,9 +14,9 @@ def checa_foreignkey_habilitada(request, app_name, model_name, id):
                 status = False
             else:
                 status = True
-        except:
+        except FieldDoesNotExist:
             status = True
-    except:
+    except model.DoesNotExist:
         status = False
     
     return HttpResponse(status, content_type="text/javascript")

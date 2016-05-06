@@ -5,6 +5,10 @@
 ignore-paths:
   - migrations/
 
+pylint:
+  disable:
+    - unused-argument
+
 requirements:
     - estagio/docs/requirements.txt
 

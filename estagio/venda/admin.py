@@ -20,12 +20,11 @@ import pandas as pd
 import datetime
 import copy
 
-from venda.models import *
-from venda.forms import *
+from venda.models import Venda, ItensVenda
+from venda.forms import VendaForm, ItensVendaForm, ItensVendaFormSet
 from venda.views import get_valor_unitario, get_endereco_entrega_cliente, overview_vendas
 from configuracoes.models import Parametrizacao
-from venda.export import VendaResource, EntregaVendaResource
-from movimento.models import Produtos
+from venda.export import VendaResource
 
 # class EntregaVendaAdmin(ExportMixin, admin.ModelAdmin):
 #     resource_class = EntregaVendaResource

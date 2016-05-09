@@ -8,7 +8,8 @@ from django.core.urlresolvers import reverse
 from pessoal.models import Fornecedor
 from parametros_financeiros.models import FormaPagamento, GrupoEncargo
 from movimento.models import Produtos
-
+from contas_pagar.models import ContasPagar
+from caixa.funcoes import caixa_aberto
 
 
 @python_2_unicode_compatible
@@ -69,8 +70,7 @@ class Compra(models.Model):
         """ 
         Bloqueia o registro de uma compra quando não há caixa aberto.
         """
-        from caixa.models import Caixa
-        if not Caixa.objects.filter(status=1).exists() and not self.pk:
+        if not caixa_aberto() and not self.pk:
             raise ValidationError(_(u"Não há caixa aberto. Para efetivar uma compra é necessário ter o caixa aberto."))
 
 
@@ -182,8 +182,3 @@ class ItensCompra(models.Model):
         else:
 
             super(ItensCompra, self).save(*args, **kwargs)
-
-
-
-# Importado no final do arquivo para não ocorrer problemas com dependencia circular 
-from contas_pagar.models import ContasPagar

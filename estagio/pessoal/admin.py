@@ -7,8 +7,8 @@ from import_export.admin import ExportMixin
 from sorl.thumbnail.admin import AdminImageMixin
 from selectable_filter.filter import SelectableFilter
 
-from pessoal.models import *
-from pessoal.forms import *
+from pessoal.models import BaseCadastroPessoa, EnderecoEntregaCliente, Cliente, Fornecedor, Cargo, Funcionario
+from pessoal.forms import BaseCadastroPessoaForm, EnderecoEntregaClienteForm, ClienteForm, FornecedorForm, FuncionarioForm
 from pessoal.export import ClienteResource, FornecedorResource, FuncionarioResource, CargoResource
 from app_global.admin import GlobalAdmin
 from pessoal.views import get_dados_usuario, cliente_financeiro, cliente_detalhe_financeiro

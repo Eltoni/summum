@@ -1,13 +1,14 @@
 #-*- coding: UTF-8 -*-
 from django import template
+
 from contas_pagar.models import ContasPagar, ParcelasContasPagar
+from configuracoes.models import Parametrizacao
 
 register = template.Library()
 
 
 @register.assignment_tag
 def checa_habilita_pedido_compra():
-    from configuracoes.models import Parametrizacao
     habilita_pedido_compra = Parametrizacao.objects.get().habilita_pedido_compra
     return habilita_pedido_compra
 

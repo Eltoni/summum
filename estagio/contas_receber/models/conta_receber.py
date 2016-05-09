@@ -3,19 +3,17 @@ from django.db import models
 from django.core.exceptions import ValidationError
 from django.db.models import Sum
 from django.core.urlresolvers import reverse
-from django.utils.html import format_html
 from django.utils.translation import ugettext_lazy as _
 from django.utils.encoding import python_2_unicode_compatible
 from django.utils.timezone import utc
 
-import datetime
 from decimal import Decimal
 
-from pessoal.models import Cliente
-from venda.models import Venda
-from parametros_financeiros.models import FormaPagamento, GrupoEncargo
+from contas_receber.models.parcela_conta_receber import ParcelasContasReceber
+from contas_receber.models.recebimento import Recebimento
 from utilitarios.funcoes_data import date_add_months, date_add_week, date_add_days
 from utilitarios.funcoes import pode_ver_link
+from caixa.funcoes import caixa_aberto
 
 
 @python_2_unicode_compatible
@@ -26,14 +24,49 @@ class ContasReceber(models.Model):
     Criada em 22/09/2014. 
     """
 
-    data = models.DateTimeField(db_index=True, verbose_name=_(u"Data de geração"))
-    valor_total = models.DecimalField(max_digits=20, decimal_places=2, verbose_name=_(u"Valor total"))
-    status = models.BooleanField(default=False, db_index=True, verbose_name=_(u"Conta fechada"), help_text=_(u"Se desmarcado, indica que há parcelas em aberto, caso contrário, a conta foi fechada."))
-    descricao = models.TextField(blank=True, verbose_name=_(u"Descrição")) 
-    vendas = models.ForeignKey(Venda, on_delete=models.PROTECT, null=True, verbose_name=_(u"Venda")) 
-    cliente = models.ForeignKey(Cliente, on_delete=models.PROTECT, null=True, verbose_name=_(u"Cliente"))
-    forma_pagamento = models.ForeignKey(FormaPagamento, on_delete=models.PROTECT, verbose_name=_(u"Forma de pagamento"))
-    grupo_encargo = models.ForeignKey(GrupoEncargo, blank=False, null=False, verbose_name=_(u"Grupo de encargo"), on_delete=models.PROTECT)
+    data = models.DateTimeField(
+        db_index=True, 
+        verbose_name=_(u"Data de geração")
+    )
+    valor_total = models.DecimalField(
+        max_digits=20, 
+        decimal_places=2, 
+        verbose_name=_(u"Valor total")
+    )
+    status = models.BooleanField(
+        default=False, 
+        db_index=True, 
+        verbose_name=_(u"Conta fechada"), 
+        help_text=_(u"Se desmarcado, indica que há parcelas em aberto, caso contrário, a conta foi fechada.")
+    )
+    descricao = models.TextField(
+        blank=True, 
+        verbose_name=_(u"Descrição")
+    ) 
+    vendas = models.ForeignKey(
+        'venda.Venda', 
+        on_delete=models.PROTECT, 
+        null=True, 
+        verbose_name=_(u"Venda")
+    ) 
+    cliente = models.ForeignKey(
+        'pessoal.Cliente', 
+        on_delete=models.PROTECT, 
+        null=True, 
+        verbose_name=_(u"Cliente")
+    )
+    forma_pagamento = models.ForeignKey(
+        'parametros_financeiros.FormaPagamento', 
+        on_delete=models.PROTECT, 
+        verbose_name=_(u"Forma de pagamento")
+    )
+    grupo_encargo = models.ForeignKey(
+        'parametros_financeiros.GrupoEncargo', 
+        blank=False, 
+        null=False, 
+        verbose_name=_(u"Grupo de encargo"), 
+        on_delete=models.PROTECT
+    )
 
     class Meta(object):
         verbose_name = _(u"Conta a Receber")
@@ -45,11 +78,10 @@ class ContasReceber(models.Model):
         """ 
         Bloqueia o registro de uma conta a receber quando não há caixa aberto.
         """
-        from caixa.models import Caixa
-        if not Caixa.objects.filter(status=1).exists() and not self.pk:
+        if not caixa_aberto() and not self.pk:
             raise ValidationError(_(u"Não há caixa aberto. Para efetivar um cadastro de uma conta a receber avulsa, é necessário ter o caixa aberto."))
 
-        if not Caixa.objects.filter(status=1).exists() and self.pk:
+        if not caixa_aberto() and self.pk:
             raise ValidationError(_(u"Não há caixa aberto. Alterações numa conta a receber só podem ser efetivadas após a abertura do caixa."))
 
 
@@ -347,7 +379,3 @@ class ContasReceber(models.Model):
         else:
             # tratar cancelamento de venda efetuada
             super(ContasReceber, self).save(*args, **kwargs)
-
-
-from contas_receber.models.parcela_conta_receber import ParcelasContasReceber
-from contas_receber.models.recebimento import Recebimento

@@ -14,19 +14,19 @@ class VendaResource(resources.ModelResource):
     def dehydrate_data_venda(self, venda):
         try:
             return '%s' % (venda.data_venda.strftime('%d/%m/%Y às %H:%M'))
-        except:
+        except AttributeError:
             pass
 
     def dehydrate_data_pedido(self, venda):
         try:
             return '%s' % (venda.data_pedido.strftime('%d/%m/%Y às %H:%M'))
-        except:
+        except AttributeError:
             pass
 
     def dehydrate_data_cancelamento(self, venda):
         try:
             return '%s' % (venda.data_cancelamento.strftime('%d/%m/%Y às %H:%M'))
-        except:
+        except AttributeError:
             pass
 
     def dehydrate_status_pedido(self, venda):

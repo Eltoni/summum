@@ -13,19 +13,19 @@ class CompraResource(resources.ModelResource):
     def dehydrate_data_compra(self, compra):
         try:
             return '%s' % (compra.data_compra.strftime('%d/%m/%Y às %H:%M'))
-        except:
+        except AttributeError:
             pass
 
     def dehydrate_data_pedido(self, compra):
         try:
             return '%s' % (compra.data_pedido.strftime('%d/%m/%Y às %H:%M'))
-        except:
+        except AttributeError:
             pass
 
     def dehydrate_data_cancelamento(self, compra):
         try:
             return '%s' % (compra.data_cancelamento.strftime('%d/%m/%Y às %H:%M'))
-        except:
+        except AttributeError:
             pass
 
     def dehydrate_status_pedido(self, compra):

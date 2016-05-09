@@ -1,13 +1,8 @@
 #-*- coding: UTF-8 -*-
 from django.db import models
-from django.core.exceptions import ValidationError
 from django.utils.translation import ugettext_lazy as _
 from django.utils.encoding import python_2_unicode_compatible
 from django.core.urlresolvers import reverse
-
-from configuracoes.models import *
-from contas_receber.models.parcela_conta_receber import ParcelasContasReceber
-from contas_receber.models.conta_receber import ContasReceber
 
 
 @python_2_unicode_compatible
@@ -25,7 +20,7 @@ class Recebimento(models.Model):
     juros = models.DecimalField(max_digits=20, decimal_places=2, blank=True, null=True, verbose_name=_(u"Juros"))
     multa = models.DecimalField(max_digits=20, decimal_places=2, blank=True, null=True, verbose_name=_(u"Multa"))
     desconto = models.DecimalField(max_digits=20, decimal_places=2, blank=True, null=True, verbose_name=_(u"Desconto"))
-    parcelas_contas_receber = models.ForeignKey(ParcelasContasReceber, on_delete=models.PROTECT, verbose_name=_(u"Recebimento de parcela"))
+    parcelas_contas_receber = models.ForeignKey('ParcelasContasReceber', on_delete=models.PROTECT, verbose_name=_(u"Recebimento de parcela"))
     observacao = models.TextField(blank=True, verbose_name=_(u"Observações"))
 
     class Meta(object):
@@ -48,6 +43,7 @@ class Recebimento(models.Model):
 
 
     def save(self, *args, **kwargs):
+        from contas_receber.models import ContasReceber, ParcelasContasReceber
 
         if self.pk is None:
             super(Recebimento, self).save(*args, **kwargs)

@@ -13,6 +13,7 @@ from decimal import Decimal
 from caixa.models import Caixa, MovimentosCaixa
 from caixa.export import CaixaResource, MovimentosCaixaResource
 from caixa.forms import CaixaForm
+from caixa.funcoes import caixa_aberto
 from configuracoes.models import Parametrizacao
 from utilitarios.funcoes_email import TextosEmail
 
@@ -29,8 +30,7 @@ class CaixaAdmin(ExportMixin, admin.ModelAdmin):
     def has_add_permission(self, request, obj=None):
         """Remove a permissão para adicionar novo caixa, caso já exista um aberto"""
 
-        caixa_aberto = Caixa.objects.filter(status=True).exists()
-        if caixa_aberto:
+        if caixa_aberto():
             return False
         else:
             return True

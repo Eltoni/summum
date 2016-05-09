@@ -1,8 +1,6 @@
 #-*- coding: UTF-8 -*-
-from django import forms
 from django.forms import ModelForm
 from suit.widgets import NumberInput
-from parametros_financeiros.models import *
 
 
 class GrupoEncargoForm(ModelForm):

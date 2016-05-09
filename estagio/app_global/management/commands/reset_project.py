@@ -1,9 +1,6 @@
 #-*- coding: UTF-8 -*-
-from django.conf import settings
 from django.core.management import call_command
 from django.core.management.base import BaseCommand
-import os
-import runpy
 
 
 class Command(BaseCommand):
@@ -61,9 +58,5 @@ class Command(BaseCommand):
             if options['not_fixtures_py']:
                 return
 
-            # Executa os scripts .py existentes no caminho declarado no atributo FIXTURES_PY do settings.py
-            print('\n Iniciando procedimento de execução dos scripts Python:')
-            files_py = settings.FIXTURES_PY
-            for f in os.listdir(files_py):
-                if f.endswith(".py"):
-                    runpy.run_path(os.path.join(files_py, f))
+            # Executa os scripts .py existentes nas fixtures declaradas
+            call_command('runscript', 'fixtures.py.run_fixtures', verbosity=0)

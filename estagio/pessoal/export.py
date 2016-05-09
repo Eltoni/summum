@@ -24,7 +24,7 @@ class ClienteResource(resources.ModelResource):
     def dehydrate_data_nasc(self, cliente):
         try:
             return '%s' % (cliente.data_nasc.strftime('%d/%m/%Y'))
-        except:
+        except AttributeError:
             return None
 
     def dehydrate_status_financeiro(self, cliente):
@@ -53,7 +53,7 @@ class FornecedorResource(resources.ModelResource):
     def dehydrate_data_nasc(self, fornecedor):
         try:
             return '%s' % (fornecedor.data_nasc.strftime('%d/%m/%Y'))
-        except:
+        except AttributeError:
             return None
 
     def dehydrate_status_financeiro(self, fornecedor):
@@ -82,14 +82,14 @@ class FuncionarioResource(resources.ModelResource):
     def dehydrate_data_nasc(self, funcionario):
         try:
             return '%s' % (funcionario.data_nasc.strftime('%d/%m/%Y'))
-        except:
+        except AttributeError:
             return None
             
     def dehydrate_cargo(self, funcionario):
         # trata os indicados que não tem vinculo com aluno
         try:
             return '%s' % (funcionario.cargo.nome)
-        except:
+        except AttributeError:
             pass
 
     def dehydrate_cidade(self, funcionario):

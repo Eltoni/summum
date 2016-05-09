@@ -6,7 +6,6 @@ from decimal import Decimal
 
 from contas_receber.models import ContasReceber, ParcelasContasReceber
 
-
 #classe usada pelo import_export
 class ContasReceberResource(resources.ModelResource):
 

@@ -2,8 +2,8 @@
 from django.contrib import admin
 from django.utils.translation import ugettext_lazy as _
 
-from configuracoes.models import *
-from configuracoes.forms import *
+from configuracoes.models import Parametrizacao
+from configuracoes.forms import ParametrizacaoForm
 
 
 class ParametrizacaoAdmin(admin.ModelAdmin):

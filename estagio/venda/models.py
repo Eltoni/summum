@@ -1,7 +1,6 @@
 #-*- coding: UTF-8 -*-
 from django.db import models
 from django.core.exceptions import ValidationError
-from django.utils.timezone import utc
 from django.utils.translation import ugettext_lazy as _
 from django.contrib.auth.models import User
 from django.utils.encoding import python_2_unicode_compatible
@@ -15,6 +14,8 @@ from parametros_financeiros.models import FormaPagamento, GrupoEncargo
 from movimento.models import Produtos
 from configuracoes.models import Parametrizacao
 from utilitarios.funcoes_data import datetime_settings_timezone
+from contas_receber.models import ContasReceber
+from caixa.funcoes import caixa_aberto
 
 
 @python_2_unicode_compatible
@@ -84,8 +85,7 @@ class Venda(models.Model):
         """ 
         Bloqueia o registro de uma venda quando não há caixa aberto.
         """
-        from caixa.models import Caixa
-        if not Caixa.objects.filter(status=1).exists() and not self.pk:
+        if not caixa_aberto() and not self.pk:
             raise ValidationError(_(u"Não há caixa aberto. Para efetivar uma venda é necessário ter o caixa aberto."))
 
 
@@ -246,8 +246,3 @@ class EntregaVenda(models.Model):
         # Data de entrega não pode ser menor que data de venda + quantidade de dias para entrega (configurada nas parametrizações do sistema)
         if self.data and self.data < data_minima_para_entrega:
             raise ValidationError({'data': [_(u"Data de entrega inválida. Data mínima para entrega dos produtos: %(data_minima_entrega)s") % {'data_minima_entrega': data_minima_para_entrega.strftime('%d/%m/%Y às %H:%M:%S')},]})
-
-
-
-# Importado no final do arquivo para não ocorrer problemas com dependencia circular 
-from contas_receber.models import ContasReceber, ParcelasContasReceber

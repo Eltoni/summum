@@ -1,10 +1,10 @@
 #-*- coding: UTF-8 -*-
-from django.forms import forms, ModelForm, TextInput, CheckboxInput, HiddenInput, CharField
+from django.forms import forms, ModelForm, CheckboxInput, HiddenInput, CharField
 from django.forms.models import BaseInlineFormSet
 from django.utils.translation import ugettext_lazy as _
-from suit.widgets import LinkedSelect, NumberInput, AutosizedTextarea
+from suit.widgets import NumberInput, AutosizedTextarea
 
-from compra.models import *
+from parametros_financeiros.models import GrupoEncargo
 
 
 class CompraForm(ModelForm):
@@ -117,8 +117,8 @@ class ItensCompraFormSet(BaseInlineFormSet):
 
 
     def clean(self):
-
         """Verifica se pelo menos um item de compra foi inserido."""
+
         super(ItensCompraFormSet, self).clean()
         if any(self.errors):
             return

@@ -9,7 +9,6 @@ from django import forms
 from django.views.decorators.cache import cache_page
 import pandas as pd
 
-from itertools import groupby
 import calendar
 import locale
 

@@ -8,10 +8,8 @@ from import_export.admin import ExportMixin
 from daterange_filter.filter import DateRangeFilter
 from selectable_filter.filter import SelectableFilter
 
-from decimal import Decimal
-
-from contas_pagar.models import *
-from contas_pagar.forms import *
+from contas_pagar.models import ContasPagar, ParcelasContasPagar, Pagamento
+from contas_pagar.forms import PagamentoForm, ParcelasContasPagarForm, ContasPagarForm
 from contas_pagar.views import EfetivaPagamentoParcela, retorna_pagamentos_parcela, retorna_pagamentos_conta
 from contas_pagar.export import ContasPagarResource, ParcelasContasPagarResource
 
@@ -43,50 +41,7 @@ class PagamentoAdmin(admin.ModelAdmin):
 
     def has_add_permission(self, request):
         return False
-
-    # O pagamento não é mais realizado no formulário original do Django, deste modo, o processo abaixo não é mais utilizado
-    # def get_form(self, request, obj=None, **kwargs):
-    #     form = super(PagamentoAdmin, self).get_form(request, obj, **kwargs)
-    #     try:
-    #         parcela = request.GET.get('id_parcela', '')
-    #         dados_pagamento = ParcelasContasPagar.objects.get(pk=parcela)
-    #         form.base_fields['juros'].initial = Decimal(dados_pagamento.calculo_juros()).quantize(Decimal("0.00"))
-    #         form.base_fields['multa'].initial = Decimal(dados_pagamento.calculo_multa()).quantize(Decimal("0.00"))
-    #         form.base_fields['valor'].initial = Decimal(dados_pagamento.valor_a_pagar()).quantize(Decimal("0.00"))
-    #         form.base_fields['parcelas_contas_pagar'].initial = parcela
-    #     except ValueError:
-    #         pass
-    #     return form
-
-    # O pagamento não é mais realizado no formulário original do Django, deste modo, o processo abaixo não é mais utilizado
-    # def response_add(self, request, obj):
-    #     u""" Adição: Ao clicar em Salvar, redireciona o usuário para a página da conta a pagar da parcela da qual estava """
-    #
-    #     if '_save' in request.POST:
-    #         return HttpResponseRedirect("../../contaspagar/%s" % (obj.parcelas_contas_pagar.contas_pagar))
-    #     else:
-    #         return super(PagamentoAdmin, self).response_add(request, obj)
-
-    # O pagamento não é mais realizado no formulário original do Django, deste modo, o processo abaixo não é mais utilizado
-    # def response_change(self, request, obj):
-    #     u""" Edição: Ao clicar em Salvar, redireciona o usuário para a página da conta a pagar da parcela da qual estava """
-    #
-    #     if '_save' in request.POST:
-    #         return HttpResponseRedirect("../../contaspagar/%s" % (obj.parcelas_contas_pagar.contas_pagar))
-    #     else:
-    #         return super(PagamentoAdmin, self).response_change(request, obj)
-
-    # Tratamento substituído no Form - PagamentoForm
-    # def save_model(self, request, obj, form, change):
-    #     if not obj.juros:
-    #         obj.juros = 0.00
-    #     if not obj.multa:
-    #         obj.multa = 0.00
-    #     if not obj.desconto:
-    #         obj.desconto = 0.00
-            
-    #     obj.save()
-
+        
 
 
 class ParcelasContasPagarInline(admin.TabularInline):

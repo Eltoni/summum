@@ -8,10 +8,8 @@ from import_export.admin import ExportMixin
 from daterange_filter.filter import DateRangeFilter
 from selectable_filter.filter import SelectableFilter
 
-from decimal import Decimal
-
-from contas_receber.models import *
-from contas_receber.forms import *
+from contas_receber.models import ContasReceber, ParcelasContasReceber, Recebimento
+from contas_receber.forms import ContasReceberForm, RecebimentoForm, ParcelasContasReceberForm
 from contas_receber.views import EfetivaRecebimentoParcela, retorna_recebimentos_parcela, retorna_recebimentos_conta
 from contas_receber.export import ContasReceberResource, ParcelasContasReceberResource
 

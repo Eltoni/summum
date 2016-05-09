@@ -22,7 +22,7 @@ class CaixaResource(resources.ModelResource):
     def dehydrate_data_fechamento(self, caixa):
         try:
             return '%s' % (caixa.data_fechamento.strftime('%d/%m/%Y'))
-        except:
+        except AttributeError:
             pass
 
     def dehydrate_valor_entrada(self, caixa):

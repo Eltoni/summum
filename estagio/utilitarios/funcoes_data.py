@@ -61,7 +61,7 @@ def date_add_months(t, p):
                 one_month_later -= one_day
                 break
         t = one_month_later
-    if one_month_later == None:
+    if one_month_later is None:
         return t
     return one_month_later
 

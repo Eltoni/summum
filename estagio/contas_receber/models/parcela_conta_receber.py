@@ -2,15 +2,13 @@
 from django.db import models
 from django.db.models import Sum
 from django.core.urlresolvers import reverse
-from django.utils.html import format_html
 from django.utils.translation import ugettext_lazy as _
 from django.utils.encoding import python_2_unicode_compatible
 
 import datetime
 from decimal import Decimal
 
-from parametros_financeiros.models import GrupoEncargo
-from contas_receber.models.conta_receber import ContasReceber
+from contas_receber.models.recebimento import Recebimento
 from utilitarios.calculos_encargos import EncargoSimples, EncargoCompostos
 from utilitarios.funcoes import lista_status_parcela
 
@@ -27,7 +25,7 @@ class ParcelasContasReceber(models.Model):
     valor = models.DecimalField(max_digits=20, decimal_places=2, verbose_name=_(u"Valor")) 
     status = models.BooleanField(default=False, db_index=True, verbose_name=_(u"Status"))
     num_parcelas = models.IntegerField(verbose_name=_(u"Nº Parcela"))
-    contas_receber = models.ForeignKey(ContasReceber, on_delete=models.PROTECT, verbose_name=_(u"Conta a receber"))
+    contas_receber = models.ForeignKey('ContasReceber', on_delete=models.PROTECT, verbose_name=_(u"Conta a receber"))
 
     zero  = Decimal(0.00).quantize(Decimal("0.00"))
     data = datetime.date.today()
@@ -234,7 +232,7 @@ class ParcelasContasReceber(models.Model):
 
 
     def formata_data(obj):
-      return obj.vencimento.strftime('%d/%m/%Y')
+        return obj.vencimento.strftime('%d/%m/%Y')
     formata_data.short_description = _(u"Vencimento")
 
 
@@ -275,5 +273,3 @@ class ParcelasContasReceber(models.Model):
     #         return self.contas_receber.cliente
     #     except ValueError:
     #         pass
-
-from contas_receber.models.recebimento import Recebimento

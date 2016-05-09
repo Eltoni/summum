@@ -9,8 +9,8 @@ from salmonella.admin import SalmonellaMixin
 
 from movimento.export import ProdutosResource
 from app_global.admin import GlobalAdmin
-from movimento.models import *
-from movimento.forms import *
+from movimento.models import Marca, Categoria, Produtos
+from movimento.forms import ProdutosForm
 
 
 class MarcaAdmin(AdminImageMixin, admin.ModelAdmin):

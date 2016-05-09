@@ -13,6 +13,9 @@ from datetime import date
 
 from banco.models import Banco, Agencia
 from localidade.models import Cidade
+from contas_receber.funcoes import status_financeiro as sit_finan_cliente
+from contas_pagar.funcoes import status_financeiro as sit_finan_fornecedor
+from utilitarios.funcoes import lista_status_parcela as cor_finan
 
 # faz a validação da data de nascimento para que o usuário fique impedido de informar data maior ou igual a hoje, e seja maior de 18 anos
 def valida_data_nascimento(value):
@@ -109,19 +112,14 @@ class Cliente(BaseCadastroPessoa):
 
 
     def status_financeiro(obj):
-        u""" 
-            Método que checa se determinado cliente tem alguma parcela que esteja em aberto e vencida.
-            Caso haja, o cliente é classificado como inadimplente com a empresa.
-         """
-        from contas_receber.models import ParcelasContasReceber
-
-        hoje = date.today()
-        status = ParcelasContasReceber.objects.filter(vencimento__lt=hoje, status=False, contas_receber__cliente=obj.pk).select_related('contas_receber__contasreceber').exists()
         url = reverse('admin:pessoal_cliente_changelist')
-        if status:
-            return format_html('<a href="{0}detalhes_financeiros/{1}"><span style="color: #FF0000;"><b>{2}</b></span></a>', url, obj.pk, _(u"Inadimplente"))
+        sf = sit_finan_cliente(obj.pk)
+        cf = cor_finan()
+
+        if sf[0] == 'I':
+            return format_html('<a href="{0}detalhes_financeiros/{1}" style="text-decoration:none;"><span style="color: {2};"><b>{3}</b></span></a>', url, obj.pk, cf[2][0], sf[1])
         else:
-            return format_html('<a href="{0}detalhes_financeiros/{1}"><span style="color: #3E3CBF;"><b>{2}</b></span></a>', url, obj.pk, _(u"Adimplente"))
+            return format_html('<a href="{0}detalhes_financeiros/{1}" style=" text-decoration:none;"><span style="color: {2};"><b>{3}</b></span></a>', url, obj.pk, cf[1][0], sf[1])
 
     status_financeiro.allow_tags = True
     status_financeiro.short_description = _(u"Status financeiro")
@@ -167,19 +165,13 @@ class Fornecedor(BaseCadastroPessoa):
         return u'%s' % (self.nome)
 
     def status_financeiro(obj):
-        u""" 
-            Método que checa se determinado cliente tem alguma parcela que esteja em aberto e vencida.
-            Caso haja, o cliente é classificado como inadimplente com a empresa.
-         """
-        from contas_pagar.models import ParcelasContasPagar
+        sf = sit_finan_fornecedor(obj.pk)
+        cf = cor_finan()
 
-        hoje = date.today()
-        status = ParcelasContasPagar.objects.filter(vencimento__lt=hoje, status=False, contas_pagar__fornecedores=obj.pk).select_related('contas_pagar__contaspagar').exists()
-        url = reverse('admin:pessoal_cliente_changelist')
-        if status:
-            return format_html('<span style="color: #FF0000;"><b>{0}</b></span>',  _(u"Inadimplente"))
+        if sf[0] == 'I':
+            return format_html('<span style="color: {0};"><b>{1}</b></span>', cf[2][0], sf[1])
         else:
-            return format_html('<span style="color: #3E3CBF;"><b>{0}</b></span>',  _(u"Adimplente"))
+            return format_html('<span style="color: {0};"><b>{1}</b></span>', cf[1][0], sf[1])
 
     status_financeiro.allow_tags = True
     status_financeiro.short_description = _(u"Status financeiro")

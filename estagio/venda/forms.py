@@ -1,12 +1,14 @@
 #-*- coding: UTF-8 -*-
-from django.forms import ModelForm, TextInput, CheckboxInput, HiddenInput, CharField
+from django.forms import ModelForm, CheckboxInput, HiddenInput, CharField
 from django.forms import forms
 from django.forms.models import BaseInlineFormSet
 from django.utils.translation import ugettext_lazy as _
 from suit.widgets import LinkedSelect, NumberInput, AutosizedTextarea, SuitSplitDateTimeWidget
 import pandas as pd
 
-from venda.models import *
+from parametros_financeiros.models import GrupoEncargo
+from pessoal.models import EnderecoEntregaCliente
+from venda.models import EntregaVenda
 
 
 class VendaForm(ModelForm):
@@ -158,7 +160,7 @@ class ItensVendaFormSet(BaseInlineFormSet):
             raise forms.ValidationError(_(u"Quantidade de produtos informada ultrapassa limite de unidades em estoque."))
 
 
-        """Verifica se pelo menos um item de venda foi inserido."""
+        # Verifica se pelo menos um item de venda foi inserido.
         super(ItensVendaFormSet, self).clean()
         if any(self.errors):
             return

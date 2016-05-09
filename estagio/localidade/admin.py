@@ -1,7 +1,7 @@
 #-*- coding: UTF-8 -*-
 from django.contrib import admin
-from localidade.models import *
-from localidade.forms import *
+from localidade.models import Cidade
+from localidade.forms import CidadeForm
 
 
 class CidadeAdmin(admin.ModelAdmin):

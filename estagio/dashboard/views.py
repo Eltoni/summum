@@ -1,5 +1,7 @@
 #-*- coding: UTF-8 -*-
 from __future__ import unicode_literals
+from django.contrib.auth.decorators import login_required
+from django.utils.decorators import method_decorator
 from django.views.generic import TemplateView
 
 import pandas as pd
@@ -9,6 +11,7 @@ from configuracoes.models import Parametrizacao
 from caixa.models import MovimentosCaixa
 
 
+@method_decorator(login_required, name='dispatch')
 class DashboardMainView(TemplateView):
     template_name = 'admin/main.html'
 

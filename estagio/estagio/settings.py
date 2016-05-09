@@ -35,8 +35,6 @@ FIXTURE_DIRS = [
     os.path.join(BASE_DIR, 'fixtures\json\\schedule_event'),
     os.path.join(BASE_DIR, 'fixtures\json\\sites_site'),
 ]
-# Caminho único para os fixtures criados em py.
-FIXTURES_PY = os.path.join(BASE_DIR, 'fixtures\py')
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.6/howto/deployment/checklist/

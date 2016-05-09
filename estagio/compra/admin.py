@@ -17,8 +17,8 @@ from selectable_filter.filter import SelectableFilter
 import datetime
 import copy
 
-from compra.models import *
-from compra.forms import *
+from compra.models import Compra, ItensCompra
+from compra.forms import CompraForm, ItensCompraForm, ItensCompraFormSet
 from compra.views import get_valor_unitario
 from compra.export import CompraResource
 from configuracoes.models import Parametrizacao

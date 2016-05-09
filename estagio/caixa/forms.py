@@ -1,7 +1,5 @@
 #-*- coding: UTF-8 -*-
 from django.forms import ModelForm
-from django.utils.translation import ugettext_lazy as _
-
 from caixa.models import Caixa
 
 

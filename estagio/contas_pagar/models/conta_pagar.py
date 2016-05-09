@@ -3,19 +3,17 @@ from django.db import models
 from django.core.exceptions import ValidationError
 from django.db.models import Sum
 from django.core.urlresolvers import reverse
-from django.utils.html import format_html
 from django.utils.translation import ugettext_lazy as _
 from django.utils.encoding import python_2_unicode_compatible
 from django.utils.timezone import utc
 
-import datetime
 from decimal import Decimal
 
-from compra.models import Compra
-from pessoal.models import Fornecedor
-from parametros_financeiros.models import FormaPagamento, GrupoEncargo
+from contas_pagar.models.parcela_conta_pagar import ParcelasContasPagar
+from contas_pagar.models.pagamento import Pagamento
 from utilitarios.funcoes_data import date_add_months, date_add_week, date_add_days
 from utilitarios.funcoes import pode_ver_link
+from caixa.funcoes import caixa_aberto
 
 
 @python_2_unicode_compatible
@@ -26,14 +24,49 @@ class ContasPagar(models.Model):
     Criada em 22/09/2014. 
     """
 
-    data = models.DateTimeField(db_index=True, verbose_name=_(u"Data de geração")) 
-    valor_total = models.DecimalField(max_digits=20, decimal_places=2, verbose_name=_(u"Valor total")) 
-    status = models.BooleanField(default=False, db_index=True, verbose_name=_(u"Conta fechada"), help_text=_(u"Se desmarcado, indica que há parcelas em aberto, caso contrário, a conta foi fechada."))
-    descricao = models.TextField(blank=True, verbose_name=_(u"Descrição")) 
-    compras = models.ForeignKey(Compra, on_delete=models.PROTECT, null=True, verbose_name=_(u"Compra")) 
-    fornecedores = models.ForeignKey(Fornecedor, on_delete=models.PROTECT, null=True, verbose_name=_(u"Fornecedor"))
-    forma_pagamento = models.ForeignKey(FormaPagamento, on_delete=models.PROTECT, verbose_name=_(u"Forma de pagamento")) 
-    grupo_encargo = models.ForeignKey(GrupoEncargo, blank=False, null=False, verbose_name=_(u"Grupo de encargo"), on_delete=models.PROTECT)
+    data = models.DateTimeField(
+        db_index=True, 
+        verbose_name=_(u"Data de geração")
+    ) 
+    valor_total = models.DecimalField(
+        max_digits=20, 
+        decimal_places=2, 
+        verbose_name=_(u"Valor total")
+    ) 
+    status = models.BooleanField(
+        default=False, 
+        db_index=True, 
+        verbose_name=_(u"Conta fechada"), 
+        help_text=_(u"Se desmarcado, indica que há parcelas em aberto, caso contrário, a conta foi fechada.")
+    )
+    descricao = models.TextField(
+        blank=True, 
+        verbose_name=_(u"Descrição")
+    ) 
+    compras = models.ForeignKey(
+        'compra.Compra', 
+        on_delete=models.PROTECT, 
+        null=True, 
+        verbose_name=_(u"Compra")
+    ) 
+    fornecedores = models.ForeignKey(
+        'pessoal.Fornecedor', 
+        on_delete=models.PROTECT, 
+        null=True, 
+        verbose_name=_(u"Fornecedor")
+    )
+    forma_pagamento = models.ForeignKey(
+        'parametros_financeiros.FormaPagamento', 
+        on_delete=models.PROTECT, 
+        verbose_name=_(u"Forma de pagamento")
+    ) 
+    grupo_encargo = models.ForeignKey(
+        'parametros_financeiros.GrupoEncargo', 
+        blank=False, 
+        null=False, 
+        verbose_name=_(u"Grupo de encargo"), 
+        on_delete=models.PROTECT
+    )
 
     class Meta(object):
         verbose_name = _(u"Conta a Pagar")
@@ -45,11 +78,10 @@ class ContasPagar(models.Model):
         u""" 
         Bloqueia o registro de uma conta a pagar avulsa quando não há caixa aberto.
         """
-        from caixa.models import Caixa
-        if not Caixa.objects.filter(status=1).exists() and not self.pk:
+        if not caixa_aberto() and not self.pk:
             raise ValidationError(_(u"Não há caixa aberto. Para efetivar um cadastro de uma conta a pagar avulsa, é necessário ter o caixa aberto."))
 
-        if not Caixa.objects.filter(status=1).exists() and self.pk:
+        if not caixa_aberto() and self.pk:
             raise ValidationError(_(u"Não há caixa aberto. Alterações numa conta a pagar só podem ser efetivadas após a abertura do caixa."))
 
 
@@ -333,5 +365,3 @@ class ContasPagar(models.Model):
             super(ContasPagar, self).save(*args, **kwargs)
 
 
-from contas_pagar.models.parcela_conta_pagar import ParcelasContasPagar
-from contas_pagar.models.pagamento import Pagamento

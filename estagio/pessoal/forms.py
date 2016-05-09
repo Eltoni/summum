@@ -1,13 +1,12 @@
 #-*- coding: UTF-8 -*-
 from django import forms
-from django.forms import ModelForm, TextInput
-from django.utils.safestring import mark_safe
+from django.forms import TextInput
 from django.utils.translation import ugettext_lazy as _
-from suit.widgets import LinkedSelect, NumberInput, AutosizedTextarea, SuitDateWidget
+from suit.widgets import NumberInput, AutosizedTextarea, SuitDateWidget
 from localflavor.br.forms import BRStateChoiceField, BRPhoneNumberField, BRCPFField, BRZipCodeField, BRCNPJField
 from selectable.forms import AutoCompleteSelectField, AutoComboboxSelectWidget
 
-from pessoal.models import *
+from pessoal.models import BaseCadastroPessoa, Funcionario, EnderecoEntregaCliente
 from pessoal.lookups import CidadeChainedLookup, AgenciaChainedLookup, BancoChainedLookup
 
 

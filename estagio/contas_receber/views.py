@@ -3,7 +3,6 @@ from django.shortcuts import render, render_to_response
 from django.http import HttpResponse
 from django.template import RequestContext
 from django.utils.translation import ugettext_lazy as _
-from django.contrib.auth.decorators import permission_required
 from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import csrf_exempt
 from django.views.generic import View
@@ -16,10 +15,10 @@ import json
 from decimal import Decimal
 from datetime import datetime
 
-from contas_receber.models import Recebimento, ParcelasContasReceber, ContasReceber
+from contas_receber.models import ContasReceber, ParcelasContasReceber, Recebimento
 from contas_receber.forms import RecebimentoForm
-from caixa.models import Caixa
-from configuracoes.models import *
+from caixa.funcoes import caixa_aberto
+from configuracoes.models import Parametrizacao
 
 
 def retorna_recebimentos_parcela(request, id_parcela):
@@ -89,7 +88,7 @@ class EfetivaRecebimentoParcela(View):
         valor_recebimento = Decimal(request.POST['valor']).quantize(Decimal("0.00"))
 
         # Checa a situação do caixa
-        if not Caixa.objects.filter(status=1).exists():
+        if not caixa_aberto():
             texto = force_text(_(u'Não há caixa aberto. Para efetivar um recebimento é necessário ter o caixa aberto.'))
             resposta = {
                 "message": texto, 

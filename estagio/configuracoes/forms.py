@@ -1,11 +1,9 @@
 #-*- coding: UTF-8 -*-
-from django.forms import ModelForm, ModelChoiceField, ChoiceField
+from django.forms import ModelForm, ChoiceField
 from django.utils.translation import ugettext_lazy as _
 from suit.widgets import NumberInput
 from suit_redactor.widgets import RedactorWidget
 from schedule.models import Calendar
-
-from configuracoes.models import *
 
 
 class ParametrizacaoForm(ModelForm):
@@ -22,7 +20,6 @@ class ParametrizacaoForm(ModelForm):
 
     class Meta(object):
         widgets = {
-            'perc_valor_minimo_recebimento': NumberInput(attrs={'placeholder': '0%'}),
             'email_abertura_caixa': RedactorWidget(editor_options={
                 'lang': 'pt_br',
                 'buttons': ['html', '|', 'formatting', '|', 'bold', 'italic']
@@ -59,7 +56,7 @@ class ParametrizacaoForm(ModelForm):
                 }),
             'perc_valor_minimo_recebimento': NumberInput(
                 attrs={ 'class': 'input-medium', 
-                        'placeholder': '0', 
+                        'placeholder': '0%', 
                         'min': '0'
                 }),
         }

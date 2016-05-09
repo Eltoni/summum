@@ -1,7 +1,7 @@
 #-*- coding: UTF-8 -*-
 from django import forms
 from suit.widgets import NumberInput, AutosizedTextarea
-from movimento.models import *
+from movimento.models import Produtos
 
 
 class ProdutosForm(forms.ModelForm):

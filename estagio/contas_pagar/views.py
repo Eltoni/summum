@@ -3,7 +3,6 @@ from django.shortcuts import render, render_to_response
 from django.http import HttpResponse
 from django.template import RequestContext
 from django.utils.translation import ugettext_lazy as _
-from django.contrib.auth.decorators import permission_required
 from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import csrf_exempt
 from django.views.generic import View
@@ -16,9 +15,9 @@ import json
 from decimal import Decimal
 from datetime import datetime
 
-from contas_pagar.models import Pagamento, ParcelasContasPagar, ContasPagar
+from contas_pagar.models import ContasPagar, ParcelasContasPagar, Pagamento
 from contas_pagar.forms import PagamentoForm
-from caixa.models import Caixa
+from caixa.funcoes import caixa_aberto
 
 
 def retorna_pagamentos_parcela(request, id_parcela):
@@ -87,7 +86,7 @@ class EfetivaPagamentoParcela(View):
         id_parcela = self.kwargs['id_parcela']
 
         # Checa a situação do caixa
-        if not Caixa.objects.filter(status=1).exists():
+        if not caixa_aberto():
             texto = force_text(_(u'Não há caixa aberto. Para efetivar um pagamento é necessário ter o caixa aberto.'))
             resposta = {
                 "message": texto, 

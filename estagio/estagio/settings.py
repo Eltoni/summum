@@ -359,7 +359,7 @@ BOWER_INSTALLED_APPS = (
     'fullcalendar#2.6.1',
     'highcharts#4.2.5',
 )
-3
+
 
 # django-spaghetti-and-meatballs
 # -----------

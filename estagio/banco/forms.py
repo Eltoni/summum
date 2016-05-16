@@ -2,7 +2,7 @@
 from django import forms
 from django.forms import TextInput
 from django.forms.models import BaseInlineFormSet
-from suit.widgets import LinkedSelect, NumberInput
+from suit.widgets import NumberInput
 from localflavor.br.forms import BRStateChoiceField, BRPhoneNumberField, BRZipCodeField
 from selectable.forms import AutoCompleteSelectField, AutoComboboxSelectWidget
 

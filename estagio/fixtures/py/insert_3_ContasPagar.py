@@ -27,7 +27,6 @@ class ProcessoGeraContasPagar(object):
             data_atual = datetime.utcnow().replace(microsecond=0).replace(tzinfo=utc)
 
             quant_dias = caixa_data_abertura.date() - data_atual.date()
-            qt_a_gerar = abs(quant_dias.days)
             
             data = caixa_data_abertura
             while not data >= data_atual:

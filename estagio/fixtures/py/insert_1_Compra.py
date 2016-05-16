@@ -41,7 +41,7 @@ class ProcessoGeraCompra(object):
         data_atual = datetime.utcnow().replace(microsecond=0).replace(tzinfo=utc)
 
         if caixa_aberto["status"]:
-            data = caixa_data_abertura = caixa_aberto["data_abertura"]
+            data = caixa_aberto["data_abertura"]
 
             # Equanto a data de abertura do caixa não for igual a data atual...
             while not data >= data_atual:

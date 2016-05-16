@@ -30,7 +30,6 @@ def get_endereco_entrega_cliente(request, id):
 def overview_vendas(request):
     # Busca todos os dados do funcionario
     funcionario = Funcionario.objects.get(pk=1)
-    funcionarios_list = Funcionario.objects.all()
     valores_venda = Venda.objects.filter(status=0).values('vendedor').annotate(quant=Count('vendedor'), total=Sum('total')).order_by('total')
 
     print (valores_venda)

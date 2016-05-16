@@ -7,7 +7,7 @@ from datetime import timedelta
 import random
 
 from contas_receber.models import ParcelasContasReceber, Recebimento
-from caixa.models import Caixa
+from caixa.funcoes import caixa_aberto
 from configuracoes.models import Parametrizacao
 
 
@@ -15,10 +15,8 @@ class ProcessoGeraRecebimento(object):
 
     def gera_recebimento(self):
         print('Etapa 6 - Início do procedimento de inserção de Recebimentos.')
-        
-        caixa_aberto = Caixa.objects.filter(status=1).values()[0]
 
-        if caixa_aberto["status"]:
+        if caixa_aberto():
 
             # Busca todas as parcelas que ainda não foram quitadas e que a conta na qual se originam está com status 'Aberta'
             lista_parcelas = ParcelasContasReceber.objects.filter(status=False, contas_receber__status=False).values_list('pk', 'contas_receber__data')

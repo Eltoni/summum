@@ -7,7 +7,7 @@ from datetime import datetime, timedelta
 import random
 
 from contas_pagar.models import ParcelasContasPagar, Pagamento
-from caixa.models import Caixa
+from caixa.funcoes import caixa_aberto
 
 
 class ProcessoGeraPagamento(object):
@@ -15,10 +15,7 @@ class ProcessoGeraPagamento(object):
     def gera_pagamento(self):
         print('Etapa 5 - Início do procedimento de inserção de Pagamentos.')
 
-        caixa_aberto = Caixa.objects.filter(status=1).values()[0]
-        data_atual = datetime.utcnow().replace(microsecond=0).replace(tzinfo=utc)
-
-        if caixa_aberto["status"]:
+        if caixa_aberto():
 
             # Busca todas as parcelas que ainda não foram quitadas e que a conta na qual se originam está com status 'Aberta'
             lista_parcelas = ParcelasContasPagar.objects.filter(status=False, contas_pagar__status=False).values_list('pk', 'contas_pagar__data')

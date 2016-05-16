@@ -16,8 +16,6 @@ class ProcessoGeraContasPagar(object):
 
     def gera_contas_pagar(self):
         print('Etapa 3 - Início do procedimento de inserção de Contas a Pagar.')
-        
-        format_date = '%Y-%m-%d %I:%M:%S %p'
 
         lista_fornecedores = Fornecedor.objects.filter(status=1)
         lista_formas_pagamento = FormaPagamento.objects.filter(status=1)

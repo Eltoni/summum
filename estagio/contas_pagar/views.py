@@ -22,7 +22,17 @@ from caixa.funcoes import caixa_aberto
 
 def retorna_pagamentos_parcela(request, id_parcela):
     u""" Retorna os pagamentos efetuados para a parcela do contexto. """
-    pagamentos = Pagamento.objects.filter(parcelas_contas_pagar=id_parcela).values_list('pk', 'data', 'valor', 'juros', 'multa', 'desconto', 'parcelas_contas_pagar')
+    pagamentos = Pagamento.objects.filter(
+                        parcelas_contas_pagar=id_parcela
+                    ).values_list(
+                        'pk', 
+                        'data', 
+                        'valor', 
+                        'juros', 
+                        'multa', 
+                        'desconto', 
+                        'parcelas_contas_pagar'
+                    )
     parcela = ParcelasContasPagar.objects.get(pk=id_parcela)
 
     data = {
@@ -39,7 +49,17 @@ def retorna_pagamentos_parcela(request, id_parcela):
 
 def retorna_pagamentos_conta(request, id_conta):
     u""" Retorna os pagamentos efetuados para a conta do contexto. """
-    pagamentos = Pagamento.objects.filter(parcelas_contas_pagar__contas_pagar=id_conta).values_list('pk', 'data', 'valor', 'juros', 'multa', 'desconto', 'parcelas_contas_pagar__contas_pagar')
+    pagamentos = Pagamento.objects.filter(
+                        parcelas_contas_pagar__contas_pagar=id_conta
+                    ).values_list(
+                        'pk', 
+                        'data', 
+                        'valor', 
+                        'juros', 
+                        'multa', 
+                        'desconto', 
+                        'parcelas_contas_pagar__contas_pagar'
+                    )
     conta = ContasPagar.objects.get(pk=id_conta)
 
     data = {

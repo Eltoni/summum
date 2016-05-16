@@ -23,7 +23,17 @@ from configuracoes.models import Parametrizacao
 
 def retorna_recebimentos_parcela(request, id_parcela):
     u""" Retorna os recebimentos efetuados para a parcela do contexto. """
-    recebimentos = Recebimento.objects.filter(parcelas_contas_receber=id_parcela).values_list('pk', 'data', 'valor', 'juros', 'multa', 'desconto', 'parcelas_contas_receber')
+    recebimentos = Recebimento.objects.filter(
+                            parcelas_contas_receber=id_parcela
+                        ).values_list(
+                            'pk', 
+                            'data', 
+                            'valor', 
+                            'juros', 
+                            'multa', 
+                            'desconto', 
+                            'parcelas_contas_receber'
+                        )
     parcela = ParcelasContasReceber.objects.get(pk=id_parcela)
 
     data = {
@@ -40,7 +50,17 @@ def retorna_recebimentos_parcela(request, id_parcela):
 
 def retorna_recebimentos_conta(request, id_conta):
     u""" Retorna os recebimentos efetuados para a conta do contexto. """
-    recebimentos = Recebimento.objects.filter(parcelas_contas_receber__contas_receber=id_conta).values_list('pk', 'data', 'valor', 'juros', 'multa', 'desconto', 'parcelas_contas_receber__contas_receber')
+    recebimentos = Recebimento.objects.filter(
+                            parcelas_contas_receber__contas_receber=id_conta
+                        ).values_list(
+                            'pk', 
+                            'data', 
+                            'valor', 
+                            'juros', 
+                            'multa', 
+                            'desconto', 
+                            'parcelas_contas_receber__contas_receber'
+                        )
     conta = ContasReceber.objects.get(pk=id_conta)
 
     data = {
@@ -104,7 +124,11 @@ class EfetivaRecebimentoParcela(View):
         primeiro_recebimento = Recebimento.objects.filter(parcelas_contas_receber=id_parcela).exists()
         
         if valor_recebimento < valor_minimo_recebimento and not primeiro_recebimento:
-            texto = force_text(_(u"Primeiro recebimento deve ser de no mínimo %(perc_valor_minimo)s%% do valor da parcela. Valor mínimo: R$ %(valor_minimo)s.") % {'perc_valor_minimo': perc_valor_minimo_recebimento, 'valor_minimo': valor_minimo_recebimento})
+            texto = force_text(_(u"Primeiro recebimento deve ser de no mínimo %(perc_valor_minimo)s%% do valor da parcela. \
+                                    Valor mínimo: R$ %(valor_minimo)s.") % {
+                                        'perc_valor_minimo': perc_valor_minimo_recebimento, 
+                                        'valor_minimo': valor_minimo_recebimento
+                                        })
             resposta = {
                 'message': texto, 
                 'recebimento_confirmado': 0,

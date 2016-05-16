@@ -350,16 +350,16 @@ BOWER_PATH = HOME_PATH + '/AppData/Roaming/npm/bower.cmd'
 BOWER_INSTALLED_APPS = (
     'hint.css#2.2.1',
     'hopscotch#0.2.5',
-    'font-awesome#4.6.1',
+    'font-awesome#4.6.3',
     'jquery.numeric#1.4.1',
     'jQuery-Mask-Plugin#1.14.0',
     'bootstrap-filestyle#1.0.6',
-    'footable#3.0.8',
+    'footable#3.0.9',
     'jquery-modal#0.7.0',
     'fullcalendar#2.6.1',
-    'highcharts#4.2.4',
+    'highcharts#4.2.5',
 )
-
+3
 
 # django-spaghetti-and-meatballs
 # -----------

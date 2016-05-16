@@ -17,8 +17,6 @@ class ProcessoGeraContasReceber(object):
     def gera_contas_receber(self):
         print('Etapa 4 - Início do procedimento de inserção de Contas a Receber.')
         
-        format_date = '%Y-%m-%d %I:%M:%S %p'
-
         lista_clientes = Cliente.objects.filter(status=1)
         lista_formas_pagamento = FormaPagamento.objects.filter(status=1)
         lista_grupos_encargo = GrupoEncargo.objects.filter(status=1)

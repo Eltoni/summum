@@ -77,6 +77,7 @@ INSTALLED_APPS = (
     'configuracoes',
     'utilitarios',
     'banco',
+    'notificacao',
     # Bibliotecas em uso pelo projeto
     'suitlocale',
     'import_export',
@@ -320,6 +321,7 @@ SUIT_CONFIG = {
         {'label': u'Contas à receber', 'icon':'icon-folder-open', 'app':'contas_receber', 'models': ('contasreceber', 'parcelascontasreceber', 'recebimento')},
         {'app':'caixa', 'icon':'icon-inbox'},
         {'label': u'Configurações', 'icon':'icon-wrench', 'app':'configuracoes'},
+        {'label': u'Notificações', 'icon':'fa fa-envelope', 'app':'notificacao'},
         {'label': u'Eventos', 'icon': 'icon-calendar', 'app': 'schedule'},
         {'label': u'Wiki', 'icon': 'fa fa-book', 'app':'wiki', 'models': ('wiki.articlerevision', 'wiki.article', 'wiki.urlpath', 'wiki_attachments.attachment', 'wiki_images.image')},
         # Separator
@@ -348,7 +350,7 @@ DATE_RANGE_FILTER_USE_WIDGET_SUIT = True
 BOWER_COMPONENTS_ROOT = os.path.join(BASE_DIR, 'static/components')
 BOWER_PATH = HOME_PATH + '/AppData/Roaming/npm/bower.cmd'
 BOWER_INSTALLED_APPS = (
-    'hint.css#2.2.1',
+    'hint.css#2.3.0',
     'hopscotch#0.2.5',
     'font-awesome#4.6.3',
     'jquery.numeric#1.4.1',
@@ -439,9 +441,14 @@ DEBUG_TOOLBAR_PANELS = [
 
 # Email configuration
 # -----------
-DEFAULT_FROM_EMAIL = 'gustavo.sdo@gmail.com'
+DEFAULT_FROM_EMAIL = 'Summum <gustavo.sdo@gmail.com>'
 EMAIL_USE_TLS = True
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_HOST_USER = 'gustavo.sdo@gmail.com'
 EMAIL_HOST_PASSWORD = ''
 EMAIL_PORT = 587
+
+
+# Django
+# -----------
+FILE_UPLOAD_MAX_MEMORY_SIZE = 26214400

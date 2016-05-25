@@ -5,6 +5,7 @@ from django.utils.translation import ugettext_lazy as _
 from django.contrib.auth.models import Permission
 from django.contrib.auth.models import User
 from django.db.models import Q
+from django.conf import settings
 from import_export.admin import ExportMixin
 from daterange_filter.filter import DateRangeFilter
 
@@ -87,7 +88,7 @@ class CaixaAdmin(ExportMixin, admin.ModelAdmin):
             mensagem_customizada = Parametrizacao.objects.get().email_abertura_caixa
 
             assunto = _(u'Notificação (Abertura de Caixa)')
-            from_email = 'gustavo.sdo@gmail.com'
+            from_email = settings.DEFAULT_FROM_EMAIL
             text_content = _(u'Essa é uma mensagem importante.')
             html_content = u'%(header)s \
                              <p>Há um novo Caixa criado no sistema, aberto por: %(nome)s %(sobrenome)s.</p> \

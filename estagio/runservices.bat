@@ -10,3 +10,4 @@ cd ..\Projetos\estagio
 del "estagio\logs\celery\celerybeat.pid"
 start cmd /k celery -A estagio beat -l info -s estagio/logs/celery/ -f estagio/logs/celery/celerybeat.log --pidfile=estagio/logs/celery/celerybeat.pid
 start cmd /k celery -A estagio worker -l info -f estagio/logs/celery/celeryworker.log
+start cmd /k celery -A estagio flower

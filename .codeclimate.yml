@@ -1,0 +1,5 @@
+# This is the config file for codeclimate.com
+# https://docs.codeclimate.com/docs/configuring-your-code-climate-analysis
+
+exclude_paths:
+- "**/migrations/**/*"

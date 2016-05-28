@@ -1,5 +1,26 @@
 # This is the config file for codeclimate.com
 # https://docs.codeclimate.com/docs/configuring-your-code-climate-analysis
 
+engines:
+  csslint:
+    enabled: true
+  eslint:
+    enabled: true
+  radon: 
+    enabled: true
+    config: 
+      python_version: 3
+  duplication:
+    enabled: true
+    config:
+      languages:
+      - javascript
+      - python
+        #mass_threshold: 30
+  # pep8:
+  #   enabled: true
+# languages:
+#    JavaScript: true
+#    Python: true
 exclude_paths:
 - "**/migrations/**/*"

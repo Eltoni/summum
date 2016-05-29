@@ -21,6 +21,11 @@ engines:
     enabled: true
   # pep8:
   #   enabled: true
+  ratings:
+    paths:
+      - "**.py"
+      - "**.js"
+      - "**.css"
 # languages:
 #    JavaScript: true
 #    Python: true

@@ -9,11 +9,13 @@ import pandas as pd
 from notificacao.tasks import MensagemTask
 from notificacao.funcoes import detecta_delimitador
 from notificacao.validators import valida_lista_email, valida_documento_csv
+from text_tag.utils import parses_tags, validate_tags
 
 
 @python_2_unicode_compatible
 class Mensagem(models.Model):
     texto = models.TextField(
+        validators=[validate_tags],
         verbose_name=_(u"Texto")
     )
     assunto = models.CharField(
@@ -64,6 +66,9 @@ class Mensagem(models.Model):
     def save(self, *args, **kwargs):
         super(Mensagem, self).save(*args, **kwargs)
         MensagemTask().apply_async(args=[self.pk], eta=self.data_envio)
+
+    def get_texto_formatado(self):
+        return parses_tags(self.texto)
 
     def get_destinatario(self):
         destinatarios = [email.strip() for email in self.destinatario.split(',') if email.strip()]

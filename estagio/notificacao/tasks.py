@@ -28,7 +28,7 @@ class MensagemTask(Task):
                              %(footer)s'\
                              % {'header': TextosEmail.headerEmailInterno,
                                 'footer': TextosEmail.footerEmailInterno,
-                                'texto': obj_msg.texto,
+                                'texto': obj_msg.get_texto_formatado(),
                                 }
 
             msg = EmailMultiAlternatives(assunto, text_content, from_email, bcc=lista_destinatarios)

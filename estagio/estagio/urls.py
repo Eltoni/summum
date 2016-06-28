@@ -23,7 +23,7 @@ urlpatterns = [
     # django
     url(r'^doc/', include('django.contrib.admindocs.urls')),
     url(r'', include(admin.site.urls)),
-    url(r'^jsi18n/$', javascript_catalog, js_info_dict),
+    url(r'^jsi18n/$', javascript_catalog, js_info_dict),            # permite tradução de arquivos JS
 
     # bibliotecas
     url(r'^admin/salmonella/', include('salmonella.urls')),         # url necessária para o funcionamento da biblioteca django-salmonella

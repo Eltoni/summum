@@ -1,0 +1,50 @@
+{% load i18n admin_static %}
+{% load text_tag_filters %}
+
+{% get_docsting_tags_available as tags_available %}
+<div class="control-group">
+  <div class="controls">
+    {% verbatim %}
+    <div>
+      <p>
+        É possível utilizar tags dentro do texto escrito. 
+        Essas tags são como variáveis que retornam dinamicamente um valor esperado ao serem processadas.
+      </p>
+      
+      Exemplo de uso:
+        Texto com tag inserida:
+        "...Informado aqui uma data aleatória <code>{{date_random_tag}}</code>..."
+        Texto com tag processado:
+        "...Informado aqui uma data aleatória 01/01/2000..."
+
+        Opções adicionais:
+        Informando parâmetros às tags:
+        "...Informado aqui uma data aleatória <code>{{date_random_tag|[-1]}}</code>..."
+        Texto com tag processado(com parâmetro):
+        "...Informado aqui uma data aleatória 31/12/1999..."
+        Texto com tag processado(sem parâmetro):
+        "...Informado aqui uma data aleatória 01/01/2000..."
+
+        Informando filtros às tags:
+        "...Informado aqui uma data aleatória <code>{{date_random_tag|option_filter}}</code>..."
+        Texto com tag processado(com filtro):
+        "...Informado aqui uma data aleatória 31/12/1999..."
+        Texto com tag processado(sem filtro):
+        "...Informado aqui uma data aleatória 01/01/2000..."
+    </div>
+    {% endverbatim %}
+
+    <h2 class="legend">
+        Tags Disponíveis
+        <span class="description">Abaixo constam todas as tags disponíveis para utilização, com os detalhes dos valores retornados após o seu processamento.</span>
+    </h2>
+    <div>
+        {% for tags in tags_available %}
+        <div>
+            <p><h4>{{ tags.0 }}</h4></p>
+            <p>{{ tags.1|linebreaks }}</p>
+        </div>
+        {% endfor %}
+    </div>
+  </div>
+</div>

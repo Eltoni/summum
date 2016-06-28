@@ -41,7 +41,12 @@ class MensagemAdmin(admin.ModelAdmin):
     suit_form_tabs = (
         ('geral', _(u"Geral")),
         ('anexos', _(u"Anexos")),
+        ('tags', _(u"Tags")),
         ('logs', _(u"Logs")),
+    )
+
+    suit_form_includes = (
+        ('admin/legenda_tags_disponiveis.html', '', 'tags'),
     )
 
 

@@ -77,6 +77,7 @@ INSTALLED_APPS = (
     'configuracoes',
     'utilitarios',
     'banco',
+    'text_tag',
     'notificacao',
     # Bibliotecas em uso pelo projeto
     'suitlocale',
@@ -350,13 +351,13 @@ DATE_RANGE_FILTER_USE_WIDGET_SUIT = True
 BOWER_COMPONENTS_ROOT = os.path.join(BASE_DIR, 'static/components')
 BOWER_PATH = HOME_PATH + '/AppData/Roaming/npm/bower.cmd'
 BOWER_INSTALLED_APPS = (
-    'hint.css#2.3.0',
+    'hint.css#2.3.1',
     'hopscotch#0.2.5',
     'font-awesome#4.6.3',
-    'jquery.numeric#1.4.1',
+    'jquery.numeric#1.5.0',
     'jQuery-Mask-Plugin#1.14.0',
     'bootstrap-filestyle#1.0.6',
-    'footable#3.0.9',
+    'footable#3.0.10',
     'jquery-modal#0.7.0',
     'fullcalendar#2.6.1',
     'highcharts#4.2.5',

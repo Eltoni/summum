@@ -7,7 +7,6 @@ def detecta_delimitador(csvFile):
         dialect = csv.Sniffer().sniff(f.read(1024))
         return dialect.delimiter
 
-
 def converte_bytes(size,precision=2):
     """
     Fonte: http://stackoverflow.com/a/32009595

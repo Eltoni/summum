@@ -1,5 +1,4 @@
 #-*- coding: UTF-8 -*-
-
 from __future__ import absolute_import
 # Isto fará com que o aplicativo seja sempre importado quando Django for carregado
 from estagio.celery import app as celery_app

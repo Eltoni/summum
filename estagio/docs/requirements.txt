@@ -1,5 +1,5 @@
 celery==3.1.23
-Django==1.9.6
+Django==1.9.7
 Jinja2==2.8
 MarkupSafe==0.23
 Pillow==3.1.1
@@ -23,7 +23,7 @@ django-selectable-filter==0.1.5
 django-smart-selects==1.1.1
 django-spaghetti-and-meatballs==0.2.0
 django-su==0.5.2
-django-suit==0.2.18
+django-suit==0.2.19
 django-suit-locale==1.0.10
 django-suit-redactor==0.0.4
 docutils==0.12
@@ -38,4 +38,4 @@ pytz==2016.4
 six==1.10.0
 sorl-thumbnail==12.4a1
 tablib==0.11.2
-wiki==0.1.1
+wiki==0.1.2

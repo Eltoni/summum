@@ -219,15 +219,15 @@ SITE_ID = 1
 # }
 
 
-CACHES = {
-    'default': {
-        'BACKEND': 'django_redis.cache.RedisCache',
-        'LOCATION': 'redis://localhost:6379',
-        'OPTIONS': {
-            'PARSER_CLASS': 'redis.connection.HiredisParser',
-        }
-    },
-}
+# CACHES = {
+#     'default': {
+#         'BACKEND': 'django_redis.cache.RedisCache',
+#         'LOCATION': 'redis://localhost:6379',
+#         'OPTIONS': {
+#             'PARSER_CLASS': 'redis.connection.HiredisParser',
+#         }
+#     },
+# }
 
 SESSION_ENGINE = 'django.contrib.sessions.backends.cached_db'
 
